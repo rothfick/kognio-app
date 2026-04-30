@@ -6,9 +6,10 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Brain as BrainIcon, Sparkles, FileText, Loader2 } from "lucide-react";
+import { Brain as BrainIcon, Sparkles, FileText, Loader2, Network } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
+import { KnowledgeGraph } from "@/components/brain/KnowledgeGraph";
 
 const Brain = () => {
   const { t } = useTranslation();
@@ -99,12 +100,18 @@ const Brain = () => {
           )}
         </Card>
 
-        <Tabs defaultValue="reports">
+        <Tabs defaultValue="graph">
           <TabsList>
+            <TabsTrigger value="graph"><Network className="h-4 w-4 mr-2" />Graf wiedzy</TabsTrigger>
             <TabsTrigger value="reports">Raporty sesji</TabsTrigger>
             <TabsTrigger value="transcripts">{t("brain.transcripts")}</TabsTrigger>
             <TabsTrigger value="flashcards">{t("brain.flashcards")} ({allFlashcards.length})</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="graph" className="mt-4">
+            <KnowledgeGraph reports={reports} />
+          </TabsContent>
+
 
           <TabsContent value="reports" className="mt-4 space-y-3">
             {reports.length === 0 ? <p className="text-muted-foreground">Brak raportów. Wygeneruj jeden po sesji w pokoju.</p> :
