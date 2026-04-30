@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Video, MessageSquare, Sparkles, ArrowRight, Send, Mic, FileText, Loader2 } from "lucide-react";
+import { Video, MessageSquare, Sparkles, ArrowRight, Send, Mic, FileText, Loader2, PenTool } from "lucide-react";
 import { toast } from "sonner";
 import { EmotionEngine } from "@/components/session/EmotionEngine";
+import { SharedWhiteboard } from "@/components/session/SharedWhiteboard";
 
 type ChatMsg = { id: string; user_id: string; role: string; content: string; created_at: string };
 type Transcript = { id: string; speaker_label: string | null; text: string; created_at: string };
