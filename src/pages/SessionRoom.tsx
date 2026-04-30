@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Video, MessageSquare, Sparkles, Activity, ArrowRight, Send, Mic, FileText, Loader2 } from "lucide-react";
+import { Video, MessageSquare, Sparkles, ArrowRight, Send, Mic, FileText, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { EmotionEngine } from "@/components/session/EmotionEngine";
 
 type ChatMsg = { id: string; user_id: string; role: string; content: string; created_at: string };
 type Transcript = { id: string; speaker_label: string | null; text: string; created_at: string };
@@ -168,11 +169,7 @@ const SessionRoom = () => {
             <Card className="aspect-video bg-hero text-primary-foreground grid place-items-center">
               <div className="text-center"><Video className="h-10 w-10 mx-auto mb-2 opacity-70" /><p className="text-sm opacity-80">Wideo (LiveKit — placeholder)</p></div>
             </Card>
-            <Card className="p-4 bg-card-soft">
-              <div className="flex items-center gap-2 mb-2 text-sm font-medium"><Activity className="h-4 w-4 text-accent" /> Zaangażowanie</div>
-              <div className="h-2 rounded-full bg-secondary overflow-hidden"><div className="h-full bg-accent-gradient w-3/4" /></div>
-              <p className="text-xs text-muted-foreground mt-2">Detekcja emocji (face-api.js) — wymaga zgody na kamerę.</p>
-            </Card>
+            {user && <EmotionEngine sessionId={session.id} userId={user.id} />}
             <Button onClick={generateSummary} disabled={summarizing} className="bg-accent-gradient text-accent-foreground">
               {summarizing ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
               Wygeneruj raport AI
