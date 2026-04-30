@@ -217,8 +217,13 @@ const SessionRoom = () => {
 
               {/* TRANSKRYPT */}
               <TabsContent value="transcript" className="flex-1 flex flex-col px-4 pb-4 mt-0 data-[state=inactive]:hidden">
+                {user && (
+                  <div className="mb-3">
+                    <LiveTranscriber sessionId={session.id} userId={user.id} />
+                  </div>
+                )}
                 <div className="flex-1 overflow-y-auto space-y-2 pr-2">
-                  {transcripts.length === 0 && <p className="text-sm text-muted-foreground italic">Transkrypt pusty. Dodaj notatkę poniżej (lub podłącz ElevenLabs Scribe).</p>}
+                  {transcripts.length === 0 && <p className="text-sm text-muted-foreground italic">Transkrypt pusty. Włącz auto-transkrypcję powyżej lub dodaj notatkę ręcznie.</p>}
                   {transcripts.map((t) => (
                     <div key={t.id} className="p-3 rounded-lg bg-background border-l-2 border-accent">
                       <p className="text-xs font-medium text-accent">{t.speaker_label || "Mówca"}</p>
