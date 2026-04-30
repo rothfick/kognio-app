@@ -12,6 +12,7 @@ import { Video, MessageSquare, Sparkles, ArrowRight, Send, Mic, FileText, Loader
 import { toast } from "sonner";
 import { EmotionEngine } from "@/components/session/EmotionEngine";
 import { SharedWhiteboard } from "@/components/session/SharedWhiteboard";
+import { LiveTranscriber } from "@/components/session/LiveTranscriber";
 
 type ChatMsg = { id: string; user_id: string; role: string; content: string; created_at: string };
 type Transcript = { id: string; speaker_label: string | null; text: string; created_at: string };
