@@ -128,6 +128,14 @@ const Settings = () => {
         ) : tutor && (
           <Card className="p-6 bg-card-soft space-y-4">
             <h2 className="text-xl font-semibold">Profil tutora</h2>
+            {!tutor.is_published && (
+              <div className="rounded-md border border-accent/40 bg-accent/10 p-3 text-sm">
+                <p className="font-medium text-accent">Twój profil jest ukryty</p>
+                <p className="text-muted-foreground mt-1">
+                  Uzupełnij nagłówek i opis, a następnie włącz przełącznik <strong>„Opublikowany w wyszukiwarce”</strong> poniżej, aby uczniowie mogli Cię znaleźć.
+                </p>
+              </div>
+            )}
             <div>
               <Label>Nagłówek</Label>
               <Input value={tutor.headline || ""} onChange={(e) => setTutor({ ...tutor, headline: e.target.value })} placeholder="np. Matematyka maturalna z 7-letnim stażem" maxLength={120} />
