@@ -1,71 +1,250 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Video, MessageSquare, Sparkles, Activity, ArrowRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Video, MessageSquare, Sparkles, Activity, ArrowRight, Send, Mic, FileText, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+
+type ChatMsg = { id: string; user_id: string; role: string; content: string; created_at: string };
+type Transcript = { id: string; speaker_label: string | null; text: string; created_at: string };
 
 const SessionRoom = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const [session, setSession] = useState<{ id: string; room_name: string; booking_id: string } | null>(null);
+  const [chat, setChat] = useState<ChatMsg[]>([]);
+  const [transcripts, setTranscripts] = useState<Transcript[]>([]);
+  const [chatInput, setChatInput] = useState("");
+  const [trInput, setTrInput] = useState("");
+  const [aiInput, setAiInput] = useState("");
+  const [aiStream, setAiStream] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [summarizing, setSummarizing] = useState(false);
+  const chatEnd = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     (async () => {
       const { data } = await supabase.from("sessions").select("id, room_name, booking_id").eq("id", id as string).maybeSingle();
-      setSession(data);
+      setSession(data as any);
+      if (!data) return;
+
+      const [{ data: c }, { data: t }] = await Promise.all([
+        supabase.from("session_chat").select("*").eq("session_id", data.id).order("created_at"),
+        supabase.from("session_transcripts").select("*").eq("session_id", data.id).order("created_at"),
+      ]);
+      setChat((c as ChatMsg[]) || []);
+      setTranscripts((t as Transcript[]) || []);
     })();
   }, [id]);
+
+  useEffect(() => {
+    if (!session) return;
+    const ch = supabase.channel(`session-${session.id}`)
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "session_chat", filter: `session_id=eq.${session.id}` },
+        (p) => setChat((prev) => [...prev, p.new as ChatMsg]))
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "session_transcripts", filter: `session_id=eq.${session.id}` },
+        (p) => setTranscripts((prev) => [...prev, p.new as Transcript]))
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+  }, [session]);
+
+  useEffect(() => { chatEnd.current?.scrollIntoView({ behavior: "smooth" }); }, [chat]);
+
+  const sendChat = async () => {
+    if (!user || !session || !chatInput.trim()) return;
+    const text = chatInput.trim();
+    setChatInput("");
+    const { error } = await supabase.from("session_chat").insert({
+      session_id: session.id, user_id: user.id, role: "user", content: text,
+    });
+    if (error) toast.error(error.message);
+  };
+
+  const addTranscript = async () => {
+    if (!user || !session || !trInput.trim()) return;
+    const text = trInput.trim();
+    setTrInput("");
+    const { error } = await supabase.from("session_transcripts").insert({
+      session_id: session.id, speaker_id: user.id, speaker_label: "Notatka", text, starts_at_ms: 0, ends_at_ms: 0,
+    });
+    if (error) toast.error(error.message);
+  };
+
+  const askCopilot = async () => {
+    if (!aiInput.trim()) return;
+    setAiLoading(true); setAiStream("");
+    const question = aiInput;
+    setAiInput("");
+    try {
+      const { data: { session: s } } = await supabase.auth.getSession();
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-copilot`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${s?.access_token}` },
+        body: JSON.stringify({
+          mode: "tutor",
+          messages: [
+            { role: "system", content: `Kontekst sesji (ostatnie wypowiedzi):\n${[...transcripts, ...chat].slice(-15).map((m: any) => m.text || m.content).join("\n")}` },
+            { role: "user", content: question },
+          ],
+        }),
+      });
+      if (!res.ok || !res.body) {
+        const j = await res.json().catch(() => ({}));
+        throw new Error(j.error || `Błąd ${res.status}`);
+      }
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let full = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const data = line.slice(6).trim();
+          if (data === "[DONE]") continue;
+          try {
+            const parsed = JSON.parse(data);
+            const delta = parsed.choices?.[0]?.delta?.content;
+            if (delta) { full += delta; setAiStream(full); }
+          } catch {}
+        }
+      }
+      // zapisz pełną odpowiedź AI do czatu sesji
+      if (full && session && user) {
+        await supabase.from("session_chat").insert({
+          session_id: session.id, user_id: user.id, role: "ai",
+          content: `🤖 Co-pilot: ${full}`,
+        });
+        setAiStream("");
+      }
+    } catch (e: any) {
+      toast.error(e.message || "Błąd AI");
+      setAiStream("");
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const generateSummary = async () => {
+    if (!session) return;
+    setSummarizing(true);
+    try {
+      const { data: { session: s } } = await supabase.auth.getSession();
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/session-summary`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${s?.access_token}` },
+        body: JSON.stringify({ sessionId: session.id }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Błąd");
+      toast.success("Raport sesji wygenerowany!");
+      // oznacz koniec sesji
+      await supabase.from("sessions").update({ ended_at: new Date().toISOString() }).eq("id", session.id);
+    } catch (e: any) {
+      toast.error(e.message);
+    } finally {
+      setSummarizing(false);
+    }
+  };
 
   if (!session) return <AppShell><div className="container py-10">Ładowanie pokoju…</div></AppShell>;
 
   return (
     <AppShell>
       <div className="container mx-auto px-4 py-6">
-        <div className="grid lg:grid-cols-3 gap-4 h-[calc(100vh-12rem)]">
-          {/* Left: video tiles */}
+        <div className="grid lg:grid-cols-3 gap-4">
+          {/* Left: video + emocje */}
           <div className="space-y-4 flex flex-col">
             <Card className="aspect-video bg-hero text-primary-foreground grid place-items-center">
-              <div className="text-center"><Video className="h-10 w-10 mx-auto mb-2 opacity-70" /><p className="text-sm opacity-80">Wideo tutora (LiveKit — wkrótce)</p></div>
-            </Card>
-            <Card className="aspect-video bg-hero text-primary-foreground grid place-items-center">
-              <div className="text-center"><Video className="h-10 w-10 mx-auto mb-2 opacity-70" /><p className="text-sm opacity-80">Wideo ucznia</p></div>
+              <div className="text-center"><Video className="h-10 w-10 mx-auto mb-2 opacity-70" /><p className="text-sm opacity-80">Wideo (LiveKit — placeholder)</p></div>
             </Card>
             <Card className="p-4 bg-card-soft">
               <div className="flex items-center gap-2 mb-2 text-sm font-medium"><Activity className="h-4 w-4 text-accent" /> Zaangażowanie</div>
               <div className="h-2 rounded-full bg-secondary overflow-hidden"><div className="h-full bg-accent-gradient w-3/4" /></div>
-              <p className="text-xs text-muted-foreground mt-2">Analizator emocji włączy się po starcie sesji.</p>
+              <p className="text-xs text-muted-foreground mt-2">Detekcja emocji (face-api.js) — wymaga zgody na kamerę.</p>
             </Card>
+            <Button onClick={generateSummary} disabled={summarizing} className="bg-accent-gradient text-accent-foreground">
+              {summarizing ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
+              Wygeneruj raport AI
+            </Button>
+            <Button asChild variant="outline"><Link to={`/payment/${session.booking_id}`}>Przejdź do płatności <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
           </div>
 
-          {/* Center: whiteboard / editor */}
-          <Card className="lg:col-span-2 p-6 bg-card-soft flex flex-col">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold">Tablica · Edytor zadań</h2>
-              <span className="text-xs text-muted-foreground font-mono">room: {session.room_name}</span>
-            </div>
-            <div className="flex-1 rounded-lg border-2 border-dashed border-border grid place-items-center text-muted-foreground">
-              <div className="text-center max-w-sm p-8">
-                <Sparkles className="h-10 w-10 mx-auto mb-3 text-accent" />
-                <p className="font-medium mb-2">Pokój sesji jest gotowy</p>
-                <p className="text-sm">Tablica (tldraw + Yjs), edytor (Monaco + KaTeX), transkrypcja na żywo (ElevenLabs Scribe) i AI Co-pilot zostaną podłączone w następnym kroku — wymaga to dodania kluczy LiveKit i ElevenLabs.</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-3 mt-4">
-              <Card className="p-3 bg-background">
-                <div className="flex items-center gap-2 mb-1 text-xs font-medium text-muted-foreground"><MessageSquare className="h-3 w-3" /> TRANSKRYPT NA ŻYWO</div>
-                <p className="text-xs text-muted-foreground italic">— oczekiwanie na audio —</p>
-              </Card>
-              <Card className="p-3 bg-background">
-                <div className="flex items-center gap-2 mb-1 text-xs font-medium text-accent"><Sparkles className="h-3 w-3" /> AI CO-PILOT</div>
-                <p className="text-xs text-muted-foreground italic">Sugestie pojawią się tu w trakcie sesji.</p>
-              </Card>
-            </div>
-            <div className="flex justify-end mt-4">
-              <Button asChild variant="outline"><Link to={`/payment/${session.booking_id}`}>Zakończ i przejdź do płatności <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
-            </div>
+          {/* Right: chat / transkrypt / co-pilot */}
+          <Card className="lg:col-span-2 p-0 bg-card-soft flex flex-col h-[calc(100vh-12rem)] overflow-hidden">
+            <Tabs defaultValue="chat" className="flex-1 flex flex-col">
+              <TabsList className="m-3">
+                <TabsTrigger value="chat"><MessageSquare className="h-4 w-4 mr-2" />Czat</TabsTrigger>
+                <TabsTrigger value="transcript"><Mic className="h-4 w-4 mr-2" />Transkrypt</TabsTrigger>
+                <TabsTrigger value="copilot"><Sparkles className="h-4 w-4 mr-2" />AI Co-pilot</TabsTrigger>
+              </TabsList>
+
+              {/* CHAT */}
+              <TabsContent value="chat" className="flex-1 flex flex-col px-4 pb-4 mt-0 data-[state=inactive]:hidden">
+                <div className="flex-1 overflow-y-auto space-y-2 pr-2">
+                  {chat.length === 0 && <p className="text-sm text-muted-foreground italic">Czat jest pusty.</p>}
+                  {chat.map((m) => (
+                    <div key={m.id} className={`p-3 rounded-lg max-w-[85%] ${m.user_id === user?.id ? "ml-auto bg-accent/15" : "bg-background"} ${m.role === "ai" ? "border border-accent/40" : ""}`}>
+                      <p className="text-sm whitespace-pre-wrap">{m.content}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{new Date(m.created_at).toLocaleTimeString()}</p>
+                    </div>
+                  ))}
+                  <div ref={chatEnd} />
+                </div>
+                <form onSubmit={(e) => { e.preventDefault(); sendChat(); }} className="flex gap-2 mt-3 pt-3 border-t">
+                  <Input value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder="Napisz wiadomość…" />
+                  <Button type="submit" size="icon"><Send className="h-4 w-4" /></Button>
+                </form>
+              </TabsContent>
+
+              {/* TRANSKRYPT */}
+              <TabsContent value="transcript" className="flex-1 flex flex-col px-4 pb-4 mt-0 data-[state=inactive]:hidden">
+                <div className="flex-1 overflow-y-auto space-y-2 pr-2">
+                  {transcripts.length === 0 && <p className="text-sm text-muted-foreground italic">Transkrypt pusty. Dodaj notatkę poniżej (lub podłącz ElevenLabs Scribe).</p>}
+                  {transcripts.map((t) => (
+                    <div key={t.id} className="p-3 rounded-lg bg-background border-l-2 border-accent">
+                      <p className="text-xs font-medium text-accent">{t.speaker_label || "Mówca"}</p>
+                      <p className="text-sm">{t.text}</p>
+                    </div>
+                  ))}
+                </div>
+                <form onSubmit={(e) => { e.preventDefault(); addTranscript(); }} className="flex gap-2 mt-3 pt-3 border-t">
+                  <Textarea value={trInput} onChange={(e) => setTrInput(e.target.value)} placeholder="Dodaj fragment transkryptu / notatkę z lekcji…" rows={2} className="resize-none" />
+                  <Button type="submit" size="icon"><FileText className="h-4 w-4" /></Button>
+                </form>
+              </TabsContent>
+
+              {/* CO-PILOT */}
+              <TabsContent value="copilot" className="flex-1 flex flex-col px-4 pb-4 mt-0 data-[state=inactive]:hidden">
+                <div className="flex-1 overflow-y-auto space-y-3 pr-2">
+                  <Card className="p-3 bg-background">
+                    <p className="text-xs font-medium text-accent mb-1">AI Co-pilot</p>
+                    <p className="text-sm text-muted-foreground">Zadaj pytanie, a otrzymasz sugestię z kontekstem ostatnich wypowiedzi w sesji. Odpowiedź zostanie zapisana w czacie sesji.</p>
+                  </Card>
+                  {aiStream && (
+                    <Card className="p-3 bg-accent/5 border-accent/40">
+                      <p className="text-sm whitespace-pre-wrap">{aiStream}</p>
+                    </Card>
+                  )}
+                </div>
+                <form onSubmit={(e) => { e.preventDefault(); askCopilot(); }} className="flex gap-2 mt-3 pt-3 border-t">
+                  <Input value={aiInput} onChange={(e) => setAiInput(e.target.value)} placeholder="np. Jak wytłumaczyć pochodne na przykładzie?" disabled={aiLoading} />
+                  <Button type="submit" size="icon" disabled={aiLoading}>
+                    {aiLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+                  </Button>
+                </form>
+              </TabsContent>
+            </Tabs>
           </Card>
         </div>
       </div>
