@@ -357,6 +357,7 @@ export type Database = {
           full_name: string | null
           id: string
           karma_points: number
+          onboarded_at: string | null
           timezone: string
           ui_language: string
           updated_at: string
@@ -369,6 +370,7 @@ export type Database = {
           full_name?: string | null
           id: string
           karma_points?: number
+          onboarded_at?: string | null
           timezone?: string
           ui_language?: string
           updated_at?: string
@@ -381,6 +383,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           karma_points?: number
+          onboarded_at?: string | null
           timezone?: string
           ui_language?: string
           updated_at?: string

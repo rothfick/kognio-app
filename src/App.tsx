@@ -17,6 +17,7 @@ import TutorProfile from "./pages/TutorProfile";
 import SessionRoom from "./pages/SessionRoom";
 import PaymentPage from "./pages/PaymentPage";
 import NotFound from "./pages/NotFound";
+import Onboarding from "./pages/Onboarding";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/discover" element={<ProtectedRoute><Discover /></ProtectedRoute>} />
             <Route path="/circles" element={<ProtectedRoute><Circles /></ProtectedRoute>} />
             <Route path="/peer" element={<ProtectedRoute><Peer /></ProtectedRoute>} />
