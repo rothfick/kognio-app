@@ -6,9 +6,10 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Brain as BrainIcon, Sparkles, FileText, Loader2 } from "lucide-react";
+import { Brain as BrainIcon, Sparkles, FileText, Loader2, Network } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
+import { KnowledgeGraph } from "@/components/brain/KnowledgeGraph";
 
 const Brain = () => {
   const { t } = useTranslation();
