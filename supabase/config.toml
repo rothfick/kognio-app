@@ -1,1 +1,10 @@
 project_id = "gelemsrgwysfgzbkilvj"
+
+[functions.ai-copilot]
+verify_jwt = true
+
+[functions.session-summary]
+verify_jwt = true
+
+[functions.brain-chat]
+verify_jwt = true
