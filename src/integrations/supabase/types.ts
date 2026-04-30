@@ -14,16 +14,765 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          created_at: string
+          currency: string
+          ends_at: string
+          id: string
+          notes: string | null
+          price_cents: number
+          starts_at: string
+          status: Database["public"]["Enums"]["booking_status"]
+          student_id: string
+          subject_id: string | null
+          tutor_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          currency?: string
+          ends_at: string
+          id?: string
+          notes?: string | null
+          price_cents?: number
+          starts_at: string
+          status?: Database["public"]["Enums"]["booking_status"]
+          student_id: string
+          subject_id?: string | null
+          tutor_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          ends_at?: string
+          id?: string
+          notes?: string | null
+          price_cents?: number
+          starts_at?: string
+          status?: Database["public"]["Enums"]["booking_status"]
+          student_id?: string
+          subject_id?: string | null
+          tutor_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      circle_members: {
+        Row: {
+          circle_id: string
+          joined_at: string
+          role: Database["public"]["Enums"]["circle_role"]
+          user_id: string
+        }
+        Insert: {
+          circle_id: string
+          joined_at?: string
+          role?: Database["public"]["Enums"]["circle_role"]
+          user_id: string
+        }
+        Update: {
+          circle_id?: string
+          joined_at?: string
+          role?: Database["public"]["Enums"]["circle_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "circle_members_circle_id_fkey"
+            columns: ["circle_id"]
+            isOneToOne: false
+            referencedRelation: "circles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      circles: {
+        Row: {
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          is_public: boolean
+          max_members: number
+          name: string
+          topic: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          is_public?: boolean
+          max_members?: number
+          name: string
+          topic?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          is_public?: boolean
+          max_members?: number
+          name?: string
+          topic?: string | null
+        }
+        Relationships: []
+      }
+      flashcards: {
+        Row: {
+          back: string
+          created_at: string
+          due_at: string | null
+          ease: number | null
+          front: string
+          id: string
+          session_id: string | null
+          user_id: string
+        }
+        Insert: {
+          back: string
+          created_at?: string
+          due_at?: string | null
+          ease?: number | null
+          front: string
+          id?: string
+          session_id?: string | null
+          user_id: string
+        }
+        Update: {
+          back?: string
+          created_at?: string
+          due_at?: string | null
+          ease?: number | null
+          front?: string
+          id?: string
+          session_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flashcards_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      karma_events: {
+        Row: {
+          created_at: string
+          delta: number
+          id: string
+          reason: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          delta: number
+          id?: string
+          reason: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          delta?: number
+          id?: string
+          reason?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      knowledge_chunks: {
+        Row: {
+          circle_id: string | null
+          content: string
+          created_at: string
+          embedding: string | null
+          id: string
+          session_id: string | null
+          user_id: string
+        }
+        Insert: {
+          circle_id?: string | null
+          content: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          session_id?: string | null
+          user_id: string
+        }
+        Update: {
+          circle_id?: string | null
+          content?: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          session_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_chunks_circle_id_fkey"
+            columns: ["circle_id"]
+            isOneToOne: false
+            referencedRelation: "circles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_chunks_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount_cents: number
+          booking_id: string
+          confirmed_at: string | null
+          created_at: string
+          currency: string
+          id: string
+          marked_paid_at: string | null
+          method_details: string
+          method_type: Database["public"]["Enums"]["payment_method_type"]
+          notes: string | null
+          proof_url: string | null
+          reference_code: string
+          status: Database["public"]["Enums"]["payment_status"]
+          student_id: string
+          tutor_id: string
+          updated_at: string
+        }
+        Insert: {
+          amount_cents: number
+          booking_id: string
+          confirmed_at?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          marked_paid_at?: string | null
+          method_details: string
+          method_type: Database["public"]["Enums"]["payment_method_type"]
+          notes?: string | null
+          proof_url?: string | null
+          reference_code: string
+          status?: Database["public"]["Enums"]["payment_status"]
+          student_id: string
+          tutor_id: string
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number
+          booking_id?: string
+          confirmed_at?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          marked_paid_at?: string | null
+          method_details?: string
+          method_type?: Database["public"]["Enums"]["payment_method_type"]
+          notes?: string | null
+          proof_url?: string | null
+          reference_code?: string
+          status?: Database["public"]["Enums"]["payment_status"]
+          student_id?: string
+          tutor_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      peer_requests: {
+        Row: {
+          created_at: string
+          description: string | null
+          helper_id: string | null
+          id: string
+          requester_id: string
+          resolved_at: string | null
+          status: Database["public"]["Enums"]["peer_request_status"]
+          subject_id: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          helper_id?: string | null
+          id?: string
+          requester_id: string
+          resolved_at?: string | null
+          status?: Database["public"]["Enums"]["peer_request_status"]
+          subject_id?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          helper_id?: string | null
+          id?: string
+          requester_id?: string
+          resolved_at?: string | null
+          status?: Database["public"]["Enums"]["peer_request_status"]
+          subject_id?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "peer_requests_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string | null
+          full_name: string | null
+          id: string
+          karma_points: number
+          timezone: string
+          ui_language: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          full_name?: string | null
+          id: string
+          karma_points?: number
+          timezone?: string
+          ui_language?: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          full_name?: string | null
+          id?: string
+          karma_points?: number
+          timezone?: string
+          ui_language?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      session_emotions: {
+        Row: {
+          boredom: number | null
+          confusion: number | null
+          engagement: number | null
+          id: string
+          joy: number | null
+          raw: Json | null
+          recorded_at: string
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          boredom?: number | null
+          confusion?: number | null
+          engagement?: number | null
+          id?: string
+          joy?: number | null
+          raw?: Json | null
+          recorded_at?: string
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          boredom?: number | null
+          confusion?: number | null
+          engagement?: number | null
+          id?: string
+          joy?: number | null
+          raw?: Json | null
+          recorded_at?: string
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_emotions_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_reports: {
+        Row: {
+          created_at: string
+          engagement_timeline: Json | null
+          flashcards: Json | null
+          homework: Json | null
+          id: string
+          session_id: string | null
+          strengths: string | null
+          summary: string | null
+          weaknesses: string | null
+        }
+        Insert: {
+          created_at?: string
+          engagement_timeline?: Json | null
+          flashcards?: Json | null
+          homework?: Json | null
+          id?: string
+          session_id?: string | null
+          strengths?: string | null
+          summary?: string | null
+          weaknesses?: string | null
+        }
+        Update: {
+          created_at?: string
+          engagement_timeline?: Json | null
+          flashcards?: Json | null
+          homework?: Json | null
+          id?: string
+          session_id?: string | null
+          strengths?: string | null
+          summary?: string | null
+          weaknesses?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_reports_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: true
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_transcripts: {
+        Row: {
+          created_at: string
+          ends_at_ms: number
+          id: string
+          session_id: string
+          speaker_id: string | null
+          speaker_label: string | null
+          starts_at_ms: number
+          text: string
+        }
+        Insert: {
+          created_at?: string
+          ends_at_ms?: number
+          id?: string
+          session_id: string
+          speaker_id?: string | null
+          speaker_label?: string | null
+          starts_at_ms?: number
+          text: string
+        }
+        Update: {
+          created_at?: string
+          ends_at_ms?: number
+          id?: string
+          session_id?: string
+          speaker_id?: string | null
+          speaker_label?: string | null
+          starts_at_ms?: number
+          text?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_transcripts_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sessions: {
+        Row: {
+          booking_id: string | null
+          created_at: string
+          ended_at: string | null
+          id: string
+          recording_url: string | null
+          room_name: string
+          started_at: string | null
+        }
+        Insert: {
+          booking_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          recording_url?: string | null
+          room_name: string
+          started_at?: string | null
+        }
+        Update: {
+          booking_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          recording_url?: string | null
+          room_name?: string
+          started_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sessions_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subjects: {
+        Row: {
+          category: string | null
+          created_at: string
+          id: string
+          name_en: string
+          name_pl: string
+          slug: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          name_en: string
+          name_pl: string
+          slug: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          name_en?: string
+          name_pl?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      tutor_availability: {
+        Row: {
+          created_at: string
+          day_of_week: number
+          end_minute: number
+          id: string
+          start_minute: number
+          tutor_id: string
+        }
+        Insert: {
+          created_at?: string
+          day_of_week: number
+          end_minute: number
+          id?: string
+          start_minute: number
+          tutor_id: string
+        }
+        Update: {
+          created_at?: string
+          day_of_week?: number
+          end_minute?: number
+          id?: string
+          start_minute?: number
+          tutor_id?: string
+        }
+        Relationships: []
+      }
+      tutor_payment_methods: {
+        Row: {
+          created_at: string
+          details: string
+          id: string
+          is_default: boolean
+          label: string
+          method_type: Database["public"]["Enums"]["payment_method_type"]
+          tutor_id: string
+        }
+        Insert: {
+          created_at?: string
+          details: string
+          id?: string
+          is_default?: boolean
+          label: string
+          method_type: Database["public"]["Enums"]["payment_method_type"]
+          tutor_id: string
+        }
+        Update: {
+          created_at?: string
+          details?: string
+          id?: string
+          is_default?: boolean
+          label?: string
+          method_type?: Database["public"]["Enums"]["payment_method_type"]
+          tutor_id?: string
+        }
+        Relationships: []
+      }
+      tutor_profiles: {
+        Row: {
+          created_at: string
+          currency: string
+          description: string | null
+          headline: string | null
+          hourly_rate_cents: number
+          intro_video_url: string | null
+          is_published: boolean
+          is_verified: boolean
+          payment_reliability: number | null
+          rating: number | null
+          sessions_completed: number
+          updated_at: string
+          user_id: string
+          years_experience: number | null
+        }
+        Insert: {
+          created_at?: string
+          currency?: string
+          description?: string | null
+          headline?: string | null
+          hourly_rate_cents?: number
+          intro_video_url?: string | null
+          is_published?: boolean
+          is_verified?: boolean
+          payment_reliability?: number | null
+          rating?: number | null
+          sessions_completed?: number
+          updated_at?: string
+          user_id: string
+          years_experience?: number | null
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          description?: string | null
+          headline?: string | null
+          hourly_rate_cents?: number
+          intro_video_url?: string | null
+          is_published?: boolean
+          is_verified?: boolean
+          payment_reliability?: number | null
+          rating?: number | null
+          sessions_completed?: number
+          updated_at?: string
+          user_id?: string
+          years_experience?: number | null
+        }
+        Relationships: []
+      }
+      tutor_subjects: {
+        Row: {
+          level: string | null
+          subject_id: string
+          tutor_id: string
+        }
+        Insert: {
+          level?: string | null
+          subject_id: string
+          tutor_id: string
+        }
+        Update: {
+          level?: string | null
+          subject_id?: string
+          tutor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tutor_subjects_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_booking_participant: {
+        Args: { _booking: string; _user: string }
+        Returns: boolean
+      }
+      is_circle_member: {
+        Args: { _circle: string; _user: string }
+        Returns: boolean
+      }
+      is_session_participant: {
+        Args: { _session: string; _user: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "student" | "tutor" | "admin"
+      booking_status:
+        | "pending"
+        | "confirmed"
+        | "cancelled"
+        | "completed"
+        | "no_show"
+      circle_role: "owner" | "mentor" | "member"
+      payment_method_type: "blik" | "iban" | "revolut" | "paypal" | "other"
+      payment_status: "pending" | "marked_paid" | "confirmed" | "disputed"
+      peer_request_status: "open" | "matched" | "resolved" | "cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +899,19 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["student", "tutor", "admin"],
+      booking_status: [
+        "pending",
+        "confirmed",
+        "cancelled",
+        "completed",
+        "no_show",
+      ],
+      circle_role: ["owner", "mentor", "member"],
+      payment_method_type: ["blik", "iban", "revolut", "paypal", "other"],
+      payment_status: ["pending", "marked_paid", "confirmed", "disputed"],
+      peer_request_status: ["open", "matched", "resolved", "cancelled"],
+    },
   },
 } as const
