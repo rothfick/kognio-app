@@ -666,7 +666,15 @@ export type Database = {
           method_type?: Database["public"]["Enums"]["payment_method_type"]
           tutor_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tutor_payment_methods_tutor_id_profiles_fkey"
+            columns: ["tutor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tutor_profiles: {
         Row: {
@@ -717,7 +725,15 @@ export type Database = {
           user_id?: string
           years_experience?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tutor_profiles_user_id_profiles_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tutor_subjects: {
         Row: {
@@ -741,6 +757,13 @@ export type Database = {
             columns: ["subject_id"]
             isOneToOne: false
             referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tutor_subjects_tutor_id_profiles_fkey"
+            columns: ["tutor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
