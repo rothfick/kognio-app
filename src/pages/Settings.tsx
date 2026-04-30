@@ -43,13 +43,40 @@ const Settings = () => {
 
   const becomeTutor = async () => {
     if (!user) return;
-    const { error: rErr } = await supabase.from("user_roles").insert({ user_id: user.id, role: "tutor" });
-    if (rErr && !rErr.message.includes("duplicate")) { toast.error(rErr.message); return; }
-    const { error: tErr } = await supabase.from("tutor_profiles").upsert({ user_id: user.id, hourly_rate_cents: 10000, is_published: false });
-    if (tErr) { toast.error(tErr.message); return; }
+    // 1) Dodaj rolę tutor (ignoruj konflikt jeśli już istnieje)
+    const { data: existingRole } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .eq("role", "tutor")
+      .maybeSingle();
+    if (!existingRole) {
+      const { error: rErr } = await supabase
+        .from("user_roles")
+        .insert({ user_id: user.id, role: "tutor" });
+      if (rErr) {
+        console.error("user_roles insert", rErr);
+        toast.error(`Nie udało się nadać roli: ${rErr.message}`);
+        return;
+      }
+    }
+    // 2) Załóż profil tutora (upsert po user_id)
+    const { error: tErr } = await supabase
+      .from("tutor_profiles")
+      .upsert(
+        { user_id: user.id, hourly_rate_cents: 10000, currency: "PLN", is_published: false },
+        { onConflict: "user_id" }
+      );
+    if (tErr) {
+      console.error("tutor_profiles upsert", tErr);
+      toast.error(`Nie udało się utworzyć profilu tutora: ${tErr.message}`);
+      return;
+    }
     toast.success("Jesteś tutorem! Uzupełnij profil.");
-    load();
+    setIsTutor(true);
+    await load();
   };
+
 
   const saveTutor = async () => {
     if (!user || !tutor) return;
