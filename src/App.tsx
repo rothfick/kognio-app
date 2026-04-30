@@ -17,6 +17,7 @@ import TutorProfile from "./pages/TutorProfile";
 import SessionRoom from "./pages/SessionRoom";
 import PaymentPage from "./pages/PaymentPage";
 import NotFound from "./pages/NotFound";
+import Onboarding from "./pages/Onboarding";
 
 const queryClient = new QueryClient();
 
