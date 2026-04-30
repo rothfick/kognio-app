@@ -146,8 +146,17 @@ const Settings = () => {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label>Stawka / h (w groszach)</Label>
-                <Input type="number" value={tutor.hourly_rate_cents} onChange={(e) => setTutor({ ...tutor, hourly_rate_cents: parseInt(e.target.value) || 0 })} />
+                <Label>Stawka / h (zł)</Label>
+                <Input
+                  type="number"
+                  min={0}
+                  step="1"
+                  value={tutor.hourly_rate_cents / 100}
+                  onChange={(e) => {
+                    const zl = parseFloat(e.target.value);
+                    setTutor({ ...tutor, hourly_rate_cents: Math.round((isNaN(zl) ? 0 : zl) * 100) });
+                  }}
+                />
               </div>
               <div>
                 <Label>Waluta</Label>
