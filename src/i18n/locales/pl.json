@@ -1,0 +1,113 @@
+{
+  "brand": {
+    "name": "Mądrzej",
+    "tagline": "Korepetycje, które rozumieją Cię lepiej."
+  },
+  "nav": {
+    "discover": "Odkrywaj",
+    "circles": "Kręgi nauki",
+    "peer": "Peer Help",
+    "calendar": "Kalendarz",
+    "brain": "Drugi Mózg",
+    "graph": "Mapa wiedzy",
+    "settings": "Ustawienia",
+    "signin": "Zaloguj się",
+    "signup": "Załóż konto",
+    "signout": "Wyloguj",
+    "profile": "Profil",
+    "myProfile": "Mój profil"
+  },
+  "landing": {
+    "heroTitle": "Korepetycje nowej generacji.",
+    "heroSubtitle": "Wideo + tablica + AI co-pilot + analiza zaangażowania. Wszystko w jednym oknie. Płatności bezpośrednio między Tobą a tutorem — bez prowizji.",
+    "ctaPrimary": "Zacznij za darmo",
+    "ctaSecondary": "Zobacz jak to działa",
+    "feature1Title": "Trzy warstwy AI",
+    "feature1Desc": "Live co-pilot w trakcie sesji, analiza emocji i zaangażowania, oraz Twój osobisty Drugi Mózg z całą wiedzą.",
+    "feature2Title": "Hybrydowa społeczność",
+    "feature2Desc": "Tutorzy 1:1, kręgi nauki 3-6 osób, peer help i system karmy. Dla każdego, globalnie.",
+    "feature3Title": "Bez prowizji",
+    "feature3Desc": "Płatności BLIK / przelew / Revolut bezpośrednio do tutora. Platforma nie pośredniczy.",
+    "howItWorks": "Jak to działa",
+    "step1": "Znajdź tutora lub krąg nauki",
+    "step2": "Zarezerwuj sesję — kalendarz dba o resztę",
+    "step3": "Spotkaj się w pokoju z AI co-pilotem",
+    "step4": "Otrzymaj raport, fiszki i zadania",
+    "step5": "Zapłać tutorowi bezpośrednio i oceń sesję"
+  },
+  "auth": {
+    "signinTitle": "Witaj z powrotem",
+    "signupTitle": "Załóż konto",
+    "email": "E-mail",
+    "password": "Hasło",
+    "submitSignin": "Zaloguj się",
+    "submitSignup": "Załóż konto",
+    "google": "Kontynuuj z Google",
+    "or": "lub",
+    "noAccount": "Nie masz konta?",
+    "hasAccount": "Masz już konto?",
+    "signupHere": "Zarejestruj się",
+    "signinHere": "Zaloguj się",
+    "errorGeneric": "Coś poszło nie tak. Spróbuj jeszcze raz.",
+    "checkEmail": "Sprawdź skrzynkę e-mail i potwierdź adres."
+  },
+  "discover": {
+    "title": "Znajdź swojego tutora",
+    "subtitle": "Przeglądaj zweryfikowanych tutorów i dołączaj do kręgów nauki.",
+    "searchPlaceholder": "Szukaj przedmiotu, tutora, tematu…",
+    "filters": "Filtry",
+    "noTutors": "Jeszcze nikt nie opublikował profilu — bądź pierwszy!",
+    "becomeTutor": "Zostań tutorem",
+    "perHour": "/h"
+  },
+  "circles": {
+    "title": "Kręgi nauki",
+    "subtitle": "Małe grupy 3-6 osób uczące się razem.",
+    "create": "Załóż krąg",
+    "members": "członków",
+    "join": "Dołącz",
+    "open": "Otwórz",
+    "empty": "Nie ma jeszcze żadnych kręgów. Załóż pierwszy!"
+  },
+  "peer": {
+    "title": "Peer Help",
+    "subtitle": "Szybka pomoc od innych uczniów. Pomagasz — zdobywasz Karmę.",
+    "ask": "Poproś o pomoc",
+    "open": "otwarte",
+    "empty": "Brak otwartych próśb. Bądź pierwszą osobą, która zapyta!"
+  },
+  "brain": {
+    "title": "Drugi Mózg",
+    "subtitle": "Cała Twoja wiedza w jednym miejscu — przeszukiwalna naturalnym językiem.",
+    "askPlaceholder": "Zapytaj cokolwiek z Twoich sesji…",
+    "ask": "Zapytaj",
+    "transcripts": "Transkrypty sesji",
+    "flashcards": "Fiszki",
+    "noTranscripts": "Twoje transkrypty pojawią się tu po pierwszej sesji."
+  },
+  "calendar": {
+    "title": "Kalendarz",
+    "upcoming": "Nadchodzące sesje",
+    "past": "Minione sesje",
+    "empty": "Brak zaplanowanych sesji."
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "language": "Język interfejsu",
+    "languagePl": "Polski",
+    "languageEn": "English",
+    "theme": "Motyw",
+    "light": "Jasny",
+    "dark": "Ciemny",
+    "paymentMethods": "Moje metody płatności (jako tutor)",
+    "addMethod": "Dodaj metodę",
+    "becomeTutor": "Zostań tutorem"
+  },
+  "common": {
+    "loading": "Ładowanie…",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "back": "Wstecz",
+    "soon": "Wkrótce"
+  }
+}

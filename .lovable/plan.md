@@ -1,0 +1,1 @@
+\n# Platforma korepetycji nowej generacji (robocza nazwa do ustalenia)\n\nPolskojęzyczny domyślnie (z przełącznikiem EN), hybrydowy marketplace + społeczność, sesje wideo z tablicą i edytorem zadań, transkrypcja na żywo, analiza emocji i zaangażowania, AI-asystent w trakcie sesji oraz \

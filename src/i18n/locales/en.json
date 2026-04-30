@@ -1,0 +1,113 @@
+{
+  "brand": {
+    "name": "Mądrzej",
+    "tagline": "Tutoring that truly understands you."
+  },
+  "nav": {
+    "discover": "Discover",
+    "circles": "Learning Circles",
+    "peer": "Peer Help",
+    "calendar": "Calendar",
+    "brain": "Second Brain",
+    "graph": "Knowledge Map",
+    "settings": "Settings",
+    "signin": "Sign in",
+    "signup": "Sign up",
+    "signout": "Sign out",
+    "profile": "Profile",
+    "myProfile": "My profile"
+  },
+  "landing": {
+    "heroTitle": "Next-generation tutoring.",
+    "heroSubtitle": "Video + whiteboard + AI co-pilot + engagement analytics. All in one room. Payments go straight from student to tutor — zero platform fees.",
+    "ctaPrimary": "Get started free",
+    "ctaSecondary": "See how it works",
+    "feature1Title": "Three layers of AI",
+    "feature1Desc": "Live co-pilot during sessions, emotion & engagement analytics, and your personal Second Brain.",
+    "feature2Title": "Hybrid community",
+    "feature2Desc": "1:1 tutors, learning circles of 3-6, peer help and a karma system. For everyone, globally.",
+    "feature3Title": "Zero commission",
+    "feature3Desc": "BLIK / bank transfer / Revolut go directly to the tutor. The platform never touches the money.",
+    "howItWorks": "How it works",
+    "step1": "Find a tutor or a learning circle",
+    "step2": "Book a session — the calendar handles the rest",
+    "step3": "Meet in the session room with AI co-pilot",
+    "step4": "Get a report, flashcards and homework",
+    "step5": "Pay the tutor directly and rate the session"
+  },
+  "auth": {
+    "signinTitle": "Welcome back",
+    "signupTitle": "Create account",
+    "email": "Email",
+    "password": "Password",
+    "submitSignin": "Sign in",
+    "submitSignup": "Create account",
+    "google": "Continue with Google",
+    "or": "or",
+    "noAccount": "No account yet?",
+    "hasAccount": "Already have an account?",
+    "signupHere": "Sign up",
+    "signinHere": "Sign in",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "checkEmail": "Check your inbox and confirm your email."
+  },
+  "discover": {
+    "title": "Find your tutor",
+    "subtitle": "Browse verified tutors and join learning circles.",
+    "searchPlaceholder": "Search subjects, tutors, topics…",
+    "filters": "Filters",
+    "noTutors": "No published tutors yet — be the first!",
+    "becomeTutor": "Become a tutor",
+    "perHour": "/h"
+  },
+  "circles": {
+    "title": "Learning Circles",
+    "subtitle": "Small groups of 3-6 people learning together.",
+    "create": "Create circle",
+    "members": "members",
+    "join": "Join",
+    "open": "Open",
+    "empty": "No circles yet. Create the first one!"
+  },
+  "peer": {
+    "title": "Peer Help",
+    "subtitle": "Quick help from other students. Help others — earn Karma.",
+    "ask": "Ask for help",
+    "open": "open",
+    "empty": "No open requests. Be the first to ask!"
+  },
+  "brain": {
+    "title": "Second Brain",
+    "subtitle": "All your learning in one place — searchable in natural language.",
+    "askPlaceholder": "Ask anything from your sessions…",
+    "ask": "Ask",
+    "transcripts": "Session transcripts",
+    "flashcards": "Flashcards",
+    "noTranscripts": "Your transcripts will show up here after your first session."
+  },
+  "calendar": {
+    "title": "Calendar",
+    "upcoming": "Upcoming sessions",
+    "past": "Past sessions",
+    "empty": "No scheduled sessions."
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Interface language",
+    "languagePl": "Polski",
+    "languageEn": "English",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "paymentMethods": "My payment methods (as a tutor)",
+    "addMethod": "Add method",
+    "becomeTutor": "Become a tutor"
+  },
+  "common": {
+    "loading": "Loading…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "soon": "Coming soon"
+  }
+}
