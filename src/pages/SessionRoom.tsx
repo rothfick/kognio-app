@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Video, MessageSquare, Sparkles, ArrowRight, Send, Mic, FileText, Loader2 } from "lucide-react";
+import { Video, MessageSquare, Sparkles, ArrowRight, Send, Mic, FileText, Loader2, PenTool } from "lucide-react";
 import { toast } from "sonner";
 import { EmotionEngine } from "@/components/session/EmotionEngine";
+import { SharedWhiteboard } from "@/components/session/SharedWhiteboard";
 
 type ChatMsg = { id: string; user_id: string; role: string; content: string; created_at: string };
 type Transcript = { id: string; speaker_label: string | null; text: string; created_at: string };
@@ -179,12 +180,21 @@ const SessionRoom = () => {
 
           {/* Right: chat / transkrypt / co-pilot */}
           <Card className="lg:col-span-2 p-0 bg-card-soft flex flex-col h-[calc(100vh-12rem)] overflow-hidden">
-            <Tabs defaultValue="chat" className="flex-1 flex flex-col">
+            <Tabs defaultValue="board" className="flex-1 flex flex-col">
               <TabsList className="m-3">
+                <TabsTrigger value="board"><PenTool className="h-4 w-4 mr-2" />Tablica</TabsTrigger>
                 <TabsTrigger value="chat"><MessageSquare className="h-4 w-4 mr-2" />Czat</TabsTrigger>
                 <TabsTrigger value="transcript"><Mic className="h-4 w-4 mr-2" />Transkrypt</TabsTrigger>
                 <TabsTrigger value="copilot"><Sparkles className="h-4 w-4 mr-2" />AI Co-pilot</TabsTrigger>
               </TabsList>
+
+              {/* TABLICA */}
+              <TabsContent value="board" className="flex-1 mt-0 data-[state=inactive]:hidden relative px-4 pb-4">
+                <div className="relative w-full h-full rounded-lg overflow-hidden border">
+                  {user && <SharedWhiteboard sessionId={session.id} userId={user.id} />}
+                </div>
+              </TabsContent>
+
 
               {/* CHAT */}
               <TabsContent value="chat" className="flex-1 flex flex-col px-4 pb-4 mt-0 data-[state=inactive]:hidden">
