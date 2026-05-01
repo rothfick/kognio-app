@@ -404,7 +404,9 @@
     "findTutorCta": "Znajdź korepetytora",
     "homeworkSection": "Zadania domowe",
     "noTasksTitle": "Brak zadań",
-    "noTasksDesc": "Po pierwszej lekcji pojawią się tu spersonalizowane ćwiczenia."
+    "noTasksDesc": "Po pierwszej lekcji pojawią się tu spersonalizowane ćwiczenia.",
+    "latestDiagnosisHint": "Na podstawie ostatniej diagnozy",
+    "mapBuiltAfterDiag": "Wynik ostatniej diagnozy został zapisany i zasili dalsze rekomendacje."
   },
   "parent": {
     "stats": {
@@ -507,7 +509,9 @@
     "missingTitle": "Podaj tytuł celu.",
     "goalAdded": "Cel został dodany.",
     "goalAddFailed": "Nie udało się dodać celu.",
-    "goalArchived": "Cel zarchiwizowany."
+    "goalArchived": "Cel zarchiwizowany.",
+    "aiDiagnosisAreas": "Obszary z diagnozy AI",
+    "sourceAiDiagnosis": "Źródło: diagnoza AI"
   },
   "tutorDash": {
     "settingsCta": "Ustawienia korepetytora",
@@ -843,5 +847,12 @@
     "confirmedToast": "Rezerwacja potwierdzona — możesz wejść na sesję!",
     "karma": "Karma",
     "allCaughtUp": "Wszystko ogarnięte"
+  },
+  "mastery": {
+    "unknown": "Brak danych",
+    "novice": "Początek",
+    "developing": "Rozwija się",
+    "proficient": "Sprawnie",
+    "mastered": "Opanowane"
   }
 }

@@ -105,7 +105,7 @@ const SUMMARY_TOOL = {
 };
 
 function buildSystemPrompt(domain: string, level: string, language: string) {
-  const lang = language === "en" ? "English" : "polish";
+  const lang = language === "en" ? "English" : language === "es" ? "Spanish" : "Polish";
   return `You are an expert adaptive diagnostician for the subject "${domain}" at level "${level}". 
 You write rigorous, age/level-appropriate single-choice diagnostic questions in ${lang}.
 - Probe a wide range of knowledge components (KCs) across the subject — vary topics every question.
@@ -117,7 +117,7 @@ You write rigorous, age/level-appropriate single-choice diagnostic questions in 
 }
 
 function buildSummaryPrompt(domain: string, level: string, language: string) {
-  const lang = language === "en" ? "English" : "polish";
+  const lang = language === "en" ? "English" : language === "es" ? "Spanish" : "Polish";
   return `You analyze a completed adaptive diagnostic for "${domain}" at level "${level}". 
 Write all labels and recommendations in ${lang}. Be specific, actionable, and honest. 
 Group results into knowledge components based on the asked questions. 
@@ -228,7 +228,7 @@ Deno.serve(async (req) => {
     if (action === "start") {
       const domain = String(body.domain ?? "").trim();
       const level = String(body.level ?? "").trim();
-      const language = body.language === "en" ? "en" : "pl";
+      const language = ["pl", "en", "es"].includes(body.language) ? body.language : "pl";
       const childId = body.child_id ?? null;
       const target = Math.max(8, Math.min(20, Number(body.target_questions ?? DEFAULT_TARGET)));
       if (!domain) return json({ error: "Brak dziedziny" }, 400);
@@ -379,19 +379,39 @@ Deno.serve(async (req) => {
           })
           .eq("id", attemptId);
 
-        // If parent->child, also seed child_kc_mastery from kc_breakdown
+        // If parent->child, also seed child_kc_mastery from kc_breakdown.
+        // AI-adaptive diagnostics do not have curriculum KC ids yet, so use stable
+        // deterministic UUIDs derived from attempt+label instead of random IDs.
         if (attempt.child_id && Array.isArray(summary?.kc_breakdown)) {
+          const encoder = new TextEncoder();
+          const stableSyntheticKcId = async (label: string) => {
+            const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", encoder.encode(`${attemptId}:${label.toLowerCase()}`)));
+            digest[6] = (digest[6] & 0x0f) | 0x40;
+            digest[8] = (digest[8] & 0x3f) | 0x80;
+            const hex = [...digest.slice(0, 16)].map((b) => b.toString(16).padStart(2, "0")).join("");
+            return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+          };
           for (const kb of summary.kc_breakdown) {
-            try {
-              await admin.from("child_kc_mastery").insert({
-                child_id: attempt.child_id,
-                kc_id: crypto.randomUUID(), // synthetic kc id (no real KC entry)
-                mastery_prob: Math.max(0, Math.min(1, (kb.mastery_pct ?? 0) / 100)),
-                confidence: 0.6,
-                source: "diagnostic_ai_adaptive",
-                evidence: { attempt_id: attemptId, kc_label: kb.kc_label, status: kb.status },
-              });
-            } catch (_) { /* swallow */ }
+            const label = String(kb.kc_label ?? "").trim();
+            if (!label) continue;
+            const kcId = await stableSyntheticKcId(label);
+            const payload = {
+              child_id: attempt.child_id,
+              kc_id: kcId,
+              mastery_prob: Math.max(0, Math.min(1, (kb.mastery_pct ?? 0) / 100)),
+              confidence: 0.6,
+              source: "diagnostic_ai_adaptive",
+              evidence: { attempt_id: attemptId, kc_label: label, status: kb.status },
+              last_updated: new Date().toISOString(),
+            };
+            const { data: existing } = await admin
+              .from("child_kc_mastery")
+              .select("id")
+              .eq("child_id", attempt.child_id)
+              .eq("kc_id", kcId)
+              .maybeSingle();
+            if (existing?.id) await admin.from("child_kc_mastery").update(payload).eq("id", existing.id);
+            else await admin.from("child_kc_mastery").insert(payload);
           }
         }
 

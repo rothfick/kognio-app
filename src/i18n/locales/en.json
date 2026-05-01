@@ -404,7 +404,9 @@
     "findTutorCta": "Find a tutor",
     "homeworkSection": "Homework",
     "noTasksTitle": "No tasks",
-    "noTasksDesc": "Personalized exercises will appear after your first lesson."
+    "noTasksDesc": "Personalized exercises will appear after your first lesson.",
+    "latestDiagnosisHint": "Based on the latest diagnosis",
+    "mapBuiltAfterDiag": "The latest diagnosis result has been saved and will feed future recommendations."
   },
   "parent": {
     "stats": {
@@ -507,7 +509,9 @@
     "missingTitle": "Please enter the goal title.",
     "goalAdded": "Goal added.",
     "goalAddFailed": "Could not add the goal.",
-    "goalArchived": "Goal archived."
+    "goalArchived": "Goal archived.",
+    "aiDiagnosisAreas": "AI diagnosis areas",
+    "sourceAiDiagnosis": "Source: AI diagnosis"
   },
   "tutorDash": {
     "settingsCta": "Tutor settings",
@@ -843,5 +847,12 @@
     "confirmedToast": "Booking confirmed — you can enter the session!",
     "karma": "Karma",
     "allCaughtUp": "All caught up"
+  },
+  "mastery": {
+    "unknown": "No data",
+    "novice": "Starting",
+    "developing": "Developing",
+    "proficient": "Proficient",
+    "mastered": "Mastered"
   }
 }

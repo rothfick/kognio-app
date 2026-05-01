@@ -1,5 +1,8 @@
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import { AppShell } from "@/components/layout/AppShell";
 import { DashboardHeader, DashboardShell } from "@/components/layout/DashboardShell";
 import { RoleGate } from "@/components/auth/RoleGate";
@@ -16,6 +19,31 @@ import {
 
 const StudentDashboard = () => {
   const { t } = useTranslation();
+  const { user } = useAuth();
+  const [latestScore, setLatestScore] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!user) return;
+    (async () => {
+      const { data } = await supabase
+        .from("diagnostic_attempts")
+        .select("score")
+        .eq("user_id", user.id)
+        .eq("status", "completed")
+        .order("completed_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      setLatestScore(data?.score === null || data?.score === undefined ? null : Number(data.score));
+    })();
+  }, [user]);
+
+  const masteryLevel = useMemo(() => {
+    if (latestScore === null) return "unknown" as const;
+    if (latestScore < 0.25) return "novice" as const;
+    if (latestScore < 0.5) return "developing" as const;
+    if (latestScore < 0.8) return "proficient" as const;
+    return "mastered" as const;
+  }, [latestScore]);
   return (
     <RoleGate allow={["student"]}>
       <AppShell>
@@ -27,7 +55,7 @@ const StudentDashboard = () => {
           />
 
           <div className="grid gap-4 sm:grid-cols-3 mb-6">
-            <StatCard icon={Brain} label={t("student.avgMastery")} value="—" hint={t("student.avgMasteryHint")} />
+            <StatCard icon={Brain} label={t("student.avgMastery")} value={latestScore === null ? "—" : `${Math.round(latestScore * 100)}%`} hint={latestScore === null ? t("student.avgMasteryHint") : t("student.latestDiagnosisHint")} />
             <StatCard icon={CalIcon} label={t("student.nextLesson")} value="—" hint={t("student.noScheduled")} />
             <StatCard icon={ClipboardList} label={t("student.homework")} value="0" hint={t("student.homeworkHint")} />
           </div>
@@ -53,14 +81,12 @@ const StudentDashboard = () => {
             <Surface className="p-5">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-[11px] uppercase tracking-wide text-muted-foreground font-medium">{t("student.yourMastery")}</p>
-                <Badge variant="secondary" className="text-[10px]">{t("dashboard.soonBadge")}</Badge>
+                {latestScore === null && <Badge variant="secondary" className="text-[10px]">{t("dashboard.soonBadge")}</Badge>}
               </div>
               <div className="flex flex-wrap gap-1.5">
-                <MasteryBadge level="unknown" />
-                <MasteryBadge level="unknown" />
-                <MasteryBadge level="unknown" />
+                <MasteryBadge level={masteryLevel} />
               </div>
-              <p className="text-xs text-muted-foreground mt-3">{t("student.mapAfterDiag")}</p>
+              <p className="text-xs text-muted-foreground mt-3">{latestScore === null ? t("student.mapAfterDiag") : t("student.mapBuiltAfterDiag")}</p>
             </Surface>
           </div>
 
