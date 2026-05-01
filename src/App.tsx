@@ -18,6 +18,8 @@ import SessionRoom from "./pages/SessionRoom";
 import PaymentPage from "./pages/PaymentPage";
 import NotFound from "./pages/NotFound";
 import Onboarding from "./pages/Onboarding";
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
