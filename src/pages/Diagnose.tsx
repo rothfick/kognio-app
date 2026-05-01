@@ -342,6 +342,8 @@ export default function Diagnose() {
               </div>
             </Surface>
 
+            <PlanCta attemptId={attemptId} childId={childId} language={i18n.language} />
+
             <div className="flex flex-wrap gap-3">
               <Button asChild className="bg-accent-gradient text-accent-foreground">
                 <Link to="/discover"><Target className="h-4 w-4 mr-1" /> {t("diagnose.findTutor")}</Link>
