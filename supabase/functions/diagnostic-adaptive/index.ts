@@ -231,6 +231,8 @@ Deno.serve(async (req) => {
       const language = ["pl", "en", "es"].includes(body.language) ? body.language : "pl";
       const childId = body.child_id ?? null;
       const target = Math.max(8, Math.min(20, Number(body.target_questions ?? DEFAULT_TARGET)));
+      const taxonomy = (body.taxonomy && typeof body.taxonomy === "object") ? body.taxonomy : {};
+      const customDomain = typeof body.custom_domain === "string" ? body.custom_domain : null;
       if (!domain) return json({ error: "Brak dziedziny" }, 400);
       if (!level) return json({ error: "Brak poziomu" }, 400);
 
@@ -244,6 +246,29 @@ Deno.serve(async (req) => {
         if (!child) return json({ error: "Brak dostępu do tego dziecka" }, 403);
       }
 
+      // Resolve taxonomy codes -> ids (best effort, never fail diagnosis)
+      let educationSystemId: string | null = null;
+      let educationLevelId: string | null = null;
+      let learningDomainId: string | null = null;
+      try {
+        if (taxonomy.system_code) {
+          const { data: sys } = await admin.from("education_systems").select("id").eq("code", taxonomy.system_code).maybeSingle();
+          educationSystemId = sys?.id ?? null;
+        }
+        if (taxonomy.level_code) {
+          const q = admin.from("education_levels").select("id, education_system_id").eq("code", taxonomy.level_code);
+          const { data: lvls } = await q;
+          const match = (lvls || []).find((l: any) => !educationSystemId || l.education_system_id === educationSystemId) || (lvls || [])[0];
+          educationLevelId = match?.id ?? null;
+        }
+        if (taxonomy.domain_code) {
+          const { data: dom } = await admin.from("learning_domains").select("id").eq("code", taxonomy.domain_code).maybeSingle();
+          learningDomainId = dom?.id ?? null;
+        }
+      } catch (e) {
+        console.warn("taxonomy resolution failed", e);
+      }
+
       const insertPayload: Record<string, unknown> = {
         started_by: user.id,
         domain,
@@ -253,6 +278,22 @@ Deno.serve(async (req) => {
         status: "in_progress",
         total_items: 0,
         correct_items: 0,
+        education_system_id: educationSystemId,
+        education_level_id: educationLevelId,
+        learning_domain_id: learningDomainId,
+        taxonomy_payload: {
+          system_code: taxonomy.system_code ?? null,
+          level_code: taxonomy.level_code ?? null,
+          domain_code: taxonomy.domain_code ?? null,
+          custom_domain: customDomain,
+          resolved: {
+            education_system_id: educationSystemId,
+            education_level_id: educationLevelId,
+            learning_domain_id: learningDomainId,
+          },
+        },
+        algorithm_version: "diagnostic_ai_adaptive_v1",
+        prompt_version: "diagnostic_prompt_v1",
       };
       if (childId) insertPayload.child_id = childId;
       else insertPayload.user_id = user.id;
