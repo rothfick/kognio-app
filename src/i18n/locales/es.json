@@ -854,5 +854,78 @@
     "developing": "En desarrollo",
     "proficient": "Competente",
     "mastered": "Dominado"
+  },
+  "plan": {
+    "title": "Plan de estudio",
+    "subtitle": "Plan basado en el diagnóstico",
+    "steps": "Pasos de aprendizaje",
+    "areasToImprove": "Áreas de mejora",
+    "rationale": "Justificación de la recomendación",
+    "evidence": "Evidencia del diagnóstico",
+    "generateCta": "Generar plan de estudio",
+    "viewCta": "Ver plan de estudio",
+    "continueCta": "Continuar plan",
+    "generateHelper": "A partir del diagnóstico, Kogni preparará un primer plan de estudio con pasos y justificación.",
+    "whyTitle": "¿Por qué este plan?",
+    "whyGenerated": "El plan se generó a partir del resultado del diagnóstico.",
+    "credibility": "El plan se generó a partir del resultado del diagnóstico. Puedes revisarlo más adelante con un tutor o profesor.",
+    "stepsCount": "Número de pasos",
+    "totalTime": "Tiempo total estimado",
+    "weakAreasCovered": "Áreas débiles cubiertas",
+    "diagnosticScore": "Puntuación del diagnóstico",
+    "stepNumber": "Paso {{n}}",
+    "estMinutes": "{{n}} min",
+    "difficulty": "Dificultad {{n}}/5",
+    "noPlan": "Aún no hay plan de estudio",
+    "noPlanDesc": "Genera un plan después de completar un diagnóstico.",
+    "generating": "Generando plan…",
+    "loadFailed": "No se pudo cargar el plan.",
+    "generateFailed": "No se pudo crear el plan.",
+    "generated": "Plan creado.",
+    "activated": "Plan activado.",
+    "archived": "Plan archivado.",
+    "itemDone": "Paso completado.",
+    "itemSkipped": "Paso omitido.",
+    "algoNote": "Algoritmo: {{ver}}",
+    "nextStep": "Próximo paso",
+    "progress": "{{done}} / {{total}} pasos",
+    "kinds": {
+      "review": "Repaso",
+      "practice": "Práctica",
+      "lesson": "Lección",
+      "quiz": "Quiz",
+      "project": "Proyecto"
+    },
+    "status": {
+      "draft": "Borrador",
+      "active": "Activo",
+      "completed": "Completado",
+      "archived": "Archivado",
+      "pending": "Pendiente",
+      "in_progress": "En progreso",
+      "done": "Hecho",
+      "skipped": "Omitido"
+    },
+    "actions": {
+      "activate": "Activar plan",
+      "archive": "Archivar plan",
+      "markDone": "Marcar como hecho",
+      "skip": "Omitir",
+      "back": "Volver al panel"
+    },
+    "denied": "No tienes acceso a este plan."
+  },
+  "evidence": {
+    "title": "Evidencia del diagnóstico",
+    "fromDiagnosis": "Generado a partir del diagnóstico",
+    "weakAreas": "Principales áreas débiles",
+    "rationale": "Justificación de la recomendación"
+  },
+  "smart": {
+    "section": "Estadísticas R&D / SMART",
+    "plansGenerated": "Planes de estudio generados",
+    "evidenceEvents": "Eventos de evidencia",
+    "avgDiagScore": "Puntuación media del diagnóstico (con planes)",
+    "itemsCompleted": "Pasos del plan completados"
   }
 }
