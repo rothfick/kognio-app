@@ -100,6 +100,7 @@ export function Header() {
         )}
 
         <div className="flex items-center gap-2">
+          {user && <NotificationCenter />}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" aria-label={t("common.language")}> 
