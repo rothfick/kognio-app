@@ -47,6 +47,8 @@ export default function Diagnose() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const checkpointId = searchParams.get("checkpointId");
+  const attemptParam = searchParams.get("attempt");
+  const stepParam = searchParams.get("step");
 
   const [phase, setPhase] = useState<"intake" | "running" | "done">("intake");
   const [domain, setDomain] = useState("");
