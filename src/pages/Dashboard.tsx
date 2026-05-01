@@ -134,10 +134,17 @@ const Dashboard = () => {
     </Card>
   );
 
+  const isBookingPaid = (bookingId: string) =>
+    payments.some((p) => p.booking_id === bookingId && (p.status === "marked_paid" || p.status === "confirmed"));
+
   const BookingRow = ({ b, side }: { b: Booking; side: "student" | "tutor" }) => {
     const start = new Date(b.starts_at);
+    const sessionId = sessionsByBooking[b.id];
+    const canEnter = (b.status === "confirmed" || b.status === "completed") && !!sessionId;
+    const showPay = side === "student" && (b.status === "confirmed" || b.status === "completed") && !isBookingPaid(b.id);
+
     return (
-      <div className="flex items-center gap-3 p-3 rounded-lg border bg-background">
+      <div className="flex items-center gap-3 p-3 rounded-lg border bg-background flex-wrap">
         <div className="grid h-9 w-9 place-items-center rounded-lg bg-accent/10 text-accent shrink-0">
           <CalIcon className="h-4 w-4" />
         </div>
@@ -145,12 +152,24 @@ const Dashboard = () => {
           <p className="text-sm font-medium truncate">{start.toLocaleString()}</p>
           <p className="text-xs text-muted-foreground">{(b.price_cents / 100).toFixed(0)} {b.currency}</p>
         </div>
-        <Badge variant={b.status === "confirmed" ? "default" : b.status === "cancelled" ? "destructive" : "secondary"} className="text-xs">
-          {b.status}
-        </Badge>
-        <Button asChild variant="ghost" size="sm">
-          <Link to="/calendar">→</Link>
-        </Button>
+        <StatusPill status={b.status} />
+        <div className="flex gap-1.5">
+          {canEnter && (
+            <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+              <Link to={`/session/${sessionId}`}><Video className="h-3.5 w-3.5 mr-1" />Wejdź</Link>
+            </Button>
+          )}
+          {showPay && (
+            <Button asChild size="sm" variant="outline">
+              <Link to={`/payment/${b.id}`}><CreditCard className="h-3.5 w-3.5 mr-1" />Zapłać</Link>
+            </Button>
+          )}
+          {b.status === "pending" && (
+            <Button asChild size="sm" variant="ghost">
+              <Link to="/calendar">Szczegóły</Link>
+            </Button>
+          )}
+        </div>
       </div>
     );
   };
