@@ -41,6 +41,8 @@ import GrantPack from "./pages/admin/GrantPack";
 import OperationalConsole from "./pages/admin/OperationalConsole";
 import TutorVerification from "./pages/admin/TutorVerification";
 import TutorOnboarding from "./pages/tutor/TutorOnboarding";
+import TutorPublicProfile from "./pages/tutor/TutorPublicProfile";
+import BookSession from "./pages/booking/BookSession";
 import GettingStarted from "./pages/GettingStarted";
 import Notifications from "./pages/Notifications";
 
