@@ -241,7 +241,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
     return (
       <AppShell>
         <DashboardShell>
-          <div className="text-muted-foreground text-sm">Ładowanie organizacji…</div>
+          <div className="text-muted-foreground text-sm">{t("org.loading")}</div>
         </DashboardShell>
       </AppShell>
     );
@@ -253,8 +253,8 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
         <DashboardShell>
           <DashboardHeader
             title={labels.title}
-            subtitle="Nie znaleziono organizacji powiązanej z Twoim kontem. Utwórz ją w onboardingu."
-            primaryAction={{ label: "Przejdź do onboardingu", to: "/onboarding" }}
+            subtitle={t("org.notFound")}
+            primaryAction={{ label: t("org.goOnboarding"), to: "/onboarding" }}
           />
         </DashboardShell>
       </AppShell>
@@ -271,20 +271,20 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
             <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
               <DialogTrigger asChild>
                 <Button className="bg-accent-gradient text-accent-foreground shadow-glow">
-                  <UserPlus className="h-4 w-4 mr-1.5" /> Zaproś
+                  <UserPlus className="h-4 w-4 mr-1.5" /> {t("org.invite")}
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Nowe zaproszenie</DialogTitle>
+                  <DialogTitle>{t("org.newInvite")}</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4">
                   <div>
-                    <Label htmlFor="inv-email">E-mail</Label>
-                    <Input id="inv-email" type="email" value={inviteEmail} onChange={(e) => setInviteEmail(e.target.value)} placeholder="osoba@example.com" />
+                    <Label htmlFor="inv-email">{t("org.email")}</Label>
+                    <Input id="inv-email" type="email" value={inviteEmail} onChange={(e) => setInviteEmail(e.target.value)} placeholder={t("org.emailPlaceholder")} />
                   </div>
                   <div>
-                    <Label>Rola w organizacji</Label>
+                    <Label>{t("org.roleInOrg")}</Label>
                     <Select value={inviteRole} onValueChange={(v) => setInviteRole(v as MemberRole)}>
                       <SelectTrigger><SelectValue /></SelectTrigger>
                       <SelectContent>
