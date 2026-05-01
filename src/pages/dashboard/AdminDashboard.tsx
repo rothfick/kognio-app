@@ -271,6 +271,75 @@ const AdminDashboard = () => {
             <p className="mt-3 text-[11px] text-muted-foreground">{t("curriculum.note")}</p>
           </Surface>
 
+          <Surface className="p-5 mb-6">
+            <h2 className="font-semibold mb-3 flex items-center gap-2">
+              <Telescope className="h-4 w-4 text-accent" /> {t("traceability.panelTitle")}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-4 mb-4">
+              <StatCard icon={Layers} label={t("traceability.withTaxonomy")} value={trace === null ? "…" : String(trace.withTaxonomy)} />
+              <StatCard icon={BookOpen} label={t("traceability.withCustomDomain")} value={trace === null ? "…" : String(trace.withCustomDomain)} />
+              <StatCard icon={Link2} label={t("traceability.mappedMastery")} value={trace === null ? "…" : String(trace.mappedMastery)} />
+              <StatCard icon={Unlink} label={t("traceability.unmappedMastery")} value={trace === null ? "…" : String(trace.unmappedMastery)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-4 mb-4">
+              <StatCard icon={Percent} label={t("traceability.matchRate")} value={trace === null || trace.matchRate === null ? "—" : `${Math.round(trace.matchRate * 100)}%`} />
+              <StatCard icon={User} label={t("traceability.selfMastery")} value={trace === null ? "…" : String(trace.selfMastery)} />
+              <StatCard icon={Users} label={t("traceability.parentChildMastery")} value={trace === null ? "…" : String(trace.parentChildMastery)} />
+              <StatCard icon={Cpu} label={t("traceability.withAlgorithm")} value={trace === null ? "…" : String(trace.withAlgorithm)} />
+            </div>
+
+            <div className="rounded-md border border-border/60 p-3 mb-4">
+              <p className="text-xs font-medium text-muted-foreground mb-2">{t("traceability.recentTitle")}</p>
+              {recent === null ? (
+                <p className="text-xs text-muted-foreground">…</p>
+              ) : recent.length === 0 ? (
+                <p className="text-xs text-muted-foreground">{t("traceability.noDiagnostics")}</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="text-left text-muted-foreground">
+                        <th className="py-1 pr-3 font-medium">{t("traceability.colCreated")}</th>
+                        <th className="py-1 pr-3 font-medium">{t("traceability.colOwner")}</th>
+                        <th className="py-1 pr-3 font-medium">{t("traceability.colDomain")}</th>
+                        <th className="py-1 pr-3 font-medium">{t("traceability.colLevel")}</th>
+                        <th className="py-1 pr-3 font-medium tabular-nums">{t("traceability.colScore")}</th>
+                        <th className="py-1 pr-3 font-medium tabular-nums">{t("traceability.colMapped")}</th>
+                        <th className="py-1 pr-3 font-medium tabular-nums">{t("traceability.colUnmapped")}</th>
+                        <th className="py-1 pr-3 font-medium">{t("traceability.colAlgorithm")}</th>
+                        <th className="py-1 pr-3 font-medium">{t("traceability.colPromptVersion")}</th>
+                        <th className="py-1 font-medium">{t("traceability.colSource")}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {recent.map((r) => (
+                        <tr key={r.id} className="border-t border-border/40">
+                          <td className="py-1 pr-3 whitespace-nowrap">{new Date(r.created_at).toLocaleString(lang)}</td>
+                          <td className="py-1 pr-3">{r.owner_type === "child" ? t("traceability.ownerChild") : t("traceability.ownerSelf")}</td>
+                          <td className="py-1 pr-3">{r.domain || t("traceability.anonymous")}</td>
+                          <td className="py-1 pr-3">{r.level || t("traceability.anonymous")}</td>
+                          <td className="py-1 pr-3 tabular-nums">{r.score === null ? "—" : `${Math.round(Number(r.score) * 100)}%`}</td>
+                          <td className="py-1 pr-3 tabular-nums">{r.mapped}</td>
+                          <td className="py-1 pr-3 tabular-nums">{r.unmapped}</td>
+                          <td className="py-1 pr-3">{r.algorithm_version || t("traceability.anonymous")}</td>
+                          <td className="py-1 pr-3">{r.prompt_version || t("traceability.anonymous")}</td>
+                          <td className="py-1">{r.source || t("traceability.anonymous")}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </Surface>
+
+          <Surface className="p-5 mb-6 border-accent/40">
+            <h2 className="font-semibold mb-2 flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-accent" /> {t("traceability.infoTitle")}
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t("traceability.infoBody")}</p>
+          </Surface>
+
           <Surface className="p-5 mb-6 border-accent/40">
             <h2 className="font-semibold mb-2 flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-accent" /> {t("smartReadiness.title")}
