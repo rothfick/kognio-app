@@ -210,7 +210,19 @@ const AdminDashboard = () => {
         <DashboardShell>
           <DashboardHeader title={t("dashboard.adminTitle")} subtitle={t("dashboard.adminSubtitle")} />
 
-          <div className="grid gap-4 sm:grid-cols-2 mb-6">
+          <div className="grid gap-4 sm:grid-cols-3 mb-6">
+            <a href="/admin/operations" className="block">
+              <Surface variant="ai" className="p-5 hover:shadow-elegant transition-shadow h-full">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground">{t("operations.adminLink.eyebrow")}</p>
+                    <p className="text-lg font-semibold mt-1">{t("operations.title")}</p>
+                    <p className="text-sm text-muted-foreground">{t("operations.adminLink.hint")}</p>
+                  </div>
+                  <Activity className="h-8 w-8 text-accent" />
+                </div>
+              </Surface>
+            </a>
             <a href="/admin/research" className="block">
               <Surface variant="ai" className="p-5 hover:shadow-elegant transition-shadow h-full">
                 <div className="flex items-center justify-between gap-3">

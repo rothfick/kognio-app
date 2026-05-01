@@ -282,7 +282,13 @@ const ResearchDashboardInner = () => {
           title={t("research.title")}
           subtitle={t("research.subtitle")}
           actions={
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
+              <Button asChild variant="outline">
+                <a href="/admin/operations">
+                  <Activity className="h-4 w-4 mr-2" />
+                  {t("operations.title")}
+                </a>
+              </Button>
               <Button asChild variant="outline">
                 <a href="/admin/grant-pack">
                   <BadgeCheck className="h-4 w-4 mr-2" />
