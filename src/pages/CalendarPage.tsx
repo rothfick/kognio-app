@@ -365,6 +365,10 @@ const CalendarPage = () => {
     if (!noteBookingId || !user) return;
     const booking = bookings.find((b) => b.id === noteBookingId);
     if (!booking) return;
+    if (!noteText.trim()) {
+      toast.error(t("session.noteEmpty"));
+      return;
+    }
     setNoteSaving(true);
     try {
       const skills = noteSkills.split(",").map((s) => s.trim()).filter(Boolean);
