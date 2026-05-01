@@ -44,7 +44,8 @@
     "step4": "Receive recommendations for next steps",
     "step5": "Learn deliberately — with a data-driven plan",
     "footerCtaTitle": "See where you really are — in 15 minutes.",
-    "footerCtaBody": "Free AI diagnosis for any subject — from primary school to university. Math, languages, sciences, humanities, programming. No commitments."
+    "footerCtaBody": "Free AI diagnosis for any subject — from primary school to university. Math, languages, sciences, humanities, programming. No commitments.",
+    "pillarsHeadline": "Diagnosis, matching, proof of progress — in one system."
   },
   "auth": {
     "signinTitle": "Welcome back",
@@ -60,7 +61,9 @@
     "signupHere": "Sign up",
     "signinHere": "Sign in",
     "errorGeneric": "Something went wrong. Please try again.",
-    "checkEmail": "Check your inbox and confirm your email."
+    "checkEmail": "Check your inbox and confirm your email.",
+    "invalidEmail": "Invalid email",
+    "passwordMin": "Min. 6 characters"
   },
   "onboarding": {
     "loading": "Loading…",
@@ -115,6 +118,13 @@
       "website": "Website",
       "description": "Short description",
       "descriptionHint": "Who you teach, what you teach, contact…"
+    },
+    "roleDescriptions": {
+      "student": "I learn, join circles and use AI.",
+      "studentB1": "Knowledge diagnosis",
+      "studentB2": "Tutors",
+      "studentB3": "Second Brain",
+      "tutorDesc": "1:1 lessons with the AI Co-pilot. (verification)"
     }
   },
   "diagnose": {
@@ -152,7 +162,49 @@
     "findTutor": "Find a matched tutor",
     "anotherDiagnosis": "Take another diagnosis",
     "childKnowledgeMap": "Child knowledge map",
-    "safetyNote": "The diagnosis helps identify areas for learning. It does not replace a formal teacher assessment."
+    "safetyNote": "The diagnosis helps identify areas for learning. It does not replace a formal teacher assessment.",
+    "domainSuggestions": [
+      "Math",
+      "Physics",
+      "Chemistry",
+      "Biology",
+      "English",
+      "German",
+      "Spanish",
+      "French",
+      "Polish",
+      "History",
+      "Geography",
+      "Civics",
+      "Programming (Python)",
+      "Programming (JavaScript)",
+      "Algorithms and data structures",
+      "SQL databases",
+      "Statistics",
+      "Economics",
+      "Accounting",
+      "Philosophy",
+      "Art and art history"
+    ],
+    "levels": {
+      "sp_4_6": "Primary school grades 4-6",
+      "sp_7_8": "Primary school grades 7-8",
+      "lo_1_2": "High school / technical school grades 1-2",
+      "lo_3_4": "High school / technical school grades 3-4",
+      "matura_podst": "Matura — basic level",
+      "matura_rozsz": "Matura — advanced level",
+      "studia_lic": "Bachelor / engineering studies",
+      "studia_mgr": "Master / doctoral studies",
+      "dorosly": "Adult / hobby / reskilling"
+    },
+    "runningTitle": "Diagnosis: {{domain}}",
+    "runningSubtitle": "{{level}} • Question {{current}} of {{total}}",
+    "status": {
+      "mocna": "strong",
+      "stabilna": "stable",
+      "do_pracy": "to work on",
+      "luka": "gap"
+    }
   },
   "discover": {
     "title": "Find your tutor",
@@ -161,7 +213,21 @@
     "filters": "Filters",
     "noTutors": "No published tutor profiles yet. Publish yours and start earning.",
     "becomeTutor": "Become a tutor",
-    "perHour": "/h"
+    "perHour": "/h",
+    "subject": "Subject",
+    "allSubjects": "All subjects",
+    "sortRating": "Best rating",
+    "sortPriceAsc": "Price: low to high",
+    "sortPriceDesc": "Price: high to low",
+    "sortExperience": "Most sessions",
+    "maxPrice": "Max PLN/h",
+    "emptyFirstTitle": "Be the first tutor on the platform",
+    "emptyFilteredTitle": "No tutors match your filters",
+    "emptyFilteredDesc": "Try another subject or a higher price limit.",
+    "clearFilters": "Clear filters",
+    "tutorCount_one": "{{count}} tutor",
+    "tutorCount_other": "{{count}} tutors",
+    "openProfile": "Open profile"
   },
   "circles": {
     "title": "Learning Circles",
@@ -171,14 +237,43 @@
     "join": "Join",
     "open": "Open",
     "empty": "No circles yet.",
-    "emptyDesc": "Create the first one and invite friends to learn together."
+    "emptyDesc": "Create the first one and invite friends to learn together.",
+    "created": "Circle created",
+    "joined": "Joined!",
+    "left": "Left the circle",
+    "namePlaceholder": "Circle name",
+    "topicPlaceholder": "Topic (e.g. advanced math exam prep)",
+    "descriptionPlaceholder": "Description",
+    "submitCreate": "Create",
+    "emptyTitle": "No circles yet",
+    "memberJoined": "Joined",
+    "leave": "Leave",
+    "full": "Full"
   },
   "peer": {
     "title": "Peer Help",
     "subtitle": "Quick help from other students. Help others — earn Karma.",
     "ask": "Ask for help",
     "open": "open",
-    "empty": "No open requests. Be the first to ask!"
+    "empty": "No open requests. Be the first to ask!",
+    "published": "Request published",
+    "ownRequest": "This is your own request",
+    "helpOffered": "Great! Contact the person asking for help.",
+    "resolvedToast": "Marked as resolved",
+    "titlePlaceholder": "Briefly: what do you need help with?",
+    "descPlaceholder": "Describe the problem in detail",
+    "publish": "Publish",
+    "tabOpen": "Open",
+    "tabMine": "Mine",
+    "emptyOpenTitle": "Nobody needs help right now",
+    "emptyMineTitle": "You do not have any requests yet",
+    "emptyOpenDesc": "Check again later or publish your own request.",
+    "emptyMineDesc": "Publish a request if you are stuck.",
+    "matched": "In progress",
+    "resolved": "Resolved",
+    "yourRequest": "Your request",
+    "youHelp": "You are helping",
+    "help": "I can help"
   },
   "brain": {
     "title": "Second Brain",
@@ -187,13 +282,47 @@
     "ask": "Ask",
     "transcripts": "Session transcripts",
     "flashcards": "Flashcards",
-    "noTranscripts": "Your transcripts will show up here after your first session."
+    "noTranscripts": "Your transcripts will show up here after your first session.",
+    "emptyTitle": "Your Second Brain is empty",
+    "emptyDesc": "After your first session, transcripts, flashcards, reports and the knowledge graph will appear here.",
+    "findTutor": "Find a tutor",
+    "graph": "Knowledge graph",
+    "reports": "Session reports",
+    "noReports": "No reports yet. Generate one after a session in the room.",
+    "strengthsLabel": "Strengths:",
+    "workLabel": "To work on:",
+    "noFlashcards": "Flashcards will appear after a report is generated.",
+    "errorStatus": "Error {{status}}"
   },
   "calendar": {
     "title": "Calendar",
     "upcoming": "Upcoming sessions",
     "past": "Past sessions",
-    "empty": "No scheduled sessions."
+    "empty": "No scheduled sessions.",
+    "status": {
+      "pending": "Pending confirmation",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "hint": {
+      "pending": "The tutor must accept the booking before you can enter the session.",
+      "confirmed": "You can enter the session room.",
+      "completed": "The session took place — pay or confirm payment.",
+      "cancelled": "This booking was cancelled."
+    },
+    "confirmedToast": "Booking confirmed — you can now enter the session!",
+    "confirmToast": "Booking confirmed",
+    "cancelToast": "Booking cancelled",
+    "completedToast": "Marked as completed",
+    "asTutor": "as tutor",
+    "confirm": "Confirm",
+    "reject": "Reject",
+    "waitingTutor": "Waiting for tutor confirmation — action buttons will appear after acceptance.",
+    "enter": "Enter",
+    "pay": "Pay",
+    "markCompleted": "Mark as completed",
+    "findTutor": "Find a tutor"
   },
   "settings": {
     "title": "Settings",
@@ -222,7 +351,10 @@
     "addedMethodToast": "Method added",
     "roleGrantFailed": "Could not assign role: {{msg}}",
     "tutorProfileCreateFailed": "Could not create tutor profile: {{msg}}",
-    "becameTutor": "You're now a tutor! Complete your profile."
+    "becameTutor": "You're now a tutor! Complete your profile.",
+    "otherMethod": "Other",
+    "labelPlaceholder": "Label (e.g. mBank)",
+    "detailsPlaceholder": "Number / details"
   },
   "dashboard": {
     "studentTitle": "Your learning",
@@ -407,7 +539,8 @@
     "flagNoneDesc": "The system filters content that needs review (e.g. banned topics).",
     "auditTitle": "Audit log",
     "auditNoneTitle": "No audit entries",
-    "auditNoneDesc": "Sensitive actions (role changes, verifications, report edits) will be logged here."
+    "auditNoneDesc": "Sensitive actions (role changes, verifications, report edits) will be logged here.",
+    "ok": "OK"
   },
   "org": {
     "schoolTitle": "School dashboard",
@@ -489,7 +622,15 @@
     "joinFailed": "Could not join",
     "backToDash": "Back to dashboard",
     "sameEmailNote": "The invitation must be accepted from an account created with the same email address.",
-    "joinedToast": "Joined the organization."
+    "joinedToast": "Joined the organization.",
+    "activeHint": "active",
+    "teachersHint": "teaching staff",
+    "roleOwner": "Owner",
+    "roleTeacher": "Teacher",
+    "roleTrainer": "Trainer",
+    "roleStudent": "Student",
+    "roleTrainee": "Trainee",
+    "roleObserver": "Observer"
   },
   "common": {
     "loading": "Loading…",
@@ -499,9 +640,133 @@
     "soon": "Coming soon",
     "comingSoon": "Feature coming soon",
     "footer": "© {{year}} Kogni · Intelligent learning platform",
-    "accessChecking": "Loading panel…"
+    "accessChecking": "Loading panel…",
+    "loadingPanel": "Loading panel…",
+    "loadingDashboard": "Loading dashboard…",
+    "loadingRoom": "Loading room…",
+    "notFound": "Not found.",
+    "all": "All",
+    "details": "Details",
+    "copy": "Copy",
+    "copied": "Copied",
+    "user": "User",
+    "tutor": "Tutor",
+    "new": "new",
+    "yes": "yes",
+    "no": "no",
+    "start": "Start",
+    "stop": "Stop"
   },
   "errors": {
     "generic": "Something went wrong. Please try again."
+  },
+  "knowledgeGraph": {
+    "empty": "The knowledge graph is empty. Generate reports after sessions and topics will appear here automatically.",
+    "strengths": "Strengths",
+    "work": "To work on",
+    "topics": "Topics",
+    "counts": "{{nodes}} nodes · {{edges}} links",
+    "kindStrength": "Strength",
+    "kindWeakness": "To work on",
+    "kindTopic": "Topic",
+    "occurs": "appears {{count}}×"
+  },
+  "session": {
+    "noUserSession": "No user session",
+    "videoTokenError": "Could not fetch video token",
+    "videoUnavailable": "Video unavailable",
+    "ready": "Ready for the session?",
+    "joinVideo": "Join video room",
+    "cameraConsentRequired": "Accept camera analysis consent.",
+    "cameraStartError": "Could not start the camera",
+    "emotionEngine": "Emotion engine",
+    "emotionConsent": "I consent to local facial expression analysis from my camera. Video never leaves my device — only aggregated indicators are saved (engagement, joy, boredom, confusion).",
+    "enableEmotion": "Enable emotion analysis",
+    "engagement": "Engagement",
+    "joy": "Joy",
+    "confusion": "Confusion",
+    "boredom": "Boredom",
+    "disable": "Disable",
+    "me": "Me",
+    "micDenied": "Microphone access denied",
+    "transcriptionOn": "Transcription enabled",
+    "transcriptionOffToast": "Transcription stopped",
+    "speechUnsupported": "Your browser does not support in-browser speech recognition. Use Chrome or Edge, or add notes manually below.",
+    "listening": "Listening…",
+    "autoOff": "Auto-transcription off",
+    "autoHint": "Turn it on to automatically save spoken content to the transcript.",
+    "aiError": "AI error",
+    "genericError": "Error",
+    "summaryGenerated": "Session report generated!",
+    "generateSummary": "Generate AI report",
+    "goPayment": "Go to payment",
+    "board": "Board",
+    "chat": "Chat",
+    "transcript": "Transcript",
+    "copilot": "AI Co-pilot",
+    "chatEmpty": "Chat is empty.",
+    "messagePlaceholder": "Write a message…",
+    "transcriptEmpty": "Transcript is empty. Enable auto-transcription above or add a note manually.",
+    "speaker": "Speaker",
+    "note": "Note",
+    "transcriptPlaceholder": "Add a transcript fragment / lesson note…",
+    "copilotIntro": "Questions go to AI with the context of recent messages. The whole conversation is saved in session chat.",
+    "aiTyping": "AI is typing…",
+    "askAiPlaceholder": "Ask AI anything…"
+  },
+  "payment": {
+    "markedPaidToast": "Marked as paid",
+    "confirmedToast": "Receipt confirmed",
+    "notFound": "Booking not found.",
+    "title": "Payment",
+    "amountDue": "Amount due",
+    "directNote": "Payment goes directly to the tutor — the platform does not mediate.",
+    "noMethods": "The tutor has not set any payment methods yet.",
+    "chooseMethod": "Choose the tutor payment method:",
+    "waitingStudent": "Waiting for the student to choose a payment method.",
+    "statusPending": "To pay",
+    "statusMarked": "Marked by student",
+    "statusConfirmed": "Confirmed",
+    "method": "Method",
+    "transferDetails": "Transfer details",
+    "transferTitle": "Transfer title",
+    "markPaid": "I mark this as paid",
+    "confirmReceived": "I confirm receipt",
+    "completed": "Payment completed"
+  },
+  "profile": {
+    "title": "Your profile",
+    "saved": "Profile saved",
+    "avatarUpdated": "Avatar updated",
+    "maxFile": "Max 4 MB",
+    "becomeTutorToast": "Welcome to the tutor community! Complete your profile to be published.",
+    "unnamed": "Unnamed",
+    "changeAvatar": "Change avatar",
+    "displayName": "Display name",
+    "displayNamePlaceholder": "e.g. Anna K.",
+    "fullName": "Full name (private)",
+    "fullNamePlaceholder": "Anna Kowalska",
+    "about": "About me",
+    "aboutPlaceholder": "A short note about you…",
+    "timezone": "Time zone",
+    "saveProfile": "Save profile",
+    "tutorProfile": "Your tutor profile",
+    "becomeTutor": "Become a tutor",
+    "tutorProfileDesc": "Edit headline, description, rate and subjects so students can find you.",
+    "becomeTutorDesc": "Teach others, share knowledge and earn on your own terms. The platform takes no commission.",
+    "editTutorProfile": "Edit tutor profile"
+  },
+  "tutorProfile": {
+    "chooseDate": "Choose a date",
+    "bookingCreated": "Booking created",
+    "notFound": "Tutor not found.",
+    "sessions": "{{count}} sessions",
+    "ownProfile": "This is your public tutor profile.",
+    "editProfile": "Edit profile",
+    "bookTitle": "Book a session (1h)",
+    "date": "Date",
+    "time": "Time",
+    "book": "Book",
+    "loginToBook": "Sign in to book"
   }
 }
