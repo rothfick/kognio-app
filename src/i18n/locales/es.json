@@ -1372,6 +1372,7 @@
   },
   "consent": {
     "required": "Consentimiento requerido",
+    "alreadyConfirmed": "El consentimiento para el diagnóstico IA ya está confirmado.",
     "requiredAiDiagnosis": "Para iniciar un diagnóstico IA debes aceptar el aviso del diagnóstico IA.",
     "declined": "Rechazaste. Puedes volver más tarde.",
     "manage": "Gestionar consentimientos",
