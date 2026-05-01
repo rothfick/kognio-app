@@ -15,6 +15,8 @@ import { toast } from "sonner";
 import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
 import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
 import { createNotification } from "@/lib/notifications";
+import { generateHomework, langCode } from "@/lib/homeworkClient";
+import { isFeatureEnabled } from "@/config/features";
 
 type Plan = {
   id: string;
@@ -53,7 +55,7 @@ type Item = {
 };
 
 export default function LearningPlan() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { planId } = useParams<{ planId: string }>();
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
@@ -62,6 +64,7 @@ export default function LearningPlan() {
   const [loading, setLoading] = useState(true);
   const [denied, setDenied] = useState(false);
   const [startingCheckpoint, setStartingCheckpoint] = useState(false);
+  const [generatingItemId, setGeneratingItemId] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     if (!user || !planId) return;
@@ -315,6 +318,33 @@ export default function LearningPlan() {
                     {it.status === "pending" && (
                       <Button size="sm" variant="ghost" onClick={() => updateItem(it, "skipped")}>
                         <SkipForward className="h-3.5 w-3.5 mr-1" /> {t("plan.actions.skip")}
+                      </Button>
+                    )}
+                    {isFeatureEnabled("homework") && plan && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        disabled={generatingItemId === it.id}
+                        onClick={async () => {
+                          setGeneratingItemId(it.id);
+                          const res = await generateHomework({
+                            source_type: "learning_plan",
+                            source_id: plan.id,
+                            owner_type: plan.owner_type,
+                            child_id: plan.child_id,
+                            learning_plan_id: plan.id,
+                            learning_plan_item_id: it.id,
+                            skill_area_label: it.skill_area,
+                            language: langCode(i18n.language),
+                            title_hint: it.title,
+                          });
+                          setGeneratingItemId(null);
+                          if (res.ok) toast.success(t("homeworkToast.generated"));
+                          else toast.error(t("homeworkToast.generateFailed"));
+                        }}
+                      >
+                        {generatingItemId === it.id ? <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" /> : <Sparkles className="h-3.5 w-3.5 mr-1" />}
+                        {t("homework.generateFromPlanItem")}
                       </Button>
                     )}
                   </div>

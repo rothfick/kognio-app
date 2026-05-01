@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { UpcomingBookingCard } from "@/components/booking/UpcomingBookingCard";
 import { useUpcomingBookings } from "@/hooks/useUpcomingBookings";
+import { HomeworkWidget } from "@/components/homework/HomeworkWidget";
+import { isFeatureEnabled } from "@/config/features";
 
 const TutorDashboard = () => {
   const { t, i18n } = useTranslation();
@@ -242,6 +244,12 @@ const TutorDashboard = () => {
               )}
             </Surface>
           </div>
+
+          {isFeatureEnabled("homework") && (
+            <div className="mt-6">
+              <HomeworkWidget tutorView title={t("homework.tutorTitle")} />
+            </div>
+          )}
         </DashboardShell>
       </AppShell>
     </RoleGate>

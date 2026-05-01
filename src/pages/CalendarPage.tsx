@@ -20,6 +20,9 @@ import {
 import { toast } from "sonner";
 import { logBookingEvent } from "@/lib/bookingEvents";
 import { createNotification } from "@/lib/notifications";
+import { generateHomework, langCode } from "@/lib/homeworkClient";
+import { isFeatureEnabled } from "@/config/features";
+import { Sparkles } from "lucide-react";
 
 type Booking = {
   id: string;
@@ -126,6 +129,7 @@ const CalendarPage = () => {
   const [noteSaving, setNoteSaving] = useState(false);
   const [meetingUrlFor, setMeetingUrlFor] = useState<string | null>(null);
   const [meetingUrlValue, setMeetingUrlValue] = useState("");
+  const [generatingHomework, setGeneratingHomework] = useState(false);
 
   const load = async () => {
     if (!user) return;
@@ -606,7 +610,39 @@ const CalendarPage = () => {
               <Input id="note-next" value={noteNext} onChange={(e) => setNoteNext(e.target.value)} />
             </div>
           </div>
-          <DialogFooter>
+          <DialogFooter className="gap-2 sm:gap-2 flex-wrap">
+            {isFeatureEnabled("homework") && noteBookingId && user && (
+              <Button
+                variant="outline"
+                disabled={generatingHomework || !noteText.trim()}
+                onClick={async () => {
+                  const booking = bookings.find((b) => b.id === noteBookingId);
+                  if (!booking) return;
+                  setGeneratingHomework(true);
+                  const ownerType: "user" | "child" = booking.child_id ? "child" : "user";
+                  const skillHint = noteSkills.split(",").map((s) => s.trim()).filter(Boolean)[0] || booking.skill_area_label || null;
+                  const res = await generateHomework({
+                    source_type: "session_note",
+                    source_id: noteBookingId,
+                    owner_type: ownerType,
+                    child_id: booking.child_id,
+                    booking_id: noteBookingId,
+                    learning_domain_id: booking.learning_domain_id,
+                    education_level_id: booking.education_level_id,
+                    competency_id: booking.competency_id,
+                    skill_area_label: skillHint,
+                    language: langCode(i18n.language),
+                    title_hint: t("homework.generateFromNote"),
+                  });
+                  setGeneratingHomework(false);
+                  if (res.ok) toast.success(t("homeworkToast.generated"));
+                  else toast.error(t("homeworkToast.generateFailed"));
+                }}
+              >
+                {generatingHomework ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
+                {t("homework.generateFromNote")}
+              </Button>
+            )}
             <Button variant="ghost" onClick={() => setNoteBookingId(null)} disabled={noteSaving}>{t("common.cancel")}</Button>
             <Button onClick={saveNote} disabled={noteSaving || !noteText.trim()}>
               {noteSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}

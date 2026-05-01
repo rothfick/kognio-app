@@ -9,9 +9,12 @@ import { Surface } from "@/components/ui/surface";
 import { StatCard } from "@/components/ui/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Sparkles, TrendingUp, TrendingDown, Activity, ListChecks, Telescope, BookOpen } from "lucide-react";
+import { ArrowLeft, Sparkles, TrendingUp, TrendingDown, Activity, ListChecks, Telescope, BookOpen, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
 import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
+import { generateHomework, langCode } from "@/lib/homeworkClient";
+import { isFeatureEnabled } from "@/config/features";
 
 type MasteryDeltaRow = {
   skill_area_label: string;
@@ -72,6 +75,7 @@ export default function Checkpoint() {
   const [cp, setCp] = useState<Checkpoint | null>(null);
   const [loading, setLoading] = useState(true);
   const [denied, setDenied] = useState(false);
+  const [generatingHomework, setGeneratingHomework] = useState(false);
 
   const load = useCallback(async () => {
     if (!user || !checkpointId) return;
@@ -228,7 +232,35 @@ export default function Checkpoint() {
           <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
             <Link to={continueLink}>{t("checkpoint.actions.continueLearning")}</Link>
           </Button>
-          <Button size="sm" variant="ghost" disabled>{t("checkpoint.actions.generateNextPlan")}</Button>
+          {isFeatureEnabled("homework") && (
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={generatingHomework}
+              onClick={async () => {
+                setGeneratingHomework(true);
+                // Pick the most regressed/weakest area as a hint
+                const masteryArr = Array.isArray(cp.mastery_delta) ? (cp.mastery_delta as MasteryDeltaRow[]) : [];
+                const weakest = [...masteryArr].sort((a, b) => Number(a.after ?? 0) - Number(b.after ?? 0))[0];
+                const res = await generateHomework({
+                  source_type: "manual",
+                  source_id: cp.id,
+                  owner_type: (cp.owner_type === "child" ? "child" : "user"),
+                  child_id: cp.child_id,
+                  learning_plan_id: cp.learning_plan_id,
+                  skill_area_label: weakest?.skill_area_label ?? null,
+                  language: langCode(i18n.language),
+                  title_hint: t("homework.generateFromCheckpoint"),
+                });
+                setGeneratingHomework(false);
+                if (res.ok) toast.success(t("homeworkToast.generated"));
+                else toast.error(t("homeworkToast.generateFailed"));
+              }}
+            >
+              {generatingHomework ? <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" /> : <Sparkles className="h-3.5 w-3.5 mr-1" />}
+              {t("homework.generateFromCheckpoint")}
+            </Button>
+          )}
         </div>
 
         <div className="mt-6">

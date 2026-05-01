@@ -21,6 +21,9 @@ import {
 import { isFeatureEnabled } from "@/config/features";
 import { UpcomingBookingCard } from "@/components/booking/UpcomingBookingCard";
 import { useUpcomingBookings } from "@/hooks/useUpcomingBookings";
+import { HomeworkWidget } from "@/components/homework/HomeworkWidget";
+import { generateHomework, langCode } from "@/lib/homeworkClient";
+import { toast } from "sonner";
 
 type KcRow = { kc_label: string; mastery_pct: number; status: string };
 type LatestPlan = { id: string; status: string; title: string };
@@ -223,14 +226,10 @@ const StudentDashboard = () => {
                 <StudentUpcomingBookings hasWeakAreas={kcAreas.some((k) => Number(k.mastery_pct || 0) < 50)} />
               )}
               {isFeatureEnabled("homework") && (
-                <Surface className="p-5">
-                  <h2 className="font-semibold mb-3 flex items-center gap-2"><BookOpen className="h-4 w-4 text-accent" /> {t("student.homeworkSection")}</h2>
-                  <EmptyState
-                    icon={Sparkles}
-                    title={t("student.noTasksTitle")}
-                    description={t("student.noTasksDesc")}
-                  />
-                </Surface>
+                <StudentHomeworkBlock
+                  hasWeakAreas={kcAreas.some((k) => Number(k.mastery_pct || 0) < 50)}
+                  diagnosticAttemptId={latestAttemptId}
+                />
               )}
             </div>
           )}
@@ -255,6 +254,36 @@ const StudentUpcomingBookings = ({ hasWeakAreas }: { hasWeakAreas: boolean }) =>
       items={items}
       emptyShowFindTutor={isFeatureEnabled("tutorMarketplace")}
       emptyHint={items.length === 0 && hasWeakAreas ? t("dashboardBooking.weakAreasHint") : undefined}
+    />
+  );
+};
+
+const StudentHomeworkBlock = ({ hasWeakAreas, diagnosticAttemptId }: { hasWeakAreas: boolean; diagnosticAttemptId: string | null }) => {
+  const { t, i18n } = useTranslation();
+  const [generating, setGenerating] = useState(false);
+  const onGenerate = async () => {
+    if (!diagnosticAttemptId) {
+      toast.error(t("homeworkToast.noContext"));
+      return;
+    }
+    setGenerating(true);
+    const res = await generateHomework({
+      source_type: "diagnosis",
+      source_id: diagnosticAttemptId,
+      owner_type: "user",
+      diagnostic_attempt_id: diagnosticAttemptId,
+      language: langCode(i18n.language),
+    });
+    setGenerating(false);
+    if (res.ok) toast.success(t("homeworkToast.generated"));
+    else toast.error(t("homeworkToast.generateFailed"));
+  };
+  return (
+    <HomeworkWidget
+      showGenerate
+      onGenerate={onGenerate}
+      generating={generating}
+      emptyHint={hasWeakAreas ? t("dashboardHomework.weakAreasHint") : t("dashboardHomework.emptyDesc")}
     />
   );
 };

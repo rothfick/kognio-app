@@ -74,6 +74,13 @@ const AdminDashboard = () => {
   };
   const [mkt, setMkt] = useState<MarketplaceStats | null>(null);
 
+  // Homework stats
+  type HomeworkStats = {
+    assignmentsTotal: number; submissionsTotal: number; needsReview: number; avgScore: number | null;
+    evGenerated: number; evSubmitted: number; evAutoGraded: number; evReviewed: number; evMastery: number;
+  };
+  const [hw, setHw] = useState<HomeworkStats | null>(null);
+
   useEffect(() => {
     (async () => {
       const [s, k, e, di, da, scoresRes, lp, see, lpiDone] = await Promise.all([
@@ -250,6 +257,33 @@ const AdminDashboard = () => {
         sessionCompletedEvents: evSessionCompleted.count ?? 0,
         tutorNoteEvents: evTutorNote.count ?? 0,
       });
+
+      // Homework stats
+      const [hwAssignments, hwSubs, hwNeedsReview, hwScores, hwGen, hwSubmitted, hwAuto, hwReviewed, hwMastery] = await Promise.all([
+        supabase.from("assignments").select("id", { count: "exact", head: true }),
+        supabase.from("assignment_submissions").select("id", { count: "exact", head: true }),
+        supabase.from("assignments").select("id", { count: "exact", head: true }).eq("status", "submitted"),
+        supabase.from("assignment_submissions").select("score, max_score").not("score", "is", null),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "homework_generated"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "homework_submitted"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "homework_auto_graded"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "homework_reviewed"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "mastery_updated_from_homework"),
+      ]);
+      const hwScoreRows = ((hwScores.data || []) as { score: number | null; max_score: number | null }[])
+        .map((r) => (r.score != null && r.max_score && r.max_score > 0 ? Number(r.score) / Number(r.max_score) : null))
+        .filter((n): n is number => n !== null && !Number.isNaN(n));
+      setHw({
+        assignmentsTotal: hwAssignments.count ?? 0,
+        submissionsTotal: hwSubs.count ?? 0,
+        needsReview: hwNeedsReview.count ?? 0,
+        avgScore: hwScoreRows.length ? hwScoreRows.reduce((a, b) => a + b, 0) / hwScoreRows.length : null,
+        evGenerated: hwGen.count ?? 0,
+        evSubmitted: hwSubmitted.count ?? 0,
+        evAutoGraded: hwAuto.count ?? 0,
+        evReviewed: hwReviewed.count ?? 0,
+        evMastery: hwMastery.count ?? 0,
+      });
     })();
   }, []);
 
@@ -359,6 +393,25 @@ const AdminDashboard = () => {
               <StatCard icon={Activity} label={t("adminBooking.evTutorNote")} value={mkt === null ? "…" : String(mkt.tutorNoteEvents)} />
             </div>
             <p className="mt-3 text-[11px] text-muted-foreground">{t("adminBooking.note")}</p>
+          </Surface>
+
+          <Surface className="p-5 mb-6">
+            <h2 className="font-semibold mb-3 flex items-center gap-2">
+              <BookOpen className="h-4 w-4 text-accent" /> {t("adminHomework.sectionTitle")}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-4 mb-4">
+              <StatCard icon={ListChecks} label={t("adminHomework.assignmentsTotal")} value={hw === null ? "…" : String(hw.assignmentsTotal)} />
+              <StatCard icon={ClipboardCheck} label={t("adminHomework.submissionsTotal")} value={hw === null ? "…" : String(hw.submissionsTotal)} />
+              <StatCard icon={Sparkles} label={t("adminHomework.avgScore")} value={hw === null || hw.avgScore === null ? "—" : `${Math.round(hw.avgScore * 100)}%`} />
+              <StatCard icon={AlertTriangle} label={t("adminHomework.needsReview")} value={hw === null ? "…" : String(hw.needsReview)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-5">
+              <StatCard icon={Activity} label={t("adminHomework.evGenerated")} value={hw === null ? "…" : String(hw.evGenerated)} />
+              <StatCard icon={Activity} label={t("adminHomework.evSubmitted")} value={hw === null ? "…" : String(hw.evSubmitted)} />
+              <StatCard icon={Activity} label={t("adminHomework.evAutoGraded")} value={hw === null ? "…" : String(hw.evAutoGraded)} />
+              <StatCard icon={Activity} label={t("adminHomework.evReviewed")} value={hw === null ? "…" : String(hw.evReviewed)} />
+              <StatCard icon={Activity} label={t("adminHomework.evMasteryUpdated")} value={hw === null ? "…" : String(hw.evMastery)} />
+            </div>
           </Surface>
 
           <Surface className="p-5 mb-6">
