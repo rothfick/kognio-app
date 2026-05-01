@@ -8,8 +8,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Loader2, Upload, User as UserIcon } from "lucide-react";
+import { Loader2, Upload, User as UserIcon, GraduationCap, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
+import { useUserRoles } from "@/hooks/useUserRoles";
 
 const TZ_OPTIONS = [
   "Europe/Warsaw", "Europe/London", "Europe/Berlin", "Europe/Paris",
