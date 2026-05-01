@@ -13,7 +13,12 @@ export type NotificationType =
   | "feedback_requested"
   | "expert_review_assigned"
   | "consent_required"
-  | "pilot_update";
+  | "pilot_update"
+  | "admin_reminder_diagnosis"
+  | "admin_reminder_plan"
+  | "admin_reminder_checkpoint"
+  | "admin_reminder_feedback"
+  | "admin_reminder_expert_review";
 
 export interface CreateNotificationInput {
   userId: string;
