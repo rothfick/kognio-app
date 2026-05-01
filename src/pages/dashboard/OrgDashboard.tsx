@@ -345,7 +345,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <Badge variant={m.member_role === "owner" ? "default" : "secondary"}>
-                        {memberRoleLabel(m.member_role, kind)}
+                        {memberRoleLabel(m.member_role, kind, t)}
                       </Badge>
                       {m.user_id !== org.owner_id && (
                         <Button variant="ghost" size="icon" onClick={() => removeMember(m)} aria-label={t("org.remove")}>
@@ -441,17 +441,17 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
   );
 }
 
-function memberRoleLabel(r: MemberRole, kind: OrgType) {
+function memberRoleLabel(r: MemberRole, kind: OrgType, t: (key: string) => string) {
   switch (r) {
-    case "owner": return "Właściciel";
-    case "admin": return "Administrator";
-    case "teacher": return kind === "school" ? "Nauczyciel" : "Trener";
-    case "student": return kind === "school" ? "Uczeń" : "Kursant";
-    case "observer": return "Obserwator";
+    case "owner": return t("org.owner");
+    case "admin": return t("org.admin");
+    case "teacher": return kind === "school" ? t("org.teacherSchool") : t("org.teacherCompany");
+    case "student": return kind === "school" ? t("org.studentSchool") : t("org.studentCompany");
+    case "observer": return t("org.roleObserver");
   }
 }
-function inviteStatusLabel(s: InviteStatus) {
-  return ({ pending: "Oczekuje", accepted: "Zaakceptowane", revoked: "Odwołane", expired: "Wygasłe" } as const)[s];
+function inviteStatusLabel(s: InviteStatus, t: (key: string) => string) {
+  return ({ pending: t("org.statusPending"), accepted: t("org.statusAccepted"), revoked: t("org.statusRevoked"), expired: t("org.statusExpired") } as const)[s];
 }
 function inviteBadgeVariant(s: InviteStatus): "default" | "secondary" | "outline" | "destructive" {
   if (s === "accepted") return "default";
