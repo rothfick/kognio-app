@@ -225,9 +225,32 @@ export default function LearningPlan() {
           )}
         </Surface>
 
-        <Surface className="p-5 mb-4">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="font-semibold flex items-center gap-2"><ListChecks className="h-4 w-4 text-accent" /> {t("plan.steps")}</h2>
+        <CheckpointCta
+          plan={plan}
+          doneCount={stats.done}
+          starting={startingCheckpoint}
+          onStart={async () => {
+            if (!plan) return;
+            setStartingCheckpoint(true);
+            try {
+              const { data, error } = await supabase.functions.invoke("checkpoint-create", {
+                body: { learning_plan_id: plan.id, trigger_reason: plan.status === "completed" ? "plan_completed" : "plan_progress" },
+              });
+              if (error) throw error;
+              const d = data as { checkpoint_id?: string; error?: string };
+              if (d?.error) throw new Error(d.error);
+              if (!d.checkpoint_id) throw new Error("no_checkpoint_id");
+              const base = plan.child_id ? `/parent/children/${plan.child_id}/diagnose` : "/diagnose";
+              navigate(`${base}?checkpointId=${d.checkpoint_id}`);
+            } catch (e) {
+              toast.error((e as Error).message || t("checkpoint.finalizeError"));
+            } finally {
+              setStartingCheckpoint(false);
+            }
+          }}
+        />
+
+
             <span className="text-xs text-muted-foreground">{t("plan.progress", { done: stats.done, total: stats.total })}</span>
           </div>
           <Progress value={stats.total ? (stats.done / stats.total) * 100 : 0} className="mb-4" />
