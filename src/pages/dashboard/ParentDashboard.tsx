@@ -112,18 +112,28 @@ const ParentDashboard = () => {
 const ChildCard = ({ child }: { child: ChildRow }) => {
   const [trackedKcs, setTrackedKcs] = useState<number | null>(null);
   const [avg, setAvg] = useState<number | null>(null);
+  const [latestScore, setLatestScore] = useState<number | null>(null);
+  const [hasDiagnostic, setHasDiagnostic] = useState<boolean>(false);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const { data } = await supabase
-        .from("child_kc_mastery")
-        .select("mastery_prob")
-        .eq("child_id", child.id);
+      const [{ data: m }, { data: la }] = await Promise.all([
+        supabase.from("child_kc_mastery").select("mastery_prob").eq("child_id", child.id),
+        supabase.from("diagnostic_attempts")
+          .select("score")
+          .eq("child_id", child.id)
+          .eq("status", "completed")
+          .order("completed_at", { ascending: false })
+          .limit(1)
+          .maybeSingle(),
+      ]);
       if (cancelled) return;
-      const rows = (data || []) as { mastery_prob: number }[];
+      const rows = (m || []) as { mastery_prob: number }[];
       setTrackedKcs(rows.length);
       setAvg(rows.length ? rows.reduce((a, r) => a + Number(r.mastery_prob), 0) / rows.length : null);
+      setHasDiagnostic(!!la);
+      setLatestScore(la ? Number((la as any).score ?? 0) : null);
     })();
     return () => { cancelled = true; };
   }, [child.id]);
@@ -144,26 +154,34 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
         )}
       </div>
 
-      <div className="rounded-md border bg-card-soft p-3">
-        <div className="flex items-center gap-2 text-xs font-medium mb-1">
+      <div className="rounded-md border bg-card-soft p-3 space-y-1">
+        <div className="flex items-center gap-2 text-xs font-medium">
           <Brain className="h-3.5 w-3.5 text-accent" /> Mapa wiedzy
         </div>
         {trackedKcs === null ? (
           <p className="text-xs text-muted-foreground">Ładowanie…</p>
-        ) : trackedKcs === 0 ? (
+        ) : !hasDiagnostic ? (
           <p className="text-xs text-muted-foreground">Brak diagnozy — wykonaj pierwszy test, aby zbudować mapę wiedzy.</p>
         ) : (
           <p className="text-xs text-muted-foreground">
-            Śledzonych KC: <span className="font-medium text-foreground">{trackedKcs}</span> · Średni poziom: <span className="font-medium text-foreground">{Math.round((avg || 0) * 100)}%</span>
+            Wynik diagnozy v1: <span className="font-medium text-foreground">{Math.round((latestScore || 0) * 100)}%</span> · KC: <span className="font-medium text-foreground">{trackedKcs}</span> · Średni: <span className="font-medium text-foreground">{Math.round((avg || 0) * 100)}%</span>
           </p>
         )}
       </div>
 
       <div className="flex flex-wrap gap-2 mt-auto">
+        {!hasDiagnostic ? (
+          <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+            <Link to={`/parent/children/${child.id}/diagnostic`}>Zrób diagnozę</Link>
+          </Button>
+        ) : (
+          <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+            <Link to={`/parent/children/${child.id}/knowledge`}>Zobacz mapę wiedzy</Link>
+          </Button>
+        )}
         <Button asChild size="sm" variant="outline">
-          <Link to={`/parent/children/${child.id}/knowledge`}>Zobacz mapę wiedzy</Link>
+          <Link to={`/parent/children/${child.id}/knowledge`}>Mapa wiedzy</Link>
         </Button>
-        <Button size="sm" variant="ghost" disabled>Przygotuj diagnozę (wkrótce)</Button>
       </div>
     </Surface>
   );
