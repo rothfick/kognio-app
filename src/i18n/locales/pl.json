@@ -988,6 +988,20 @@
     "colUnmapped": "Niezmapowane",
     "colAlgorithm": "Algorytm",
     "colDate": "Data",
-    "noDiagnostics": "Brak danych traceability."
+    "colCreated": "Utworzono",
+    "colOwner": "Typ właściciela",
+    "colScore": "Wynik",
+    "colPromptVersion": "Wersja promptu",
+    "colSource": "Źródło",
+    "noDiagnostics": "Brak danych traceability.",
+    "panelTitle": "Śledzenie diagnoz i kompetencji",
+    "selfMastery": "Wpisy mastery uczniów",
+    "parentChildMastery": "Wpisy mastery dzieci",
+    "withAlgorithm": "Diagnozy z wersją algorytmu",
+    "ownerSelf": "Uczeń",
+    "ownerChild": "Dziecko",
+    "anonymous": "—",
+    "infoTitle": "Dlaczego to ma znaczenie (FENG / SMART)",
+    "infoBody": "Ten panel pokazuje, czy diagnozy Kogni są strukturalnie powiązane z grafem kompetencji. Dzięki temu można dokumentować, które obszary wiedzy zostały wykryte, jak zostały przypisane do kompetencji oraz jaką wersją algorytmu wygenerowano wynik."
   }
 }
