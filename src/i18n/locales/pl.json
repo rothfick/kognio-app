@@ -1171,5 +1171,91 @@
       "tutor": "Korepetytor",
       "admin": "Administrator"
     }
+  },
+  "research": {
+    "title": "Panel badawczo-walidacyjny",
+    "subtitle": "Dane do walidacji skuteczności Kogni, dokumentacji B+R i raportów SMART/FENG.",
+    "adminLink": {
+      "eyebrow": "B+R / SMART",
+      "hint": "Otwórz panel badawczo-walidacyjny i eksportuj raport SMART."
+    },
+    "sections": {
+      "keyMetrics": "Kluczowe metryki",
+      "outcome": "Wyniki nauki",
+      "expert": "Walidacja ekspercka",
+      "traceability": "Powiązania kompetencyjne"
+    },
+    "metrics": {
+      "totalDiagnostics": "Diagnozy łącznie",
+      "diagWithTaxonomy": "Diagnozy z taksonomią",
+      "mappedMastery": "Zmapowane wpisy mastery",
+      "unmappedSkillAreas": "Niezmapowane obszary AI",
+      "plansGenerated": "Plany nauki",
+      "planItemsDone": "Ukończone kroki planu",
+      "checkpointsCompleted": "Ukończone checkpointy",
+      "avgScoreDelta": "Średnia różnica wyniku",
+      "avgMasteryDelta": "Średnia różnica mastery",
+      "expertReviewsSubmitted": "Recenzje eksperckie",
+      "avgAgreement": "Średnia zgodność AI–ekspert",
+      "correctionRate": "Wskaźnik korekt",
+      "smartEventsCount": "Zdarzenia SMART",
+      "algoVersionsCount": "Wersje algorytmów"
+    },
+    "outcome": {
+      "avgBaseline": "Średni wynik bazowy",
+      "avgCheckpoint": "Średni wynik checkpoint",
+      "avgScoreDelta": "Średnia różnica wyniku",
+      "avgPlanCompletion": "Śr. ukończenie planu",
+      "improvedPct": "Poprawa",
+      "unchangedPct": "Bez zmian",
+      "regressedPct": "Regres",
+      "avgMasteryDelta": "Średnia różnica mastery"
+    },
+    "expert": {
+      "verdicts": "Werdykty pozycji",
+      "byType": "Recenzje wg typu",
+      "recent": "Ostatnie zatwierdzone"
+    },
+    "traceability": {
+      "mapping": "Pokrycie mapowania",
+      "mapped": "Zmapowane",
+      "unmapped": "Niezmapowane",
+      "topDomains": "Top dziedziny (diagnozy)",
+      "topLevels": "Top poziomy edukacji",
+      "topSkillLabels": "Top etykiety AI",
+      "topWeak": "Top słabe kompetencje"
+    },
+    "empty": {
+      "outcome": "Brak ukończonych checkpointów — metryki pojawią się po pierwszym pomiarze postępu.",
+      "expert": "Brak zatwierdzonych recenzji eksperckich."
+    },
+    "readiness": {
+      "title": "Gotowość dowodowa SMART",
+      "disclaimer": "To wewnętrzna heurystyka, nie oficjalny wynik grantowy."
+    }
+  },
+  "validation": {
+    "stage": "Etap"
+  },
+  "funnel": {
+    "title": "Lejek walidacyjny",
+    "conversion": "konwersja",
+    "stages": {
+      "diagnosis_completed": "Diagnoza ukończona",
+      "plan_generated": "Wygenerowany plan",
+      "plan_item_completed": "Ukończony krok planu",
+      "checkpoint_completed": "Ukończony checkpoint",
+      "expert_review_submitted": "Zatwierdzona recenzja eksperta"
+    }
+  },
+  "export": {
+    "smartReport": "Eksportuj raport SMART"
+  },
+  "algorithm": {
+    "registry": "Rejestr wersji algorytmów",
+    "version": "Wersja",
+    "source": "Źródło",
+    "count": "Wystąpienia",
+    "latest": "Ostatnio użyto"
   }
 }

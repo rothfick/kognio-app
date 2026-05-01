@@ -1171,5 +1171,91 @@
       "tutor": "Tutor",
       "admin": "Administrator"
     }
+  },
+  "research": {
+    "title": "Research & Validation Dashboard",
+    "subtitle": "Data for validating Kogni's effectiveness, R&D documentation, and SMART/FENG reports.",
+    "adminLink": {
+      "eyebrow": "R&D / SMART",
+      "hint": "Open the research panel and export the SMART evidence report."
+    },
+    "sections": {
+      "keyMetrics": "Key metrics",
+      "outcome": "Learning outcomes",
+      "expert": "Expert validation",
+      "traceability": "Competency traceability"
+    },
+    "metrics": {
+      "totalDiagnostics": "Total diagnostics",
+      "diagWithTaxonomy": "Diagnostics with taxonomy",
+      "mappedMastery": "Mapped mastery rows",
+      "unmappedSkillAreas": "Unmapped AI skill areas",
+      "plansGenerated": "Learning plans",
+      "planItemsDone": "Plan items completed",
+      "checkpointsCompleted": "Checkpoints completed",
+      "avgScoreDelta": "Average score delta",
+      "avgMasteryDelta": "Average mastery delta",
+      "expertReviewsSubmitted": "Expert reviews submitted",
+      "avgAgreement": "Avg AI–expert agreement",
+      "correctionRate": "Correction rate",
+      "smartEventsCount": "SMART evidence events",
+      "algoVersionsCount": "Algorithm versions"
+    },
+    "outcome": {
+      "avgBaseline": "Avg baseline score",
+      "avgCheckpoint": "Avg checkpoint score",
+      "avgScoreDelta": "Avg score delta",
+      "avgPlanCompletion": "Avg plan completion",
+      "improvedPct": "Improved",
+      "unchangedPct": "Unchanged",
+      "regressedPct": "Regressed",
+      "avgMasteryDelta": "Avg mastery delta"
+    },
+    "expert": {
+      "verdicts": "Item verdicts",
+      "byType": "Reviews by type",
+      "recent": "Recent submitted"
+    },
+    "traceability": {
+      "mapping": "Mapping coverage",
+      "mapped": "Mapped",
+      "unmapped": "Unmapped",
+      "topDomains": "Top domains (diagnostics)",
+      "topLevels": "Top education levels",
+      "topSkillLabels": "Top AI labels",
+      "topWeak": "Top weak competencies"
+    },
+    "empty": {
+      "outcome": "No completed checkpoints yet — outcome metrics will appear after the first progress measurement.",
+      "expert": "No submitted expert reviews yet."
+    },
+    "readiness": {
+      "title": "SMART evidence readiness",
+      "disclaimer": "This is an internal heuristic, not an official grant score."
+    }
+  },
+  "validation": {
+    "stage": "Stage"
+  },
+  "funnel": {
+    "title": "Validation funnel",
+    "conversion": "conversion",
+    "stages": {
+      "diagnosis_completed": "Diagnosis completed",
+      "plan_generated": "Learning plan generated",
+      "plan_item_completed": "Plan item completed",
+      "checkpoint_completed": "Checkpoint completed",
+      "expert_review_submitted": "Expert review submitted"
+    }
+  },
+  "export": {
+    "smartReport": "Export SMART report"
+  },
+  "algorithm": {
+    "registry": "Algorithm version registry",
+    "version": "Version",
+    "source": "Source",
+    "count": "Occurrences",
+    "latest": "Last used"
   }
 }
