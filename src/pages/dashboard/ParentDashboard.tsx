@@ -108,6 +108,10 @@ const ParentDashboard = () => {
           </Surface>
 
           <div className="mt-6">
+            <UpcomingChildBookings />
+          </div>
+
+          <div className="mt-6">
             <LinkedStudentsSection />
           </div>
 
