@@ -105,7 +105,7 @@ const SUMMARY_TOOL = {
 };
 
 function buildSystemPrompt(domain: string, level: string, language: string) {
-  const lang = language === "en" ? "English" : "polish";
+  const lang = language === "en" ? "English" : language === "es" ? "Spanish" : "Polish";
   return `You are an expert adaptive diagnostician for the subject "${domain}" at level "${level}". 
 You write rigorous, age/level-appropriate single-choice diagnostic questions in ${lang}.
 - Probe a wide range of knowledge components (KCs) across the subject — vary topics every question.
@@ -117,7 +117,7 @@ You write rigorous, age/level-appropriate single-choice diagnostic questions in 
 }
 
 function buildSummaryPrompt(domain: string, level: string, language: string) {
-  const lang = language === "en" ? "English" : "polish";
+  const lang = language === "en" ? "English" : language === "es" ? "Spanish" : "Polish";
   return `You analyze a completed adaptive diagnostic for "${domain}" at level "${level}". 
 Write all labels and recommendations in ${lang}. Be specific, actionable, and honest. 
 Group results into knowledge components based on the asked questions. 
@@ -228,7 +228,7 @@ Deno.serve(async (req) => {
     if (action === "start") {
       const domain = String(body.domain ?? "").trim();
       const level = String(body.level ?? "").trim();
-      const language = body.language === "en" ? "en" : "pl";
+      const language = ["pl", "en", "es"].includes(body.language) ? body.language : "pl";
       const childId = body.child_id ?? null;
       const target = Math.max(8, Math.min(20, Number(body.target_questions ?? DEFAULT_TARGET)));
       if (!domain) return json({ error: "Brak dziedziny" }, 400);
