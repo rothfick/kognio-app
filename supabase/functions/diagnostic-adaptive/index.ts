@@ -405,9 +405,11 @@ Deno.serve(async (req) => {
         };
       });
 
+      const effectiveLanguage = requestedLanguage ?? attempt.language ?? "pl";
+
       // Decide: finish or next question
       if (newTotal >= targetTotal) {
-        const summary = await generateSummary(attempt.domain ?? "", attempt.level ?? "", attempt.language ?? "pl", asked);
+        const summary = await generateSummary(attempt.domain ?? "", attempt.level ?? "", effectiveLanguage, asked);
         const score = newTotal ? newCorrect / newTotal : 0;
         await admin
           .from("diagnostic_attempts")
