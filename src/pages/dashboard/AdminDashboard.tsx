@@ -74,6 +74,13 @@ const AdminDashboard = () => {
   };
   const [mkt, setMkt] = useState<MarketplaceStats | null>(null);
 
+  // Homework stats
+  type HomeworkStats = {
+    assignmentsTotal: number; submissionsTotal: number; needsReview: number; avgScore: number | null;
+    evGenerated: number; evSubmitted: number; evAutoGraded: number; evReviewed: number; evMastery: number;
+  };
+  const [hw, setHw] = useState<HomeworkStats | null>(null);
+
   useEffect(() => {
     (async () => {
       const [s, k, e, di, da, scoresRes, lp, see, lpiDone] = await Promise.all([
