@@ -425,6 +425,9 @@
     "noChildrenTitle": "Brak dodanych dzieci",
     "noChildrenDesc": "Dodaj profil dziecka, aby rozpocząć diagnozę i otrzymywać raporty postępów.",
     "footerNote": "Polityka prywatności · Zgoda rodzica/opiekuna · Dokumenty prawne wymagają weryfikacji przed publicznym uruchomieniem.",
+    "upcomingTitle": "Najbliższe wizyty dzieci",
+    "upcomingEmpty": "Brak nadchodzących wizyt powiązanych z Twoimi dziećmi.",
+    "upcomingViewAll": "Zobacz cały kalendarz",
     "child": {
       "noSubject": "Brak przedmiotu",
       "consent": "Zgoda {{version}}",
