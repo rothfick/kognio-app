@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   Brain, Calendar as CalIcon, ClipboardList, Sparkles, BookOpen, ArrowRight, Search, TrendingUp,
 } from "lucide-react";
+import { isFeatureEnabled } from "@/config/features";
 
 type KcRow = { kc_label: string; mastery_pct: number; status: string };
 type LatestPlan = { id: string; status: string; title: string };
@@ -120,8 +121,8 @@ const StudentDashboard = () => {
 
           <div className="grid gap-4 sm:grid-cols-3 mb-6">
             <StatCard icon={Brain} label={t("student.avgMastery")} value={latestScore === null ? "—" : `${Math.round(latestScore * 100)}%`} hint={latestScore === null ? t("student.avgMasteryHint") : t("student.latestDiagnosisHint")} />
-            <StatCard icon={CalIcon} label={t("student.nextLesson")} value="—" hint={t("student.noScheduled")} />
-            <StatCard icon={ClipboardList} label={t("student.homework")} value="0" hint={t("student.homeworkHint")} />
+            <StatCard icon={Sparkles} label={t("student.planProgressLabel")} value={planProgress.total ? `${planProgress.done}/${planProgress.total}` : "—"} hint={planProgress.total ? t("student.planProgressHint") : t("student.planProgressEmpty")} />
+            <StatCard icon={TrendingUp} label={t("student.checkpointLabel")} value={checkpoint?.score_delta == null ? "—" : `${(checkpoint.score_delta * 100) >= 0 ? "+" : ""}${Math.round(checkpoint.score_delta * 100)}%`} hint={checkpoint ? t("student.checkpointHint") : t("student.checkpointEmpty")} />
           </div>
 
           <div className="grid gap-5 md:grid-cols-1 mb-6">
@@ -214,26 +215,32 @@ const StudentDashboard = () => {
             </Surface>
           )}
 
-          <div className="grid gap-5 md:grid-cols-2">
-            <Surface className="p-5">
-              <h2 className="font-semibold mb-3 flex items-center gap-2"><CalIcon className="h-4 w-4 text-accent" /> {t("student.upcomingLessons")}</h2>
-              <EmptyState
-                icon={Search}
-                title={t("student.noLessonsTitle")}
-                description={t("student.noLessonsDesc")}
-                ctaLabel={t("student.findTutorCta")}
-                ctaTo="/discover"
-              />
-            </Surface>
-            <Surface className="p-5">
-              <h2 className="font-semibold mb-3 flex items-center gap-2"><BookOpen className="h-4 w-4 text-accent" /> {t("student.homeworkSection")}</h2>
-              <EmptyState
-                icon={Sparkles}
-                title={t("student.noTasksTitle")}
-                description={t("student.noTasksDesc")}
-              />
-            </Surface>
-          </div>
+          {(isFeatureEnabled("booking") || isFeatureEnabled("homework")) && (
+            <div className="grid gap-5 md:grid-cols-2">
+              {isFeatureEnabled("booking") && (
+                <Surface className="p-5">
+                  <h2 className="font-semibold mb-3 flex items-center gap-2"><CalIcon className="h-4 w-4 text-accent" /> {t("student.upcomingLessons")}</h2>
+                  <EmptyState
+                    icon={Search}
+                    title={t("student.noLessonsTitle")}
+                    description={t("student.noLessonsDesc")}
+                    ctaLabel={isFeatureEnabled("tutorMarketplace") ? t("student.findTutorCta") : undefined}
+                    ctaTo={isFeatureEnabled("tutorMarketplace") ? "/discover" : undefined}
+                  />
+                </Surface>
+              )}
+              {isFeatureEnabled("homework") && (
+                <Surface className="p-5">
+                  <h2 className="font-semibold mb-3 flex items-center gap-2"><BookOpen className="h-4 w-4 text-accent" /> {t("student.homeworkSection")}</h2>
+                  <EmptyState
+                    icon={Sparkles}
+                    title={t("student.noTasksTitle")}
+                    description={t("student.noTasksDesc")}
+                  />
+                </Surface>
+              )}
+            </div>
+          )}
         </DashboardShell>
       </AppShell>
     </RoleGate>
