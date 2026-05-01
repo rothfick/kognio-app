@@ -14,6 +14,8 @@ import { Users, LineChart, FileText, Plus, BookOpen, ShieldCheck, Brain, Trendin
 import { AddChildDialog } from "@/components/parent/AddChildDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { NextBestActionCard } from "@/components/journey/NextBestActionCard";
+import { useNextBestAction } from "@/hooks/useJourneyState";
 
 type ChildRow = {
   id: string;
