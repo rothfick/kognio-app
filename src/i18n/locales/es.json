@@ -2246,5 +2246,161 @@
     "evSessionCompleted": "Sesiones completadas",
     "evTutorNote": "Notas de tutor enviadas",
     "note": "Los contadores del marketplace usan el mismo pipeline SMART evidence que el diagnóstico y los planes."
+  },
+  "homework": {
+    "title": "Tareas",
+    "subtitle": "Práctica dirigida a tus áreas débiles — autocorregida.",
+    "tutorTitle": "Tareas de los alumnos",
+    "tutorSubtitle": "Tareas vinculadas a tus alumnos y sesiones.",
+    "adminTitle": "Tareas (vista de administrador)",
+    "newCta": "Generar tarea",
+    "generateForChild": "Generar para {{name}}",
+    "generateFromPlanItem": "Generar práctica",
+    "generateFromCheckpoint": "Generar práctica de seguimiento",
+    "generateFromNote": "Generar tarea desde la nota",
+    "openCta": "Abrir",
+    "startCta": "Empezar",
+    "continueCta": "Continuar",
+    "reviewCta": "Ver",
+    "submitCta": "Enviar respuestas",
+    "submittingCta": "Enviando…",
+    "filters": {
+      "all": "Todas",
+      "assigned": "Asignadas",
+      "in_progress": "En progreso",
+      "submitted": "Enviadas",
+      "graded": "Calificadas",
+      "archived": "Archivadas",
+      "needs_review": "Requiere revisión"
+    },
+    "selectChild": "Selecciona hijo/a",
+    "skillArea": "Área de habilidad",
+    "due": "Vence",
+    "noDue": "Sin fecha límite",
+    "questions": "Preguntas",
+    "noItems": "Esta tarea aún no tiene preguntas.",
+    "answerHint": "Responde las preguntas y envía para recibir retroalimentación automática.",
+    "needsReviewBanner": "Algunas respuestas necesitan revisión del tutor.",
+    "scoreLabel": "Puntuación",
+    "questionLabel": "Pregunta {{n}}",
+    "explanation": "Explicación",
+    "yourAnswer": "Tu respuesta",
+    "correctAnswer": "Respuesta correcta",
+    "true": "Verdadero",
+    "false": "Falso",
+    "shortAnswerPlaceholder": "Escribe tu respuesta…",
+    "shortAnswerNotice": "Las preguntas abiertas las revisará tu tutor.",
+    "back": "Volver a tareas",
+    "loading": "Cargando tarea…",
+    "notFound": "Tarea no encontrada.",
+    "notFoundCta": "Volver al listado",
+    "emptyTitle": "Aún no hay tareas.",
+    "emptyDesc": "Genera tu primera práctica para empezar a cerrar brechas de conocimiento.",
+    "emptyTutorTitle": "Aún no hay tareas de alumnos.",
+    "emptyTutorDesc": "Crea una tarea desde una nota de sesión o un ítem del plan.",
+    "emptyAdminTitle": "Aún no hay tareas en el sistema.",
+    "tutorOnly": "Vista de tutor",
+    "adminOnly": "Vista de administrador"
+  },
+  "assignment": {
+    "status": {
+      "draft": "Borrador",
+      "assigned": "Asignada",
+      "in_progress": "En progreso",
+      "submitted": "Enviada",
+      "graded": "Calificada",
+      "archived": "Archivada"
+    },
+    "source": {
+      "diagnosis": "Del diagnóstico",
+      "learning_plan": "Del plan de aprendizaje",
+      "booking": "De la sesión",
+      "session_note": "De la nota de sesión",
+      "manual": "Manual"
+    },
+    "item": {
+      "multiple_choice": "Opción múltiple",
+      "true_false": "Verdadero / Falso",
+      "short_answer": "Respuesta abierta"
+    }
+  },
+  "grading": {
+    "autoGraded": "Calificada automáticamente",
+    "needsReview": "Requiere revisión",
+    "submitted": "Enviada",
+    "reviewed": "Revisada",
+    "scoreOf": "{{score}} / {{max}}",
+    "percentage": "{{n}}%",
+    "correct": "Correcta",
+    "incorrect": "Incorrecta",
+    "skipped": "Sin respuesta",
+    "feedbackTitle": "Retroalimentación",
+    "noFeedback": "Aún no hay retroalimentación adicional."
+  },
+  "mastery": {
+    "homework": {
+      "updated": "Dominio actualizado a partir de la tarea.",
+      "increase": "El dominio en {{area}} subió {{delta}}%.",
+      "decrease": "El dominio en {{area}} se ajustó en {{delta}}%."
+    }
+  },
+  "dashboardHomework": {
+    "title": "Tareas",
+    "active": "Activas",
+    "graded": "Calificadas",
+    "needsReview": "Requiere revisión",
+    "lastScore": "Última puntuación",
+    "nextDue": "Próximo vencimiento",
+    "nextDueNone": "Sin fechas próximas",
+    "openCta": "Abrir tareas",
+    "generateCta": "Generar tarea",
+    "emptyTitle": "Sin tareas activas",
+    "emptyDesc": "Genera práctica desde tus áreas débiles.",
+    "weakAreasHint": "Detectamos áreas débiles — genera práctica para cerrar la brecha.",
+    "childActive": "{{count}} activas",
+    "childLatestScore": "Última: {{score}}%",
+    "tutorAssignedCount": "{{count}} tareas vinculadas a tus sesiones",
+    "tutorNeedsReviewCount": "{{count}} envíos esperando revisión"
+  },
+  "adminHomework": {
+    "sectionTitle": "Tareas",
+    "assignmentsTotal": "Tareas",
+    "submissionsTotal": "Envíos",
+    "avgScore": "Puntuación media",
+    "needsReview": "Requieren revisión",
+    "evGenerated": "Tareas generadas",
+    "evSubmitted": "Tareas enviadas",
+    "evAutoGraded": "Tareas autocorregidas",
+    "evReviewed": "Tareas revisadas",
+    "evMasteryUpdated": "Actualizaciones de dominio por tareas"
+  },
+  "homeworkToast": {
+    "generated": "Tarea generada.",
+    "generateFailed": "No se pudo generar la tarea.",
+    "submitted": "Tarea enviada.",
+    "submitFailed": "No se pudieron enviar las respuestas.",
+    "answerRequired": "Responde al menos una pregunta.",
+    "missingTutor": "Solo el tutor de esta sesión puede hacer esto.",
+    "missingPermission": "No tienes acceso a esta tarea.",
+    "noContext": "Aún no se encontró un área débil — primero realiza un diagnóstico."
+  },
+  "notifHomework": {
+    "assigned": {
+      "title": "Nueva tarea",
+      "body": "{{title}} está lista — pruébala ahora."
+    },
+    "submitted": {
+      "title": "Tarea enviada",
+      "body": "Tus respuestas se guardaron."
+    },
+    "graded": {
+      "title": "Tarea calificada",
+      "body": "{{title}} — puntuación: {{score}}%."
+    },
+    "needsReview": {
+      "title": "Tarea por revisar",
+      "body": "Algunas respuestas necesitan revisión del tutor."
+    },
+    "viewHomework": "Abrir tareas"
   }
 }
