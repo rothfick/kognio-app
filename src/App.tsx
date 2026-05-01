@@ -27,6 +27,7 @@ import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import Profile from "./pages/Profile";
 import ChildKnowledge from "./pages/parent/ChildKnowledge";
 import ChildDiagnostic from "./pages/parent/ChildDiagnostic";
+import LinkedStudentDashboard from "./pages/parent/LinkedStudentDashboard";
 import Diagnose from "./pages/Diagnose";
 import LearningPlan from "./pages/LearningPlan";
 import Checkpoint from "./pages/Checkpoint";
@@ -58,6 +59,7 @@ const App = () => (
             <Route path="/dashboard/parent" element={<ProtectedRoute><ParentDashboard /></ProtectedRoute>} />
             <Route path="/parent/children/:childId/knowledge" element={<ProtectedRoute><ChildKnowledge /></ProtectedRoute>} />
             <Route path="/parent/children/:childId/diagnostic" element={<ProtectedRoute><ChildDiagnostic /></ProtectedRoute>} />
+            <Route path="/parent/linked/:studentId" element={<ProtectedRoute><LinkedStudentDashboard /></ProtectedRoute>} />
             <Route path="/diagnose" element={<ProtectedRoute><Diagnose /></ProtectedRoute>} />
             <Route path="/parent/children/:childId/diagnose" element={<ProtectedRoute><Diagnose /></ProtectedRoute>} />
             <Route path="/plans/:planId" element={<ProtectedRoute><LearningPlan /></ProtectedRoute>} />
