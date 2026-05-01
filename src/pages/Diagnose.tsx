@@ -39,6 +39,8 @@ export default function Diagnose() {
   const params = useParams<{ childId?: string }>();
   const childId = params.childId ?? null;
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const checkpointId = searchParams.get("checkpointId");
 
   const [phase, setPhase] = useState<"intake" | "running" | "done">("intake");
   const [domain, setDomain] = useState("");
@@ -54,6 +56,12 @@ export default function Diagnose() {
 
   const [summary, setSummary] = useState<Summary | null>(null);
   const [score, setScore] = useState<{ pct: number; total: number; correct: number } | null>(null);
+
+  // Checkpoint mode
+  const [checkpointLoading, setCheckpointLoading] = useState<boolean>(!!checkpointId);
+  const [checkpointDenied, setCheckpointDenied] = useState(false);
+  const [finalizing, setFinalizing] = useState(false);
+  const [finalizeError, setFinalizeError] = useState(false);
 
   const domainSuggestions = t("diagnose.domainSuggestions", { returnObjects: true }) as string[];
   const levelLabel = useMemo(() => level ? t(`diagnose.levels.${level}`) : "", [level, t]);
