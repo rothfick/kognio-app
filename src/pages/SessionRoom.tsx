@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { EmotionEngine } from "@/components/session/EmotionEngine";
 import { SharedWhiteboard } from "@/components/session/SharedWhiteboard";
 import { LiveTranscriber } from "@/components/session/LiveTranscriber";
+import { LiveKitVideo } from "@/components/session/LiveKitVideo";
 
 type ChatMsg = { id: string; user_id: string; role: string; content: string; created_at: string };
 type Transcript = { id: string; speaker_label: string | null; text: string; created_at: string };
@@ -20,7 +21,7 @@ type Transcript = { id: string; speaker_label: string | null; text: string; crea
 const SessionRoom = () => {
   const { id } = useParams();
   const { user } = useAuth();
-  const [session, setSession] = useState<{ id: string; room_name: string; booking_id: string } | null>(null);
+  const [session, setSession] = useState<{ id: string; room_name: string; booking_id: string; started_at?: string | null } | null>(null);
   const [chat, setChat] = useState<ChatMsg[]>([]);
   const [transcripts, setTranscripts] = useState<Transcript[]>([]);
   const [chatInput, setChatInput] = useState("");
@@ -33,9 +34,14 @@ const SessionRoom = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.from("sessions").select("id, room_name, booking_id").eq("id", id as string).maybeSingle();
+      const { data } = await supabase.from("sessions").select("id, room_name, booking_id, started_at").eq("id", id as string).maybeSingle();
       setSession(data as any);
       if (!data) return;
+
+      // Oznacz start sesji przy pierwszym wejściu
+      if (!data.started_at) {
+        await supabase.from("sessions").update({ started_at: new Date().toISOString() }).eq("id", data.id);
+      }
 
       const [{ data: c }, { data: t }] = await Promise.all([
         supabase.from("session_chat").select("*").eq("session_id", data.id).order("created_at"),
@@ -168,9 +174,7 @@ const SessionRoom = () => {
         <div className="grid lg:grid-cols-3 gap-4">
           {/* Left: video + emocje */}
           <div className="space-y-4 flex flex-col">
-            <Card className="aspect-video bg-hero text-primary-foreground grid place-items-center">
-              <div className="text-center"><Video className="h-10 w-10 mx-auto mb-2 opacity-70" /><p className="text-sm opacity-80">Wideo (LiveKit — placeholder)</p></div>
-            </Card>
+            <LiveKitVideo sessionId={session.id} />
             {user && <EmotionEngine sessionId={session.id} userId={user.id} />}
             <Button onClick={generateSummary} disabled={summarizing} className="bg-accent-gradient text-accent-foreground">
               {summarizing ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
