@@ -129,6 +129,7 @@ const CalendarPage = () => {
   const [noteSaving, setNoteSaving] = useState(false);
   const [meetingUrlFor, setMeetingUrlFor] = useState<string | null>(null);
   const [meetingUrlValue, setMeetingUrlValue] = useState("");
+  const [generatingHomework, setGeneratingHomework] = useState(false);
 
   const load = async () => {
     if (!user) return;
