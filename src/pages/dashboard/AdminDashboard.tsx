@@ -79,6 +79,18 @@ const AdminDashboard = () => {
             </p>
           </Surface>
 
+          <Surface className="p-5 mb-6">
+            <h2 className="font-semibold mb-3 flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-accent" /> {t("smart.section")}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-4">
+              <StatCard icon={ListChecks} label={t("smart.plansGenerated")} value={plansCount === null ? "…" : String(plansCount)} />
+              <StatCard icon={ClipboardCheck} label={t("smart.itemsCompleted")} value={planItemsDone === null ? "…" : String(planItemsDone)} />
+              <StatCard icon={Activity} label={t("smart.evidenceEvents")} value={evidenceCount === null ? "…" : String(evidenceCount)} />
+              <StatCard icon={Sparkles} label={t("smart.avgDiagScore")} value={diagAvgScore === null ? "—" : `${Math.round(diagAvgScore * 100)}%`} />
+            </div>
+          </Surface>
+
           <div className="grid gap-5 md:grid-cols-2">
             <Surface className="p-5">
               <h2 className="font-semibold mb-3 flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-accent" />{t("admin.verifications")}</h2>
