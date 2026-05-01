@@ -210,6 +210,46 @@ const AdminDashboard = () => {
         avgMasteryDelta: avg(masteryDeltas),
         evidenceEvents: cpEvidence.count ?? 0,
       });
+
+      // Marketplace stats
+      const nowIso = new Date().toISOString();
+      const [
+        verifiedT, pendingT, rejectedT,
+        totalBk, upcomingBk, completedBk, cancelledBk,
+        pendingPay, confirmedPay, disputedPay,
+        evBookingCreated, evPaymentConfirmed, evSessionCompleted, evTutorNote,
+      ] = await Promise.all([
+        supabase.from("tutor_profiles").select("user_id", { count: "exact", head: true }).eq("verification_status", "approved"),
+        supabase.from("tutor_profiles").select("user_id", { count: "exact", head: true }).eq("verification_status", "pending"),
+        supabase.from("tutor_profiles").select("user_id", { count: "exact", head: true }).eq("verification_status", "rejected"),
+        supabase.from("bookings").select("id", { count: "exact", head: true }),
+        supabase.from("bookings").select("id", { count: "exact", head: true }).gte("ends_at", nowIso).neq("status", "cancelled"),
+        supabase.from("bookings").select("id", { count: "exact", head: true }).eq("status", "completed"),
+        supabase.from("bookings").select("id", { count: "exact", head: true }).eq("status", "cancelled"),
+        supabase.from("payment_records").select("id", { count: "exact", head: true }).in("status", ["pending", "proof_uploaded"]),
+        supabase.from("payment_records").select("id", { count: "exact", head: true }).eq("status", "confirmed"),
+        supabase.from("payment_records").select("id", { count: "exact", head: true }).eq("status", "disputed"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "booking_created"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "payment_confirmed"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "session_completed"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "tutor_note_submitted"),
+      ]);
+      setMkt({
+        verifiedTutors: verifiedT.count ?? 0,
+        pendingTutors: pendingT.count ?? 0,
+        rejectedTutors: rejectedT.count ?? 0,
+        totalBookings: totalBk.count ?? 0,
+        upcomingBookings: upcomingBk.count ?? 0,
+        completedBookings: completedBk.count ?? 0,
+        cancelledBookings: cancelledBk.count ?? 0,
+        pendingPayments: pendingPay.count ?? 0,
+        confirmedPayments: confirmedPay.count ?? 0,
+        disputedPayments: disputedPay.count ?? 0,
+        bookingCreatedEvents: evBookingCreated.count ?? 0,
+        paymentConfirmedEvents: evPaymentConfirmed.count ?? 0,
+        sessionCompletedEvents: evSessionCompleted.count ?? 0,
+        tutorNoteEvents: evTutorNote.count ?? 0,
+      });
     })();
   }, []);
 
