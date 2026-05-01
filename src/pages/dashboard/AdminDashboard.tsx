@@ -65,6 +65,15 @@ const AdminDashboard = () => {
   const [recent, setRecent] = useState<RecentRow[] | null>(null);
   const [cpStats, setCpStats] = useState<{ created: number; completed: number; avgDelta: number | null; avgPlanCompletion: number | null; avgMasteryDelta: number | null; evidenceEvents: number } | null>(null);
 
+  // Marketplace stats
+  type MarketplaceStats = {
+    verifiedTutors: number; pendingTutors: number; rejectedTutors: number;
+    totalBookings: number; upcomingBookings: number; completedBookings: number; cancelledBookings: number;
+    pendingPayments: number; confirmedPayments: number; disputedPayments: number;
+    bookingCreatedEvents: number; paymentConfirmedEvents: number; sessionCompletedEvents: number; tutorNoteEvents: number;
+  };
+  const [mkt, setMkt] = useState<MarketplaceStats | null>(null);
+
   useEffect(() => {
     (async () => {
       const [s, k, e, di, da, scoresRes, lp, see, lpiDone] = await Promise.all([
