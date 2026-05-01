@@ -255,6 +255,28 @@ const Dashboard = () => {
           </Card>
         </div>
 
+        {/* Stan rezerwacji — pełna lista z akcjami */}
+        <Card className="p-5 bg-card-soft">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="font-semibold">Stan Twoich rezerwacji</h2>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Po potwierdzeniu przez tutora pojawi się przycisk „Wejdź". Po sesji — „Zapłać".
+              </p>
+            </div>
+          </div>
+          {studentUpcoming.length === 0 && bookings.filter((b) => b.student_id === user?.id).length === 0 ? (
+            <p className="text-sm text-muted-foreground text-center py-4">Nie masz jeszcze żadnych rezerwacji.</p>
+          ) : (
+            <div className="space-y-2">
+              {bookings
+                .filter((b) => b.student_id === user?.id)
+                .slice(0, 8)
+                .map((b) => <BookingRow key={b.id} b={b} side="student" />)}
+            </div>
+          )}
+        </Card>
+
         {studentUnpaid.length > 0 && (
           <Card className="p-5 bg-card-soft border-accent/40">
             <div className="flex items-center gap-2 mb-3">
