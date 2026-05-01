@@ -406,7 +406,7 @@ const ResearchDashboardInner = () => {
                     <ul className="space-y-2 text-sm">
                       {Object.entries(data.expert.reviewsByType).map(([k, v]) => (
                         <li key={k} className="flex justify-between border-b last:border-0 pb-2">
-                          <span>{t(`expertReview.type.${k}`, k)}</span>
+                          <span>{String(t(`expertReview.type.${k}`, { defaultValue: k }))}</span>
                           <span className="font-semibold tabular-nums">{v as number}</span>
                         </li>
                       ))}
@@ -416,7 +416,7 @@ const ResearchDashboardInner = () => {
                       {data.expert.recent.map((r: any) => (
                         <li key={r.id} className="flex justify-between border rounded-md px-2 py-1.5">
                           <span className="font-mono">{r.id.slice(0, 8)}</span>
-                          <span>{t(`expertReview.type.${r.review_type}`, r.review_type)}</span>
+                          <span>{String(t(`expertReview.type.${r.review_type}`, { defaultValue: r.review_type }))}</span>
                           <span className="tabular-nums">{r.agreement_score == null ? "—" : pct(Number(r.agreement_score))}</span>
                         </li>
                       ))}
