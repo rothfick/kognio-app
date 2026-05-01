@@ -245,17 +245,27 @@ const CalendarPage = () => {
   return (
     <AppShell>
       <div className="container mx-auto px-4 py-10 max-w-3xl">
-        <h1 className="text-4xl font-bold mb-8">{t("calendar.title")}</h1>
+        <h1 className="text-4xl font-bold mb-2">
+          {parentOnly ? t("calendar.parentTitle") : t("calendar.title")}
+        </h1>
+        {parentOnly && (
+          <p className="text-sm text-muted-foreground mb-8">{t("calendar.parentSubtitle")}</p>
+        )}
+        {!parentOnly && <div className="mb-8" />}
         {loading ? <p className="text-muted-foreground">{t("common.loading")}</p> : (
           <>
             <h2 className="text-xl font-semibold mb-3">{t("calendar.upcoming")}</h2>
             {upcoming.length === 0 ? (
               <Card className="p-8 text-center bg-card-soft mb-8">
                 <CalIcon className="h-10 w-10 mx-auto mb-3 text-accent" />
-                <p className="text-muted-foreground mb-4">{t("calendar.empty")}</p>
-                <Button asChild className="bg-accent-gradient text-accent-foreground">
-                  <Link to="/discover"><Search className="h-4 w-4 mr-2" />{t("calendar.findTutor")}</Link>
-                </Button>
+                <p className="text-muted-foreground mb-4">
+                  {parentOnly ? t("calendar.parentEmpty") : t("calendar.empty")}
+                </p>
+                {!parentOnly && (
+                  <Button asChild className="bg-accent-gradient text-accent-foreground">
+                    <Link to="/discover"><Search className="h-4 w-4 mr-2" />{t("calendar.findTutor")}</Link>
+                  </Button>
+                )}
               </Card>
             ) : <div className="space-y-3 mb-8">{upcoming.map((b) => <Item key={b.id} b={b} />)}</div>}
 
