@@ -559,11 +559,11 @@ Deno.serve(async (req) => {
       // Update running totals
       await admin
         .from("diagnostic_attempts")
-        .update({ total_items: newTotal, correct_items: newCorrect })
+        .update({ total_items: newTotal, correct_items: newCorrect, language: effectiveLanguage })
         .eq("id", attemptId);
 
       const targetDiff = nextDifficulty(asked);
-      const q = await generateQuestion(attempt.domain ?? "", attempt.level ?? "", attempt.language ?? "pl", asked, targetDiff);
+      const q = await generateQuestion(attempt.domain ?? "", attempt.level ?? "", effectiveLanguage, asked, targetDiff);
       const { data: nextItem, error: niErr } = await admin
         .from("diagnostic_items")
         .insert({
@@ -572,7 +572,7 @@ Deno.serve(async (req) => {
           level: attempt.level,
           kc_label: q.kc_label,
           code: `ai_${attemptId.slice(0, 8)}_${newTotal + 1}`,
-          language: attempt.language ?? "pl",
+          language: effectiveLanguage,
           question: q.question,
           choices: q.choices,
           correct_choice: q.correct_choice,
