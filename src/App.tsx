@@ -29,6 +29,7 @@ import ChildKnowledge from "./pages/parent/ChildKnowledge";
 import ChildDiagnostic from "./pages/parent/ChildDiagnostic";
 import Diagnose from "./pages/Diagnose";
 import LearningPlan from "./pages/LearningPlan";
+import Checkpoint from "./pages/Checkpoint";
 import { SchoolDashboard, CompanyDashboard } from "./pages/dashboard/OrgDashboard";
 import OrgInviteAccept from "./pages/OrgInviteAccept";
 
@@ -53,6 +54,7 @@ const App = () => (
             <Route path="/diagnose" element={<ProtectedRoute><Diagnose /></ProtectedRoute>} />
             <Route path="/parent/children/:childId/diagnose" element={<ProtectedRoute><Diagnose /></ProtectedRoute>} />
             <Route path="/plans/:planId" element={<ProtectedRoute><LearningPlan /></ProtectedRoute>} />
+            <Route path="/checkpoints/:checkpointId" element={<ProtectedRoute><Checkpoint /></ProtectedRoute>} />
             <Route path="/dashboard/tutor" element={<ProtectedRoute><TutorDashboard /></ProtectedRoute>} />
             <Route path="/dashboard/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
             <Route path="/dashboard/school" element={<ProtectedRoute><SchoolDashboard /></ProtectedRoute>} />
