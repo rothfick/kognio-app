@@ -334,6 +334,8 @@ const ResearchDashboardInner = () => {
               </ol>
             </Surface>
 
+            <PilotReadinessSection />
+
             {/* Key metrics */}
             <section>
               <h2 className="text-lg font-semibold mb-3">{t("research.sections.keyMetrics")}</h2>
