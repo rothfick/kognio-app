@@ -230,6 +230,10 @@ export default function Checkpoint() {
           <Button size="sm" variant="ghost" disabled>{t("checkpoint.actions.generateNextPlan")}</Button>
         </div>
 
+        <div className="mt-6">
+          <FeedbackWidget contextType="checkpoint" contextId={cp.id} childId={cp.child_id ?? null} />
+        </div>
+
         <p className="mt-6 text-[11px] text-muted-foreground text-center">{t("checkpoint.credibility")}</p>
       </DashboardShell>
     </AppShell>
