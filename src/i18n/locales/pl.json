@@ -309,10 +309,19 @@
     "strengthsLabel": "Mocne strony:",
     "workLabel": "Do pracy:",
     "noFlashcards": "Fiszki pojawią się po wygenerowaniu raportu.",
-    "errorStatus": "Błąd {{status}}"
+    "errorStatus": "Błąd {{status}}",
+    "parentTitle": "Drugi Mózg dzieci",
+    "parentSubtitle": "Wybierz dziecko, aby otworzyć jego mapę wiedzy, raporty i transkrypty sesji.",
+    "parentEmpty": "Nie masz jeszcze powiązanych dzieci ani uczniów.",
+    "parentChildrenSection": "Twoje dzieci",
+    "parentLinkedSection": "Powiązani uczniowie",
+    "parentOpen": "Otwórz"
   },
   "calendar": {
     "title": "Kalendarz",
+    "parentTitle": "Wizyty Twoich dzieci",
+    "parentSubtitle": "Tu zobaczysz nadchodzące i minione lekcje powiązane z Twoimi dziećmi. Tylko podgląd — nie potwierdzasz ani nie opłacasz w imieniu dziecka.",
+    "parentEmpty": "Brak wizyt powiązanych z Twoimi dziećmi.",
     "upcoming": "Nadchodzące sesje",
     "past": "Minione sesje",
     "empty": "Brak zaplanowanych sesji.",
@@ -425,6 +434,9 @@
     "noChildrenTitle": "Brak dodanych dzieci",
     "noChildrenDesc": "Dodaj profil dziecka, aby rozpocząć diagnozę i otrzymywać raporty postępów.",
     "footerNote": "Polityka prywatności · Zgoda rodzica/opiekuna · Dokumenty prawne wymagają weryfikacji przed publicznym uruchomieniem.",
+    "upcomingTitle": "Najbliższe wizyty dzieci",
+    "upcomingEmpty": "Brak nadchodzących wizyt powiązanych z Twoimi dziećmi.",
+    "upcomingViewAll": "Zobacz cały kalendarz",
     "child": {
       "noSubject": "Brak przedmiotu",
       "consent": "Zgoda {{version}}",

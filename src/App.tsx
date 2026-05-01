@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { ParentRouteGuard } from "@/components/auth/ParentRouteGuard";
 import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
 import Discover from "./pages/Discover";
@@ -51,21 +52,21 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/onboarding" element={<ProtectedRoute><ParentRouteGuard><Onboarding /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/dashboard" element={<ProtectedRoute><DashboardRouter /></ProtectedRoute>} />
-            <Route path="/getting-started" element={<ProtectedRoute><GettingStarted /></ProtectedRoute>} />
+            <Route path="/getting-started" element={<ProtectedRoute><ParentRouteGuard><GettingStarted /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
-            <Route path="/dashboard/student" element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
+            <Route path="/dashboard/student" element={<ProtectedRoute><ParentRouteGuard><StudentDashboard /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/dashboard/parent" element={<ProtectedRoute><ParentDashboard /></ProtectedRoute>} />
             <Route path="/parent/children/:childId/knowledge" element={<ProtectedRoute><ChildKnowledge /></ProtectedRoute>} />
             <Route path="/parent/children/:childId/diagnostic" element={<ProtectedRoute><ChildDiagnostic /></ProtectedRoute>} />
             <Route path="/parent/linked/:studentId" element={<ProtectedRoute><LinkedStudentDashboard /></ProtectedRoute>} />
-            <Route path="/diagnose" element={<ProtectedRoute><Diagnose /></ProtectedRoute>} />
+            <Route path="/diagnose" element={<ProtectedRoute><ParentRouteGuard><Diagnose /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/parent/children/:childId/diagnose" element={<ProtectedRoute><Diagnose /></ProtectedRoute>} />
             <Route path="/plans/:planId" element={<ProtectedRoute><LearningPlan /></ProtectedRoute>} />
             <Route path="/checkpoints/:checkpointId" element={<ProtectedRoute><Checkpoint /></ProtectedRoute>} />
             <Route path="/expert/reviews/:reviewId" element={<ProtectedRoute><ExpertReview /></ProtectedRoute>} />
-            <Route path="/dashboard/tutor" element={<ProtectedRoute><TutorDashboard /></ProtectedRoute>} />
+            <Route path="/dashboard/tutor" element={<ProtectedRoute><ParentRouteGuard><TutorDashboard /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/dashboard/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
             <Route path="/admin/research" element={<ProtectedRoute><ResearchDashboard /></ProtectedRoute>} />
             <Route path="/admin/grant-pack" element={<ProtectedRoute><GrantPack /></ProtectedRoute>} />
@@ -74,15 +75,15 @@ const App = () => (
             <Route path="/org/invite/:token" element={<ProtectedRoute><OrgInviteAccept /></ProtectedRoute>} />
             <Route path="/dashboard/legacy" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-            <Route path="/discover" element={<ProtectedRoute><Discover /></ProtectedRoute>} />
-            <Route path="/circles" element={<ProtectedRoute><Circles /></ProtectedRoute>} />
-            <Route path="/peer" element={<ProtectedRoute><Peer /></ProtectedRoute>} />
+            <Route path="/discover" element={<ProtectedRoute><ParentRouteGuard><Discover /></ParentRouteGuard></ProtectedRoute>} />
+            <Route path="/circles" element={<ProtectedRoute><ParentRouteGuard><Circles /></ParentRouteGuard></ProtectedRoute>} />
+            <Route path="/peer" element={<ProtectedRoute><ParentRouteGuard><Peer /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
             <Route path="/brain" element={<ProtectedRoute><Brain /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
             <Route path="/tutor/:id" element={<ProtectedRoute><TutorProfile /></ProtectedRoute>} />
             <Route path="/session/:id" element={<ProtectedRoute><SessionRoom /></ProtectedRoute>} />
-            <Route path="/payment/:bookingId" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
+            <Route path="/payment/:bookingId" element={<ProtectedRoute><ParentRouteGuard><PaymentPage /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

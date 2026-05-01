@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUserRoles } from "@/hooks/useUserRoles";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Calendar as CalIcon, Video, Check, X, CreditCard, Search,
-  Clock, CheckCircle2, XCircle, Trophy,
+  Clock, CheckCircle2, XCircle, Trophy, Users as UsersIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -38,13 +39,69 @@ const StatusBadge = ({ status }: { status: string }) => {
 const CalendarPage = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
+  const { isParent, isStudent, isTutor, isAdmin } = useUserRoles();
+  const parentOnly = isParent && !isStudent && !isTutor && !isAdmin;
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [studentNames, setStudentNames] = useState<Record<string, string>>({});
   const [sessions, setSessions] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const prevStatusRef = useRef<Record<string, string>>({});
 
   const load = async () => {
     if (!user) return;
+
+    if (parentOnly) {
+      // Zbierz student_id powiązanych dzieci (parent_children -> child profile_id) oraz linked students
+      const { data: pc } = await supabase
+        .from("parent_children")
+        .select("id, display_name")
+        .eq("parent_id", user.id);
+      const childIds = ((pc || []) as { id: string; display_name: string }[]).map((c) => c.id);
+      const childNameMap: Record<string, string> = {};
+      (pc || []).forEach((c: any) => { childNameMap[c.id] = c.display_name; });
+
+      const { data: links } = await supabase
+        .from("student_parent_links")
+        .select("student_id")
+        .eq("parent_id", user.id)
+        .eq("status", "active");
+      const linkedIds = ((links || []) as { student_id: string }[]).map((l) => l.student_id);
+
+      const { data: linkedProfiles } = linkedIds.length
+        ? await supabase.from("profiles").select("id, display_name").in("id", linkedIds)
+        : { data: [] as any[] } as any;
+      ((linkedProfiles || []) as any[]).forEach((p) => { childNameMap[p.id] = p.display_name || ""; });
+
+      const allStudentIds = [...new Set([...childIds, ...linkedIds])];
+      setStudentNames(childNameMap);
+
+      if (allStudentIds.length === 0) {
+        setBookings([]);
+        setSessions({});
+        setLoading(false);
+        return;
+      }
+
+      const { data: bk } = await supabase
+        .from("bookings")
+        .select("*")
+        .in("student_id", allStudentIds)
+        .order("starts_at", { ascending: true });
+      const list = (bk as Booking[]) || [];
+      setBookings(list);
+      const ids = list.map((b) => b.id);
+      if (ids.length) {
+        const { data: ss } = await supabase.from("sessions").select("id, booking_id").in("booking_id", ids);
+        const map: Record<string, string> = {};
+        (ss as SessionRow[] | null)?.forEach((s) => { map[s.booking_id] = s.id; });
+        setSessions(map);
+      } else {
+        setSessions({});
+      }
+      setLoading(false);
+      return;
+    }
+
     const { data: bk } = await supabase
       .from("bookings").select("*")
       .or(`student_id.eq.${user.id},tutor_id.eq.${user.id}`)
@@ -73,7 +130,7 @@ const CalendarPage = () => {
     setLoading(false);
   };
 
-  useEffect(() => { load(); }, [user]);
+  useEffect(() => { load(); }, [user, parentOnly]);
 
   // Realtime: nasłuchuj zmian na własnych rezerwacjach
   useEffect(() => {
@@ -119,6 +176,7 @@ const CalendarPage = () => {
     const sessionId = sessions[b.id];
     const start = new Date(b.starts_at);
     const canEnter = b.status === "confirmed" || b.status === "completed";
+    const childName = parentOnly ? studentNames[b.student_id] : null;
 
     return (
       <Card className="p-4 bg-card-soft">
@@ -131,48 +189,55 @@ const CalendarPage = () => {
               <p className="font-medium">{start.toLocaleString()}</p>
               <StatusBadge status={b.status} />
               {isTutor && <Badge variant="outline">{t("calendar.asTutor")}</Badge>}
+              {parentOnly && childName && (
+                <Badge variant="secondary" className="gap-1">
+                  <UsersIcon className="h-3 w-3" /> {childName}
+                </Badge>
+              )}
             </div>
             <p className="text-sm text-muted-foreground mb-1">{(b.price_cents / 100).toFixed(0)} {b.currency}</p>
             <p className="text-xs text-muted-foreground">{t(`calendar.hint.${b.status}`, { defaultValue: t("calendar.hint.pending") })}</p>
           </div>
         </div>
 
-        <div className="mt-3 flex gap-2 flex-wrap justify-end border-t pt-3">
-          {isTutor && b.status === "pending" && (
-            <>
-              <Button size="sm" onClick={() => updateStatus(b.id, "confirmed")}>
-                <Check className="h-4 w-4 mr-1" />{t("calendar.confirm")}
+        {!parentOnly && (
+          <div className="mt-3 flex gap-2 flex-wrap justify-end border-t pt-3">
+            {isTutor && b.status === "pending" && (
+              <>
+                <Button size="sm" onClick={() => updateStatus(b.id, "confirmed")}>
+                  <Check className="h-4 w-4 mr-1" />{t("calendar.confirm")}
+                </Button>
+                <Button size="sm" variant="ghost" onClick={() => updateStatus(b.id, "cancelled")}>
+                  <X className="h-4 w-4 mr-1" />{t("calendar.reject")}
+                </Button>
+              </>
+            )}
+
+            {b.status === "pending" && !isTutor && (
+              <span className="text-xs text-muted-foreground self-center">
+                {t("calendar.waitingTutor")}
+              </span>
+            )}
+
+            {sessionId && canEnter && (
+              <Button size="sm" asChild className="bg-accent-gradient text-accent-foreground">
+                <Link to={`/session/${sessionId}`}><Video className="h-4 w-4 mr-1" />{t("calendar.enter")}</Link>
               </Button>
-              <Button size="sm" variant="ghost" onClick={() => updateStatus(b.id, "cancelled")}>
-                <X className="h-4 w-4 mr-1" />{t("calendar.reject")}
+            )}
+
+            {!isTutor && canEnter && (
+              <Button size="sm" variant="outline" asChild>
+                <Link to={`/payment/${b.id}`}><CreditCard className="h-4 w-4 mr-1" />{t("calendar.pay")}</Link>
               </Button>
-            </>
-          )}
+            )}
 
-          {b.status === "pending" && !isTutor && (
-            <span className="text-xs text-muted-foreground self-center">
-              {t("calendar.waitingTutor")}
-            </span>
-          )}
-
-          {sessionId && canEnter && (
-            <Button size="sm" asChild className="bg-accent-gradient text-accent-foreground">
-              <Link to={`/session/${sessionId}`}><Video className="h-4 w-4 mr-1" />{t("calendar.enter")}</Link>
-            </Button>
-          )}
-
-          {!isTutor && canEnter && (
-            <Button size="sm" variant="outline" asChild>
-              <Link to={`/payment/${b.id}`}><CreditCard className="h-4 w-4 mr-1" />{t("calendar.pay")}</Link>
-            </Button>
-          )}
-
-          {isTutor && b.status === "confirmed" && new Date(b.ends_at).getTime() < now && (
-            <Button size="sm" variant="outline" onClick={() => updateStatus(b.id, "completed")}>
-              <Trophy className="h-4 w-4 mr-1" />{t("calendar.markCompleted")}
-            </Button>
-          )}
-        </div>
+            {isTutor && b.status === "confirmed" && new Date(b.ends_at).getTime() < now && (
+              <Button size="sm" variant="outline" onClick={() => updateStatus(b.id, "completed")}>
+                <Trophy className="h-4 w-4 mr-1" />{t("calendar.markCompleted")}
+              </Button>
+            )}
+          </div>
+        )}
       </Card>
     );
   };
@@ -180,17 +245,27 @@ const CalendarPage = () => {
   return (
     <AppShell>
       <div className="container mx-auto px-4 py-10 max-w-3xl">
-        <h1 className="text-4xl font-bold mb-8">{t("calendar.title")}</h1>
+        <h1 className="text-4xl font-bold mb-2">
+          {parentOnly ? t("calendar.parentTitle") : t("calendar.title")}
+        </h1>
+        {parentOnly && (
+          <p className="text-sm text-muted-foreground mb-8">{t("calendar.parentSubtitle")}</p>
+        )}
+        {!parentOnly && <div className="mb-8" />}
         {loading ? <p className="text-muted-foreground">{t("common.loading")}</p> : (
           <>
             <h2 className="text-xl font-semibold mb-3">{t("calendar.upcoming")}</h2>
             {upcoming.length === 0 ? (
               <Card className="p-8 text-center bg-card-soft mb-8">
                 <CalIcon className="h-10 w-10 mx-auto mb-3 text-accent" />
-                <p className="text-muted-foreground mb-4">{t("calendar.empty")}</p>
-                <Button asChild className="bg-accent-gradient text-accent-foreground">
-                  <Link to="/discover"><Search className="h-4 w-4 mr-2" />{t("calendar.findTutor")}</Link>
-                </Button>
+                <p className="text-muted-foreground mb-4">
+                  {parentOnly ? t("calendar.parentEmpty") : t("calendar.empty")}
+                </p>
+                {!parentOnly && (
+                  <Button asChild className="bg-accent-gradient text-accent-foreground">
+                    <Link to="/discover"><Search className="h-4 w-4 mr-2" />{t("calendar.findTutor")}</Link>
+                  </Button>
+                )}
               </Card>
             ) : <div className="space-y-3 mb-8">{upcoming.map((b) => <Item key={b.id} b={b} />)}</div>}
 

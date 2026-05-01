@@ -3,23 +3,126 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUserRoles } from "@/hooks/useUserRoles";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Brain as BrainIcon, Sparkles, FileText, Loader2, Network, Search } from "lucide-react";
+import { Brain as BrainIcon, Sparkles, FileText, Loader2, Network, Search, ArrowRight, Users as UsersIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { KnowledgeGraph } from "@/components/brain/KnowledgeGraph";
 
+const ParentBrainView = () => {
+  const { t } = useTranslation();
+  const { user } = useAuth();
+  const [children, setChildren] = useState<{ id: string; display_name: string }[]>([]);
+  const [linked, setLinked] = useState<{ id: string; display_name: string | null }[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user) return;
+    (async () => {
+      const { data: pc } = await supabase
+        .from("parent_children")
+        .select("id, display_name")
+        .eq("parent_id", user.id);
+      setChildren((pc || []) as any);
+
+      const { data: links } = await supabase
+        .from("student_parent_links")
+        .select("student_id")
+        .eq("parent_id", user.id)
+        .eq("status", "active");
+      const ids = ((links || []) as { student_id: string }[]).map((l) => l.student_id);
+      if (ids.length) {
+        const { data: profs } = await supabase
+          .from("profiles")
+          .select("id, display_name")
+          .in("id", ids);
+        setLinked((profs || []) as any);
+      }
+      setLoading(false);
+    })();
+  }, [user]);
+
+  return (
+    <AppShell>
+      <div className="container mx-auto px-4 py-10 max-w-3xl">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="grid h-10 w-10 place-items-center rounded-lg bg-hero text-primary-foreground">
+            <BrainIcon className="h-5 w-5" />
+          </div>
+          <h1 className="text-4xl font-bold">{t("brain.parentTitle")}</h1>
+        </div>
+        <p className="text-muted-foreground mb-8">{t("brain.parentSubtitle")}</p>
+
+        {loading ? (
+          <p className="text-sm text-muted-foreground">{t("common.loading")}</p>
+        ) : children.length === 0 && linked.length === 0 ? (
+          <Card className="p-8 text-center bg-card-soft">
+            <UsersIcon className="h-10 w-10 mx-auto mb-3 text-accent" />
+            <p className="text-muted-foreground">{t("brain.parentEmpty")}</p>
+          </Card>
+        ) : (
+          <div className="space-y-6">
+            {children.length > 0 && (
+              <section>
+                <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground mb-3">
+                  {t("brain.parentChildrenSection")}
+                </h2>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {children.map((c) => (
+                    <Card key={c.id} className="p-4 bg-card-soft flex items-center justify-between">
+                      <span className="font-medium">{c.display_name}</span>
+                      <Button asChild size="sm" variant="outline">
+                        <Link to={`/parent/children/${c.id}/knowledge`}>
+                          {t("brain.parentOpen")} <ArrowRight className="h-4 w-4 ml-1" />
+                        </Link>
+                      </Button>
+                    </Card>
+                  ))}
+                </div>
+              </section>
+            )}
+            {linked.length > 0 && (
+              <section>
+                <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground mb-3">
+                  {t("brain.parentLinkedSection")}
+                </h2>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {linked.map((s) => (
+                    <Card key={s.id} className="p-4 bg-card-soft flex items-center justify-between">
+                      <span className="font-medium">{s.display_name || "—"}</span>
+                      <Button asChild size="sm" variant="outline">
+                        <Link to={`/parent/linked/${s.id}`}>
+                          {t("brain.parentOpen")} <ArrowRight className="h-4 w-4 ml-1" />
+                        </Link>
+                      </Button>
+                    </Card>
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>
+        )}
+      </div>
+    </AppShell>
+  );
+};
+
 const Brain = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
+  const { isParent, isStudent, isTutor, isAdmin, loading: rolesLoading } = useUserRoles();
+  const parentOnly = isParent && !isStudent && !isTutor && !isAdmin;
   const [q, setQ] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [transcripts, setTranscripts] = useState<{ id: string; text: string; created_at: string }[]>([]);
   const [reports, setReports] = useState<{ id: string; summary: string | null; strengths: string | null; weaknesses: string | null; flashcards: any; created_at: string }[]>([]);
+
+  if (!rolesLoading && parentOnly) return <ParentBrainView />;
 
   useEffect(() => {
     if (!user) return;
