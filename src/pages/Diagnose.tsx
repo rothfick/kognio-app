@@ -363,3 +363,68 @@ export default function Diagnose() {
     </AppShell>
   );
 }
+
+function PlanCta({ attemptId, childId, language }: { attemptId: string | null; childId: string | null; language: string }) {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [planId, setPlanId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
+
+  useEffect(() => {
+    if (!attemptId) return;
+    (async () => {
+      const { data } = await supabase
+        .from("learning_plans")
+        .select("id")
+        .eq("diagnostic_attempt_id", attemptId)
+        .maybeSingle();
+      setPlanId(data?.id ?? null);
+      setLoading(false);
+    })();
+  }, [attemptId]);
+
+  const generate = async () => {
+    if (!attemptId) return;
+    setGenerating(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("learning-plan-generate", {
+        body: { attempt_id: attemptId, language: language?.split("-")[0] || "pl" },
+      });
+      if (error) throw error;
+      const id = (data as { plan_id?: string })?.plan_id;
+      if (!id) throw new Error("no plan id");
+      toast.success(t("plan.generated"));
+      navigate(`/plans/${id}`);
+    } catch (e) {
+      toast.error((e as Error).message || t("plan.generateFailed"));
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  if (loading) return null;
+
+  return (
+    <Surface className="p-5 mb-4">
+      <div className="flex items-start gap-3 flex-wrap justify-between">
+        <div className="min-w-0">
+          <h3 className="font-semibold text-sm flex items-center gap-2 mb-1">
+            <Sparkles className="h-4 w-4 text-accent" /> {planId ? t("plan.viewCta") : t("plan.generateCta")}
+          </h3>
+          <p className="text-xs text-muted-foreground max-w-xl">{t("plan.generateHelper")}</p>
+        </div>
+        {planId ? (
+          <Button asChild className="bg-accent-gradient text-accent-foreground" size="sm">
+            <Link to={`/plans/${planId}`}>{t("plan.viewCta")}</Link>
+          </Button>
+        ) : (
+          <Button onClick={generate} disabled={generating} className="bg-accent-gradient text-accent-foreground" size="sm">
+            {generating ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <Sparkles className="h-4 w-4 mr-1" />}
+            {generating ? t("plan.generating") : t("plan.generateCta")}
+          </Button>
+        )}
+      </div>
+    </Surface>
+  );
+}
