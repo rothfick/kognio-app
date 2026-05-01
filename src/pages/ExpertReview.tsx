@@ -27,6 +27,7 @@ type Review = {
   learning_plan_id: string | null;
   checkpoint_id: string | null;
   reviewer_id: string;
+  reviewer_role: string;
   status: "draft" | "submitted" | "archived";
   ai_summary: Record<string, unknown>;
   notes: string | null;
