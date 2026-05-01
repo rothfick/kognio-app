@@ -124,7 +124,7 @@ const Onboarding = () => {
         // Add owner as member with role 'owner'
         await supabase.from("organization_members").insert({
           organization_id: org.id,
-          user_id: user.id,
+          user_id: activeUserId,
           member_role: "owner",
         });
       }
