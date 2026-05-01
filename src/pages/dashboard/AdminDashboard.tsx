@@ -23,13 +23,16 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     (async () => {
-      const [s, k, e, di, da, scoresRes] = await Promise.all([
+      const [s, k, e, di, da, scoresRes, lp, see, lpiDone] = await Promise.all([
         supabase.from("subjects").select("id", { count: "exact", head: true }).eq("is_active", true),
         supabase.from("knowledge_components").select("id", { count: "exact", head: true }).eq("is_active", true),
         supabase.from("kc_prerequisites").select("id", { count: "exact", head: true }),
         supabase.from("diagnostic_items").select("id", { count: "exact", head: true }).eq("is_active", true).eq("approved_by_admin", true),
         supabase.from("diagnostic_attempts").select("id", { count: "exact", head: true }).eq("status", "completed"),
         supabase.from("diagnostic_attempts").select("score").eq("status", "completed"),
+        supabase.from("learning_plans").select("id", { count: "exact", head: true }),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }),
+        supabase.from("learning_plan_items").select("id", { count: "exact", head: true }).eq("status", "done"),
       ]);
       setSubjectsCount(s.count ?? 0);
       setKcCount(k.count ?? 0);
@@ -38,6 +41,9 @@ const AdminDashboard = () => {
       setDiagAttempts(da.count ?? 0);
       const scores = ((scoresRes.data || []) as { score: number | null }[]).map((r) => Number(r.score ?? 0));
       setDiagAvgScore(scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null);
+      setPlansCount(lp.count ?? 0);
+      setEvidenceCount(see.count ?? 0);
+      setPlanItemsDone(lpiDone.count ?? 0);
     })();
   }, []);
 
