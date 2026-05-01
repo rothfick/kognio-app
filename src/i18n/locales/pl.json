@@ -1934,5 +1934,77 @@
     "expertCoverage": "Recenzje eksperckie",
     "feedbackPositive": "Pozytywny feedback",
     "consentCoverage": "Pokrycie zgód"
+  },
+  "tutorOnboarding": {
+    "title": "Zostań korepetytorem Kogni",
+    "subtitle": "Opowiedz o swoim nauczaniu. Zespół Kogni zweryfikuje Twój profil.",
+    "submit": "Zgłoś do weryfikacji",
+    "update": "Zaktualizuj profil",
+    "submitted": "Profil zgłoszony. Wkrótce go zweryfikujemy.",
+    "verificationStatement": "Potwierdzam, że powyższe dane są prawdziwe i że jestem przygotowany do nauczania wskazanych przedmiotów.",
+    "fields": {
+      "displayName": "Nazwa wyświetlana",
+      "headline": "Krótki opis",
+      "bio": "Bio",
+      "hourlyRate": "Stawka godzinowa",
+      "currency": "Waluta",
+      "languages": "Języki",
+      "teachingDomains": "Dziedziny nauczania",
+      "educationLevels": "Poziomy edukacji"
+    },
+    "placeholders": {
+      "headline": "Korepetytor matematyki, specjalizacja: matura",
+      "bio": "Krótko opisz swoje doświadczenie i styl nauczania…",
+      "domains": "matematyka, fizyka",
+      "levels": "liceum, studia"
+    },
+    "hints": {
+      "commaSeparated": "Lista rozdzielona przecinkami."
+    },
+    "errors": {
+      "required": "Uzupełnij imię, krótki opis i stawkę godzinową."
+    },
+    "status": {
+      "draft": "Szkic",
+      "pending": "Oczekuje na weryfikację",
+      "approved": "Zatwierdzony",
+      "rejected": "Odrzucony",
+      "suspended": "Zawieszony"
+    },
+    "statusHint": {
+      "draft": "Zgłoś profil do weryfikacji.",
+      "pending": "Twój profil oczekuje na weryfikację przez zespół Kogni.",
+      "approved": "Twój profil jest aktywny i widoczny w katalogu.",
+      "rejected": "Twój profil nie został zatwierdzony. Zapoznaj się z uwagami i zgłoś ponownie.",
+      "suspended": "Twój profil został tymczasowo zawieszony."
+    }
+  },
+  "tutorVerification": {
+    "title": "Weryfikacja korepetytorów",
+    "subtitle": "Przeglądaj i zatwierdzaj profile korepetytorów w katalogu Kogni.",
+    "tabs": {
+      "pending": "Oczekujące",
+      "approved": "Zatwierdzone",
+      "rejected": "Odrzucone"
+    },
+    "empty": "Brak korepetytorów w tym stanie.",
+    "approve": "Zatwierdź",
+    "reject": "Odrzuć",
+    "approved": "Korepetytor zatwierdzony.",
+    "rejected": "Korepetytor odrzucony.",
+    "notesPlaceholder": "Opcjonalne uwagi dla korepetytora (będą dla niego widoczne).",
+    "field": {
+      "rate": "Stawka",
+      "languages": "Języki",
+      "domains": "Dziedziny",
+      "levels": "Poziomy"
+    },
+    "notify": {
+      "approvedTitle": "Twój profil korepetytora został zatwierdzony",
+      "approvedBody": "Witaj w Kogni. Twój profil jest już widoczny w katalogu.",
+      "rejectedTitle": "Twój profil korepetytora wymaga zmian",
+      "rejectedBody": "Zapoznaj się z uwagami i zgłoś profil ponownie.",
+      "openProfile": "Otwórz profil"
+    }
   }
 }

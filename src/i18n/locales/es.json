@@ -1934,5 +1934,77 @@
     "expertCoverage": "Cobertura experta",
     "feedbackPositive": "Feedback positivo",
     "consentCoverage": "Cobertura de consentimientos"
+  },
+  "tutorOnboarding": {
+    "title": "Conviértete en tutor de Kogni",
+    "subtitle": "Cuéntanos sobre tu enseñanza. El equipo de Kogni revisará tu perfil.",
+    "submit": "Enviar para revisión",
+    "update": "Actualizar perfil",
+    "submitted": "Perfil enviado. Lo revisaremos en breve.",
+    "verificationStatement": "Confirmo que la información anterior es correcta y que estoy cualificado para enseñar las materias indicadas.",
+    "fields": {
+      "displayName": "Nombre a mostrar",
+      "headline": "Titular",
+      "bio": "Biografía",
+      "hourlyRate": "Tarifa por hora",
+      "currency": "Moneda",
+      "languages": "Idiomas",
+      "teachingDomains": "Áreas de enseñanza",
+      "educationLevels": "Niveles educativos"
+    },
+    "placeholders": {
+      "headline": "Tutor de matemáticas, especializado en preparación de selectividad",
+      "bio": "Describe brevemente tu experiencia y estilo de enseñanza…",
+      "domains": "matemáticas, física",
+      "levels": "secundaria, universidad"
+    },
+    "hints": {
+      "commaSeparated": "Lista separada por comas."
+    },
+    "errors": {
+      "required": "Completa nombre, titular y tarifa por hora."
+    },
+    "status": {
+      "draft": "Borrador",
+      "pending": "Pendiente de revisión",
+      "approved": "Aprobado",
+      "rejected": "Rechazado",
+      "suspended": "Suspendido"
+    },
+    "statusHint": {
+      "draft": "Envía tu perfil para revisión.",
+      "pending": "Tu perfil está pendiente de verificación por el equipo de Kogni.",
+      "approved": "Tu perfil está activo y visible en el catálogo.",
+      "rejected": "Tu perfil no fue aprobado. Revisa las notas y vuelve a enviarlo.",
+      "suspended": "Tu perfil ha sido suspendido temporalmente."
+    }
+  },
+  "tutorVerification": {
+    "title": "Verificación de tutores",
+    "subtitle": "Revisa y aprueba perfiles de tutores para el catálogo de Kogni.",
+    "tabs": {
+      "pending": "Pendientes",
+      "approved": "Aprobados",
+      "rejected": "Rechazados"
+    },
+    "empty": "No hay tutores en este estado.",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "approved": "Tutor aprobado.",
+    "rejected": "Tutor rechazado.",
+    "notesPlaceholder": "Notas opcionales para el tutor (serán visibles para él).",
+    "field": {
+      "rate": "Tarifa",
+      "languages": "Idiomas",
+      "domains": "Áreas",
+      "levels": "Niveles"
+    },
+    "notify": {
+      "approvedTitle": "Tu perfil de tutor fue aprobado",
+      "approvedBody": "Bienvenido a Kogni. Tu perfil ya es visible en el catálogo.",
+      "rejectedTitle": "Tu perfil de tutor requiere cambios",
+      "rejectedBody": "Revisa los comentarios y vuelve a enviar tu perfil.",
+      "openProfile": "Abrir perfil"
+    }
   }
 }

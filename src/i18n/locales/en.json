@@ -1934,5 +1934,77 @@
     "expertCoverage": "Expert coverage",
     "feedbackPositive": "Positive feedback",
     "consentCoverage": "Consent coverage"
+  },
+  "tutorOnboarding": {
+    "title": "Become a Kogni tutor",
+    "subtitle": "Tell us about your teaching. The Kogni team will review your profile.",
+    "submit": "Submit for review",
+    "update": "Update profile",
+    "submitted": "Profile submitted. We'll review it shortly.",
+    "verificationStatement": "I confirm that the information above is accurate and that I am qualified to teach the subjects I have listed.",
+    "fields": {
+      "displayName": "Display name",
+      "headline": "Headline",
+      "bio": "Bio",
+      "hourlyRate": "Hourly rate",
+      "currency": "Currency",
+      "languages": "Languages",
+      "teachingDomains": "Teaching domains",
+      "educationLevels": "Education levels"
+    },
+    "placeholders": {
+      "headline": "Math tutor specialising in matura prep",
+      "bio": "Briefly describe your experience and teaching style…",
+      "domains": "math, physics",
+      "levels": "high_school, university"
+    },
+    "hints": {
+      "commaSeparated": "Comma-separated list."
+    },
+    "errors": {
+      "required": "Please fill in name, headline and hourly rate."
+    },
+    "status": {
+      "draft": "Draft",
+      "pending": "Pending review",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "suspended": "Suspended"
+    },
+    "statusHint": {
+      "draft": "Submit your profile to be reviewed.",
+      "pending": "Your profile is awaiting verification by the Kogni team.",
+      "approved": "Your profile is live and visible in the marketplace.",
+      "rejected": "Your profile was not approved. Please review the notes and resubmit.",
+      "suspended": "Your profile has been temporarily suspended."
+    }
+  },
+  "tutorVerification": {
+    "title": "Tutor verification",
+    "subtitle": "Review and approve tutor profiles for the Kogni marketplace.",
+    "tabs": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "empty": "No tutors in this state.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "approved": "Tutor approved.",
+    "rejected": "Tutor rejected.",
+    "notesPlaceholder": "Optional notes for the tutor (will be visible to them).",
+    "field": {
+      "rate": "Rate",
+      "languages": "Languages",
+      "domains": "Domains",
+      "levels": "Levels"
+    },
+    "notify": {
+      "approvedTitle": "Your tutor profile was approved",
+      "approvedBody": "Welcome to Kogni. Your profile is now visible in the marketplace.",
+      "rejectedTitle": "Your tutor profile needs changes",
+      "rejectedBody": "Please review the feedback and resubmit your profile.",
+      "openProfile": "Open profile"
+    }
   }
 }
