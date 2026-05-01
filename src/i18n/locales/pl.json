@@ -319,6 +319,9 @@
   },
   "calendar": {
     "title": "Kalendarz",
+    "parentTitle": "Wizyty Twoich dzieci",
+    "parentSubtitle": "Tu zobaczysz nadchodzące i minione lekcje powiązane z Twoimi dziećmi. Tylko podgląd — nie potwierdzasz ani nie opłacasz w imieniu dziecka.",
+    "parentEmpty": "Brak wizyt powiązanych z Twoimi dziećmi.",
     "upcoming": "Nadchodzące sesje",
     "past": "Minione sesje",
     "empty": "Brak zaplanowanych sesji.",
