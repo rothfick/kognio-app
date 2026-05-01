@@ -31,7 +31,7 @@ type Submission = {
 
 export default function HomeworkDetail() {
   const { id } = useParams<{ id: string }>();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [assignment, setAssignment] = useState<Assignment | null>(null);
   const [items, setItems] = useState<Item[]>([]);
