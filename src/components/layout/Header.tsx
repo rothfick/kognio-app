@@ -15,6 +15,7 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
   DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { NotificationCenter } from "@/components/notifications/NotificationCenter";
 
 export function Header() {
   const { t, i18n } = useTranslation();
