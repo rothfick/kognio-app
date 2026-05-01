@@ -83,9 +83,9 @@ export function Header() {
 
         {user && (
           <nav className="hidden md:flex items-center gap-1">
-            {navItems.map(({ to, key, Icon, badge }) => (
+            {navItems.map(({ to, key, labelKey, Icon, badge }) => (
               <NavLink
-                key={to}
+                key={key}
                 to={to}
                 className={({ isActive }) =>
                   `relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-smooth ${
@@ -94,7 +94,7 @@ export function Header() {
                 }
               >
                 <Icon className="h-4 w-4" />
-                {t(`nav.${key}`)}
+                {t(labelKey)}
                 {badge ? (
                   <Badge variant="default" className="h-5 min-w-5 px-1.5 text-[10px] bg-accent text-accent-foreground">
                     {badge}
