@@ -134,8 +134,9 @@ const ChildKnowledge = () => {
     .filter((m) => !kcs.some((kc) => kc.id === m.kc_id) && m.evidence?.kc_label)
     .map((m) => ({ label: m.evidence!.kc_label!, mastery: Number(m.mastery_prob), source: m.source || "diagnostic_ai_adaptive" }));
   const fallbackRows = dynamicRows.length ? dynamicRows : syntheticRows;
+  const effectiveTrackedCount = trackedCount || fallbackRows.length;
   const avgMastery = trackedCount === 0
-    ? 0
+    ? (fallbackRows.length ? fallbackRows.reduce((a, b) => a + b.mastery, 0) / fallbackRows.length : 0)
     : Object.values(mastery).reduce((a, b) => a + Number(b.mastery_prob), 0) / trackedCount;
   const hasDiagnostic = !!latestAttempt;
 
@@ -162,8 +163,8 @@ const ChildKnowledge = () => {
 
         <div className="grid gap-4 sm:grid-cols-3 mb-6">
           <StatCard icon={BookOpen} label={t("knowledge.kcCount")} value={String(kcs.length)} hint={t("knowledge.kcCountHint")} />
-          <StatCard icon={Brain} label={t("knowledge.trackedKc")} value={String(trackedCount)} hint={trackedCount ? t("knowledge.trackedAfter") : t("knowledge.trackedNone")} />
-          <StatCard icon={Target} label={t("knowledge.avgLevel")} value={trackedCount ? `${Math.round(avgMastery * 100)}%` : "—"} hint={t("knowledge.avgHint")} />
+          <StatCard icon={Brain} label={t("knowledge.trackedKc")} value={String(effectiveTrackedCount)} hint={effectiveTrackedCount ? t("knowledge.trackedAfter") : t("knowledge.trackedNone")} />
+          <StatCard icon={Target} label={t("knowledge.avgLevel")} value={effectiveTrackedCount ? `${Math.round(avgMastery * 100)}%` : "—"} hint={t("knowledge.avgHint")} />
         </div>
 
         {!hasDiagnostic ? (
