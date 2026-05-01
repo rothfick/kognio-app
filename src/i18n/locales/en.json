@@ -29,7 +29,9 @@
     "notifications": "Notifications",
     "availability": "Availability",
     "bookings": "Bookings",
-    "tutorDashboard": "Tutor dashboard"
+    "tutorDashboard": "Tutor dashboard",
+    "homework": "Homework",
+    "assignments": "Assignments"
   },
   "landing": {
     "heroEyebrow": "Intelligent learning platform",
