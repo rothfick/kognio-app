@@ -23,7 +23,7 @@ const StudentDashboard = () => {
           <DashboardHeader
             title={t("dashboard.studentTitle")}
             subtitle={t("dashboard.studentSubtitle")}
-            primaryAction={{ label: t("dashboard.diagnoseCta"), to: "/dashboard/student" }}
+            primaryAction={{ label: t("dashboard.diagnoseCta"), to: "/diagnose" }}
           />
 
           <div className="grid gap-4 sm:grid-cols-3 mb-6">
@@ -35,9 +35,14 @@ const StudentDashboard = () => {
           <div className="grid gap-5 md:grid-cols-3 mb-6">
             <AIInsightCard title="Następny krok" className="md:col-span-2">
               <p>
-                Diagnoza wstępna v1 jest obecnie uruchamiana z konta rodzica (Diagnoza v1 dla profili dzieci). Pełna diagnoza adaptacyjna AI dla konta ucznia pojawi się w kolejnym etapie.
+                Zrób adaptacyjną diagnozę AI z dowolnego przedmiotu — od szkoły podstawowej po studia. AI wygeneruje pytania w locie i pokaże mapę Twoich kompetencji oraz konkretne rekomendacje nauki.
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
+                <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+                  <Link to="/diagnose">
+                    Zrób diagnozę AI <ArrowRight className="ml-1 h-3.5 w-3.5" />
+                  </Link>
+                </Button>
                 <Button asChild size="sm" variant="outline">
                   <Link to="/discover">
                     Znajdź korepetytora <ArrowRight className="ml-1 h-3.5 w-3.5" />

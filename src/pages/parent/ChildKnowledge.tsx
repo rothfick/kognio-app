@@ -139,11 +139,11 @@ const ChildKnowledge = () => {
 
         <DashboardHeader
           title={child ? `Mapa wiedzy — ${child.display_name}` : "Mapa wiedzy"}
-          subtitle="Matematyka klasy 7–9. Po pierwszej diagnozie tutaj pojawią się realne poziomy opanowania."
+          subtitle="Po diagnozie AI tutaj pojawi się mapa kompetencji dziecka z konkretnymi rekomendacjami."
           actions={
             <Button asChild className="bg-accent-gradient text-accent-foreground" size="sm">
-              <Link to={`/parent/children/${childId}/diagnostic`}>
-                <Sparkles className="h-4 w-4 mr-1" /> {hasDiagnostic ? "Powtórz diagnozę" : "Zrób pierwszą diagnozę"}
+              <Link to={`/parent/children/${childId}/diagnose`}>
+                <Sparkles className="h-4 w-4 mr-1" /> {hasDiagnostic ? "Powtórz diagnozę AI" : "Zrób diagnozę AI"}
               </Link>
             </Button>
           }
@@ -156,14 +156,13 @@ const ChildKnowledge = () => {
         </div>
 
         {!hasDiagnostic ? (
-          <AIInsightCard title="Diagnoza wstępna v1" className="mb-6">
+          <AIInsightCard title="Adaptacyjna diagnoza AI" className="mb-6">
             <p className="mb-3">
-              Diagnoza v1 składa się z krótkiego testu wyboru. Wynik zainicjuje mapę wiedzy dziecka.
-              Pełna adaptacyjna diagnoza AI zostanie dodana w kolejnych etapach.
+              Wybierz dziedzinę i poziom — AI wygeneruje pytania w locie, dostosuje trudność do odpowiedzi dziecka i zwróci szczegółową mapę kompetencji oraz rekomendacje.
             </p>
             <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
-              <Link to={`/parent/children/${childId}/diagnostic`}>
-                <Sparkles className="h-4 w-4 mr-1" /> Zrób pierwszą diagnozę
+              <Link to={`/parent/children/${childId}/diagnose`}>
+                <Sparkles className="h-4 w-4 mr-1" /> Zrób diagnozę AI
               </Link>
             </Button>
           </AIInsightCard>

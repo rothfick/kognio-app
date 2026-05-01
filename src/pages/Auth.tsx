@@ -25,13 +25,15 @@ const Auth = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [mode, setMode] = useState<"signin" | "signup">(params.get("mode") === "signup" ? "signup" : "signin");
+  const next = params.get("next") || "/discover";
+  const safeNext = next.startsWith("/") ? next : "/discover";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user) navigate("/discover");
-  }, [user, navigate]);
+    if (user) navigate(safeNext);
+  }, [user, navigate, safeNext]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,14 +48,14 @@ const Auth = () => {
         const { error } = await supabase.auth.signUp({
           email: parsed.data.email,
           password: parsed.data.password,
-          options: { emailRedirectTo: `${window.location.origin}/discover` },
+          options: { emailRedirectTo: `${window.location.origin}${safeNext}` },
         });
         if (error) throw error;
         toast.success(t("auth.checkEmail"));
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email: parsed.data.email, password: parsed.data.password });
         if (error) throw error;
-        navigate("/discover");
+        navigate(safeNext);
       }
     } catch (err) {
       const m = err instanceof Error ? err.message : t("auth.errorGeneric");
@@ -65,14 +67,14 @@ const Auth = () => {
 
   const onGoogle = async () => {
     setLoading(true);
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: `${window.location.origin}/discover` });
+    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: `${window.location.origin}${safeNext}` });
     if (result.error) {
       toast.error(t("auth.errorGeneric"));
       setLoading(false);
       return;
     }
     if (result.redirected) return;
-    navigate("/discover");
+    navigate(safeNext);
   };
 
   return (
