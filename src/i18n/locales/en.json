@@ -1413,5 +1413,181 @@
     "purposeExpert": "I am an expert / reviewer",
     "skip": "Skip",
     "continue": "Continue"
+  },
+  "gettingStarted": {
+    "self": {
+      "title": "Start with Kogni in 5 minutes",
+      "subtitle": "Run your first diagnosis and turn the result into a learning plan.",
+      "s1": {
+        "title": "Confirm consent for AI diagnosis",
+        "desc": "We need a short consent before the AI can analyse your answers.",
+        "cta": "Review consent"
+      },
+      "s2": {
+        "title": "Pick a knowledge area",
+        "desc": "Choose a domain and level so the diagnosis matches your goal.",
+        "cta": "Pick area"
+      },
+      "s3": {
+        "title": "Run the diagnosis",
+        "desc": "Answer the adaptive questions — usually 4 to 6 minutes.",
+        "cta": "Start diagnosis"
+      },
+      "s4": {
+        "title": "See your result and gap map",
+        "desc": "Review what you know well and where the gaps are.",
+        "cta": "See result"
+      },
+      "s5": {
+        "title": "Generate your first learning plan",
+        "desc": "Turn the diagnosis into concrete steps you can complete.",
+        "cta": "Create plan"
+      }
+    },
+    "parent": {
+      "title": "Set up your child's first diagnosis",
+      "subtitle": "Add a child profile, give consent, and run the first diagnosis.",
+      "s1": {
+        "title": "Add a child profile",
+        "desc": "Create a private profile for your child — no marketing, no third parties.",
+        "cta": "Add child"
+      },
+      "s2": {
+        "title": "Confirm parent / guardian consent",
+        "desc": "We need your consent before any AI processes your child's answers.",
+        "cta": "Give consent"
+      },
+      "s3": {
+        "title": "Run the child's diagnosis",
+        "desc": "Adaptive questions, usually 5–7 minutes. You can sit with your child.",
+        "cta": "Start diagnosis"
+      },
+      "s4": {
+        "title": "See the knowledge map",
+        "desc": "Review strengths and gaps in plain language.",
+        "cta": "View map"
+      },
+      "s5": {
+        "title": "Create the first learning plan",
+        "desc": "Turn the diagnosis into a short plan you can do together.",
+        "cta": "Create plan"
+      },
+      "otherChildren": "Other children"
+    },
+    "progressTitle": "Your progress",
+    "estMin": "≈ {{min}} min",
+    "dashboardCta": "Open dashboard"
+  },
+  "nextAction": {
+    "self": {
+      "consent": {
+        "label": "Confirm AI diagnosis consent",
+        "desc": "Quickly review and accept what data the AI will analyse."
+      },
+      "diagnose": {
+        "label": "Run your first diagnosis",
+        "desc": "An adaptive AI assessment that maps what you already know."
+      },
+      "createPlan": {
+        "label": "Create your first learning plan",
+        "desc": "Turn your diagnosis result into concrete next steps."
+      },
+      "doPlan": {
+        "label": "Continue your learning plan",
+        "desc": "Complete a few more steps to unlock a progress checkpoint."
+      },
+      "checkpoint": {
+        "label": "Run a progress checkpoint",
+        "desc": "Re-measure mastery and see how much you've improved."
+      },
+      "viewCheckpoint": {
+        "label": "Review your latest checkpoint",
+        "desc": "See your score change and updated mastery map."
+      }
+    },
+    "parent": {
+      "addChild": {
+        "label": "Add your first child",
+        "desc": "Create a private profile to start a child-friendly diagnosis."
+      },
+      "childConsent": {
+        "label": "Give consent for child's diagnosis",
+        "desc": "A short parent / guardian consent before the AI sees the answers."
+      },
+      "childDiagnose": {
+        "label": "Run your child's first diagnosis",
+        "desc": "Adaptive questions, usually 5–7 minutes."
+      },
+      "childCreatePlan": {
+        "label": "Create the first learning plan",
+        "desc": "Turn the diagnosis into a short, doable plan."
+      },
+      "childDoPlan": {
+        "label": "Continue the learning plan",
+        "desc": "Complete a few more steps with your child to unlock a checkpoint."
+      },
+      "childCheckpoint": {
+        "label": "Run a progress checkpoint",
+        "desc": "Re-measure your child's mastery and see real progress."
+      },
+      "childViewCheckpoint": {
+        "label": "Review the latest checkpoint",
+        "desc": "See your child's score change and updated map."
+      }
+    }
+  },
+  "firstSuccess": {
+    "cardTitle": "Next best step",
+    "complete": "Complete",
+    "viewChecklist": "View checklist",
+    "stepsProgress": "{{done}} of {{total}} steps completed",
+    "pilotNote": "Kogni is currently in pilot phase. Your feedback helps us improve diagnosis, learning plans, and progress measurement.",
+    "funnel": {
+      "title": "First success funnel",
+      "subtitle": "Distinct users / children reaching each milestone — for pilot monitoring (no PII).",
+      "selfDiagnosis": "Users with diagnosis",
+      "selfPlan": "Users with plan",
+      "selfPlanActive": "Users with active plan",
+      "selfCheckpoint": "Users with checkpoint",
+      "childDiagnosis": "Children with diagnosis",
+      "childPlan": "Children with plan"
+    }
+  },
+  "emptyState": {
+    "studentNoDiagnosis": {
+      "title": "No diagnosis yet",
+      "desc": "Run a short AI diagnosis to build your knowledge map.",
+      "cta": "Start diagnosis"
+    },
+    "parentNoChild": {
+      "title": "No child added yet",
+      "desc": "Add a child profile to start your first diagnosis.",
+      "cta": "Add child"
+    },
+    "parentChildNoDiagnosis": {
+      "title": "No diagnosis for this child yet",
+      "desc": "Run a short adaptive diagnosis to map what your child already knows.",
+      "cta": "Start diagnosis"
+    },
+    "planNotFound": {
+      "title": "Learning plan not found",
+      "desc": "It may have been removed or you don't have access.",
+      "cta": "Back to dashboard"
+    },
+    "checkpointNotAvailable": {
+      "title": "No checkpoint yet",
+      "desc": "Complete a few more plan steps to unlock a progress checkpoint.",
+      "cta": "Continue learning plan"
+    },
+    "researchConsentMissing": {
+      "title": "Consent needed",
+      "desc": "Accept the AI diagnosis notice to continue.",
+      "cta": "Review consent"
+    },
+    "feedbackAlready": {
+      "title": "Feedback already submitted",
+      "desc": "Thank you — your feedback helps us improve.",
+      "cta": "Back"
+    }
   }
 }

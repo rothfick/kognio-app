@@ -1413,5 +1413,181 @@
     "purposeExpert": "Jestem ekspertem / recenzentem",
     "skip": "Pomiń",
     "continue": "Dalej"
+  },
+  "gettingStarted": {
+    "self": {
+      "title": "Zacznij z Kogni w 5 minut",
+      "subtitle": "Uruchom pierwszą diagnozę i zamień wynik w plan nauki.",
+      "s1": {
+        "title": "Potwierdź zgodę na diagnozę AI",
+        "desc": "Krótka zgoda zanim AI przeanalizuje Twoje odpowiedzi.",
+        "cta": "Sprawdź zgodę"
+      },
+      "s2": {
+        "title": "Wybierz obszar wiedzy",
+        "desc": "Wybierz dziedzinę i poziom, by diagnoza pasowała do Twojego celu.",
+        "cta": "Wybierz obszar"
+      },
+      "s3": {
+        "title": "Zrób diagnozę",
+        "desc": "Adaptacyjne pytania — zwykle 4–6 minut.",
+        "cta": "Zacznij diagnozę"
+      },
+      "s4": {
+        "title": "Zobacz wynik i mapę luk",
+        "desc": "Sprawdź, co znasz dobrze, a gdzie są luki.",
+        "cta": "Zobacz wynik"
+      },
+      "s5": {
+        "title": "Ułóż pierwszy plan nauki",
+        "desc": "Zamień diagnozę w konkretne kroki do wykonania.",
+        "cta": "Utwórz plan"
+      }
+    },
+    "parent": {
+      "title": "Przygotuj pierwszą diagnozę dziecka",
+      "subtitle": "Dodaj profil dziecka, potwierdź zgodę i uruchom pierwszą diagnozę.",
+      "s1": {
+        "title": "Dodaj profil dziecka",
+        "desc": "Utwórz prywatny profil dziecka — bez marketingu, bez stron trzecich.",
+        "cta": "Dodaj dziecko"
+      },
+      "s2": {
+        "title": "Potwierdź zgodę rodzica/opiekuna",
+        "desc": "Potrzebujemy Twojej zgody, zanim AI przetworzy odpowiedzi dziecka.",
+        "cta": "Wyraź zgodę"
+      },
+      "s3": {
+        "title": "Uruchom diagnozę dziecka",
+        "desc": "Adaptacyjne pytania, zwykle 5–7 minut. Możesz być obok dziecka.",
+        "cta": "Zacznij diagnozę"
+      },
+      "s4": {
+        "title": "Zobacz mapę wiedzy",
+        "desc": "Sprawdź mocne strony i luki w prostym języku.",
+        "cta": "Zobacz mapę"
+      },
+      "s5": {
+        "title": "Ułóż pierwszy plan nauki",
+        "desc": "Zamień diagnozę w krótki plan, który zrobicie razem.",
+        "cta": "Utwórz plan"
+      },
+      "otherChildren": "Pozostałe dzieci"
+    },
+    "progressTitle": "Twoje postępy",
+    "estMin": "≈ {{min}} min",
+    "dashboardCta": "Otwórz panel"
+  },
+  "nextAction": {
+    "self": {
+      "consent": {
+        "label": "Potwierdź zgodę na diagnozę AI",
+        "desc": "Szybko przejrzyj i zaakceptuj, jakie dane przeanalizuje AI."
+      },
+      "diagnose": {
+        "label": "Zrób pierwszą diagnozę",
+        "desc": "Adaptacyjna diagnoza AI mapuje to, co już wiesz."
+      },
+      "createPlan": {
+        "label": "Ułóż pierwszy plan nauki",
+        "desc": "Zamień wynik diagnozy w konkretne kolejne kroki."
+      },
+      "doPlan": {
+        "label": "Kontynuuj plan nauki",
+        "desc": "Wykonaj kilka kolejnych kroków, aby odblokować checkpoint postępu."
+      },
+      "checkpoint": {
+        "label": "Uruchom checkpoint postępu",
+        "desc": "Zmierz ponownie opanowanie materiału i zobacz, ile zyskałeś."
+      },
+      "viewCheckpoint": {
+        "label": "Zobacz ostatni checkpoint",
+        "desc": "Sprawdź zmianę wyniku i zaktualizowaną mapę wiedzy."
+      }
+    },
+    "parent": {
+      "addChild": {
+        "label": "Dodaj pierwsze dziecko",
+        "desc": "Utwórz prywatny profil, by zacząć przyjazną diagnozę."
+      },
+      "childConsent": {
+        "label": "Wyraź zgodę na diagnozę dziecka",
+        "desc": "Krótka zgoda rodzica/opiekuna zanim AI zobaczy odpowiedzi."
+      },
+      "childDiagnose": {
+        "label": "Zrób pierwszą diagnozę dziecka",
+        "desc": "Adaptacyjne pytania, zwykle 5–7 minut."
+      },
+      "childCreatePlan": {
+        "label": "Ułóż pierwszy plan nauki",
+        "desc": "Zamień diagnozę w krótki, wykonalny plan."
+      },
+      "childDoPlan": {
+        "label": "Kontynuuj plan nauki",
+        "desc": "Wykonajcie kilka kolejnych kroków, aby odblokować checkpoint."
+      },
+      "childCheckpoint": {
+        "label": "Uruchom checkpoint postępu",
+        "desc": "Zmierz ponownie opanowanie i zobacz prawdziwe postępy."
+      },
+      "childViewCheckpoint": {
+        "label": "Zobacz ostatni checkpoint",
+        "desc": "Sprawdź zmianę wyniku i zaktualizowaną mapę dziecka."
+      }
+    }
+  },
+  "firstSuccess": {
+    "cardTitle": "Następny najlepszy krok",
+    "complete": "Ukończone",
+    "viewChecklist": "Zobacz checklistę",
+    "stepsProgress": "Ukończono {{done}} z {{total}} kroków",
+    "pilotNote": "Kogni jest w fazie pilotażowej. Twoje opinie pomagają nam ulepszać diagnozę, plan nauki i pomiar postępów.",
+    "funnel": {
+      "title": "Lejek pierwszego sukcesu",
+      "subtitle": "Unikalni użytkownicy / dzieci osiągające każdy kamień milowy — do monitorowania pilotażu (bez danych osobowych).",
+      "selfDiagnosis": "Użytkownicy z diagnozą",
+      "selfPlan": "Użytkownicy z planem",
+      "selfPlanActive": "Użytkownicy z aktywnym planem",
+      "selfCheckpoint": "Użytkownicy z checkpointem",
+      "childDiagnosis": "Dzieci z diagnozą",
+      "childPlan": "Dzieci z planem"
+    }
+  },
+  "emptyState": {
+    "studentNoDiagnosis": {
+      "title": "Brak diagnozy",
+      "desc": "Zrób krótką diagnozę AI, by zbudować swoją mapę wiedzy.",
+      "cta": "Zacznij diagnozę"
+    },
+    "parentNoChild": {
+      "title": "Nie dodano dziecka",
+      "desc": "Dodaj profil dziecka, by zacząć pierwszą diagnozę.",
+      "cta": "Dodaj dziecko"
+    },
+    "parentChildNoDiagnosis": {
+      "title": "Brak diagnozy dla tego dziecka",
+      "desc": "Zrób krótką diagnozę adaptacyjną, by zmapować to, co dziecko już wie.",
+      "cta": "Zacznij diagnozę"
+    },
+    "planNotFound": {
+      "title": "Nie znaleziono planu nauki",
+      "desc": "Plan mógł zostać usunięty lub nie masz do niego dostępu.",
+      "cta": "Wróć do panelu"
+    },
+    "checkpointNotAvailable": {
+      "title": "Brak checkpointu",
+      "desc": "Wykonaj jeszcze kilka kroków planu, aby odblokować checkpoint postępu.",
+      "cta": "Kontynuuj plan nauki"
+    },
+    "researchConsentMissing": {
+      "title": "Wymagana zgoda",
+      "desc": "Zaakceptuj informację o diagnozie AI, aby kontynuować.",
+      "cta": "Sprawdź zgodę"
+    },
+    "feedbackAlready": {
+      "title": "Opinia już wysłana",
+      "desc": "Dziękujemy — Twoja opinia pomaga nam się rozwijać.",
+      "cta": "Wróć"
+    }
   }
 }

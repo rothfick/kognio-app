@@ -1413,5 +1413,181 @@
     "purposeExpert": "Soy experto / revisor",
     "skip": "Omitir",
     "continue": "Continuar"
+  },
+  "gettingStarted": {
+    "self": {
+      "title": "Empieza con Kogni en 5 minutos",
+      "subtitle": "Realiza tu primer diagnóstico y conviértelo en un plan de aprendizaje.",
+      "s1": {
+        "title": "Confirma el consentimiento del diagnóstico con IA",
+        "desc": "Un consentimiento breve antes de que la IA analice tus respuestas.",
+        "cta": "Revisar consentimiento"
+      },
+      "s2": {
+        "title": "Elige un área de conocimiento",
+        "desc": "Elige un dominio y nivel para que el diagnóstico se ajuste a tu objetivo.",
+        "cta": "Elegir área"
+      },
+      "s3": {
+        "title": "Realiza el diagnóstico",
+        "desc": "Preguntas adaptativas — normalmente 4–6 minutos.",
+        "cta": "Iniciar diagnóstico"
+      },
+      "s4": {
+        "title": "Mira el resultado y el mapa de carencias",
+        "desc": "Revisa lo que ya dominas y dónde están las carencias.",
+        "cta": "Ver resultado"
+      },
+      "s5": {
+        "title": "Genera tu primer plan de aprendizaje",
+        "desc": "Convierte el diagnóstico en pasos concretos que puedas completar.",
+        "cta": "Crear plan"
+      }
+    },
+    "parent": {
+      "title": "Prepara el primer diagnóstico de tu hijo/a",
+      "subtitle": "Añade un perfil, da el consentimiento y realiza el primer diagnóstico.",
+      "s1": {
+        "title": "Añade un perfil de tu hijo/a",
+        "desc": "Crea un perfil privado — sin marketing, sin terceros.",
+        "cta": "Añadir hijo/a"
+      },
+      "s2": {
+        "title": "Confirma el consentimiento del padre/madre/tutor",
+        "desc": "Necesitamos tu consentimiento antes de que la IA procese sus respuestas.",
+        "cta": "Dar consentimiento"
+      },
+      "s3": {
+        "title": "Realiza el diagnóstico de tu hijo/a",
+        "desc": "Preguntas adaptativas, normalmente 5–7 minutos. Puedes acompañarle.",
+        "cta": "Iniciar diagnóstico"
+      },
+      "s4": {
+        "title": "Mira el mapa de conocimientos",
+        "desc": "Revisa fortalezas y carencias en lenguaje claro.",
+        "cta": "Ver mapa"
+      },
+      "s5": {
+        "title": "Crea el primer plan de aprendizaje",
+        "desc": "Convierte el diagnóstico en un plan corto que podáis hacer juntos.",
+        "cta": "Crear plan"
+      },
+      "otherChildren": "Otros hijos/as"
+    },
+    "progressTitle": "Tu progreso",
+    "estMin": "≈ {{min}} min",
+    "dashboardCta": "Abrir panel"
+  },
+  "nextAction": {
+    "self": {
+      "consent": {
+        "label": "Confirma el consentimiento de la IA",
+        "desc": "Revisa y acepta qué datos analizará la IA."
+      },
+      "diagnose": {
+        "label": "Realiza tu primer diagnóstico",
+        "desc": "Una evaluación adaptativa con IA que mapea lo que ya sabes."
+      },
+      "createPlan": {
+        "label": "Crea tu primer plan de aprendizaje",
+        "desc": "Convierte el resultado del diagnóstico en próximos pasos concretos."
+      },
+      "doPlan": {
+        "label": "Continúa tu plan de aprendizaje",
+        "desc": "Completa unos pasos más para desbloquear un checkpoint de progreso."
+      },
+      "checkpoint": {
+        "label": "Realiza un checkpoint de progreso",
+        "desc": "Vuelve a medir tu dominio y ve cuánto has mejorado."
+      },
+      "viewCheckpoint": {
+        "label": "Revisa tu último checkpoint",
+        "desc": "Mira el cambio en tu puntuación y tu mapa de dominio actualizado."
+      }
+    },
+    "parent": {
+      "addChild": {
+        "label": "Añade a tu primer hijo/a",
+        "desc": "Crea un perfil privado para iniciar un diagnóstico amigable."
+      },
+      "childConsent": {
+        "label": "Da consentimiento para el diagnóstico",
+        "desc": "Un breve consentimiento del padre/madre/tutor antes de que la IA vea las respuestas."
+      },
+      "childDiagnose": {
+        "label": "Realiza el primer diagnóstico de tu hijo/a",
+        "desc": "Preguntas adaptativas, normalmente 5–7 minutos."
+      },
+      "childCreatePlan": {
+        "label": "Crea el primer plan de aprendizaje",
+        "desc": "Convierte el diagnóstico en un plan corto y realizable."
+      },
+      "childDoPlan": {
+        "label": "Continúa el plan de aprendizaje",
+        "desc": "Completad unos pasos más para desbloquear un checkpoint."
+      },
+      "childCheckpoint": {
+        "label": "Realiza un checkpoint de progreso",
+        "desc": "Vuelve a medir el dominio de tu hijo/a y ve el progreso real."
+      },
+      "childViewCheckpoint": {
+        "label": "Revisa el último checkpoint",
+        "desc": "Mira el cambio de puntuación y el mapa actualizado."
+      }
+    }
+  },
+  "firstSuccess": {
+    "cardTitle": "Siguiente mejor paso",
+    "complete": "Completado",
+    "viewChecklist": "Ver lista",
+    "stepsProgress": "{{done}} de {{total}} pasos completados",
+    "pilotNote": "Kogni está actualmente en fase piloto. Tus comentarios nos ayudan a mejorar el diagnóstico, los planes de estudio y la medición del progreso.",
+    "funnel": {
+      "title": "Embudo del primer éxito",
+      "subtitle": "Usuarios / hijos únicos que alcanzan cada hito — para monitorización del piloto (sin datos personales).",
+      "selfDiagnosis": "Usuarios con diagnóstico",
+      "selfPlan": "Usuarios con plan",
+      "selfPlanActive": "Usuarios con plan activo",
+      "selfCheckpoint": "Usuarios con checkpoint",
+      "childDiagnosis": "Hijos/as con diagnóstico",
+      "childPlan": "Hijos/as con plan"
+    }
+  },
+  "emptyState": {
+    "studentNoDiagnosis": {
+      "title": "Aún sin diagnóstico",
+      "desc": "Realiza un breve diagnóstico con IA para construir tu mapa de conocimientos.",
+      "cta": "Iniciar diagnóstico"
+    },
+    "parentNoChild": {
+      "title": "Aún no has añadido a tu hijo/a",
+      "desc": "Añade un perfil para iniciar tu primer diagnóstico.",
+      "cta": "Añadir hijo/a"
+    },
+    "parentChildNoDiagnosis": {
+      "title": "Sin diagnóstico para este/a hijo/a",
+      "desc": "Realiza un breve diagnóstico adaptativo para mapear lo que ya sabe.",
+      "cta": "Iniciar diagnóstico"
+    },
+    "planNotFound": {
+      "title": "Plan de aprendizaje no encontrado",
+      "desc": "Puede haber sido eliminado o no tienes acceso.",
+      "cta": "Volver al panel"
+    },
+    "checkpointNotAvailable": {
+      "title": "Aún sin checkpoint",
+      "desc": "Completa unos pasos más del plan para desbloquear un checkpoint de progreso.",
+      "cta": "Continuar el plan"
+    },
+    "researchConsentMissing": {
+      "title": "Se necesita consentimiento",
+      "desc": "Acepta el aviso de diagnóstico con IA para continuar.",
+      "cta": "Revisar consentimiento"
+    },
+    "feedbackAlready": {
+      "title": "Comentario ya enviado",
+      "desc": "Gracias — tu opinión nos ayuda a mejorar.",
+      "cta": "Volver"
+    }
   }
 }
