@@ -26,7 +26,12 @@ export type NotificationType =
   | "payment_confirmed"
   | "session_completed"
   | "tutor_note_submitted"
-  | "booking_cancelled";
+  | "booking_cancelled"
+  // homework
+  | "homework_assigned"
+  | "homework_submitted"
+  | "homework_graded"
+  | "homework_needs_review";
 
 export interface CreateNotificationInput {
   userId: string;
