@@ -20,8 +20,10 @@ import { NotificationCenter } from "@/components/notifications/NotificationCente
 export function Header() {
   const { t, i18n } = useTranslation();
   const { user, signOut } = useAuth();
-  const { isTutor, isParent, isStudent, isAdmin } = useUserRoles();
-  const parentOnly = isParent && !isStudent && !isTutor && !isAdmin;
+  const { isTutor, isParent, isAdmin } = useUserRoles();
+  // Jeśli użytkownik jest rodzicem (nawet jeśli ma też rolę student), traktujemy nawigację jak rodzicielską.
+  // Tutor i admin mają pierwszeństwo i zachowują pełną nawigację.
+  const parentMode = isParent && !isTutor && !isAdmin;
   const navigate = useNavigate();
   const [pendingCount, setPendingCount] = useState(0);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
