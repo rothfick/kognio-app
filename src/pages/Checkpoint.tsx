@@ -75,6 +75,7 @@ export default function Checkpoint() {
   const [cp, setCp] = useState<Checkpoint | null>(null);
   const [loading, setLoading] = useState(true);
   const [denied, setDenied] = useState(false);
+  const [generatingHomework, setGeneratingHomework] = useState(false);
 
   const load = useCallback(async () => {
     if (!user || !checkpointId) return;
