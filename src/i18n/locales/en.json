@@ -434,6 +434,9 @@
     "noChildrenTitle": "No children added",
     "noChildrenDesc": "Add a child profile to start the diagnosis and receive progress reports.",
     "footerNote": "Privacy policy · Parent/guardian consent · Legal documents require review before public launch.",
+    "upcomingTitle": "Upcoming children's bookings",
+    "upcomingEmpty": "No upcoming bookings linked to your children.",
+    "upcomingViewAll": "Open full calendar",
     "child": {
       "noSubject": "No subject",
       "consent": "Consent {{version}}",
