@@ -486,8 +486,31 @@ export default function Diagnose() {
                 </Button>
               )}
             </div>
+
+            <div className="mt-4">
+              <FeedbackWidget contextType="diagnosis" contextId={attemptId} childId={childId} />
+            </div>
           </>
         )}
+
+        <ResearchConsentDialog
+          open={consentOpen}
+          onOpenChange={setConsentOpen}
+          consentType={aiConsentType as any}
+          childId={childId}
+          onAccepted={async () => {
+            await refreshConsent();
+            if (pendingStart) {
+              setPendingStart(false);
+              // Re-trigger after consent
+              setTimeout(() => start(), 50);
+            }
+          }}
+          onDeclined={() => {
+            setPendingStart(false);
+            toast.info(t("consent.requiredAiDiagnosis"));
+          }}
+        />
       </DashboardShell>
     </AppShell>
   );
