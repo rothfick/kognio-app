@@ -257,4 +257,10 @@ const StudentDashboard = () => {
   );
 };
 
+const NextBestStepBlock = () => {
+  const nb = useNextBestAction();
+  if (nb.loading || nb.mode !== "self") return null;
+  return <div className="mb-6"><NextBestActionCard action={nb.action} /></div>;
+};
+
 export default StudentDashboard;
