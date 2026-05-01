@@ -71,18 +71,28 @@ const Onboarding = () => {
         return;
       }
 
+      // Ensure we have a fresh session before any RLS-protected writes.
+      const { data: sessionData } = await supabase.auth.getSession();
+      const activeUserId = sessionData.session?.user?.id;
+      if (!activeUserId) {
+        toast.error(t("onboarding.sessionExpired", { defaultValue: "Sesja wygasła. Zaloguj się ponownie." }));
+        setSubmitting(false);
+        navigate("/auth", { replace: true });
+        return;
+      }
+
       // Add the chosen role for parent/school/training_company (student auto-added by trigger).
       if (selected === "parent" || selected === "school" || selected === "training_company") {
         const { data: existing } = await supabase
           .from("user_roles")
           .select("role")
-          .eq("user_id", user.id)
+          .eq("user_id", activeUserId)
           .eq("role", selected)
           .maybeSingle();
         if (!existing) {
           const { error } = await supabase
             .from("user_roles")
-            .insert({ user_id: user.id, role: selected });
+            .insert({ user_id: activeUserId, role: selected });
           if (error) throw error;
         }
       }
@@ -99,7 +109,7 @@ const Onboarding = () => {
         const { data: org, error: oErr } = await supabase
           .from("organizations")
           .insert({
-            owner_id: user.id,
+            owner_id: activeUserId,
             name: orgName.trim(),
             org_type: selected,
             slug,
@@ -114,7 +124,7 @@ const Onboarding = () => {
         // Add owner as member with role 'owner'
         await supabase.from("organization_members").insert({
           organization_id: org.id,
-          user_id: user.id,
+          user_id: activeUserId,
           member_role: "owner",
         });
       }
@@ -122,7 +132,7 @@ const Onboarding = () => {
       const { error: pErr } = await supabase
         .from("profiles")
         .update({ onboarded_at: new Date().toISOString() })
-        .eq("id", user.id);
+        .eq("id", activeUserId);
       if (pErr) throw pErr;
 
       const dest =
