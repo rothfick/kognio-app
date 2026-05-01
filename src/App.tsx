@@ -25,6 +25,7 @@ import ParentDashboard from "./pages/dashboard/ParentDashboard";
 import TutorDashboard from "./pages/dashboard/TutorDashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import Profile from "./pages/Profile";
+import ChildKnowledge from "./pages/parent/ChildKnowledge";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/dashboard" element={<ProtectedRoute><DashboardRouter /></ProtectedRoute>} />
             <Route path="/dashboard/student" element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
             <Route path="/dashboard/parent" element={<ProtectedRoute><ParentDashboard /></ProtectedRoute>} />
+            <Route path="/parent/children/:childId/knowledge" element={<ProtectedRoute><ChildKnowledge /></ProtectedRoute>} />
             <Route path="/dashboard/tutor" element={<ProtectedRoute><TutorDashboard /></ProtectedRoute>} />
             <Route path="/dashboard/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
             <Route path="/dashboard/legacy" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
