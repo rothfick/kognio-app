@@ -258,4 +258,34 @@ const StudentUpcomingBookings = ({ hasWeakAreas }: { hasWeakAreas: boolean }) =>
   );
 };
 
+const StudentHomeworkBlock = ({ hasWeakAreas, diagnosticAttemptId }: { hasWeakAreas: boolean; diagnosticAttemptId: string | null }) => {
+  const { t, i18n } = useTranslation();
+  const [generating, setGenerating] = useState(false);
+  const onGenerate = async () => {
+    if (!diagnosticAttemptId) {
+      toast.error(t("homeworkToast.noContext"));
+      return;
+    }
+    setGenerating(true);
+    const res = await generateHomework({
+      source_type: "diagnosis",
+      source_id: diagnosticAttemptId,
+      owner_type: "user",
+      diagnostic_attempt_id: diagnosticAttemptId,
+      language: langCode(i18n.language),
+    });
+    setGenerating(false);
+    if (res.ok) toast.success(t("homeworkToast.generated"));
+    else toast.error(t("homeworkToast.generateFailed"));
+  };
+  return (
+    <HomeworkWidget
+      showGenerate
+      onGenerate={onGenerate}
+      generating={generating}
+      emptyHint={hasWeakAreas ? t("dashboardHomework.weakAreasHint") : t("dashboardHomework.emptyDesc")}
+    />
+  );
+};
+
 export default StudentDashboard;
