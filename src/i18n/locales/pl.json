@@ -821,7 +821,8 @@
     "noteSaved": "Notatka zapisana.",
     "noteFailed": "Nie udało się zapisać notatki.",
     "noteFromTutor": "Notatka od korepetytora",
-    "recommendedNext": "Następny krok"
+    "recommendedNext": "Następny krok",
+    "noteEmpty": "Notatka nie może być pusta."
   },
   "payment": {
     "markedPaidToast": "Oznaczono jako zapłacone",
@@ -853,7 +854,9 @@
     "adminConfirm": "Potwierdź (admin)",
     "status": {
       "unpaid": "Nieopłacona",
+      "pending": "Oczekuje na płatność",
       "payment_sent": "Wysłana płatność",
+      "proof_uploaded": "Dowód wgrany",
       "confirmed": "Potwierdzona",
       "disputed": "Sporna",
       "refunded": "Zwrócona"
@@ -864,7 +867,10 @@
       "confirmed": "Płatność potwierdzona.",
       "confirmFailed": "Nie udało się potwierdzić.",
       "payerCannotConfirm": "Tylko korepetytor lub admin może potwierdzić wpłatę.",
-      "signedUrlFailed": "Nie udało się otworzyć pliku."
+      "signedUrlFailed": "Nie udało się otworzyć pliku.",
+      "alreadyConfirmed": "Płatność jest już potwierdzona.",
+      "noPaymentRecord": "Rekord płatności jest jeszcze niedostępny.",
+      "notConfirmedYet": "Potwierdź wpłatę zanim oznaczysz sesję jako zakończoną."
     }
   },
   "profile": {
@@ -2102,10 +2108,12 @@
       "allLanguages": "Wszystkie języki"
     },
     "empty": {
-      "title": "Nie ma jeszcze zweryfikowanych korepetytorów.",
-      "body": "Bądź jednym z pierwszych korepetytorów na Kogni.",
+      "title": "Żaden korepetytor nie pasuje do filtrów.",
+      "body": "Zmień wyszukiwanie, dziedzinę, poziom lub cenę — albo zaproś nowego korepetytora do Kogni.",
       "cta": "Zostań korepetytorem"
-    }
+    },
+    "resetFilters": "Wyczyść filtry",
+    "resultsCount": "Znaleziono korepetytorów: {{count}}"
   },
   "tutor": {
     "bookSession": "Rezerwuj sesję",
