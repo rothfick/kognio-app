@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import * as faceapi from "face-api.js";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
@@ -14,6 +15,7 @@ const MODELS_URL = "https://justadudewhohacks.github.io/face-api.js/models";
 type EmoSample = { engagement: number; confusion: number; joy: number; boredom: number };
 
 export const EmotionEngine = ({ sessionId, userId }: Props) => {
+  const { t } = useTranslation();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [enabled, setEnabled] = useState(false);
   const [consent, setConsent] = useState(false);
@@ -24,7 +26,7 @@ export const EmotionEngine = ({ sessionId, userId }: Props) => {
   useEffect(() => () => { stopFnRef.current?.(); }, []);
 
   const start = async () => {
-    if (!consent) { toast.error("Zaznacz zgodę na analizę kamery."); return; }
+    if (!consent) { toast.error(t("session.cameraConsentRequired")); return; }
     setLoading(true);
     try {
       await Promise.all([
@@ -79,7 +81,7 @@ export const EmotionEngine = ({ sessionId, userId }: Props) => {
         setEnabled(false); setCurrent(null);
       };
     } catch (e: any) {
-      toast.error(e.message || "Nie udało się uruchomić kamery");
+      toast.error(e.message || t("session.cameraStartError"));
     } finally {
       setLoading(false);
     }
@@ -97,7 +99,7 @@ export const EmotionEngine = ({ sessionId, userId }: Props) => {
   return (
     <Card className="p-4 bg-card-soft space-y-3">
       <div className="flex items-center gap-2 text-sm font-medium">
-        <Activity className="h-4 w-4 text-accent" /> Silnik emocji
+        <Activity className="h-4 w-4 text-accent" /> {t("session.emotionEngine")}
       </div>
       <video ref={videoRef} muted playsInline className={`w-full rounded-md bg-muted ${enabled ? "block" : "hidden"}`} style={{ aspectRatio: "4/3" }} />
 
@@ -105,22 +107,22 @@ export const EmotionEngine = ({ sessionId, userId }: Props) => {
         <>
           <label className="flex items-start gap-2 text-xs text-muted-foreground cursor-pointer">
             <Switch checked={consent} onCheckedChange={setConsent} />
-            <span>Wyrażam zgodę na lokalną analizę mimiki z mojej kamery. Wideo nie opuszcza mojego urządzenia — zapisywane są tylko zagregowane wskaźniki (zaangażowanie, radość, znudzenie, dezorientacja).</span>
+            <span>{t("session.emotionConsent")}</span>
           </label>
           <Button onClick={start} disabled={loading || !consent} size="sm" className="w-full">
             {loading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Camera className="h-4 w-4 mr-2" />}
-            Włącz analizę emocji
+            {t("session.enableEmotion")}
           </Button>
         </>
       )}
 
       {enabled && current && (
         <div className="space-y-2">
-          <Bar label="Zaangażowanie" value={current.engagement} color="bg-accent-gradient" />
-          <Bar label="Radość" value={current.joy} color="bg-success" />
-          <Bar label="Dezorientacja" value={current.confusion} color="bg-warning" />
-          <Bar label="Znudzenie" value={current.boredom} color="bg-destructive" />
-          <Button onClick={stop} variant="outline" size="sm" className="w-full"><CameraOff className="h-4 w-4 mr-2" />Wyłącz</Button>
+          <Bar label={t("session.engagement")} value={current.engagement} color="bg-accent-gradient" />
+          <Bar label={t("session.joy")} value={current.joy} color="bg-success" />
+          <Bar label={t("session.confusion")} value={current.confusion} color="bg-warning" />
+          <Bar label={t("session.boredom")} value={current.boredom} color="bg-destructive" />
+          <Button onClick={stop} variant="outline" size="sm" className="w-full"><CameraOff className="h-4 w-4 mr-2" />{t("session.disable")}</Button>
         </div>
       )}
     </Card>
