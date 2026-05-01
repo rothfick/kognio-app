@@ -46,7 +46,7 @@ const Brain = () => {
       });
       if (!res.ok || !res.body) {
         const j = await res.json().catch(() => ({}));
-        throw new Error(j.error || `Błąd ${res.status}`);
+        throw new Error(j.error || t("brain.errorStatus", { status: res.status }));
       }
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -104,20 +104,20 @@ const Brain = () => {
         {transcripts.length === 0 && reports.length === 0 && (
           <Card className="p-8 text-center bg-card-soft mb-6">
             <Sparkles className="h-10 w-10 mx-auto mb-3 text-accent" />
-            <h3 className="font-semibold mb-2">Twój Drugi Mózg jest pusty</h3>
+            <h3 className="font-semibold mb-2">{t("brain.emptyTitle")}</h3>
             <p className="text-muted-foreground mb-4">
-              Po pierwszej sesji pojawią się tu transkrypty, fiszki, raporty i graf wiedzy.
+              {t("brain.emptyDesc")}
             </p>
             <Button asChild className="bg-accent-gradient text-accent-foreground">
-              <Link to="/discover"><Search className="h-4 w-4 mr-2" />Znajdź tutora</Link>
+              <Link to="/discover"><Search className="h-4 w-4 mr-2" />{t("brain.findTutor")}</Link>
             </Button>
           </Card>
         )}
 
         <Tabs defaultValue="graph">
           <TabsList>
-            <TabsTrigger value="graph"><Network className="h-4 w-4 mr-2" />Graf wiedzy</TabsTrigger>
-            <TabsTrigger value="reports">Raporty sesji</TabsTrigger>
+            <TabsTrigger value="graph"><Network className="h-4 w-4 mr-2" />{t("brain.graph")}</TabsTrigger>
+            <TabsTrigger value="reports">{t("brain.reports")}</TabsTrigger>
             <TabsTrigger value="transcripts">{t("brain.transcripts")}</TabsTrigger>
             <TabsTrigger value="flashcards">{t("brain.flashcards")} ({allFlashcards.length})</TabsTrigger>
           </TabsList>
@@ -128,13 +128,13 @@ const Brain = () => {
 
 
           <TabsContent value="reports" className="mt-4 space-y-3">
-            {reports.length === 0 ? <p className="text-muted-foreground">Brak raportów. Wygeneruj jeden po sesji w pokoju.</p> :
+            {reports.length === 0 ? <p className="text-muted-foreground">{t("brain.noReports")}</p> :
               reports.map((r) => (
                 <Card key={r.id} className="p-4 bg-card-soft">
                   <p className="text-xs text-muted-foreground mb-2">{new Date(r.created_at).toLocaleString()}</p>
                   {r.summary && <p className="mb-2">{r.summary}</p>}
-                  {r.strengths && <p className="text-sm"><span className="font-semibold text-accent">✓ Mocne strony:</span> {r.strengths}</p>}
-                  {r.weaknesses && <p className="text-sm"><span className="font-semibold text-destructive">→ Do pracy:</span> {r.weaknesses}</p>}
+                  {r.strengths && <p className="text-sm"><span className="font-semibold text-accent">✓ {t("brain.strengthsLabel")}</span> {r.strengths}</p>}
+                  {r.weaknesses && <p className="text-sm"><span className="font-semibold text-destructive">→ {t("brain.workLabel")}</span> {r.weaknesses}</p>}
                 </Card>
               ))}
           </TabsContent>
@@ -156,7 +156,7 @@ const Brain = () => {
           </TabsContent>
 
           <TabsContent value="flashcards" className="mt-4">
-            {allFlashcards.length === 0 ? <p className="text-muted-foreground">Fiszki pojawią się po wygenerowaniu raportu.</p> : (
+            {allFlashcards.length === 0 ? <p className="text-muted-foreground">{t("brain.noFlashcards")}</p> : (
               <div className="grid md:grid-cols-2 gap-3">
                 {allFlashcards.map((f: any, i: number) => (
                   <Card key={i} className="p-4 bg-card-soft">

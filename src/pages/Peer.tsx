@@ -48,19 +48,19 @@ const Peer = () => {
     if (!user || !title.trim()) return;
     const { error } = await supabase.from("peer_requests").insert({ title: title.trim(), description: desc.trim() || null, requester_id: user.id });
     if (error) { toast.error(error.message); return; }
-    toast.success("Prośba opublikowana"); setOpen(false); setTitle(""); setDesc(""); load();
+    toast.success(t("peer.published")); setOpen(false); setTitle(""); setDesc(""); load();
   };
 
   const offerHelp = async (r: Req) => {
     if (!user) return;
-    if (r.requester_id === user.id) { toast.error("To Twoja własna prośba"); return; }
+    if (r.requester_id === user.id) { toast.error(t("peer.ownRequest")); return; }
     const { error } = await supabase
       .from("peer_requests")
       .update({ helper_id: user.id, status: "matched" })
       .eq("id", r.id)
       .eq("status", "open");
     if (error) { toast.error(error.message); return; }
-    toast.success("Świetnie! Skontaktuj się z osobą proszącą.");
+    toast.success(t("peer.helpOffered"));
     load();
   };
 
@@ -70,7 +70,7 @@ const Peer = () => {
       .update({ status: "resolved", resolved_at: new Date().toISOString() })
       .eq("id", r.id);
     if (error) { toast.error(error.message); return; }
-    toast.success("Oznaczono jako rozwiązane");
+    toast.success(t("peer.resolvedToast"));
     load();
   };
 
@@ -93,17 +93,17 @@ const Peer = () => {
             <DialogContent>
               <DialogHeader><DialogTitle>{t("peer.ask")}</DialogTitle></DialogHeader>
               <div className="space-y-3">
-                <Input placeholder="Krótko: z czym potrzebujesz pomocy?" value={title} onChange={(e) => setTitle(e.target.value)} />
-                <Textarea placeholder="Opisz problem szczegółowo" value={desc} onChange={(e) => setDesc(e.target.value)} />
-                <Button onClick={create} className="w-full">Opublikuj</Button>
+                <Input placeholder={t("peer.titlePlaceholder")} value={title} onChange={(e) => setTitle(e.target.value)} />
+                <Textarea placeholder={t("peer.descPlaceholder")} value={desc} onChange={(e) => setDesc(e.target.value)} />
+                <Button onClick={create} className="w-full">{t("peer.publish")}</Button>
               </div>
             </DialogContent>
           </Dialog>
         </div>
 
         <div className="flex gap-2 mb-6">
-          <Button variant={tab === "open" ? "default" : "ghost"} size="sm" onClick={() => setTab("open")}>Otwarte</Button>
-          <Button variant={tab === "mine" ? "default" : "ghost"} size="sm" onClick={() => setTab("mine")}>Moje</Button>
+          <Button variant={tab === "open" ? "default" : "ghost"} size="sm" onClick={() => setTab("open")}>{t("peer.tabOpen")}</Button>
+          <Button variant={tab === "mine" ? "default" : "ghost"} size="sm" onClick={() => setTab("mine")}>{t("peer.tabMine")}</Button>
         </div>
 
         {loading ? <p className="text-muted-foreground">{t("common.loading")}</p>
@@ -111,10 +111,10 @@ const Peer = () => {
           <Card className="p-10 text-center bg-card-soft">
             <HandHelping className="h-10 w-10 mx-auto mb-3 text-accent" />
             <h3 className="font-semibold mb-2">
-              {tab === "open" ? "Nikt aktualnie nie potrzebuje pomocy" : "Nie masz jeszcze żadnych próśb"}
+              {tab === "open" ? t("peer.emptyOpenTitle") : t("peer.emptyMineTitle")}
             </h3>
             <p className="text-muted-foreground mb-4">
-              {tab === "open" ? "Sprawdź ponownie później albo opublikuj własną prośbę." : "Opublikuj prośbę, jeśli z czymś utknąłeś."}
+              {tab === "open" ? t("peer.emptyOpenDesc") : t("peer.emptyMineDesc")}
             </p>
             <Button onClick={() => setOpen(true)} className="bg-accent-gradient text-accent-foreground">
               <Plus className="h-4 w-4 mr-2" />{t("peer.ask")}
@@ -137,21 +137,21 @@ const Peer = () => {
                           className="text-xs"
                         >
                           {r.status === "open" && t("peer.open")}
-                          {r.status === "matched" && "W trakcie"}
-                          {r.status === "resolved" && "Rozwiązane"}
+                          {r.status === "matched" && t("peer.matched")}
+                          {r.status === "resolved" && t("peer.resolved")}
                         </Badge>
-                        {isMine && <Badge variant="outline" className="text-xs">Twoja prośba</Badge>}
-                        {isHelper && <Badge variant="outline" className="text-xs">Pomagasz</Badge>}
+                        {isMine && <Badge variant="outline" className="text-xs">{t("peer.yourRequest")}</Badge>}
+                        {isHelper && <Badge variant="outline" className="text-xs">{t("peer.youHelp")}</Badge>}
                       </div>
                       <p className="text-sm text-muted-foreground line-clamp-2">{r.description}</p>
                     </div>
                     <div className="flex flex-col gap-2 shrink-0">
                       {r.status === "open" && !isMine && (
-                        <Button variant="outline" size="sm" onClick={() => offerHelp(r)}>Pomogę</Button>
+                        <Button variant="outline" size="sm" onClick={() => offerHelp(r)}>{t("peer.help")}</Button>
                       )}
                       {r.status === "matched" && (isMine || isHelper) && (
                         <Button variant="default" size="sm" onClick={() => resolve(r)}>
-                          <Check className="h-4 w-4 mr-1" /> Rozwiązane
+                          <Check className="h-4 w-4 mr-1" /> {t("peer.resolved")}
                         </Button>
                       )}
                     </div>
