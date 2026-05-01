@@ -14,6 +14,7 @@ import { ArrowLeft, Brain, CheckCircle2, Clock, ListChecks, Sparkles, SkipForwar
 import { toast } from "sonner";
 import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
 import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
+import { createNotification } from "@/lib/notifications";
 
 type Plan = {
   id: string;
@@ -148,6 +149,33 @@ export default function LearningPlan() {
           metrics: { difficulty_level: item.difficulty_level, estimated_minutes: item.estimated_minutes },
           created_by: user!.id,
         });
+        // Notification: step reminder vs checkpoint available
+        const doneCount = items.filter((i) => (i.id === item.id ? true : i.status === "done")).length;
+        if (user) {
+          if (doneCount >= 3) {
+            await createNotification({
+              userId: user.id,
+              type: "checkpoint_available",
+              severity: "success",
+              title: t("notifications.checkpoint_available.title"),
+              body: t("notifications.checkpoint_available.body"),
+              actionLabel: t("notifications.checkpoint_available.action"),
+              actionUrl: `/plans/${plan.id}`,
+              metadata: { plan_id: plan.id, done_count: doneCount },
+            });
+          } else {
+            await createNotification({
+              userId: user.id,
+              type: "plan_step_reminder",
+              severity: "info",
+              title: t("notifications.plan_step_reminder.title"),
+              body: t("notifications.plan_step_reminder.body", { count: doneCount }),
+              actionLabel: t("notifications.plan_step_reminder.action"),
+              actionUrl: `/plans/${plan.id}`,
+              metadata: { plan_id: plan.id, done_count: doneCount },
+            });
+          }
+        }
       }
     } else if (status === "skipped") toast.success(t("plan.itemSkipped"));
     load();
