@@ -480,7 +480,13 @@ const CalendarPage = () => {
               <Button size="sm" variant="outline" onClick={() => openMeetingUrl(b)}>
                 <Video className="mr-1 h-3.5 w-3.5" /> {b.meeting_url ? t("calendar.editMeetingUrl") : t("calendar.addMeetingUrl")}
               </Button>
-              <Button size="sm" variant="outline" onClick={() => markCompleted(b)}>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => markCompleted(b)}
+                disabled={!payment || payment.status !== "confirmed"}
+                title={!payment || payment.status !== "confirmed" ? t("payment.toast.notConfirmedYet") : undefined}
+              >
                 <Check className="mr-1 h-3.5 w-3.5" /> {t("calendar.markCompleted")}
               </Button>
             </>
@@ -602,7 +608,7 @@ const CalendarPage = () => {
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setNoteBookingId(null)} disabled={noteSaving}>{t("common.cancel")}</Button>
-            <Button onClick={saveNote} disabled={noteSaving}>
+            <Button onClick={saveNote} disabled={noteSaving || !noteText.trim()}>
               {noteSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
               {t("common.save")}
             </Button>
