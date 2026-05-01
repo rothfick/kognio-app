@@ -43,7 +43,7 @@ type Payment = { id: string; booking_id: string; status: string; amount_cents: n
 type TutorProfile = { is_published: boolean; rating: number | null; sessions_completed: number; headline: string | null };
 
 const Dashboard = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const { isTutor, isStudent, loading: rolesLoading } = useUserRoles();
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -334,7 +334,7 @@ const Dashboard = () => {
           <Stat icon={CalIcon} label={t("dashboardLegacy.upcomingSessions")} value={tutorUpcoming.length} />
           <Stat icon={AlertCircle} label={t("dashboardLegacy.toConfirm")} value={tutorPending.length} hint={tutorPending.length ? t("dashboardLegacy.waitingApproval") : t("dashboardLegacy.allCaughtUp")} />
           <Stat icon={Star} label={t("dashboardLegacy.rating")} value={tutorProfile?.rating?.toFixed(1) || "—"} hint={t("dashboardLegacy.sessionsCount", { count: tutorProfile?.sessions_completed || 0 })} />
-          <Stat icon={Wallet} label={t("dashboardLegacy.confirmedEarnings")} value={`${(earnings / 100).toFixed(0)} zł`} />
+          <Stat icon={Wallet} label={t("dashboardLegacy.confirmedEarnings")} value={new Intl.NumberFormat(i18n.language, { style: "currency", currency: "PLN", maximumFractionDigits: 0 }).format(earnings / 100)} />
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
