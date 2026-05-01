@@ -338,6 +338,31 @@ const AdminDashboard = () => {
 
           <Surface className="p-5 mb-6">
             <h2 className="font-semibold mb-3 flex items-center gap-2">
+              <ShoppingBag className="h-4 w-4 text-accent" /> {t("adminBooking.section")}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-4 mb-4">
+              <StatCard icon={ShieldCheck} label={t("adminBooking.verifiedTutors")} value={mkt === null ? "…" : String(mkt.verifiedTutors)} />
+              <StatCard icon={AlertTriangle} label={t("adminBooking.pendingTutors")} value={mkt === null ? "…" : String(mkt.pendingTutors)} hint={t("adminBooking.pendingTutorsHint")} />
+              <StatCard icon={CalendarCheck2} label={t("adminBooking.totalBookings")} value={mkt === null ? "…" : String(mkt.totalBookings)} />
+              <StatCard icon={CalendarCheck2} label={t("adminBooking.upcomingBookings")} value={mkt === null ? "…" : String(mkt.upcomingBookings)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-4 mb-4">
+              <StatCard icon={ClipboardCheck} label={t("adminBooking.completedBookings")} value={mkt === null ? "…" : String(mkt.completedBookings)} />
+              <StatCard icon={AlertTriangle} label={t("adminBooking.cancelledBookings")} value={mkt === null ? "…" : String(mkt.cancelledBookings)} />
+              <StatCard icon={Wallet} label={t("adminBooking.pendingPayments")} value={mkt === null ? "…" : String(mkt.pendingPayments)} hint={t("adminBooking.pendingPaymentsHint")} />
+              <StatCard icon={FileCheck2} label={t("adminBooking.confirmedPayments")} value={mkt === null ? "…" : String(mkt.confirmedPayments)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-4">
+              <StatCard icon={Activity} label={t("adminBooking.evBookingCreated")} value={mkt === null ? "…" : String(mkt.bookingCreatedEvents)} />
+              <StatCard icon={Activity} label={t("adminBooking.evPaymentConfirmed")} value={mkt === null ? "…" : String(mkt.paymentConfirmedEvents)} />
+              <StatCard icon={Activity} label={t("adminBooking.evSessionCompleted")} value={mkt === null ? "…" : String(mkt.sessionCompletedEvents)} />
+              <StatCard icon={Activity} label={t("adminBooking.evTutorNote")} value={mkt === null ? "…" : String(mkt.tutorNoteEvents)} />
+            </div>
+            <p className="mt-3 text-[11px] text-muted-foreground">{t("adminBooking.note")}</p>
+          </Surface>
+
+          <Surface className="p-5 mb-6">
+            <h2 className="font-semibold mb-3 flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-accent" /> {t("smart.section")}
             </h2>
             <div className="grid gap-4 sm:grid-cols-4">
