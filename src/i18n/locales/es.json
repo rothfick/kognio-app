@@ -204,7 +204,24 @@
       "stabilna": "estable",
       "do_pracy": "a trabajar",
       "luka": "laguna"
-    }
+    },
+    "completedToast": "Diagnóstico finalizado.",
+    "initialTitle": "Diagnóstico inicial",
+    "initialTitleNamed": "Diagnóstico inicial — {{name}}",
+    "initialSubtitle": "Diagnóstico v1: una prueba breve de opción múltiple. El resultado iniciará el mapa de conocimiento del hijo/a.",
+    "backToKnowledge": "Volver al mapa de conocimiento",
+    "v1Badge": "Diagnóstico v1",
+    "noQuestions": "No hay preguntas disponibles.",
+    "skipShort": "No lo sé",
+    "allAnswered": "Todas las preguntas respondidas. Finalizando…",
+    "deterministicNote": "El diagnóstico v1 es determinista y no incluye IA. El diagnóstico adaptativo completo con IA se añadirá en próximas etapas.",
+    "resultTitleNamed": "Resultado del diagnóstico{{name}}",
+    "resultSubtitleV1": "Diagnóstico inicial v1 finalizado. El mapa de conocimiento se ha iniciado.",
+    "noStrongKc": "Sin componentes ≥ 75%.",
+    "catchUpAreas": "Áreas por reforzar",
+    "noLowGaps": "Sin lagunas por debajo del 50%.",
+    "addLearningGoal": "Añadir objetivo de aprendizaje",
+    "v1AiLaterNote": "Este es el diagnóstico inicial v1. El diagnóstico adaptativo completo con IA se añadirá en próximas etapas."
   },
   "discover": {
     "title": "Encuentra a tu tutor",
@@ -655,7 +672,9 @@
     "yes": "sí",
     "no": "no",
     "start": "Iniciar",
-    "stop": "Detener"
+    "stop": "Detener",
+    "emptyDash": "—",
+    "optional": "opcional"
   },
   "errors": {
     "generic": "Algo salió mal. Inténtalo de nuevo."
@@ -732,7 +751,8 @@
     "transferTitle": "Concepto de la transferencia",
     "markPaid": "Marco como pagado",
     "confirmReceived": "Confirmo la recepción",
-    "completed": "Pago finalizado"
+    "completed": "Pago finalizado",
+    "copyToast": "Copiado"
   },
   "profile": {
     "title": "Tu perfil",
@@ -768,5 +788,45 @@
     "time": "Hora",
     "book": "Reservar",
     "loginToBook": "Inicia sesión para reservar"
+  },
+  "dashboardLegacy": {
+    "title": "¡Hola! 👋",
+    "subtitle": "Tu resumen de aprendizaje y tutoría de hoy.",
+    "asStudent": "Como estudiante",
+    "asTutor": "Como tutor",
+    "upcomingSessions": "Próximas sesiones",
+    "unpaid": "Sin pagar",
+    "needsAction": "Requieren tu acción",
+    "allGood": "Todo correcto",
+    "karmaHint": "Por ayudar a otros",
+    "all": "Todo",
+    "noUpcoming": "No hay próximas sesiones",
+    "whatNext": "¿Qué sigue?",
+    "joinCircle": "Unirse a un círculo de estudio",
+    "askOrHelp": "Pedir ayuda / ayudar a otros",
+    "openBrain": "Abrir Segundo Cerebro",
+    "alsoTutor": "También hacerte tutor",
+    "bookingStatus": "Estado de tus reservas",
+    "bookingStatusHint": "Tras la confirmación del tutor aparecerá el botón «Entrar». Después de la sesión — «Pagar».",
+    "noBookings": "Aún no tienes reservas.",
+    "sessionsToPay": "Sesiones por pagar",
+    "hiddenTutorTitle": "Tu perfil de tutor está oculto",
+    "hiddenTutorBody": "Completa el titular y la descripción, añade un método de pago y activa el interruptor «Publicado en la búsqueda».",
+    "finishSetup": "Completar configuración",
+    "toConfirm": "Por confirmar",
+    "waitingApproval": "Esperando aceptación",
+    "rating": "Valoración",
+    "sessionsCount": "{{count}} sesiones",
+    "confirmedEarnings": "Ingresos confirmados",
+    "pendingPayments": "Pagos pendientes de confirmación",
+    "noNewPayments": "Sin nuevos pagos",
+    "check": "Comprobar",
+    "studentBookings": "Estado de reservas de estudiantes",
+    "studentBookingsHint": "Confirma las pendientes para que el estudiante vea el botón «Entrar».",
+    "noBookingsShort": "Sin reservas.",
+    "tutorShortcuts": "Accesos del tutor",
+    "editProfileRates": "Editar perfil y tarifas",
+    "viewPublicProfile": "Ver tu perfil público",
+    "confirmedToast": "Reserva confirmada — puedes entrar en la sesión."
   }
 }
