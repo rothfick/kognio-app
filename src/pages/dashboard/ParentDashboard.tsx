@@ -17,6 +17,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { NextBestActionCard } from "@/components/journey/NextBestActionCard";
 import { useNextBestAction } from "@/hooks/useJourneyState";
+import { isFeatureEnabled } from "@/config/features";
 
 type ChildRow = {
   id: string;
@@ -107,9 +108,11 @@ const ParentDashboard = () => {
             )}
           </Surface>
 
-          <div className="mt-6">
-            <UpcomingChildBookings />
-          </div>
+          {isFeatureEnabled("booking") && (
+            <div className="mt-6">
+              <UpcomingChildBookings />
+            </div>
+          )}
 
           <div className="mt-6">
             <LinkedStudentsSection />
