@@ -52,11 +52,11 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/onboarding" element={<ProtectedRoute><ParentRouteGuard><Onboarding /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/dashboard" element={<ProtectedRoute><DashboardRouter /></ProtectedRoute>} />
-            <Route path="/getting-started" element={<ProtectedRoute><GettingStarted /></ProtectedRoute>} />
+            <Route path="/getting-started" element={<ProtectedRoute><ParentRouteGuard><GettingStarted /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
-            <Route path="/dashboard/student" element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
+            <Route path="/dashboard/student" element={<ProtectedRoute><ParentRouteGuard><StudentDashboard /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/dashboard/parent" element={<ProtectedRoute><ParentDashboard /></ProtectedRoute>} />
             <Route path="/parent/children/:childId/knowledge" element={<ProtectedRoute><ChildKnowledge /></ProtectedRoute>} />
             <Route path="/parent/children/:childId/diagnostic" element={<ProtectedRoute><ChildDiagnostic /></ProtectedRoute>} />
