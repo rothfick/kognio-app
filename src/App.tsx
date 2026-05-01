@@ -16,7 +16,7 @@ import CalendarPage from "./pages/CalendarPage";
 import Brain from "./pages/Brain";
 import Settings from "./pages/Settings";
 import TutorProfile from "./pages/TutorProfile";
-import SessionRoom from "./pages/SessionRoom";
+import LiveLessonRoom from "./pages/LiveLessonRoom";
 import PaymentPage from "./pages/PaymentPage";
 import NotFound from "./pages/NotFound";
 import Onboarding from "./pages/Onboarding";
