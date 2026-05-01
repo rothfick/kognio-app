@@ -172,7 +172,11 @@ const CalendarPage = () => {
   const uploadProof = async () => {
     if (!proofFile || !proofBookingId || !user) return;
     const payment = payments[proofBookingId];
-    if (!payment) return;
+    if (!payment) {
+      toast.error(t("payment.toast.noPaymentRecord"));
+      setProofBookingId(null);
+      return;
+    }
     setProofUploading(true);
     try {
       const ext = proofFile.name.split(".").pop() || "bin";
@@ -221,7 +225,10 @@ const CalendarPage = () => {
 
   const viewProof = async (paymentId: string) => {
     const payment = Object.values(payments).find((p) => p.id === paymentId);
-    if (!payment?.proof_url) return;
+    if (!payment?.proof_url) {
+      toast.error(t("payment.toast.noPaymentRecord"));
+      return;
+    }
     setSignedUrlFor(paymentId);
     setSignedUrlLoading(true);
     try {
@@ -238,7 +245,14 @@ const CalendarPage = () => {
   const confirmPayment = async (booking: Booking) => {
     if (!user) return;
     const payment = payments[booking.id];
-    if (!payment) return;
+    if (!payment) {
+      toast.error(t("payment.toast.noPaymentRecord"));
+      return;
+    }
+    if (payment.status === "confirmed") {
+      toast.info(t("payment.toast.alreadyConfirmed"));
+      return;
+    }
     if (user.id === payment.payer_user_id) {
       toast.error(t("payment.toast.payerCannotConfirm"));
       return;
@@ -283,6 +297,11 @@ const CalendarPage = () => {
 
   const markCompleted = async (booking: Booking) => {
     if (!user) return;
+    const payment = payments[booking.id];
+    if (!payment || payment.status !== "confirmed") {
+      toast.error(t("payment.toast.notConfirmedYet"));
+      return;
+    }
     try {
       const { error } = await supabase.from("bookings").update({ status: "completed" }).eq("id", booking.id);
       if (error) throw error;
