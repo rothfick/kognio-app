@@ -33,6 +33,7 @@ import Checkpoint from "./pages/Checkpoint";
 import ExpertReview from "./pages/ExpertReview";
 import { SchoolDashboard, CompanyDashboard } from "./pages/dashboard/OrgDashboard";
 import OrgInviteAccept from "./pages/OrgInviteAccept";
+import ResearchDashboard from "./pages/admin/ResearchDashboard";
 
 const queryClient = new QueryClient();
 
