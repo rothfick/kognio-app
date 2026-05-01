@@ -233,6 +233,11 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
         <Button asChild size="sm" variant="outline">
           <Link to={`/parent/children/${child.id}/knowledge`}>{t("parent.child.knowledgeMap")}</Link>
         </Button>
+        {isFeatureEnabled("tutorMarketplace") && hasDiagnostic && (
+          <Button asChild size="sm" variant="outline">
+            <Link to="/discover">{t("dashboardBooking.findTutorCta")}</Link>
+          </Button>
+        )}
       </div>
     </Surface>
   );
