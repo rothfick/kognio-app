@@ -25,8 +25,8 @@ const Auth = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [mode, setMode] = useState<"signin" | "signup">(params.get("mode") === "signup" ? "signup" : "signin");
-  const next = params.get("next") || "/discover";
-  const safeNext = next.startsWith("/") ? next : "/discover";
+  const next = params.get("next") || "/dashboard";
+  const safeNext = next.startsWith("/") ? next : "/dashboard";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);

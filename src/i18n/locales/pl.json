@@ -226,7 +226,8 @@
     "catchUpAreas": "Obszary do nadrobienia",
     "noLowGaps": "Brak luk poniżej 50%.",
     "addLearningGoal": "Dodaj cel nauki",
-    "v1AiLaterNote": "To jest diagnoza wstępna v1. Pełna adaptacyjna diagnoza AI zostanie dodana w kolejnych etapach."
+    "v1AiLaterNote": "To jest diagnoza wstępna v1. Pełna adaptacyjna diagnoza AI zostanie dodana w kolejnych etapach.",
+    "backToDashboard": "Wróć do pulpitu"
   },
   "discover": {
     "title": "Znajdź swojego korepetytora",

@@ -552,7 +552,7 @@ export default function Diagnose() {
 
             <div className="flex flex-wrap gap-3">
               <Button asChild className="bg-accent-gradient text-accent-foreground">
-                <Link to="/discover"><Target className="h-4 w-4 mr-1" /> {t("diagnose.findTutor")}</Link>
+                <Link to="/dashboard"><Target className="h-4 w-4 mr-1" /> {t("diagnose.backToDashboard")}</Link>
               </Button>
               <Button variant="outline" onClick={() => { setPhase("intake"); setSummary(null); setScore(null); setItem(null); setAttemptId(null); }}>
                 {t("diagnose.anotherDiagnosis")}

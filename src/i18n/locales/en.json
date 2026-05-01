@@ -226,7 +226,8 @@
     "catchUpAreas": "Areas to catch up",
     "noLowGaps": "No gaps below 50%.",
     "addLearningGoal": "Add learning goal",
-    "v1AiLaterNote": "This is initial diagnosis v1. The full adaptive AI diagnosis will be added in later stages."
+    "v1AiLaterNote": "This is initial diagnosis v1. The full adaptive AI diagnosis will be added in later stages.",
+    "backToDashboard": "Back to dashboard"
   },
   "discover": {
     "title": "Find your tutor",

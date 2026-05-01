@@ -226,7 +226,8 @@
     "catchUpAreas": "Áreas por reforzar",
     "noLowGaps": "Sin lagunas por debajo del 50%.",
     "addLearningGoal": "Añadir objetivo de aprendizaje",
-    "v1AiLaterNote": "Este es el diagnóstico inicial v1. El diagnóstico adaptativo completo con IA se añadirá en próximas etapas."
+    "v1AiLaterNote": "Este es el diagnóstico inicial v1. El diagnóstico adaptativo completo con IA se añadirá en próximas etapas.",
+    "backToDashboard": "Volver al panel"
   },
   "discover": {
     "title": "Encuentra a tu tutor",
