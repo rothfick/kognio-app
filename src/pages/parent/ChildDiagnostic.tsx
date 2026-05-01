@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Navigate, useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -33,6 +34,7 @@ type Attempt = {
 };
 
 const ChildDiagnostic = () => {
+  const { t } = useTranslation();
   const { childId } = useParams<{ childId: string }>();
   const { user, loading: authLoading } = useAuth();
   const { isAdmin, loading: rolesLoading } = useUserRoles();
@@ -67,7 +69,7 @@ const ChildDiagnostic = () => {
 
     const { data: subj } = await supabase
       .from("subjects").select("id").eq("code", SUBJECT_CODE).maybeSingle();
-    if (!subj) { toast.error("Brak przedmiotu Math 7–9."); setLoading(false); return; }
+    if (!subj) { toast.error(t("diagnose.noQuestions")); setLoading(false); return; }
     setSubjectId(subj.id);
 
     const { data: rawItems } = await supabase
@@ -175,7 +177,7 @@ const ChildDiagnostic = () => {
         setQuestionStartedAt(Date.now());
       }
     } catch (e: any) {
-      toast.error(e.message || "Nie udało się zapisać odpowiedzi.");
+      toast.error(e.message || t("diagnose.submitError"));
     } finally {
       setSubmitting(false);
     }
@@ -249,11 +251,11 @@ const ChildDiagnostic = () => {
 
     setAttempt({ ...attempt, status: "completed", total_items: total, correct_items: correct, score });
     setCompleted(true);
-    toast.success("Diagnoza zakończona.");
+    toast.success(t("diagnose.completedToast"));
   }
 
   if (authLoading || rolesLoading) {
-    return <AppShell><div className="container py-12 text-muted-foreground text-sm">Ładowanie…</div></AppShell>;
+    return <AppShell><div className="container py-12 text-muted-foreground text-sm">{t("common.loading")}</div></AppShell>;
   }
   if (!user) return <Navigate to="/auth" replace />;
   if (denied) return <Navigate to="/dashboard/parent" replace />;
@@ -268,19 +270,19 @@ const ChildDiagnostic = () => {
       <DashboardShell>
         <div className="mb-4">
           <Button asChild variant="ghost" size="sm">
-            <Link to={`/parent/children/${childId}/knowledge`}><ArrowLeft className="h-4 w-4 mr-1" /> Wróć do mapy wiedzy</Link>
+            <Link to={`/parent/children/${childId}/knowledge`}><ArrowLeft className="h-4 w-4 mr-1" /> {t("diagnose.backToKnowledge")}</Link>
           </Button>
         </div>
 
         <DashboardHeader
-          title={child ? `Diagnoza wstępna — ${child.display_name}` : "Diagnoza wstępna"}
-          subtitle="Diagnoza v1: krótki test wyboru. Wynik zainicjuje mapę wiedzy dziecka."
+          title={child ? t("diagnose.initialTitleNamed", { name: child.display_name }) : t("diagnose.initialTitle")}
+          subtitle={t("diagnose.initialSubtitle")}
         />
 
         <Surface className="p-5 mb-4">
           <div className="flex items-center justify-between mb-2 text-xs text-muted-foreground">
-            <span>Postęp: {Object.keys(responses).length} / {items.length}</span>
-            <Badge variant="secondary" className="text-[10px]">Diagnoza v1</Badge>
+            <span>{t("diagnose.progress")}: {Object.keys(responses).length} / {items.length}</span>
+            <Badge variant="secondary" className="text-[10px]">{t("diagnose.v1Badge")}</Badge>
           </div>
           <Progress value={progress} />
         </Surface>
@@ -288,7 +290,7 @@ const ChildDiagnostic = () => {
         {loading ? (
           <Surface className="p-6"><Loader2 className="h-5 w-5 animate-spin" /></Surface>
         ) : items.length === 0 ? (
-          <Surface className="p-6 text-sm text-muted-foreground">Brak dostępnych pytań.</Surface>
+          <Surface className="p-6 text-sm text-muted-foreground">{t("diagnose.noQuestions")}</Surface>
         ) : currentItem ? (
           <Surface className="p-6 space-y-5">
             <div>
@@ -314,7 +316,7 @@ const ChildDiagnostic = () => {
                   selected === "__skip__" ? "border-accent bg-accent/10" : "hover:bg-muted"
                 }`}
               >
-                Nie wiem
+                {t("diagnose.skipShort")}
               </button>
             </div>
             <div className="flex justify-end">
@@ -328,19 +330,19 @@ const ChildDiagnostic = () => {
                 className="bg-accent-gradient text-accent-foreground"
               >
                 {submitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                {currentIdx + 1 === items.length ? "Zakończ diagnozę" : "Następne pytanie"}
+                {currentIdx + 1 === items.length ? t("diagnose.finish") : t("diagnose.next")}
               </Button>
             </div>
           </Surface>
         ) : (
           <Surface className="p-6">
-            <p className="text-sm">Wszystkie pytania udzielone. Finalizacja…</p>
-            <Button className="mt-3" onClick={() => completeAttempt(responses)}>Zakończ diagnozę</Button>
+            <p className="text-sm">{t("diagnose.allAnswered")}</p>
+            <Button className="mt-3" onClick={() => completeAttempt(responses)}>{t("diagnose.finish")}</Button>
           </Surface>
         )}
 
         <p className="mt-6 text-[11px] text-muted-foreground text-center">
-          Diagnoza v1 jest deterministyczna i nie zawiera AI. Pełna adaptacyjna diagnoza zostanie dodana w kolejnych etapach.
+          {t("diagnose.deterministicNote")}
         </p>
       </DashboardShell>
     </AppShell>
@@ -353,6 +355,7 @@ function ResultView({
   attempt: Attempt; items: Item[]; responses: Record<string, { selected: string | null; correct: boolean }>;
   kcMap: Record<string, string>; childId: string; childName?: string;
 }) {
+  const { t } = useTranslation();
   // Per KC summary from current responses (or from items if responses empty -> reload case)
   const perKc = useMemo(() => {
     const map: Record<string, { total: number; correct: number }> = {};
@@ -377,28 +380,28 @@ function ResultView({
     <AppShell>
       <DashboardShell>
         <DashboardHeader
-          title={`Wynik diagnozy${childName ? ` — ${childName}` : ""}`}
-          subtitle="Diagnoza wstępna v1 zakończona. Mapa wiedzy została zainicjowana."
+          title={t("diagnose.resultTitleNamed", { name: childName ? ` — ${childName}` : "" })}
+          subtitle={t("diagnose.resultSubtitleV1")}
         />
 
         <Surface className="p-6 mb-4">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-xs text-muted-foreground">Wynik ogólny</p>
+              <p className="text-xs text-muted-foreground">{t("diagnose.overallScore")}</p>
               <p className="text-3xl font-bold">{Math.round(score * 100)}%</p>
-              <p className="text-xs text-muted-foreground mt-1">{attempt.correct_items} / {attempt.total_items} poprawnych</p>
+              <p className="text-xs text-muted-foreground mt-1">{t("diagnose.correctOf", { correct: attempt.correct_items, total: attempt.total_items })}</p>
             </div>
-            <Badge variant="secondary">Diagnoza v1</Badge>
+            <Badge variant="secondary">{t("diagnose.v1Badge")}</Badge>
           </div>
         </Surface>
 
         <div className="grid gap-4 md:grid-cols-2 mb-4">
           <Surface className="p-5">
             <h3 className="font-semibold text-sm flex items-center gap-2 mb-3">
-              <CheckCircle2 className="h-4 w-4 text-accent" /> Mocne strony
+              <CheckCircle2 className="h-4 w-4 text-accent" /> {t("diagnose.strengths")}
             </h3>
             {strengths.length === 0 ? (
-              <p className="text-xs text-muted-foreground">Brak komponentów ≥ 75%.</p>
+              <p className="text-xs text-muted-foreground">{t("diagnose.noStrongKc")}</p>
             ) : (
               <ul className="space-y-1.5">
                 {strengths.map((r) => (
@@ -412,10 +415,10 @@ function ResultView({
           </Surface>
           <Surface className="p-5">
             <h3 className="font-semibold text-sm flex items-center gap-2 mb-3">
-              <AlertCircle className="h-4 w-4 text-destructive" /> Obszary do nadrobienia
+              <AlertCircle className="h-4 w-4 text-destructive" /> {t("diagnose.catchUpAreas")}
             </h3>
             {gaps.length === 0 ? (
-              <p className="text-xs text-muted-foreground">Brak luk poniżej 50%.</p>
+              <p className="text-xs text-muted-foreground">{t("diagnose.noLowGaps")}</p>
             ) : (
               <ul className="space-y-1.5">
                 {gaps.map((r) => (
@@ -431,15 +434,15 @@ function ResultView({
 
         <div className="flex flex-wrap gap-3">
           <Button asChild className="bg-accent-gradient text-accent-foreground">
-            <Link to={`/parent/children/${childId}/knowledge`}><Brain className="h-4 w-4 mr-1" /> Zobacz mapę wiedzy</Link>
+            <Link to={`/parent/children/${childId}/knowledge`}><Brain className="h-4 w-4 mr-1" /> {t("parent.child.viewMap")}</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link to={`/parent/children/${childId}/knowledge`}><Target className="h-4 w-4 mr-1" /> Dodaj cel nauki</Link>
+            <Link to={`/parent/children/${childId}/knowledge`}><Target className="h-4 w-4 mr-1" /> {t("diagnose.addLearningGoal")}</Link>
           </Button>
         </div>
 
         <p className="mt-6 text-[11px] text-muted-foreground text-center">
-          To jest diagnoza wstępna v1. Pełna adaptacyjna diagnoza AI zostanie dodana w kolejnych etapach.
+          {t("diagnose.v1AiLaterNote")}
         </p>
       </DashboardShell>
     </AppShell>
