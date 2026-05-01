@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Sparkles, TrendingUp, TrendingDown, Activity, ListChecks, Telescope, BookOpen } from "lucide-react";
 import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
+import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
 
 type MasteryDeltaRow = {
   skill_area_label: string;
