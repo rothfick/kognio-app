@@ -322,25 +322,25 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
           <Card className="p-6 lg:col-span-2">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-lg font-semibold">Członkowie organizacji</h2>
-                <p className="text-sm text-muted-foreground">Wszyscy użytkownicy powiązani z {org.name}.</p>
+                <h2 className="text-lg font-semibold">{t("org.members")}</h2>
+                <p className="text-sm text-muted-foreground">{t("org.membersDesc", { name: org.name })}</p>
               </div>
               <Button variant="outline" size="sm" onClick={loadAll}>
-                <RefreshCw className="h-3.5 w-3.5 mr-1" /> Odśwież
+                <RefreshCw className="h-3.5 w-3.5 mr-1" /> {t("org.refresh")}
               </Button>
             </div>
             {members.length === 0 ? (
               <p className="text-sm text-muted-foreground py-8 text-center">
-                Brak członków. Wyślij pierwsze zaproszenie powyżej.
+                {t("org.noMembers")}
               </p>
             ) : (
               <div className="divide-y">
                 {members.map((m) => (
                   <div key={m.id} className="py-3 flex items-center justify-between gap-3">
                     <div className="min-w-0">
-                      <div className="font-medium truncate">{m.display_name || "Użytkownik"}</div>
+                      <div className="font-medium truncate">{m.display_name || t("org.user")}</div>
                       <div className="text-xs text-muted-foreground">
-                        Dołączył(a) {new Date(m.joined_at).toLocaleDateString("pl-PL")}
+                        {t("org.joinedAt", { date: new Date(m.joined_at).toLocaleDateString(dateLocale) })}
                       </div>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
@@ -348,7 +348,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
                         {memberRoleLabel(m.member_role, kind)}
                       </Badge>
                       {m.user_id !== org.owner_id && (
-                        <Button variant="ghost" size="icon" onClick={() => removeMember(m)} aria-label="Usuń">
+                        <Button variant="ghost" size="icon" onClick={() => removeMember(m)} aria-label={t("org.remove")}>
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       )}
@@ -360,10 +360,10 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
           </Card>
 
           <Card className="p-6">
-            <h2 className="text-lg font-semibold mb-1">Zaproszenia</h2>
-            <p className="text-sm text-muted-foreground mb-4">Skopiuj link i wyślij osobie zapraszanej.</p>
+            <h2 className="text-lg font-semibold mb-1">{t("org.invites")}</h2>
+            <p className="text-sm text-muted-foreground mb-4">{t("org.invitesDesc")}</p>
             {invites.length === 0 ? (
-              <p className="text-sm text-muted-foreground py-6 text-center">Brak zaproszeń.</p>
+              <p className="text-sm text-muted-foreground py-6 text-center">{t("org.noInvites")}</p>
             ) : (
               <div className="space-y-3">
                 {invites.map((i) => (
