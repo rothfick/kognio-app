@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useParams, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -24,30 +25,15 @@ type Summary = {
   next_subject_suggestion?: string;
 };
 
-const DOMAIN_SUGGESTIONS = [
-  "Matematyka", "Fizyka", "Chemia", "Biologia",
-  "Język angielski", "Język niemiecki", "Język hiszpański", "Język francuski",
-  "Język polski", "Historia", "Geografia", "WOS",
-  "Programowanie (Python)", "Programowanie (JavaScript)", "Algorytmy i struktury danych",
-  "Bazy danych SQL", "Statystyka", "Ekonomia", "Rachunkowość",
-  "Filozofia", "Sztuka i historia sztuki",
-];
-
-const LEVELS = [
-  { id: "sp_4_6", label: "Szkoła podstawowa kl. 4-6" },
-  { id: "sp_7_8", label: "Szkoła podstawowa kl. 7-8" },
-  { id: "lo_1_2", label: "Liceum / Technikum kl. 1-2" },
-  { id: "lo_3_4", label: "Liceum / Technikum kl. 3-4" },
-  { id: "matura_podst", label: "Matura — poziom podstawowy" },
-  { id: "matura_rozsz", label: "Matura — poziom rozszerzony" },
-  { id: "studia_lic", label: "Studia licencjackie / inżynierskie" },
-  { id: "studia_mgr", label: "Studia magisterskie / doktoranckie" },
-  { id: "dorosly", label: "Dorosły / hobby / przekwalifikowanie" },
+const LEVEL_IDS = [
+  "sp_4_6", "sp_7_8", "lo_1_2", "lo_3_4", "matura_podst",
+  "matura_rozsz", "studia_lic", "studia_mgr", "dorosly",
 ];
 
 const TARGET = 12;
 
 export default function Diagnose() {
+  const { t, i18n } = useTranslation();
   const { user, loading: authLoading } = useAuth();
   const params = useParams<{ childId?: string }>();
   const childId = params.childId ?? null;
@@ -67,11 +53,12 @@ export default function Diagnose() {
   const [summary, setSummary] = useState<Summary | null>(null);
   const [score, setScore] = useState<{ pct: number; total: number; correct: number } | null>(null);
 
-  const levelLabel = useMemo(() => LEVELS.find((l) => l.id === level)?.label ?? "", [level]);
+  const domainSuggestions = t("diagnose.domainSuggestions", { returnObjects: true }) as string[];
+  const levelLabel = useMemo(() => level ? t(`diagnose.levels.${level}`) : "", [level, t]);
 
   const start = useCallback(async () => {
-    if (!domain.trim()) return toast.error("Podaj dziedzinę / przedmiot.");
-    if (!level) return toast.error("Wybierz poziom.");
+    if (!domain.trim()) return toast.error(t("diagnose.missingDomain"));
+    if (!level) return toast.error(t("diagnose.missingLevel"));
     setSubmitting(true);
     try {
       const { data, error } = await supabase.functions.invoke("diagnostic-adaptive", {
@@ -79,7 +66,7 @@ export default function Diagnose() {
           action: "start",
           domain: domain.trim(),
           level: levelLabel,
-          language: "pl",
+          language: i18n.language?.split("-")[0] || "pl",
           target_questions: TARGET,
           ...(childId ? { child_id: childId } : {}),
         },
@@ -91,11 +78,11 @@ export default function Diagnose() {
       setQuestionIdx(1);
       setPhase("running");
     } catch (e: any) {
-      toast.error(e?.message || "Nie udało się rozpocząć diagnozy.");
+      toast.error(e?.message || t("diagnose.startError"));
     } finally {
       setSubmitting(false);
     }
-  }, [domain, level, levelLabel, childId]);
+  }, [domain, level, levelLabel, childId, i18n.language, t]);
 
   const submit = useCallback(async () => {
     if (!attemptId || !item) return;
@@ -128,14 +115,14 @@ export default function Diagnose() {
         }
       }, 700);
     } catch (e: any) {
-      toast.error(e?.message || "Błąd zapisu odpowiedzi.");
+      toast.error(e?.message || t("diagnose.submitError"));
     } finally {
       setSubmitting(false);
     }
-  }, [attemptId, item, selected]);
+  }, [attemptId, item, selected, t]);
 
   if (authLoading) {
-    return <AppShell><div className="container py-12 text-sm text-muted-foreground">Ładowanie…</div></AppShell>;
+    return <AppShell><div className="container py-12 text-sm text-muted-foreground">{t("common.loading")}</div></AppShell>;
   }
   if (!user) return <Navigate to="/auth" replace />;
 
@@ -145,7 +132,7 @@ export default function Diagnose() {
         <div className="mb-4">
           <Button asChild variant="ghost" size="sm">
             <Link to={childId ? `/parent/children/${childId}/knowledge` : "/dashboard"}>
-              <ArrowLeft className="h-4 w-4 mr-1" /> Wróć
+              <ArrowLeft className="h-4 w-4 mr-1" /> {t("diagnose.back")}
             </Link>
           </Button>
         </div>
@@ -153,20 +140,20 @@ export default function Diagnose() {
         {phase === "intake" && (
           <>
             <DashboardHeader
-              title={childId ? "Diagnoza AI dziecka" : "Diagnoza AI"}
-              subtitle="Adaptacyjny test 12 pytań. AI dobiera trudność i obszar wiedzy w locie. Działa dla DOWOLNEJ dziedziny i poziomu — od szkoły podstawowej po studia."
+              title={childId ? t("diagnose.titleChild") : t("diagnose.title")}
+              subtitle={t("diagnose.subtitle")}
             />
             <Surface className="p-6 max-w-2xl space-y-5">
               <div>
-                <label className="text-sm font-medium mb-1.5 block">Dziedzina / przedmiot</label>
+                <label className="text-sm font-medium mb-1.5 block">{t("diagnose.domainLabel")}</label>
                 <Input
-                  placeholder="np. Matematyka, Język angielski, Programowanie w Python, Chemia organiczna…"
+                  placeholder={t("diagnose.domainPlaceholder")}
                   value={domain}
                   onChange={(e) => setDomain(e.target.value)}
                   maxLength={120}
                 />
                 <div className="mt-2 flex flex-wrap gap-1.5">
-                  {DOMAIN_SUGGESTIONS.slice(0, 12).map((s) => (
+                  {domainSuggestions.slice(0, 12).map((s) => (
                     <button
                       key={s}
                       type="button"
@@ -180,18 +167,18 @@ export default function Diagnose() {
               </div>
 
               <div>
-                <label className="text-sm font-medium mb-1.5 block">Poziom</label>
+                <label className="text-sm font-medium mb-1.5 block">{t("diagnose.levelLabel")}</label>
                 <div className="grid sm:grid-cols-2 gap-2">
-                  {LEVELS.map((l) => (
+                  {LEVEL_IDS.map((id) => (
                     <button
-                      key={l.id}
+                      key={id}
                       type="button"
-                      onClick={() => setLevel(l.id)}
+                      onClick={() => setLevel(id)}
                       className={`text-left text-sm rounded-md border px-3 py-2 transition-colors ${
-                        level === l.id ? "border-accent bg-accent/10" : "hover:bg-muted"
+                        level === id ? "border-accent bg-accent/10" : "hover:bg-muted"
                       }`}
                     >
-                      {l.label}
+                      {t(`diagnose.levels.${id}`)}
                     </button>
                   ))}
                 </div>
@@ -205,10 +192,10 @@ export default function Diagnose() {
                   className="bg-accent-gradient text-accent-foreground shadow-glow"
                 >
                   {submitting ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
-                  Rozpocznij diagnozę AI
+                  {t("diagnose.start")}
                 </Button>
                 <p className="text-[11px] text-muted-foreground mt-3">
-                  Diagnoza trwa ~10-15 minut. Pytania generuje AI w czasie rzeczywistym, dopasowując trudność do Twoich odpowiedzi.
+                  {t("diagnose.intakeNote")}
                 </p>
               </div>
             </Surface>
@@ -218,13 +205,13 @@ export default function Diagnose() {
         {phase === "running" && item && (
           <>
             <DashboardHeader
-              title={`Diagnoza: ${domain}`}
-              subtitle={`${levelLabel} • Pytanie ${questionIdx} z ${TARGET}`}
+              title={t("diagnose.runningTitle", { domain })}
+              subtitle={t("diagnose.runningSubtitle", { level: levelLabel, current: questionIdx, total: TARGET })}
             />
             <Surface className="p-5 mb-4">
               <div className="flex items-center justify-between mb-2 text-xs text-muted-foreground">
-                <span>Postęp</span>
-                <Badge variant="secondary" className="text-[10px]">AI adaptacyjna</Badge>
+                <span>{t("diagnose.progress")}</span>
+                <Badge variant="secondary" className="text-[10px]">{t("diagnose.adaptive")}</Badge>
               </div>
               <Progress value={(questionIdx / TARGET) * 100} />
             </Surface>
@@ -233,7 +220,7 @@ export default function Diagnose() {
               <div>
                 <div className="flex items-center gap-2 mb-1.5">
                   <p className="text-[11px] text-muted-foreground">{item.kc_label}</p>
-                  <Badge variant="outline" className="text-[10px]">trudność {item.difficulty}/5</Badge>
+                  <Badge variant="outline" className="text-[10px]">{t("diagnose.difficulty", { n: item.difficulty })}</Badge>
                 </div>
                 <h2 className="text-base font-semibold whitespace-pre-wrap">{item.question}</h2>
               </div>
@@ -266,7 +253,7 @@ export default function Diagnose() {
                     selected === "__skip__" ? "border-accent bg-accent/10" : "hover:bg-muted"
                   }`}
                 >
-                  Nie wiem (pomiń)
+                  {t("diagnose.skip")}
                 </button>
               </div>
 
@@ -277,7 +264,7 @@ export default function Diagnose() {
                   className="bg-accent-gradient text-accent-foreground"
                 >
                   {submitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                  {questionIdx === TARGET ? "Zakończ diagnozę" : "Następne pytanie"}
+                  {questionIdx === TARGET ? t("diagnose.finish") : t("diagnose.next")}
                   {!submitting && <ArrowRight className="h-4 w-4 ml-2" />}
                 </Button>
               </div>
@@ -287,14 +274,14 @@ export default function Diagnose() {
 
         {phase === "done" && summary && score && (
           <>
-            <DashboardHeader title="Wynik diagnozy" subtitle={`${domain} • ${levelLabel}`} />
+            <DashboardHeader title={t("diagnose.resultTitle")} subtitle={`${domain} • ${levelLabel}`} />
 
             <div className="grid gap-4 md:grid-cols-3 mb-4">
               <Surface className="p-5 md:col-span-1">
-                <p className="text-xs text-muted-foreground">Wynik ogólny</p>
+                <p className="text-xs text-muted-foreground">{t("diagnose.overallScore")}</p>
                 <p className="text-3xl font-bold">{score.pct}%</p>
-                <p className="text-xs text-muted-foreground mt-1">{score.correct} / {score.total} poprawnych</p>
-                <Badge className="mt-3" variant="secondary">Poziom: {summary.overall_level}</Badge>
+                <p className="text-xs text-muted-foreground mt-1">{t("diagnose.correctOf", { correct: score.correct, total: score.total })}</p>
+                <Badge className="mt-3" variant="secondary">{t("diagnose.level", { level: summary.overall_level })}</Badge>
               </Surface>
 
               <Surface className="p-5 md:col-span-2">
@@ -303,7 +290,7 @@ export default function Diagnose() {
                   {summary.recommendations.map((r, i) => <li key={i}>{r}</li>)}
                 </ul>
                 {summary.next_subject_suggestion && (
-                  <p className="text-xs text-muted-foreground mt-3">Sugerowany kolejny obszar: {summary.next_subject_suggestion}</p>
+                  <p className="text-xs text-muted-foreground mt-3">{t("diagnose.nextSubject", { subject: summary.next_subject_suggestion })}</p>
                 )}
               </Surface>
             </div>
@@ -311,20 +298,20 @@ export default function Diagnose() {
             <div className="grid gap-4 md:grid-cols-2 mb-4">
               <Surface className="p-5">
                 <h3 className="font-semibold text-sm flex items-center gap-2 mb-3">
-                  <CheckCircle2 className="h-4 w-4 text-green-500" /> Mocne strony
+                  <CheckCircle2 className="h-4 w-4 text-green-500" /> {t("diagnose.strengths")}
                 </h3>
                 {summary.strengths.length === 0 ? (
-                  <p className="text-xs text-muted-foreground">Brak wyraźnych mocnych stron — to świetna baza do nauki.</p>
+                  <p className="text-xs text-muted-foreground">{t("diagnose.noStrengths")}</p>
                 ) : (
                   <ul className="space-y-1 text-sm list-disc pl-5">{summary.strengths.map((s, i) => <li key={i}>{s}</li>)}</ul>
                 )}
               </Surface>
               <Surface className="p-5">
                 <h3 className="font-semibold text-sm flex items-center gap-2 mb-3">
-                  <AlertCircle className="h-4 w-4 text-destructive" /> Luki do nadrobienia
+                  <AlertCircle className="h-4 w-4 text-destructive" /> {t("diagnose.gaps")}
                 </h3>
                 {summary.gaps.length === 0 ? (
-                  <p className="text-xs text-muted-foreground">Świetnie — nie wykryto wyraźnych luk.</p>
+                  <p className="text-xs text-muted-foreground">{t("diagnose.noGaps")}</p>
                 ) : (
                   <ul className="space-y-1 text-sm list-disc pl-5">{summary.gaps.map((g, i) => <li key={i}>{g}</li>)}</ul>
                 )}
@@ -332,7 +319,7 @@ export default function Diagnose() {
             </div>
 
             <Surface className="p-5 mb-4">
-              <h3 className="font-semibold text-sm mb-3 flex items-center gap-2"><Brain className="h-4 w-4 text-accent" /> Mapa kompetencji</h3>
+              <h3 className="font-semibold text-sm mb-3 flex items-center gap-2"><Brain className="h-4 w-4 text-accent" /> {t("diagnose.competenceMap")}</h3>
               <div className="space-y-2">
                 {summary.kc_breakdown.map((k, i) => (
                   <div key={i} className="flex items-center gap-3">
@@ -348,7 +335,7 @@ export default function Diagnose() {
                         : ""
                       }`}
                     >
-                      {k.status.replace("_", " ")}
+                      {t(`diagnose.status.${k.status}`, { defaultValue: k.status.replace("_", " ") })}
                     </Badge>
                   </div>
                 ))}
@@ -357,14 +344,14 @@ export default function Diagnose() {
 
             <div className="flex flex-wrap gap-3">
               <Button asChild className="bg-accent-gradient text-accent-foreground">
-                <Link to="/discover"><Target className="h-4 w-4 mr-1" /> Znajdź dopasowanego tutora</Link>
+                <Link to="/discover"><Target className="h-4 w-4 mr-1" /> {t("diagnose.findTutor")}</Link>
               </Button>
               <Button variant="outline" onClick={() => { setPhase("intake"); setSummary(null); setScore(null); setItem(null); setAttemptId(null); }}>
-                Zrób kolejną diagnozę
+                {t("diagnose.anotherDiagnosis")}
               </Button>
               {childId && (
                 <Button asChild variant="outline">
-                  <Link to={`/parent/children/${childId}/knowledge`}><Brain className="h-4 w-4 mr-1" /> Mapa wiedzy dziecka</Link>
+                  <Link to={`/parent/children/${childId}/knowledge`}><Brain className="h-4 w-4 mr-1" /> {t("diagnose.childKnowledgeMap")}</Link>
                 </Button>
               )}
             </div>
