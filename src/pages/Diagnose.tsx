@@ -18,6 +18,7 @@ import { ResearchConsentDialog } from "@/components/pilot/ResearchConsentDialog"
 import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
 import { useConsent } from "@/hooks/useConsent";
 import { createNotification } from "@/lib/notifications";
+import { MathText } from "@/components/MathText";
 
 type Choice = { id: string; text: string };
 type Item = { id: string; question: string; choices: Choice[]; kc_label: string; difficulty: number };
@@ -363,7 +364,9 @@ export default function Diagnose() {
                   <p className="text-[11px] text-muted-foreground">{item.kc_label}</p>
                   <Badge variant="outline" className="text-[10px]">{t("diagnose.difficulty", { n: item.difficulty })}</Badge>
                 </div>
-                <h2 className="text-base font-semibold whitespace-pre-wrap">{item.question}</h2>
+                <h2 className="text-base font-semibold leading-relaxed">
+                  <MathText>{item.question}</MathText>
+                </h2>
               </div>
 
               <div className="grid gap-2">
@@ -383,7 +386,7 @@ export default function Diagnose() {
                       }`}
                     >
                       <span className="font-mono text-xs mr-2 text-muted-foreground">{c.id}.</span>
-                      {c.text}
+                      <MathText>{c.text}</MathText>
                     </button>
                   );
                 })}
