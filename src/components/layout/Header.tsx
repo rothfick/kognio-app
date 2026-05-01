@@ -54,14 +54,15 @@ export function Header() {
     return () => { cancelled = true; supabase.removeChannel(ch); };
   }, [user, isTutor]);
 
-  const navItems = [
-    { to: "/dashboard", key: "dashboard", Icon: LayoutDashboard },
-    { to: "/discover", key: "discover", Icon: Search },
-    { to: "/circles", key: "circles", Icon: Users },
-    { to: "/peer", key: "peer", Icon: HandHelping },
-    { to: "/calendar", key: "calendar", Icon: Calendar, badge: pendingCount },
-    { to: "/brain", key: "brain", Icon: Brain },
+  const allNavItems = [
+    { to: "/dashboard", key: "dashboard", Icon: LayoutDashboard, parentVisible: true },
+    { to: "/discover", key: "discover", Icon: Search, parentVisible: false },
+    { to: "/circles", key: "circles", Icon: Users, parentVisible: false },
+    { to: "/peer", key: "peer", Icon: HandHelping, parentVisible: false },
+    { to: "/calendar", key: "calendar", Icon: Calendar, badge: pendingCount, parentVisible: true },
+    { to: "/brain", key: "brain", Icon: Brain, parentVisible: true },
   ];
+  const navItems = parentOnly ? allNavItems.filter((n) => n.parentVisible) : allNavItems;
 
   const currentLang = (["pl", "en", "es"] as const).find((l) => i18n.language?.startsWith(l)) || "pl";
   const setLang = (l: "pl" | "en" | "es") => i18n.changeLanguage(l);
