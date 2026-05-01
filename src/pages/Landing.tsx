@@ -128,10 +128,10 @@ const Landing = () => {
             <GraduationCap className="h-6 w-6" />
           </div>
           <h2 className="text-2xl md:text-3xl font-semibold tracking-tight mb-3 text-balance">
-            Sprawdź, gdzie naprawdę stoi Twoje dziecko — w 15 minut.
+            Sprawdź, gdzie naprawdę jesteś — w 15 minut.
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto mb-6">
-            Bezpłatna diagnoza AI z matematyki dla klas 7–9. Bez zobowiązań.
+            Bezpłatna diagnoza AI z dowolnego przedmiotu — od szkoły podstawowej, przez liceum i technikum, aż po studia. Matematyka, języki, nauki ścisłe i humanistyczne, programowanie, przygotowanie do egzaminów. Bez zobowiązań.
           </p>
           <Button asChild size="lg" className="bg-accent-gradient text-accent-foreground shadow-glow">
             <Link to="/auth?mode=signup">
