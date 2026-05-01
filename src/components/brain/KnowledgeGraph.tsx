@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -55,6 +56,7 @@ const extractTopics = (text: string, max = 5): string[] => {
 };
 
 export const KnowledgeGraph = ({ reports }: { reports: Report[] }) => {
+  const { t } = useTranslation();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [hoverNode, setHoverNode] = useState<Node | null>(null);
   const nodesRef = useRef<Node[]>([]);
@@ -269,7 +271,7 @@ export const KnowledgeGraph = ({ reports }: { reports: Report[] }) => {
     return (
       <Card className="p-8 bg-card-soft text-center">
         <p className="text-muted-foreground">
-          Graf wiedzy jest pusty. Wygeneruj raporty po sesjach, a tematy pojawią się tutaj automatycznie.
+          {t("knowledgeGraph.empty")}
         </p>
       </Card>
     );
@@ -278,11 +280,11 @@ export const KnowledgeGraph = ({ reports }: { reports: Report[] }) => {
   return (
     <Card className="p-4 bg-card-soft">
       <div className="flex flex-wrap items-center gap-3 mb-3">
-        <Badge variant="outline" className="border-accent text-accent">● Mocne strony</Badge>
-        <Badge variant="outline" className="border-destructive text-destructive">● Do pracy</Badge>
-        <Badge variant="outline" className="border-primary text-primary">● Tematy</Badge>
+        <Badge variant="outline" className="border-accent text-accent">● {t("knowledgeGraph.strengths")}</Badge>
+        <Badge variant="outline" className="border-destructive text-destructive">● {t("knowledgeGraph.work")}</Badge>
+        <Badge variant="outline" className="border-primary text-primary">● {t("knowledgeGraph.topics")}</Badge>
         <span className="text-xs text-muted-foreground ml-auto">
-          {nodes.length} węzłów · {edges.length} powiązań
+          {t("knowledgeGraph.counts", { nodes: nodes.length, edges: edges.length })}
         </span>
       </div>
       <div className="relative w-full h-[500px] rounded-lg bg-background overflow-hidden">
@@ -291,8 +293,8 @@ export const KnowledgeGraph = ({ reports }: { reports: Report[] }) => {
           <div className="absolute top-3 left-3 px-3 py-2 rounded-md bg-card border shadow-soft text-xs">
             <p className="font-semibold">{hoverNode.label}</p>
             <p className="text-muted-foreground">
-              {hoverNode.kind === "strength" ? "Mocna strona" : hoverNode.kind === "weakness" ? "Do pracy" : "Temat"}
-              {" · "}występuje {hoverNode.weight}×
+              {hoverNode.kind === "strength" ? t("knowledgeGraph.kindStrength") : hoverNode.kind === "weakness" ? t("knowledgeGraph.kindWeakness") : t("knowledgeGraph.kindTopic")}
+              {" · "}{t("knowledgeGraph.occurs", { count: hoverNode.weight })}
             </p>
           </div>
         )}
