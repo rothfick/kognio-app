@@ -43,6 +43,7 @@ export default function Diagnose() {
   const [phase, setPhase] = useState<"intake" | "running" | "done">("intake");
   const [domain, setDomain] = useState("");
   const [level, setLevel] = useState<string>("");
+  const [taxonomy, setTaxonomy] = useState<CurriculumSelection>({});
   const [submitting, setSubmitting] = useState(false);
 
   const [attemptId, setAttemptId] = useState<string | null>(null);
