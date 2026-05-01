@@ -361,7 +361,20 @@
     "enter": "Wejdź",
     "pay": "Zapłać",
     "markCompleted": "Oznacz jako zakończoną",
-    "findTutor": "Znajdź tutora"
+    "findTutor": "Znajdź tutora",
+    "subtitle": "Twoje sesje, płatności i notatki w jednym miejscu.",
+    "with": "Z",
+    "tutor": "Korepetytor",
+    "studentLabel": "Uczeń",
+    "emptyPast": "Brak zakończonych sesji.",
+    "joinMeeting": "Dołącz do spotkania",
+    "addMeetingUrl": "Dodaj link",
+    "editMeetingUrl": "Zmień link",
+    "meetingUrlTitle": "Link do spotkania",
+    "meetingUrlHint": "Wklej link do Google Meet, Zoom lub innego pokoju.",
+    "meetingUrlSaved": "Link zapisany.",
+    "actionFailed": "Nie udało się wykonać akcji.",
+    "cancel": "Anuluj"
   },
   "settings": {
     "title": "Ustawienia",
@@ -724,7 +737,8 @@
     "language": "Język",
     "me": "Ja",
     "saving": "Zapisywanie…",
-    "error": "Coś poszło nie tak"
+    "error": "Coś poszło nie tak",
+    "next": "Dalej"
   },
   "errors": {
     "generic": "Coś poszło nie tak. Spróbuj jeszcze raz."
@@ -781,7 +795,19 @@
     "transcriptPlaceholder": "Dodaj fragment transkryptu / notatkę z lekcji…",
     "copilotIntro": "Pytania trafiają do AI z kontekstem ostatnich wypowiedzi. Cała rozmowa zapisuje się w czacie sesji.",
     "aiTyping": "AI pisze…",
-    "askAiPlaceholder": "Zapytaj AI o cokolwiek…"
+    "askAiPlaceholder": "Zapytaj AI o cokolwiek…",
+    "noteTitle": "Notatka po sesji",
+    "noteHint": "Krótkie podsumowanie tego, co przerobiliście.",
+    "notesLabel": "Notatka",
+    "skillsLabel": "Przerobione obszary (oddziel przecinkami)",
+    "skillsPlaceholder": "np. ułamki, równania liniowe",
+    "nextLabel": "Sugerowany następny krok",
+    "addNote": "Dodaj notatkę",
+    "editNote": "Edytuj notatkę",
+    "noteSaved": "Notatka zapisana.",
+    "noteFailed": "Nie udało się zapisać notatki.",
+    "noteFromTutor": "Notatka od korepetytora",
+    "recommendedNext": "Następny krok"
   },
   "payment": {
     "markedPaidToast": "Oznaczono jako zapłacone",
@@ -802,7 +828,30 @@
     "markPaid": "Oznaczam jako zapłacone",
     "confirmReceived": "Potwierdzam otrzymanie",
     "completed": "Płatność zakończona",
-    "copyToast": "Skopiowano"
+    "copyToast": "Skopiowano",
+    "uploadProof": "Wgraj dowód płatności",
+    "replaceProof": "Zmień dowód",
+    "viewProof": "Zobacz dowód",
+    "upload": "Wgraj",
+    "uploadHint": "Załącz zrzut ekranu lub PDF potwierdzający przelew.",
+    "privacyHint": "Plik widzi tylko korepetytor i administrator.",
+    "confirm": "Potwierdź wpłatę",
+    "adminConfirm": "Potwierdź (admin)",
+    "status": {
+      "unpaid": "Nieopłacona",
+      "payment_sent": "Wysłana płatność",
+      "confirmed": "Potwierdzona",
+      "disputed": "Sporna",
+      "refunded": "Zwrócona"
+    },
+    "toast": {
+      "proofUploaded": "Dowód wgrany.",
+      "proofFailed": "Nie udało się wgrać dowodu.",
+      "confirmed": "Płatność potwierdzona.",
+      "confirmFailed": "Nie udało się potwierdzić.",
+      "payerCannotConfirm": "Tylko korepetytor lub admin może potwierdzić wpłatę.",
+      "signedUrlFailed": "Nie udało się otworzyć pliku."
+    }
   },
   "profile": {
     "title": "Twój profil",
@@ -2005,6 +2054,141 @@
       "rejectedTitle": "Twój profil korepetytora wymaga zmian",
       "rejectedBody": "Zapoznaj się z uwagami i zgłoś profil ponownie.",
       "openProfile": "Otwórz profil"
+    }
+  },
+  "weekday": {
+    "sun": "Niedziela",
+    "mon": "Poniedziałek",
+    "tue": "Wtorek",
+    "wed": "Środa",
+    "thu": "Czwartek",
+    "fri": "Piątek",
+    "sat": "Sobota"
+  },
+  "marketplace": {
+    "eyebrow": "Marketplace korepetytorów",
+    "title": "Znajdź korepetytora",
+    "subtitle": "Zweryfikowani korepetytorzy gotowi pomóc w nauce.",
+    "searchPlaceholder": "Szukaj po imieniu, opisie lub przedmiocie",
+    "verified": "Zweryfikowany",
+    "perHour": "za godzinę",
+    "openProfile": "Profil",
+    "book": "Rezerwuj",
+    "reviews": "opinii",
+    "unnamed": "Korepetytor",
+    "filter": {
+      "domain": "Dziedzina",
+      "level": "Poziom",
+      "language": "Język",
+      "maxPrice": "Cena max",
+      "rating": "Ocena",
+      "any": "Dowolna",
+      "allDomains": "Wszystkie dziedziny",
+      "allLevels": "Wszystkie poziomy",
+      "allLanguages": "Wszystkie języki"
+    },
+    "empty": {
+      "title": "Nie ma jeszcze zweryfikowanych korepetytorów.",
+      "body": "Bądź jednym z pierwszych korepetytorów na Kogni.",
+      "cta": "Zostań korepetytorem"
+    }
+  },
+  "tutor": {
+    "bookSession": "Rezerwuj sesję",
+    "about": "O mnie",
+    "teaching": "Czego uczę",
+    "domains": "Dziedziny",
+    "levels": "Poziomy",
+    "availability": "Dostępność",
+    "noAvailability": "Korepetytor nie ustawił jeszcze dostępności.",
+    "reviews": "Opinie",
+    "reviewsPlaceholder": "Opinie pojawią się po pierwszych sesjach.",
+    "notFound": {
+      "title": "Nie znaleziono korepetytora",
+      "body": "Profil mógł zostać usunięty.",
+      "cta": "Wróć do listy"
+    },
+    "unavailable": {
+      "title": "Profil niedostępny",
+      "body": "Ten korepetytor nie jest jeszcze zweryfikowany.",
+      "cta": "Zobacz innych"
+    },
+    "statusBanner": {
+      "title": "Status profilu",
+      "pending": "Oczekuje na weryfikację",
+      "approved": "Zatwierdzony",
+      "rejected": "Odrzucony",
+      "suspended": "Zawieszony"
+    }
+  },
+  "booking": {
+    "title": "Rezerwacja u {{tutor}}",
+    "step": {
+      "1": "Uczeń",
+      "2": "Temat",
+      "3": "Termin",
+      "4": "Potwierdzenie"
+    },
+    "learner": {
+      "title": "Kto się uczy?",
+      "self": "Ja",
+      "child": "Moje dziecko",
+      "selectChild": "Wybierz dziecko"
+    },
+    "context": {
+      "title": "Czego dotyczy sesja?",
+      "fromPlan": "Z mojego planu nauki",
+      "custom": "Własny temat",
+      "customPlaceholder": "Opisz krótko, czego chcesz się uczyć"
+    },
+    "time": {
+      "title": "Wybierz termin",
+      "empty": "Brak dostępnych terminów w najbliższych 14 dniach."
+    },
+    "confirm": {
+      "title": "Potwierdź",
+      "tutor": "Korepetytor",
+      "learner": "Uczeń",
+      "topic": "Temat",
+      "time": "Termin",
+      "price": "Cena",
+      "cta": "Zarezerwuj",
+      "paymentInstructions": "Po rezerwacji opłać sesję bezpośrednio u korepetytora (BLIK / przelew / Revolut). Następnie wgraj dowód płatności w Kalendarzu — Kogni nie pośredniczy w płatnościach."
+    },
+    "toast": {
+      "created": "Rezerwacja utworzona.",
+      "failed": "Nie udało się zarezerwować."
+    }
+  },
+  "notif": {
+    "viewCalendar": "Otwórz kalendarz",
+    "bookingCreatedPayer": {
+      "title": "Rezerwacja utworzona",
+      "body": "Twoja sesja u {{tutor}} została zarezerwowana."
+    },
+    "bookingCreatedTutor": {
+      "title": "Nowa rezerwacja",
+      "body": "Masz nową rezerwację sesji."
+    },
+    "paymentProofUploaded": {
+      "title": "Dowód płatności wgrany",
+      "body": "Uczeń przesłał dowód wpłaty — sprawdź i potwierdź."
+    },
+    "paymentConfirmed": {
+      "title": "Płatność potwierdzona",
+      "body": "Korepetytor potwierdził Twoją wpłatę."
+    },
+    "sessionCompleted": {
+      "title": "Sesja zakończona",
+      "body": "Sesja została oznaczona jako zakończona."
+    },
+    "tutorNote": {
+      "title": "Nowa notatka po sesji",
+      "body": "Korepetytor dodał notatkę do Twojej sesji."
+    },
+    "bookingCancelled": {
+      "title": "Rezerwacja anulowana",
+      "body": "Sesja została anulowana."
     }
   }
 }
