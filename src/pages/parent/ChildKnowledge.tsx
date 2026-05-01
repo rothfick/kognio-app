@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -37,6 +38,7 @@ function masteryLevel(p: number | undefined): "unknown" | "novice" | "developing
 }
 
 const ChildKnowledge = () => {
+  const { t } = useTranslation();
   const { childId } = useParams<{ childId: string }>();
   const { user, loading: authLoading } = useAuth();
   const { isAdmin, loading: rolesLoading } = useUserRoles();
@@ -117,7 +119,7 @@ const ChildKnowledge = () => {
   useEffect(() => { load(); }, [load]);
 
   if (authLoading || rolesLoading) {
-    return <AppShell><div className="container py-12 text-muted-foreground text-sm">Ładowanie…</div></AppShell>;
+    return <AppShell><div className="container py-12 text-muted-foreground text-sm">{t("common.loading")}</div></AppShell>;
   }
   if (!user) return <Navigate to="/auth" replace />;
   if (denied) return <Navigate to="/dashboard/parent" replace />;
@@ -133,52 +135,51 @@ const ChildKnowledge = () => {
       <DashboardShell>
         <div className="mb-4">
           <Button asChild variant="ghost" size="sm">
-            <Link to="/dashboard/parent"><ArrowLeft className="h-4 w-4 mr-1" /> Powrót do pulpitu</Link>
+            <Link to="/dashboard/parent"><ArrowLeft className="h-4 w-4 mr-1" /> {t("knowledge.back")}</Link>
           </Button>
         </div>
 
         <DashboardHeader
-          title={child ? `Mapa wiedzy — ${child.display_name}` : "Mapa wiedzy"}
-          subtitle="Po diagnozie AI tutaj pojawi się mapa kompetencji dziecka z konkretnymi rekomendacjami."
+          title={child ? t("knowledge.titleNamed", { name: child.display_name }) : t("knowledge.title")}
+          subtitle={t("knowledge.subtitle")}
           actions={
             <Button asChild className="bg-accent-gradient text-accent-foreground" size="sm">
               <Link to={`/parent/children/${childId}/diagnose`}>
-                <Sparkles className="h-4 w-4 mr-1" /> {hasDiagnostic ? "Powtórz diagnozę AI" : "Zrób diagnozę AI"}
+                <Sparkles className="h-4 w-4 mr-1" /> {hasDiagnostic ? t("knowledge.redo") : t("knowledge.doDiagnosis")}
               </Link>
             </Button>
           }
         />
 
         <div className="grid gap-4 sm:grid-cols-3 mb-6">
-          <StatCard icon={BookOpen} label="Komponenty wiedzy" value={String(kcs.length)} hint="W aktywnym programie" />
-          <StatCard icon={Brain} label="Śledzone KC" value={String(trackedCount)} hint={trackedCount ? "Po diagnozie/lekcjach" : "Brak diagnozy"} />
-          <StatCard icon={Target} label="Średni poziom" value={trackedCount ? `${Math.round(avgMastery * 100)}%` : "—"} hint="0–100%" />
+          <StatCard icon={BookOpen} label={t("knowledge.kcCount")} value={String(kcs.length)} hint={t("knowledge.kcCountHint")} />
+          <StatCard icon={Brain} label={t("knowledge.trackedKc")} value={String(trackedCount)} hint={trackedCount ? t("knowledge.trackedAfter") : t("knowledge.trackedNone")} />
+          <StatCard icon={Target} label={t("knowledge.avgLevel")} value={trackedCount ? `${Math.round(avgMastery * 100)}%` : "—"} hint={t("knowledge.avgHint")} />
         </div>
 
         {!hasDiagnostic ? (
-          <AIInsightCard title="Adaptacyjna diagnoza AI" className="mb-6">
+          <AIInsightCard title={t("knowledge.promptTitle")} className="mb-6">
             <p className="mb-3">
-              Wybierz dziedzinę i poziom — AI wygeneruje pytania w locie, dostosuje trudność do odpowiedzi dziecka i zwróci szczegółową mapę kompetencji oraz rekomendacje.
+              {t("knowledge.promptBody")}
             </p>
             <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
               <Link to={`/parent/children/${childId}/diagnose`}>
-                <Sparkles className="h-4 w-4 mr-1" /> Zrób diagnozę AI
+                <Sparkles className="h-4 w-4 mr-1" /> {t("knowledge.doDiagnosis")}
               </Link>
             </Button>
           </AIInsightCard>
         ) : (
-          <AIInsightCard title="Diagnoza wstępna ukończona" className="mb-6">
+          <AIInsightCard title={t("knowledge.doneTitle")} className="mb-6">
             <p>
-              Wynik: <strong>{Math.round((latestAttempt!.score ?? 0) * 100)}%</strong> ({latestAttempt!.correct_items}/{latestAttempt!.total_items}).
-              Mapa poniżej oparta jest na diagnozie v1.
+              <span dangerouslySetInnerHTML={{ __html: t("knowledge.doneBody", { score: Math.round((latestAttempt!.score ?? 0) * 100), correct: latestAttempt!.correct_items, total: latestAttempt!.total_items }) }} />
             </p>
           </AIInsightCard>
         )}
 
         {loading ? (
-          <p className="text-sm text-muted-foreground">Ładowanie mapy wiedzy…</p>
+          <p className="text-sm text-muted-foreground">{t("knowledge.loadingMap")}</p>
         ) : groups.length === 0 ? (
-          <EmptyState icon={BookOpen} title="Brak danych programu" description="Skontaktuj się z administratorem." />
+          <EmptyState icon={BookOpen} title={t("knowledge.noProgramTitle")} description={t("knowledge.noProgramDesc")} />
         ) : (
           <div className="space-y-5 mb-8">
             {groups.map((g) => {
@@ -219,7 +220,7 @@ const ChildKnowledge = () => {
         />
 
         <p className="mt-8 text-[11px] text-muted-foreground text-center">
-          Dane programu są wersją MVP. Mapa wiedzy będzie ewoluować z każdym etapem produktu.
+          {t("knowledge.footerNote")}
         </p>
       </DashboardShell>
     </AppShell>
@@ -231,6 +232,7 @@ function GoalsSection({
 }: {
   childId: string; subjectId: string | null; goals: Goal[]; createdById: string; onChange: () => void;
 }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [title, setTitle] = useState("");
@@ -239,7 +241,7 @@ function GoalsSection({
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim()) { toast.error("Podaj tytuł celu."); return; }
+    if (!title.trim()) { toast.error(t("knowledge.missingTitle")); return; }
     setSubmitting(true);
     try {
       const { error } = await supabase.from("learning_goals").insert({
@@ -252,12 +254,12 @@ function GoalsSection({
         created_by: createdById,
       });
       if (error) throw error;
-      toast.success("Cel został dodany.");
+      toast.success(t("knowledge.goalAdded"));
       setTitle(""); setDescription(""); setTargetDate("");
       setOpen(false);
       onChange();
     } catch (err: any) {
-      toast.error(err.message || "Nie udało się dodać celu.");
+      toast.error(err.message || t("knowledge.goalAddFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -266,7 +268,7 @@ function GoalsSection({
   const archive = async (id: string) => {
     const { error } = await supabase.from("learning_goals").update({ status: "archived" }).eq("id", id);
     if (error) toast.error(error.message);
-    else { toast.success("Cel zarchiwizowany."); onChange(); }
+    else { toast.success(t("knowledge.goalArchived")); onChange(); }
   };
 
   const active = goals.filter((g) => g.status === "active");
@@ -274,30 +276,30 @@ function GoalsSection({
   return (
     <Surface className="p-5">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-semibold flex items-center gap-2"><Target className="h-4 w-4 text-accent" /> Cele nauki</h2>
+        <h2 className="font-semibold flex items-center gap-2"><Target className="h-4 w-4 text-accent" /> {t("knowledge.goalsTitle")}</h2>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button size="sm" className="bg-accent-gradient text-accent-foreground"><Plus className="h-4 w-4 mr-1" /> Dodaj cel</Button>
+            <Button size="sm" className="bg-accent-gradient text-accent-foreground"><Plus className="h-4 w-4 mr-1" /> {t("knowledge.addGoal")}</Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader><DialogTitle>Nowy cel nauki</DialogTitle></DialogHeader>
+            <DialogHeader><DialogTitle>{t("knowledge.newGoal")}</DialogTitle></DialogHeader>
             <form onSubmit={submit} className="space-y-3">
               <div className="space-y-1.5">
-                <Label htmlFor="g-title">Tytuł *</Label>
-                <Input id="g-title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="np. Poprawić procenty i równania przed sprawdzianem." required />
+                <Label htmlFor="g-title">{t("knowledge.goalTitle")}</Label>
+                <Input id="g-title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("knowledge.goalTitlePlaceholder")} required />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="g-desc">Opis</Label>
+                <Label htmlFor="g-desc">{t("knowledge.goalDesc")}</Label>
                 <Textarea id="g-desc" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="g-date">Data docelowa</Label>
+                <Label htmlFor="g-date">{t("knowledge.goalDate")}</Label>
                 <Input id="g-date" type="date" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} />
               </div>
               <DialogFooter>
-                <Button type="button" variant="ghost" onClick={() => setOpen(false)}>Anuluj</Button>
+                <Button type="button" variant="ghost" onClick={() => setOpen(false)}>{t("knowledge.cancel")}</Button>
                 <Button type="submit" disabled={submitting} className="bg-accent-gradient text-accent-foreground">
-                  {submitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Zapisz cel
+                  {submitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} {t("knowledge.saveGoal")}
                 </Button>
               </DialogFooter>
             </form>
@@ -306,7 +308,7 @@ function GoalsSection({
       </div>
 
       {active.length === 0 ? (
-        <EmptyState icon={Target} title="Brak celów" description="Dodaj pierwszy cel, aby ukierunkować naukę dziecka." />
+        <EmptyState icon={Target} title={t("knowledge.noGoalsTitle")} description={t("knowledge.noGoalsDesc")} />
       ) : (
         <ul className="space-y-2">
           {active.map((g) => (
@@ -314,10 +316,10 @@ function GoalsSection({
               <div>
                 <p className="text-sm font-medium">{g.title}</p>
                 {g.description && <p className="text-xs text-muted-foreground mt-0.5">{g.description}</p>}
-                {g.target_date && <p className="text-[11px] text-muted-foreground mt-1">Termin: {g.target_date}</p>}
+                {g.target_date && <p className="text-[11px] text-muted-foreground mt-1">{t("knowledge.deadline", { date: g.target_date })}</p>}
               </div>
               <Button size="sm" variant="ghost" onClick={() => archive(g.id)}>
-                <Archive className="h-4 w-4 mr-1" /> Archiwizuj
+                <Archive className="h-4 w-4 mr-1" /> {t("knowledge.archive")}
               </Button>
             </li>
           ))}
