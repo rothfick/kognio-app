@@ -9,7 +9,7 @@ import { Brain, Users, Wallet, ArrowRight, Sparkles, Video, MessageSquare } from
 const Landing = () => {
   const { t } = useTranslation();
   const { user, loading } = useAuth();
-  if (!loading && user) return <Navigate to="/discover" replace />;
+  if (!loading && user) return <Navigate to="/dashboard" replace />;
 
   const features = [
     { Icon: Brain, titleKey: "feature1Title", descKey: "feature1Desc" },
