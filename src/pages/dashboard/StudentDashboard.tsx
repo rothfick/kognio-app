@@ -12,6 +12,8 @@ import { AIInsightCard } from "@/components/ui/ai-insight-card";
 import { MasteryBadge } from "@/components/ui/mastery-badge";
 import { EmptyState } from "@/components/EmptyState";
 import { Button } from "@/components/ui/button";
+import { NextBestActionCard } from "@/components/journey/NextBestActionCard";
+import { useNextBestAction } from "@/hooks/useJourneyState";
 import { Badge } from "@/components/ui/badge";
 import {
   Brain, Calendar as CalIcon, ClipboardList, Sparkles, BookOpen, ArrowRight, Search, TrendingUp,
