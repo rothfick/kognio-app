@@ -309,10 +309,19 @@
     "strengthsLabel": "Fortalezas:",
     "workLabel": "A trabajar:",
     "noFlashcards": "Las tarjetas aparecerán después de generar un informe.",
-    "errorStatus": "Error {{status}}"
+    "errorStatus": "Error {{status}}",
+    "parentTitle": "Segundo Cerebro de tus hijos",
+    "parentSubtitle": "Elige a un hijo o hija para abrir su mapa de conocimientos, informes y transcripciones de sesiones.",
+    "parentEmpty": "Aún no tienes hijos ni estudiantes vinculados.",
+    "parentChildrenSection": "Tus hijos",
+    "parentLinkedSection": "Estudiantes vinculados",
+    "parentOpen": "Abrir"
   },
   "calendar": {
     "title": "Calendario",
+    "parentTitle": "Sesiones de tus hijos",
+    "parentSubtitle": "Sesiones próximas y pasadas vinculadas a tus hijos. Solo lectura — no confirmas ni pagas en su nombre.",
+    "parentEmpty": "No hay sesiones vinculadas a tus hijos.",
     "upcoming": "Próximas sesiones",
     "past": "Sesiones pasadas",
     "empty": "Sin sesiones programadas.",
