@@ -53,12 +53,13 @@ const DashboardRouter = () => {
   if (isSchool) return <Navigate to="/dashboard/school" replace />;
   if (isCompany) return <Navigate to="/dashboard/company" replace />;
 
-  // First-success guidance: send users without meaningful progress to /getting-started
-  if ((isParent || isStudent) && !hasMeaningfulProgress) {
+  // Rodzic ZAWSZE ma własny pulpit — bez getting-started, bez przekierowań na widoki uczniowskie
+  if (isParent) return <Navigate to="/dashboard/parent" replace />;
+
+  // First-success guidance: send students without meaningful progress to /getting-started
+  if (isStudent && !hasMeaningfulProgress) {
     return <Navigate to="/getting-started" replace />;
   }
-
-  if (isParent) return <Navigate to="/dashboard/parent" replace />;
   if (isTutor && !isStudent) return <Navigate to="/dashboard/tutor" replace />;
   if (isStudent) return <Navigate to="/dashboard/student" replace />;
   if (isTutor) return <Navigate to="/dashboard/tutor" replace />;
