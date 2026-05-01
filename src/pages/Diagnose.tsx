@@ -223,7 +223,21 @@ export default function Diagnose() {
           </Button>
         </div>
 
-        {phase === "intake" && (
+        {checkpointId && (
+          <Surface variant="ai" className="p-4 mb-4 border-accent/40">
+            <div className="flex items-start gap-3">
+              <TrendingUp className="h-4 w-4 text-accent mt-0.5 shrink-0" />
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Badge variant="secondary" className="text-[10px]">{t("checkpoint.modeBadge")}</Badge>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">{t("checkpoint.modeNote")}</p>
+              </div>
+            </div>
+          </Surface>
+        )}
+
+
           <>
             <DashboardHeader
               title={childId ? t("diagnose.titleChild") : t("diagnose.title")}
