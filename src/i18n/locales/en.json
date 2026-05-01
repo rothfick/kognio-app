@@ -1589,5 +1589,85 @@
       "desc": "Thank you — your feedback helps us improve.",
       "cta": "Back"
     }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "pageTitle": "Notifications",
+    "pageSubtitle": "Reminders that help you complete your learning loop.",
+    "empty": "You're all caught up.",
+    "viewAll": "View all notifications",
+    "markAllRead": "Mark all as read",
+    "dismiss": "Dismiss",
+    "open": "Open",
+    "adminSection": "Notifications (admin)",
+    "metrics": {
+      "total": "Total notifications",
+      "unread": "Unread",
+      "dismissed": "Dismissed",
+      "byType": "By type"
+    },
+    "filter": {
+      "unread": "Unread",
+      "all": "All",
+      "dismissed": "Dismissed"
+    },
+    "diagnosis_completed": {
+      "title": "Diagnosis completed",
+      "body": "Generate your personalized learning plan now.",
+      "action": "Open dashboard"
+    },
+    "plan_ready": {
+      "title": "Learning plan ready",
+      "body": "Your plan is generated. Start with the first step.",
+      "action": "Open plan"
+    },
+    "plan_step_reminder": {
+      "title": "Keep going",
+      "body": "You've completed {{count}} steps. A few more and you can run a checkpoint.",
+      "action": "Continue plan"
+    },
+    "checkpoint_available": {
+      "title": "Checkpoint available",
+      "body": "You've completed enough steps. Run a checkpoint to measure progress.",
+      "action": "Open plan"
+    },
+    "checkpoint_completed": {
+      "title": "Checkpoint completed",
+      "body": "See your progress and updated mastery.",
+      "action": "Open report"
+    },
+    "feedback_requested": {
+      "title": "Quick feedback?",
+      "body": "Tell us how it went — it helps us improve.",
+      "action": "Share feedback"
+    },
+    "expert_review_assigned": {
+      "title": "Expert review assigned",
+      "body": "A new {{type}} review is awaiting your evaluation.",
+      "action": "Open review"
+    }
+  },
+  "notificationType": {
+    "diagnosis_incomplete": "Diagnosis incomplete",
+    "diagnosis_completed": "Diagnosis completed",
+    "plan_ready": "Plan ready",
+    "plan_step_reminder": "Plan reminder",
+    "checkpoint_available": "Checkpoint available",
+    "checkpoint_completed": "Checkpoint completed",
+    "feedback_requested": "Feedback requested",
+    "expert_review_assigned": "Expert review",
+    "consent_required": "Consent required",
+    "pilot_update": "Pilot update"
+  },
+  "notificationStatus": {
+    "unread": "Unread",
+    "read": "Read",
+    "dismissed": "Dismissed"
+  },
+  "severity": {
+    "info": "Info",
+    "success": "Success",
+    "warning": "Warning",
+    "critical": "Critical"
   }
 }

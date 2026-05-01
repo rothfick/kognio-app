@@ -1589,5 +1589,85 @@
       "desc": "Gracias — tu opinión nos ayuda a mejorar.",
       "cta": "Volver"
     }
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "pageTitle": "Notificaciones",
+    "pageSubtitle": "Recordatorios que te ayudan a completar tu ciclo de aprendizaje.",
+    "empty": "No tienes notificaciones nuevas.",
+    "viewAll": "Ver todas las notificaciones",
+    "markAllRead": "Marcar todas como leídas",
+    "dismiss": "Descartar",
+    "open": "Abrir",
+    "adminSection": "Notificaciones (admin)",
+    "metrics": {
+      "total": "Notificaciones totales",
+      "unread": "Sin leer",
+      "dismissed": "Descartadas",
+      "byType": "Por tipo"
+    },
+    "filter": {
+      "unread": "Sin leer",
+      "all": "Todas",
+      "dismissed": "Descartadas"
+    },
+    "diagnosis_completed": {
+      "title": "Diagnóstico completado",
+      "body": "Genera ahora tu plan de aprendizaje personalizado.",
+      "action": "Abrir panel"
+    },
+    "plan_ready": {
+      "title": "Plan de aprendizaje listo",
+      "body": "Tu plan está generado. Empieza con el primer paso.",
+      "action": "Abrir plan"
+    },
+    "plan_step_reminder": {
+      "title": "Sigue adelante",
+      "body": "Has completado {{count}} pasos. Unos pocos más y podrás hacer un checkpoint.",
+      "action": "Continuar plan"
+    },
+    "checkpoint_available": {
+      "title": "Checkpoint disponible",
+      "body": "Has completado suficientes pasos. Haz un checkpoint para medir tu progreso.",
+      "action": "Abrir plan"
+    },
+    "checkpoint_completed": {
+      "title": "Checkpoint completado",
+      "body": "Mira tu progreso y la maestría actualizada.",
+      "action": "Abrir informe"
+    },
+    "feedback_requested": {
+      "title": "¿Comentarios rápidos?",
+      "body": "Cuéntanos cómo fue — nos ayuda a mejorar.",
+      "action": "Compartir comentarios"
+    },
+    "expert_review_assigned": {
+      "title": "Revisión de experto asignada",
+      "body": "Una nueva revisión de tipo {{type}} espera tu evaluación.",
+      "action": "Abrir revisión"
+    }
+  },
+  "notificationType": {
+    "diagnosis_incomplete": "Diagnóstico incompleto",
+    "diagnosis_completed": "Diagnóstico completado",
+    "plan_ready": "Plan listo",
+    "plan_step_reminder": "Recordatorio de plan",
+    "checkpoint_available": "Checkpoint disponible",
+    "checkpoint_completed": "Checkpoint completado",
+    "feedback_requested": "Solicitud de opinión",
+    "expert_review_assigned": "Revisión de experto",
+    "consent_required": "Consentimiento requerido",
+    "pilot_update": "Actualización del piloto"
+  },
+  "notificationStatus": {
+    "unread": "Sin leer",
+    "read": "Leído",
+    "dismissed": "Descartado"
+  },
+  "severity": {
+    "info": "Info",
+    "success": "Éxito",
+    "warning": "Advertencia",
+    "critical": "Crítico"
   }
 }
