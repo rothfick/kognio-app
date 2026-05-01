@@ -237,7 +237,7 @@ export default function Diagnose() {
           </Surface>
         )}
 
-
+        {phase === "intake" && (
           <>
             <DashboardHeader
               title={childId ? t("diagnose.titleChild") : t("diagnose.title")}
