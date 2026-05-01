@@ -1372,6 +1372,7 @@
   },
   "consent": {
     "required": "Consent required",
+    "alreadyConfirmed": "AI diagnosis consent is already confirmed.",
     "requiredAiDiagnosis": "To start an AI diagnosis you must accept the AI diagnosis notice.",
     "declined": "You declined. You can revisit this later.",
     "manage": "Manage consents",
