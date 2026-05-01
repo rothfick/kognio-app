@@ -76,14 +76,14 @@ const App = () => (
             <Route path="/org/invite/:token" element={<ProtectedRoute><OrgInviteAccept /></ProtectedRoute>} />
             <Route path="/dashboard/legacy" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-            <Route path="/discover" element={<ProtectedRoute><ParentRouteGuard><Discover /></ParentRouteGuard></ProtectedRoute>} />
-            <Route path="/circles" element={<ProtectedRoute><ParentRouteGuard><Circles /></ParentRouteGuard></ProtectedRoute>} />
-            <Route path="/peer" element={<ProtectedRoute><ParentRouteGuard><Peer /></ParentRouteGuard></ProtectedRoute>} />
-            <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
-            <Route path="/brain" element={<ProtectedRoute><Brain /></ProtectedRoute>} />
+            <Route path="/discover" element={<ProtectedRoute><FeatureRouteGuard feature="discover"><ParentRouteGuard><Discover /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/circles" element={<ProtectedRoute><FeatureRouteGuard feature="circles"><ParentRouteGuard><Circles /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/peer" element={<ProtectedRoute><FeatureRouteGuard feature="peerHelp"><ParentRouteGuard><Peer /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/calendar" element={<ProtectedRoute><FeatureRouteGuard feature="calendar"><CalendarPage /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/brain" element={<ProtectedRoute><FeatureRouteGuard feature="secondBrain"><Brain /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-            <Route path="/tutor/:id" element={<ProtectedRoute><TutorProfile /></ProtectedRoute>} />
-            <Route path="/session/:id" element={<ProtectedRoute><SessionRoom /></ProtectedRoute>} />
+            <Route path="/tutor/:id" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><TutorProfile /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/session/:id" element={<ProtectedRoute><FeatureRouteGuard feature="booking"><SessionRoom /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/payment/:bookingId" element={<ProtectedRoute><ParentRouteGuard><PaymentPage /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
