@@ -40,15 +40,16 @@ export function ExpertReviewBadge({ reviewType, sourceId, showInternal = false }
     let active = true;
     (async () => {
       if (!sourceId) return;
-      const { data } = await supabase
+      const query = supabase
         .from("expert_reviews")
         .select("id, status, agreement_score, notes, submitted_at, algorithm_version, correction_summary")
         .eq("review_type", reviewType)
-        .eq(COLUMN[reviewType], sourceId)
         .eq("status", "submitted")
         .order("submitted_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
+        .limit(1);
+      // Apply the source filter using a runtime column name (typed as never to avoid deep instantiation)
+      const filtered = (query as unknown as { eq: (c: string, v: string) => typeof query }).eq(COLUMN[reviewType], sourceId);
+      const { data } = await filtered.maybeSingle();
       if (active && data) setReview(data as unknown as Review);
     })();
     return () => { active = false; };

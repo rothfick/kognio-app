@@ -119,7 +119,7 @@ export default function ExpertReview() {
 
   const updateItem = async (item: ReviewItem, patch: Partial<ReviewItem>) => {
     setSavingItemId(item.id);
-    const { error } = await supabase.from("expert_review_items").update(patch).eq("id", item.id);
+    const { error } = await supabase.from("expert_review_items").update(patch as never).eq("id", item.id);
     setSavingItemId(null);
     if (error) return toast.error(error.message);
     setItems((prev) => prev.map((x) => (x.id === item.id ? { ...x, ...patch } : x)));
