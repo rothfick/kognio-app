@@ -1232,6 +1232,20 @@
     "readiness": {
       "title": "SMART evidence readiness",
       "disclaimer": "This is an internal heuristic, not an official grant score."
+    },
+    "demo": {
+      "title": "Demo checklist",
+      "subtitle": "A short end-to-end path to walk through the Kogni research loop.",
+      "steps": {
+        "diagnosis": "Run AI diagnosis",
+        "plan": "Generate learning plan",
+        "items": "Complete 3 plan steps",
+        "checkpoint": "Run progress checkpoint",
+        "report": "Show checkpoint report",
+        "expert": "Create expert review",
+        "research": "Show research dashboard",
+        "export": "Export SMART evidence JSON"
+      }
     }
   },
   "validation": {
