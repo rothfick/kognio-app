@@ -1773,5 +1773,159 @@
     "notAvailableTitle": "Próximamente",
     "notAvailableBody": "Este módulo aún no está disponible en el piloto de Kogni. Estamos trabajando en él — vuelve pronto.",
     "backToDashboard": "Volver al panel"
+  },
+  "operations": {
+    "title": "Consola operativa",
+    "subtitle": "Supervisa usuarios piloto, progreso, consentimientos, incidencias y acciones que requieren atención.",
+    "refresh": "Actualizar",
+    "loadError": "No se pudieron cargar los datos de la consola.",
+    "journeyTitle": "Trayectoria del piloto",
+    "rowCount": "{{n}} filas",
+    "emptyTitle": "Sin filas para este filtro",
+    "emptyDesc": "Cambia el filtro o actualiza los datos.",
+    "needsAttention": "Requiere atención",
+    "piiNote": "Los identificadores están anonimizados. La consola no muestra datos personales.",
+    "adminLink": {
+      "eyebrow": "Operaciones",
+      "hint": "Estado de usuarios, bloqueos y acciones rápidas del piloto."
+    },
+    "stats": {
+      "profiles": "Perfiles totales",
+      "parents": "Padres",
+      "students": "Estudiantes",
+      "children": "Perfiles de hijos",
+      "diagnosticsCompleted": "Diagnósticos completados",
+      "plansGenerated": "Planes generados",
+      "plansActive": "Planes activos",
+      "checkpointsCompleted": "Checkpoints completados",
+      "expertReviewsPending": "Revisiones expertas pendientes",
+      "feedbackEntries": "Entradas de feedback",
+      "unreadNotifications": "Notificaciones sin leer",
+      "missingConsents": "Consentimientos faltantes"
+    },
+    "filter": {
+      "all": "Todos",
+      "stuck_pre_diag": "Sin diagnóstico",
+      "diag_no_plan": "Diagnóstico sin plan",
+      "plan_not_active": "Plan inactivo",
+      "active_low_progress": "Plan activo, < 3 pasos",
+      "checkpoint_available": "Listo para checkpoint",
+      "checkpoint_no_review": "Checkpoint sin revisión",
+      "missing_consent": "Sin consentimiento",
+      "has_feedback": "Con feedback",
+      "unread_notifications": "Notificaciones sin leer"
+    },
+    "ownerType": {
+      "self": "Estudiante",
+      "child": "Hijo/a"
+    },
+    "badge": {
+      "consentOk": "Consent. OK",
+      "consentMissing": "Sin consent.",
+      "done": "Hecho",
+      "inProgress": "En curso",
+      "none": "Ninguno",
+      "assigned": "Asignada"
+    },
+    "planStatus": {
+      "active": "activo",
+      "draft": "borrador"
+    },
+    "col": {
+      "owner": "Propietario",
+      "type": "Tipo",
+      "consent": "Consent.",
+      "diagnosis": "Diagnóstico",
+      "score": "Resultado",
+      "plan": "Plan",
+      "items": "Pasos",
+      "checkpoint": "Checkpoint",
+      "expert": "Experto",
+      "feedback": "Feedback",
+      "lastActivity": "Última actividad",
+      "action": "Acción"
+    },
+    "activity": {
+      "title": "Actividad reciente",
+      "empty": "Sin eventos recientes.",
+      "kind": {
+        "evidence": "Evento",
+        "notification": "Notificación",
+        "feedback": "Feedback",
+        "expert_review": "Revisión"
+      },
+      "notificationCreated": "Notificación enviada ({{type}})",
+      "feedback": "Feedback {{rating}}/5 — {{context}}",
+      "expertSubmitted": "Revisión experta enviada",
+      "expertOpened": "Revisión experta abierta",
+      "evidence": {
+        "diagnostic_completed": "Diagnóstico completado",
+        "learning_plan_generated": "Plan de aprendizaje generado",
+        "learning_plan_activated": "Plan de aprendizaje activado",
+        "learning_plan_item_completed": "Paso del plan completado",
+        "learning_plan_completed": "Plan completo terminado",
+        "checkpoint_created": "Checkpoint creado",
+        "checkpoint_completed": "Checkpoint completado",
+        "expert_review_submitted": "Revisión experta enviada",
+        "consent_accepted": "Consentimiento aceptado",
+        "consent_withdrawn": "Consentimiento retirado",
+        "pilot_participant_joined": "Se unió al piloto",
+        "feedback_submitted": "Feedback enviado",
+        "notification_created": "Notificación creada",
+        "notification_read": "Notificación leída",
+        "notification_dismissed": "Notificación descartada",
+        "admin_reminder_sent": "Recordatorio del admin enviado"
+      }
+    }
+  },
+  "adminAction": {
+    "no_action": "Sin acción",
+    "invite_diagnosis": "Invitar al diagnóstico",
+    "prompt_plan": "Pedir generar plan",
+    "prompt_steps": "Pedir 3 pasos",
+    "prompt_checkpoint": "Pedir checkpoint",
+    "assign_review": "Asignar revisión experta",
+    "viewDiagnosis": "Diagnóstico",
+    "viewPlan": "Plan",
+    "viewCheckpoint": "Checkpoint",
+    "openCta": "Abrir",
+    "reminderSent": "Notificación enviada",
+    "reminderDeduped": "Omitida — enviada recientemente",
+    "reminderFailed": "No se pudo enviar la notificación",
+    "reminderTitle": {
+      "admin_reminder_diagnosis": "Empieza por el diagnóstico",
+      "admin_reminder_plan": "Genera tu plan de aprendizaje",
+      "admin_reminder_checkpoint": "Es hora de un checkpoint",
+      "admin_reminder_feedback": "Comparte tu opinión",
+      "admin_reminder_expert_review": "Una revisión experta está lista"
+    },
+    "reminderBody": {
+      "admin_reminder_diagnosis": "Tu diagnóstico Kogni te espera — son unos minutos y desbloquea tu plan.",
+      "admin_reminder_plan": "El diagnóstico está listo. Genera tu plan personalizado.",
+      "admin_reminder_checkpoint": "Tienes progreso suficiente para ejecutar un checkpoint.",
+      "admin_reminder_feedback": "Solo un minuto — tu opinión nos ayuda a mejorar Kogni.",
+      "admin_reminder_expert_review": "Un experto está revisando tus resultados — abre el panel."
+    }
+  },
+  "stuckState": {
+    "ok": "OK",
+    "no_consent": "Sin consentimiento ni diagnóstico",
+    "consent_no_diag": "Consentimiento dado, sin diagnóstico",
+    "diag_no_plan": "Diagnóstico sin plan",
+    "plan_not_active": "Plan inactivo",
+    "active_plan_low_progress": "Plan activo, poco progreso",
+    "ready_for_checkpoint": "Listo para checkpoint",
+    "checkpoint_no_review": "Checkpoint sin revisión",
+    "low_feedback": "Valoración baja del feedback"
+  },
+  "pilotHealth": {
+    "label": "Estado del piloto",
+    "note": "Indicador interno, no una métrica oficial de subvención.",
+    "diagnosisRate": "Cobertura del diagnóstico",
+    "planRate": "Cobertura del plan",
+    "checkpointRate": "Cobertura del checkpoint",
+    "expertCoverage": "Cobertura experta",
+    "feedbackPositive": "Feedback positivo",
+    "consentCoverage": "Cobertura de consentimientos"
   }
 }
