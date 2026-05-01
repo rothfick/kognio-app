@@ -83,6 +83,7 @@ Deno.serve(async (req) => {
       weaknesses: parsed.weaknesses || null,
       homework: parsed.homework || [],
       flashcards: parsed.flashcards || [],
+      engagement_timeline: emo || [],
     }).select().single();
     if (rErr) throw rErr;
 
