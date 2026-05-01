@@ -1265,6 +1265,60 @@
   "export": {
     "smartReport": "Eksportuj raport SMART"
   },
+  "grantPack": {
+    "title": "Pakiet dokumentacji grantowej",
+    "subtitle": "Strukturalny opis innowacji, komponentów B+R, ryzyk, KPI i danych walidacyjnych Kogni.",
+    "noPilotData": "Brak danych pilotażowych — dokument opisuje architekturę i plan walidacji.",
+    "copy": "Kopiuj",
+    "copied": "Skopiowano",
+    "exportJson": "Eksport JSON",
+    "exportMarkdown": "Eksport Markdown",
+    "metricsHeading": "Metryki zagregowane",
+    "adminLink": {
+      "eyebrow": "Gotowość grantowa",
+      "hint": "Otwórz strukturalny pakiet dokumentacji dla FENG / Ścieżki SMART."
+    },
+    "sections": {
+      "executive_summary": "Podsumowanie wykonawcze",
+      "problem_statement": "Definicja problemu",
+      "proposed_solution": "Proponowane rozwiązanie",
+      "innovation_components": "Komponenty innowacji",
+      "rd_hypotheses": "Hipotezy B+R",
+      "tech_risks": "Ryzyka technologiczne",
+      "validation_kpis": "KPI walidacyjne",
+      "evidence_architecture": "Architektura dowodów",
+      "data_model": "Model danych i traceability",
+      "algorithm_versioning": "Wersjonowanie algorytmów",
+      "pilot_validation_plan": "Plan walidacji pilotażowej",
+      "market_impact": "Narracja rynkowa / wpływ",
+      "readiness_checklist": "Lista gotowości",
+      "export": "Eksport"
+    },
+    "readinessGroups": {
+      "product": "A. Gotowość produktu",
+      "rd": "B. Gotowość B+R",
+      "data": "C. Gotowość danych",
+      "legal": "D. Gotowość prawna / prywatność",
+      "pilot": "E. Gotowość pilotażu",
+      "grant": "F. Gotowość wniosku grantowego"
+    },
+    "status": {
+      "ready": "Gotowe",
+      "partial": "Częściowo",
+      "missing": "Brak"
+    },
+    "table": {
+      "label": "Element",
+      "status": "Status",
+      "evidence": "Źródło dowodu",
+      "recommendation": "Rekomendacja",
+      "severity": "Istotność",
+      "mitigation": "Mitygacja",
+      "kpi": "KPI",
+      "value": "Wartość"
+    },
+    "disclaimer": "Dokument jest wewnętrznym materiałem przygotowania grantowego. Nie gwarantuje finansowania, nie stanowi oficjalnej porady prawnej, a wskaźnik gotowości jest wewnętrzną heurystyką."
+  },
   "algorithm": {
     "registry": "Rejestr wersji algorytmów",
     "version": "Wersja",

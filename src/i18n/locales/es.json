@@ -1271,5 +1271,59 @@
     "source": "Fuente",
     "count": "Ocurrencias",
     "latest": "Último uso"
+  },
+  "grantPack": {
+    "title": "Paquete de documentación para subvenciones",
+    "subtitle": "Descripción estructurada de la innovación, componentes I+D, riesgos, KPI y datos de validación de Kogni.",
+    "noPilotData": "Aún no hay datos piloto — este documento describe la arquitectura y el plan de validación.",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "exportJson": "Exportar JSON",
+    "exportMarkdown": "Exportar Markdown",
+    "metricsHeading": "Métricas agregadas",
+    "adminLink": {
+      "eyebrow": "Preparación para subvención",
+      "hint": "Abrir el paquete de documentación estructurada para FENG / Senda SMART."
+    },
+    "sections": {
+      "executive_summary": "Resumen ejecutivo",
+      "problem_statement": "Definición del problema",
+      "proposed_solution": "Solución propuesta",
+      "innovation_components": "Componentes de innovación",
+      "rd_hypotheses": "Hipótesis de I+D",
+      "tech_risks": "Riesgos tecnológicos",
+      "validation_kpis": "KPI de validación",
+      "evidence_architecture": "Arquitectura de evidencias",
+      "data_model": "Modelo de datos y trazabilidad",
+      "algorithm_versioning": "Versionado de algoritmos",
+      "pilot_validation_plan": "Plan de validación piloto",
+      "market_impact": "Narrativa de mercado / impacto",
+      "readiness_checklist": "Lista de preparación",
+      "export": "Exportar"
+    },
+    "readinessGroups": {
+      "product": "A. Preparación del producto",
+      "rd": "B. Preparación I+D",
+      "data": "C. Preparación de datos",
+      "legal": "D. Preparación legal / privacidad",
+      "pilot": "E. Preparación del piloto",
+      "grant": "F. Preparación de la solicitud"
+    },
+    "status": {
+      "ready": "Listo",
+      "partial": "Parcial",
+      "missing": "Falta"
+    },
+    "table": {
+      "label": "Elemento",
+      "status": "Estado",
+      "evidence": "Fuente de evidencia",
+      "recommendation": "Recomendación",
+      "severity": "Severidad",
+      "mitigation": "Mitigación",
+      "kpi": "KPI",
+      "value": "Valor"
+    },
+    "disclaimer": "Este documento es material interno de preparación. No garantiza financiación, no constituye asesoramiento legal oficial, y la puntuación de preparación es una heurística interna."
   }
 }

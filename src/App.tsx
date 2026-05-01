@@ -34,6 +34,7 @@ import ExpertReview from "./pages/ExpertReview";
 import { SchoolDashboard, CompanyDashboard } from "./pages/dashboard/OrgDashboard";
 import OrgInviteAccept from "./pages/OrgInviteAccept";
 import ResearchDashboard from "./pages/admin/ResearchDashboard";
+import GrantPack from "./pages/admin/GrantPack";
 
 const queryClient = new QueryClient();
 
@@ -61,6 +62,7 @@ const App = () => (
             <Route path="/dashboard/tutor" element={<ProtectedRoute><TutorDashboard /></ProtectedRoute>} />
             <Route path="/dashboard/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
             <Route path="/admin/research" element={<ProtectedRoute><ResearchDashboard /></ProtectedRoute>} />
+            <Route path="/admin/grant-pack" element={<ProtectedRoute><GrantPack /></ProtectedRoute>} />
             <Route path="/dashboard/school" element={<ProtectedRoute><SchoolDashboard /></ProtectedRoute>} />
             <Route path="/dashboard/company" element={<ProtectedRoute><CompanyDashboard /></ProtectedRoute>} />
             <Route path="/org/invite/:token" element={<ProtectedRoute><OrgInviteAccept /></ProtectedRoute>} />
