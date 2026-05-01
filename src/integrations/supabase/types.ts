@@ -898,6 +898,178 @@ export type Database = {
         }
         Relationships: []
       }
+      expert_review_items: {
+        Row: {
+          ai_value: Json
+          competency_id: string | null
+          confidence: number | null
+          correction_note: string | null
+          created_at: string
+          expert_review_id: string
+          expert_value: Json
+          id: string
+          item_type: string
+          skill_area_label: string | null
+          updated_at: string
+          verdict: string
+        }
+        Insert: {
+          ai_value?: Json
+          competency_id?: string | null
+          confidence?: number | null
+          correction_note?: string | null
+          created_at?: string
+          expert_review_id: string
+          expert_value?: Json
+          id?: string
+          item_type: string
+          skill_area_label?: string | null
+          updated_at?: string
+          verdict?: string
+        }
+        Update: {
+          ai_value?: Json
+          competency_id?: string | null
+          confidence?: number | null
+          correction_note?: string | null
+          created_at?: string
+          expert_review_id?: string
+          expert_value?: Json
+          id?: string
+          item_type?: string
+          skill_area_label?: string | null
+          updated_at?: string
+          verdict?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expert_review_items_competency_id_fkey"
+            columns: ["competency_id"]
+            isOneToOne: false
+            referencedRelation: "competencies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expert_review_items_expert_review_id_fkey"
+            columns: ["expert_review_id"]
+            isOneToOne: false
+            referencedRelation: "expert_reviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expert_reviews: {
+        Row: {
+          agreement_score: number | null
+          ai_summary: Json
+          algorithm_version: string
+          checkpoint_id: string | null
+          child_id: string | null
+          correction_summary: Json
+          created_at: string
+          diagnostic_attempt_id: string | null
+          expert_assessment: Json
+          id: string
+          learning_plan_id: string | null
+          notes: string | null
+          owner_type: string
+          review_type: string
+          reviewer_id: string
+          reviewer_role: string
+          status: string
+          submitted_at: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          agreement_score?: number | null
+          ai_summary?: Json
+          algorithm_version?: string
+          checkpoint_id?: string | null
+          child_id?: string | null
+          correction_summary?: Json
+          created_at?: string
+          diagnostic_attempt_id?: string | null
+          expert_assessment?: Json
+          id?: string
+          learning_plan_id?: string | null
+          notes?: string | null
+          owner_type: string
+          review_type: string
+          reviewer_id: string
+          reviewer_role?: string
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          agreement_score?: number | null
+          ai_summary?: Json
+          algorithm_version?: string
+          checkpoint_id?: string | null
+          child_id?: string | null
+          correction_summary?: Json
+          created_at?: string
+          diagnostic_attempt_id?: string | null
+          expert_assessment?: Json
+          id?: string
+          learning_plan_id?: string | null
+          notes?: string | null
+          owner_type?: string
+          review_type?: string
+          reviewer_id?: string
+          reviewer_role?: string
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expert_reviews_checkpoint_id_fkey"
+            columns: ["checkpoint_id"]
+            isOneToOne: false
+            referencedRelation: "learning_checkpoints"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expert_reviews_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expert_reviews_diagnostic_attempt_id_fkey"
+            columns: ["diagnostic_attempt_id"]
+            isOneToOne: false
+            referencedRelation: "diagnostic_attempts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expert_reviews_learning_plan_id_fkey"
+            columns: ["learning_plan_id"]
+            isOneToOne: false
+            referencedRelation: "learning_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expert_reviews_reviewer_id_fkey"
+            columns: ["reviewer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expert_reviews_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       flashcards: {
         Row: {
           back: string
