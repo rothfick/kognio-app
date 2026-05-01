@@ -2,9 +2,8 @@ import { Navigate } from "react-router-dom";
 import { useUserRoles } from "@/hooks/useUserRoles";
 import { AppShell } from "@/components/layout/AppShell";
 
-/** Routes /dashboard to the right role-specific dashboard. */
 const DashboardRouter = () => {
-  const { loading, isAdmin, isTutor, isStudent, isParent } = useUserRoles();
+  const { loading, isAdmin, isTutor, isStudent, isParent, isSchool, isCompany } = useUserRoles();
 
   if (loading) {
     return (
@@ -15,6 +14,8 @@ const DashboardRouter = () => {
   }
 
   if (isAdmin) return <Navigate to="/dashboard/admin" replace />;
+  if (isSchool) return <Navigate to="/dashboard/school" replace />;
+  if (isCompany) return <Navigate to="/dashboard/company" replace />;
   if (isParent) return <Navigate to="/dashboard/parent" replace />;
   if (isTutor && !isStudent) return <Navigate to="/dashboard/tutor" replace />;
   if (isStudent) return <Navigate to="/dashboard/student" replace />;
