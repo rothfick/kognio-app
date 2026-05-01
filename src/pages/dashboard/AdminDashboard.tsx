@@ -263,20 +263,21 @@ const AdminDashboard = () => {
         supabase.from("assignments").select("id", { count: "exact", head: true }),
         supabase.from("assignment_submissions").select("id", { count: "exact", head: true }),
         supabase.from("assignments").select("id", { count: "exact", head: true }).eq("status", "submitted"),
-        supabase.from("assignment_submissions").select("score_percentage"),
+        supabase.from("assignment_submissions").select("score, max_score").not("score", "is", null),
         supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "homework_generated"),
         supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "homework_submitted"),
         supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "homework_auto_graded"),
         supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "homework_reviewed"),
         supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "mastery_updated_from_homework"),
       ]);
-      const scores = ((hwScores.data || []) as { score_percentage: number | null }[])
-        .map((r) => Number(r.score_percentage)).filter((n) => !Number.isNaN(n) && n !== null);
+      const hwScoreRows = ((hwScores.data || []) as { score: number | null; max_score: number | null }[])
+        .map((r) => (r.score != null && r.max_score && r.max_score > 0 ? Number(r.score) / Number(r.max_score) : null))
+        .filter((n): n is number => n !== null && !Number.isNaN(n));
       setHw({
         assignmentsTotal: hwAssignments.count ?? 0,
         submissionsTotal: hwSubs.count ?? 0,
         needsReview: hwNeedsReview.count ?? 0,
-        avgScore: scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null,
+        avgScore: hwScoreRows.length ? hwScoreRows.reduce((a, b) => a + b, 0) / hwScoreRows.length : null,
         evGenerated: hwGen.count ?? 0,
         evSubmitted: hwSubmitted.count ?? 0,
         evAutoGraded: hwAuto.count ?? 0,
