@@ -210,6 +210,181 @@ export type Database = {
         }
         Relationships: []
       }
+      diagnostic_attempts: {
+        Row: {
+          child_id: string
+          completed_at: string | null
+          correct_items: number
+          created_at: string
+          id: string
+          score: number | null
+          started_at: string
+          started_by: string | null
+          status: string
+          subject_id: string
+          total_items: number
+        }
+        Insert: {
+          child_id: string
+          completed_at?: string | null
+          correct_items?: number
+          created_at?: string
+          id?: string
+          score?: number | null
+          started_at?: string
+          started_by?: string | null
+          status?: string
+          subject_id: string
+          total_items?: number
+        }
+        Update: {
+          child_id?: string
+          completed_at?: string | null
+          correct_items?: number
+          created_at?: string
+          id?: string
+          score?: number | null
+          started_at?: string
+          started_by?: string | null
+          status?: string
+          subject_id?: string
+          total_items?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "diagnostic_attempts_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "diagnostic_attempts_started_by_fkey"
+            columns: ["started_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "diagnostic_attempts_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      diagnostic_items: {
+        Row: {
+          approved_by_admin: boolean
+          choices: Json
+          code: string
+          correct_choice: string
+          created_at: string
+          difficulty_level: number
+          explanation: string | null
+          id: string
+          is_active: boolean
+          kc_id: string
+          language: string
+          question: string
+          subject_id: string
+          updated_at: string
+        }
+        Insert: {
+          approved_by_admin?: boolean
+          choices: Json
+          code: string
+          correct_choice: string
+          created_at?: string
+          difficulty_level?: number
+          explanation?: string | null
+          id?: string
+          is_active?: boolean
+          kc_id: string
+          language?: string
+          question: string
+          subject_id: string
+          updated_at?: string
+        }
+        Update: {
+          approved_by_admin?: boolean
+          choices?: Json
+          code?: string
+          correct_choice?: string
+          created_at?: string
+          difficulty_level?: number
+          explanation?: string | null
+          id?: string
+          is_active?: boolean
+          kc_id?: string
+          language?: string
+          question?: string
+          subject_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "diagnostic_items_kc_id_fkey"
+            columns: ["kc_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_components"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "diagnostic_items_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      diagnostic_responses: {
+        Row: {
+          attempt_id: string
+          created_at: string
+          id: string
+          is_correct: boolean | null
+          item_id: string
+          selected_choice: string | null
+          time_ms: number | null
+        }
+        Insert: {
+          attempt_id: string
+          created_at?: string
+          id?: string
+          is_correct?: boolean | null
+          item_id: string
+          selected_choice?: string | null
+          time_ms?: number | null
+        }
+        Update: {
+          attempt_id?: string
+          created_at?: string
+          id?: string
+          is_correct?: boolean | null
+          item_id?: string
+          selected_choice?: string | null
+          time_ms?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "diagnostic_responses_attempt_id_fkey"
+            columns: ["attempt_id"]
+            isOneToOne: false
+            referencedRelation: "diagnostic_attempts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "diagnostic_responses_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "diagnostic_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       flashcards: {
         Row: {
           back: string

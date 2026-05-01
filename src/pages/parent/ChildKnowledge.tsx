@@ -17,13 +17,14 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArrowLeft, BookOpen, Brain, Plus, Target, Loader2, Archive } from "lucide-react";
+import { ArrowLeft, BookOpen, Brain, Plus, Target, Loader2, Archive, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 type Child = { id: string; display_name: string; grade_level: string | null; primary_subject: string | null };
 type KC = { id: string; code: string; name_pl: string; parent_kc_id: string | null; order_index: number };
-type Mastery = { kc_id: string; mastery_prob: number };
+type Mastery = { kc_id: string; mastery_prob: number; source: string | null; last_updated: string | null };
 type Goal = { id: string; title: string; description: string | null; target_date: string | null; status: string; created_at: string };
+type LatestAttempt = { id: string; status: string; score: number | null; correct_items: number; total_items: number; completed_at: string | null };
 
 const SUBJECT_CODE = "math_7_9";
 
@@ -45,8 +46,9 @@ const ChildKnowledge = () => {
   const [subjectId, setSubjectId] = useState<string | null>(null);
   const [groups, setGroups] = useState<KC[]>([]);
   const [kcs, setKcs] = useState<KC[]>([]);
-  const [mastery, setMastery] = useState<Record<string, number>>({});
+  const [mastery, setMastery] = useState<Record<string, Mastery>>({});
   const [goals, setGoals] = useState<Goal[]>([]);
+  const [latestAttempt, setLatestAttempt] = useState<LatestAttempt | null>(null);
   const [loading, setLoading] = useState(true);
   const [denied, setDenied] = useState(false);
 
@@ -84,11 +86,22 @@ const ChildKnowledge = () => {
     // Mastery
     const { data: m } = await supabase
       .from("child_kc_mastery")
-      .select("kc_id, mastery_prob")
+      .select("kc_id, mastery_prob, source, last_updated")
       .eq("child_id", childId);
-    const map: Record<string, number> = {};
-    (m as Mastery[] | null)?.forEach((r) => { map[r.kc_id] = Number(r.mastery_prob); });
+    const map: Record<string, Mastery> = {};
+    (m as Mastery[] | null)?.forEach((r) => { map[r.kc_id] = r; });
     setMastery(map);
+
+    // Latest completed attempt
+    const { data: la } = await supabase
+      .from("diagnostic_attempts")
+      .select("id, status, score, correct_items, total_items, completed_at")
+      .eq("child_id", childId)
+      .eq("status", "completed")
+      .order("completed_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    setLatestAttempt((la as LatestAttempt) || null);
 
     // Goals
     const { data: g } = await supabase
@@ -110,7 +123,10 @@ const ChildKnowledge = () => {
   if (denied) return <Navigate to="/dashboard/parent" replace />;
 
   const trackedCount = Object.keys(mastery).length;
-  const avgMastery = trackedCount === 0 ? 0 : Object.values(mastery).reduce((a, b) => a + b, 0) / trackedCount;
+  const avgMastery = trackedCount === 0
+    ? 0
+    : Object.values(mastery).reduce((a, b) => a + Number(b.mastery_prob), 0) / trackedCount;
+  const hasDiagnostic = !!latestAttempt;
 
   return (
     <AppShell>
@@ -124,6 +140,13 @@ const ChildKnowledge = () => {
         <DashboardHeader
           title={child ? `Mapa wiedzy — ${child.display_name}` : "Mapa wiedzy"}
           subtitle="Matematyka klasy 7–9. Po pierwszej diagnozie tutaj pojawią się realne poziomy opanowania."
+          actions={
+            <Button asChild className="bg-accent-gradient text-accent-foreground" size="sm">
+              <Link to={`/parent/children/${childId}/diagnostic`}>
+                <Sparkles className="h-4 w-4 mr-1" /> {hasDiagnostic ? "Powtórz diagnozę" : "Zrób pierwszą diagnozę"}
+              </Link>
+            </Button>
+          }
         />
 
         <div className="grid gap-4 sm:grid-cols-3 mb-6">
@@ -132,9 +155,26 @@ const ChildKnowledge = () => {
           <StatCard icon={Target} label="Średni poziom" value={trackedCount ? `${Math.round(avgMastery * 100)}%` : "—"} hint="0–100%" />
         </div>
 
-        <AIInsightCard title="Diagnoza AI" className="mb-6">
-          <p>Diagnoza AI będzie dostępna w kolejnym kroku. Wtedy mapa wiedzy zacznie się wypełniać realnymi poziomami opanowania.</p>
-        </AIInsightCard>
+        {!hasDiagnostic ? (
+          <AIInsightCard title="Diagnoza wstępna v1" className="mb-6">
+            <p className="mb-3">
+              Diagnoza v1 składa się z krótkiego testu wyboru. Wynik zainicjuje mapę wiedzy dziecka.
+              Pełna adaptacyjna diagnoza AI zostanie dodana w kolejnych etapach.
+            </p>
+            <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+              <Link to={`/parent/children/${childId}/diagnostic`}>
+                <Sparkles className="h-4 w-4 mr-1" /> Zrób pierwszą diagnozę
+              </Link>
+            </Button>
+          </AIInsightCard>
+        ) : (
+          <AIInsightCard title="Diagnoza wstępna ukończona" className="mb-6">
+            <p>
+              Wynik: <strong>{Math.round((latestAttempt!.score ?? 0) * 100)}%</strong> ({latestAttempt!.correct_items}/{latestAttempt!.total_items}).
+              Mapa poniżej oparta jest na diagnozie v1.
+            </p>
+          </AIInsightCard>
+        )}
 
         {loading ? (
           <p className="text-sm text-muted-foreground">Ładowanie mapy wiedzy…</p>
@@ -148,12 +188,22 @@ const ChildKnowledge = () => {
                 <Surface key={g.id} className="p-5">
                   <h2 className="font-semibold mb-3 text-base">{g.name_pl}</h2>
                   <ul className="grid gap-2 sm:grid-cols-2">
-                    {childKcs.map((k) => (
-                      <li key={k.id} className="flex items-center justify-between gap-3 rounded-md border bg-card-soft px-3 py-2">
-                        <span className="text-sm">{k.name_pl}</span>
-                        <MasteryBadge level={masteryLevel(mastery[k.id])} />
-                      </li>
-                    ))}
+                    {childKcs.map((k) => {
+                      const mr = mastery[k.id];
+                      return (
+                        <li key={k.id} className="flex items-center justify-between gap-3 rounded-md border bg-card-soft px-3 py-2">
+                          <div className="min-w-0">
+                            <p className="text-sm truncate">{k.name_pl}</p>
+                            {mr?.source && (
+                              <p className="text-[10px] text-muted-foreground">
+                                {mr.source}{mr.last_updated ? ` · ${new Date(mr.last_updated).toLocaleDateString("pl-PL")}` : ""}
+                              </p>
+                            )}
+                          </div>
+                          <MasteryBadge level={masteryLevel(mr ? Number(mr.mastery_prob) : undefined)} />
+                        </li>
+                      );
+                    })}
                   </ul>
                 </Surface>
               );
