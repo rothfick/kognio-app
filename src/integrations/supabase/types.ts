@@ -2651,6 +2651,69 @@ export type Database = {
           },
         ]
       }
+      student_parent_links: {
+        Row: {
+          accepted_at: string | null
+          created_at: string
+          expires_at: string
+          id: string
+          invited_at: string
+          invited_email: string | null
+          pairing_code: string | null
+          parent_id: string | null
+          revoked_at: string | null
+          scopes: Json
+          status: string
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          invited_at?: string
+          invited_email?: string | null
+          pairing_code?: string | null
+          parent_id?: string | null
+          revoked_at?: string | null
+          scopes?: Json
+          status?: string
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          invited_at?: string
+          invited_email?: string | null
+          pairing_code?: string | null
+          parent_id?: string | null
+          revoked_at?: string | null
+          scopes?: Json
+          status?: string
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_parent_links_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_parent_links_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subjects: {
         Row: {
           category: string | null
@@ -3053,6 +3116,11 @@ export type Database = {
     }
     Functions: {
       accept_org_invite: { Args: { _token: string }; Returns: string }
+      accept_student_parent_link: { Args: { _code: string }; Returns: string }
+      accept_student_parent_link_by_id: {
+        Args: { _link_id: string }
+        Returns: string
+      }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
@@ -3074,6 +3142,10 @@ export type Database = {
       }
       is_circle_member: {
         Args: { _circle: string; _user: string }
+        Returns: boolean
+      }
+      is_linked_parent_of: {
+        Args: { _parent_id: string; _student_id: string }
         Returns: boolean
       }
       is_org_admin: {
