@@ -6,7 +6,7 @@ import { RoleGate } from "@/components/auth/RoleGate";
 import { Surface } from "@/components/ui/surface";
 import { StatCard } from "@/components/ui/stat-card";
 import { EmptyState } from "@/components/EmptyState";
-import { ShieldCheck, AlertTriangle, Sparkles, Activity, ClipboardList, GraduationCap, Network, BookOpen, ListChecks, ClipboardCheck, Globe2, Layers, Library, BadgeCheck, Telescope, Link2, Unlink, Percent, User, Users, Cpu, TrendingUp } from "lucide-react";
+import { ShieldCheck, AlertTriangle, Sparkles, Activity, ClipboardList, GraduationCap, Network, BookOpen, ListChecks, ClipboardCheck, Globe2, Layers, Library, BadgeCheck, Telescope, Link2, Unlink, Percent, User, Users, Cpu, TrendingUp, CalendarCheck2, Wallet, FileCheck2, ShoppingBag } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { ExpertReviewAdminPanel } from "@/components/expert-review/ExpertReviewAdminPanel";
 import { NotificationsAdminSection } from "@/components/notifications/NotificationsAdminSection";
