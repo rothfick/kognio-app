@@ -39,6 +39,8 @@ import OrgInviteAccept from "./pages/OrgInviteAccept";
 import ResearchDashboard from "./pages/admin/ResearchDashboard";
 import GrantPack from "./pages/admin/GrantPack";
 import OperationalConsole from "./pages/admin/OperationalConsole";
+import TutorVerification from "./pages/admin/TutorVerification";
+import TutorOnboarding from "./pages/tutor/TutorOnboarding";
 import GettingStarted from "./pages/GettingStarted";
 import Notifications from "./pages/Notifications";
 
@@ -73,6 +75,8 @@ const App = () => (
             <Route path="/admin/research" element={<ProtectedRoute><ResearchDashboard /></ProtectedRoute>} />
             <Route path="/admin/grant-pack" element={<ProtectedRoute><GrantPack /></ProtectedRoute>} />
             <Route path="/admin/operations" element={<ProtectedRoute><OperationalConsole /></ProtectedRoute>} />
+            <Route path="/admin/tutors" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><TutorVerification /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/tutor/onboarding" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><ParentRouteGuard><TutorOnboarding /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/dashboard/school" element={<ProtectedRoute><SchoolDashboard /></ProtectedRoute>} />
             <Route path="/dashboard/company" element={<ProtectedRoute><CompanyDashboard /></ProtectedRoute>} />
             <Route path="/org/invite/:token" element={<ProtectedRoute><OrgInviteAccept /></ProtectedRoute>} />
