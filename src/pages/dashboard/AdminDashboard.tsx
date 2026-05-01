@@ -27,6 +27,14 @@ const AdminDashboard = () => {
   const [evidenceCount, setEvidenceCount] = useState<number | null>(null);
   const [planItemsDone, setPlanItemsDone] = useState<number | null>(null);
 
+  // Universal curriculum graph stats
+  const [curr, setCurr] = useState<{
+    systems: number; levels: number; domains: number; competencies: number;
+    edges: number; sources: number; approved: number; draft: number;
+  } | null>(null);
+  const [domainCounts, setDomainCounts] = useState<Array<{ domain: DomainRow; count: number }>>([]);
+  const [levelCounts, setLevelCounts] = useState<Array<{ level: LevelRow; count: number }>>([]);
+
   useEffect(() => {
     (async () => {
       const [s, k, e, di, da, scoresRes, lp, see, lpiDone] = await Promise.all([
@@ -50,6 +58,37 @@ const AdminDashboard = () => {
       setPlansCount(lp.count ?? 0);
       setEvidenceCount(see.count ?? 0);
       setPlanItemsDone(lpiDone.count ?? 0);
+
+      // Curriculum graph
+      const [es, el, ld, comps, edges, src, approved, draft, allComps, allDomains, allLevels] = await Promise.all([
+        supabase.from("education_systems").select("id", { count: "exact", head: true }).eq("is_active", true),
+        supabase.from("education_levels").select("id", { count: "exact", head: true }).eq("is_active", true),
+        supabase.from("learning_domains").select("id", { count: "exact", head: true }).eq("is_active", true),
+        supabase.from("competencies").select("id", { count: "exact", head: true }).eq("is_active", true),
+        supabase.from("competency_prerequisites").select("id", { count: "exact", head: true }),
+        supabase.from("curriculum_sources").select("id", { count: "exact", head: true }),
+        supabase.from("competencies").select("id", { count: "exact", head: true }).eq("is_active", true).in("review_status", ["approved", "expert_reviewed"]),
+        supabase.from("competencies").select("id", { count: "exact", head: true }).eq("is_active", true).in("review_status", ["draft", "ai_generated"]),
+        supabase.from("competencies").select("domain_id, education_level_id").eq("is_active", true),
+        supabase.from("learning_domains").select("id, name_pl, name_en, name_es").eq("is_active", true),
+        supabase.from("education_levels").select("id, name_pl, name_en, name_es, order_index").eq("is_active", true).order("order_index"),
+      ]);
+      setCurr({
+        systems: es.count ?? 0, levels: el.count ?? 0, domains: ld.count ?? 0,
+        competencies: comps.count ?? 0, edges: edges.count ?? 0, sources: src.count ?? 0,
+        approved: approved.count ?? 0, draft: draft.count ?? 0,
+      });
+      const compRows = (allComps.data || []) as Array<{ domain_id: string; education_level_id: string | null }>;
+      const domainsArr = (allDomains.data || []) as DomainRow[];
+      const levelsArr = (allLevels.data || []) as LevelRow[];
+      const domainMap = new Map<string, number>();
+      const levelMap = new Map<string, number>();
+      for (const c of compRows) {
+        domainMap.set(c.domain_id, (domainMap.get(c.domain_id) || 0) + 1);
+        if (c.education_level_id) levelMap.set(c.education_level_id, (levelMap.get(c.education_level_id) || 0) + 1);
+      }
+      setDomainCounts(domainsArr.map((d) => ({ domain: d, count: domainMap.get(d.id) || 0 })).sort((a, b) => b.count - a.count));
+      setLevelCounts(levelsArr.map((l) => ({ level: l, count: levelMap.get(l.id) || 0 })).sort((a, b) => b.count - a.count));
     })();
   }, []);
 
