@@ -44,32 +44,73 @@ const Dashboard = () => {
   const { user } = useAuth();
   const { isTutor, isStudent, loading: rolesLoading } = useUserRoles();
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [sessionsByBooking, setSessionsByBooking] = useState<Record<string, string>>({});
   const [payments, setPayments] = useState<Payment[]>([]);
   const [tutorProfile, setTutorProfile] = useState<TutorProfile | null>(null);
   const [karma, setKarma] = useState(0);
   const [tab, setTab] = useState<"student" | "tutor">("student");
   const [loading, setLoading] = useState(true);
+  const prevStatusRef = useRef<Record<string, string>>({});
 
   useEffect(() => {
     if (rolesLoading) return;
     if (isTutor && !isStudent) setTab("tutor");
   }, [isTutor, isStudent, rolesLoading]);
 
+  const loadData = async () => {
+    if (!user) return;
+    const [{ data: bk }, { data: pm }, { data: tp }, { data: pr }] = await Promise.all([
+      supabase.from("bookings").select("*").or(`student_id.eq.${user.id},tutor_id.eq.${user.id}`).order("starts_at", { ascending: true }),
+      supabase.from("payments").select("id, booking_id, status, amount_cents, currency").or(`student_id.eq.${user.id},tutor_id.eq.${user.id}`),
+      supabase.from("tutor_profiles").select("is_published, rating, sessions_completed, headline").eq("user_id", user.id).maybeSingle(),
+      supabase.from("profiles").select("karma_points").eq("id", user.id).maybeSingle(),
+    ]);
+    const list = (bk as Booking[]) || [];
+
+    list.forEach((b) => {
+      const prev = prevStatusRef.current[b.id];
+      if (prev && prev === "pending" && b.status === "confirmed") {
+        toast.success("Rezerwacja potwierdzona — możesz wejść na sesję!", {
+          description: new Date(b.starts_at).toLocaleString(),
+        });
+      }
+    });
+    prevStatusRef.current = Object.fromEntries(list.map((b) => [b.id, b.status]));
+
+    setBookings(list);
+    setPayments((pm as Payment[]) || []);
+    setTutorProfile(tp as TutorProfile | null);
+    setKarma(pr?.karma_points || 0);
+
+    const ids = list.map((b) => b.id);
+    if (ids.length) {
+      const { data: ss } = await supabase.from("sessions").select("id, booking_id").in("booking_id", ids);
+      const map: Record<string, string> = {};
+      (ss as { id: string; booking_id: string }[] | null)?.forEach((s) => { map[s.booking_id] = s.id; });
+      setSessionsByBooking(map);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => { loadData(); }, [user]);
+
   useEffect(() => {
     if (!user) return;
-    (async () => {
-      const [{ data: bk }, { data: pm }, { data: tp }, { data: pr }] = await Promise.all([
-        supabase.from("bookings").select("*").or(`student_id.eq.${user.id},tutor_id.eq.${user.id}`).order("starts_at", { ascending: true }),
-        supabase.from("payments").select("id, booking_id, status, amount_cents, currency").or(`student_id.eq.${user.id},tutor_id.eq.${user.id}`),
-        supabase.from("tutor_profiles").select("is_published, rating, sessions_completed, headline").eq("user_id", user.id).maybeSingle(),
-        supabase.from("profiles").select("karma_points").eq("id", user.id).maybeSingle(),
-      ]);
-      setBookings((bk as Booking[]) || []);
-      setPayments((pm as Payment[]) || []);
-      setTutorProfile(tp as TutorProfile | null);
-      setKarma(pr?.karma_points || 0);
-      setLoading(false);
-    })();
+    const channel = supabase
+      .channel(`dash-bookings-${user.id}`)
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "bookings" }, (payload: any) => {
+        const row = payload.new as Booking;
+        if (row.student_id !== user.id && row.tutor_id !== user.id) return;
+        const prev = prevStatusRef.current[row.id];
+        if (prev === "pending" && row.status === "confirmed") {
+          toast.success("Rezerwacja potwierdzona — możesz wejść na sesję!", {
+            description: new Date(row.starts_at).toLocaleString(),
+          });
+        }
+        loadData();
+      })
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
   }, [user]);
 
   const now = Date.now();
