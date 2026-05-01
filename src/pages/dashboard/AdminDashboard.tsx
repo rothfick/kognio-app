@@ -48,7 +48,7 @@ const AdminDashboard = () => {
             <StatCard icon={ShieldCheck} label={t("admin.verifications")} value="0" hint={t("admin.verificationsHint")} />
             <StatCard icon={AlertTriangle} label={t("admin.disputes")} value="0" />
             <StatCard icon={Sparkles} label={t("admin.aiFlags")} value="0" hint={t("admin.aiFlagsHint")} />
-            <StatCard icon={Activity} label="Health" value="OK" hint={t("admin.healthHint")} />
+            <StatCard icon={Activity} label={t("admin.health")} value={t("admin.ok")} hint={t("admin.healthHint")} />
           </div>
 
           <Surface className="p-5 mb-6">

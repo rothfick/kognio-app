@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AppShell } from "@/components/layout/AppShell";
 import { DashboardShell, DashboardHeader } from "@/components/layout/DashboardShell";
 import { RoleGate } from "@/components/auth/RoleGate";
@@ -52,6 +53,7 @@ interface InviteRow {
 }
 
 function OrgDashboardInner({ kind }: { kind: OrgType }) {
+  const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [org, setOrg] = useState<Organization | null>(null);
@@ -74,18 +76,18 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
 
   const labels = useMemo(
     () => ({
-      title: kind === "school" ? "Pulpit szkoły" : "Pulpit firmy szkoleniowej",
+      title: kind === "school" ? t("org.schoolTitle") : t("org.companyTitle"),
       subtitle:
         kind === "school"
-          ? "Zarządzaj uczniami, nauczycielami i klasami swojej szkoły."
-          : "Zarządzaj zespołami, trenerami i kursantami swojej firmy.",
+          ? t("org.schoolSubtitle")
+          : t("org.companySubtitle"),
       icon: kind === "school" ? <School className="h-5 w-5" /> : <Building2 className="h-5 w-5" />,
-      memberSingular: kind === "school" ? "uczeń" : "kursant",
-      memberPlural: kind === "school" ? "Uczniowie" : "Kursanci",
-      teachers: kind === "school" ? "Nauczyciele" : "Trenerzy",
+      memberPlural: kind === "school" ? t("org.studentsSchool") : t("org.studentsCompany"),
+      teachers: kind === "school" ? t("org.teachersSchool") : t("org.teachersCompany"),
     }),
-    [kind]
+    [kind, t]
   );
+  const dateLocale = i18n.language?.startsWith("es") ? "es-ES" : i18n.language?.startsWith("en") ? "en-US" : "pl-PL";
 
   const loadAll = async () => {
     if (!user) return;
@@ -148,7 +150,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
       setInvites((iRes.data || []) as InviteRow[]);
     } catch (e: any) {
       console.error(e);
-      toast.error(e.message || "Nie udało się wczytać danych organizacji.");
+      toast.error(e.message || t("org.loadFailed"));
     } finally {
       setLoading(false);
     }
@@ -161,7 +163,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
 
   const saveDetails = async () => {
     if (!org) return;
-    if (!name.trim()) { toast.error("Nazwa nie może być pusta."); return; }
+    if (!name.trim()) { toast.error(t("org.nameEmpty")); return; }
     setSavingDetails(true);
     const { error } = await supabase
       .from("organizations")
@@ -175,7 +177,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
       .eq("id", org.id);
     setSavingDetails(false);
     if (error) { toast.error(error.message); return; }
-    toast.success("Zapisano dane organizacji.");
+    toast.success(t("org.saved"));
     loadAll();
   };
 
@@ -183,7 +185,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
     if (!org || !user) return;
     const email = inviteEmail.trim().toLowerCase();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      toast.error("Podaj poprawny e-mail.");
+      toast.error(t("org.invalidEmail"));
       return;
     }
     setSendingInvite(true);
@@ -195,7 +197,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
     });
     setSendingInvite(false);
     if (error) { toast.error(error.message); return; }
-    toast.success("Zaproszenie utworzone. Skopiuj i wyślij link osobie zapraszanej.");
+    toast.success(t("org.inviteCreated"));
     setInviteEmail("");
     setInviteRole("student");
     setInviteOpen(false);
@@ -208,26 +210,26 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
       .update({ status: "revoked" as InviteStatus })
       .eq("id", id);
     if (error) { toast.error(error.message); return; }
-    toast.success("Zaproszenie odwołane.");
+    toast.success(t("org.inviteRevoked"));
     loadAll();
   };
 
   const removeMember = async (m: MemberRow) => {
     if (!org) return;
     if (m.user_id === org.owner_id) {
-      toast.error("Nie możesz usunąć właściciela organizacji.");
+      toast.error(t("org.cannotRemoveOwner"));
       return;
     }
     const { error } = await supabase.from("organization_members").delete().eq("id", m.id);
     if (error) { toast.error(error.message); return; }
-    toast.success("Członek usunięty.");
+    toast.success(t("org.memberRemoved"));
     loadAll();
   };
 
   const copyInviteLink = (token: string) => {
     const url = `${window.location.origin}/org/invite/${token}`;
     navigator.clipboard.writeText(url);
-    toast.success("Link zaproszenia skopiowany.");
+    toast.success(t("org.linkCopied"));
   };
 
   const studentsCount = members.filter((m) => m.member_role === "student").length;
@@ -239,7 +241,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
     return (
       <AppShell>
         <DashboardShell>
-          <div className="text-muted-foreground text-sm">Ładowanie organizacji…</div>
+          <div className="text-muted-foreground text-sm">{t("org.loading")}</div>
         </DashboardShell>
       </AppShell>
     );
@@ -251,8 +253,8 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
         <DashboardShell>
           <DashboardHeader
             title={labels.title}
-            subtitle="Nie znaleziono organizacji powiązanej z Twoim kontem. Utwórz ją w onboardingu."
-            primaryAction={{ label: "Przejdź do onboardingu", to: "/onboarding" }}
+            subtitle={t("org.notFound")}
+            primaryAction={{ label: t("org.goOnboarding"), to: "/onboarding" }}
           />
         </DashboardShell>
       </AppShell>
@@ -269,40 +271,39 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
             <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
               <DialogTrigger asChild>
                 <Button className="bg-accent-gradient text-accent-foreground shadow-glow">
-                  <UserPlus className="h-4 w-4 mr-1.5" /> Zaproś
+                  <UserPlus className="h-4 w-4 mr-1.5" /> {t("org.invite")}
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Nowe zaproszenie</DialogTitle>
+                  <DialogTitle>{t("org.newInvite")}</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4">
                   <div>
-                    <Label htmlFor="inv-email">E-mail</Label>
-                    <Input id="inv-email" type="email" value={inviteEmail} onChange={(e) => setInviteEmail(e.target.value)} placeholder="osoba@example.com" />
+                    <Label htmlFor="inv-email">{t("org.email")}</Label>
+                    <Input id="inv-email" type="email" value={inviteEmail} onChange={(e) => setInviteEmail(e.target.value)} placeholder={t("org.emailPlaceholder")} />
                   </div>
                   <div>
-                    <Label>Rola w organizacji</Label>
+                    <Label>{t("org.roleInOrg")}</Label>
                     <Select value={inviteRole} onValueChange={(v) => setInviteRole(v as MemberRole)}>
                       <SelectTrigger><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="student">{kind === "school" ? "Uczeń" : "Kursant"}</SelectItem>
-                        <SelectItem value="teacher">{kind === "school" ? "Nauczyciel" : "Trener"}</SelectItem>
-                        <SelectItem value="admin">Administrator</SelectItem>
-                        <SelectItem value="observer">Obserwator (np. rodzic)</SelectItem>
+                        <SelectItem value="student">{kind === "school" ? t("org.studentSchool") : t("org.studentCompany")}</SelectItem>
+                        <SelectItem value="teacher">{kind === "school" ? t("org.teacherSchool") : t("org.teacherCompany")}</SelectItem>
+                        <SelectItem value="admin">{t("org.admin")}</SelectItem>
+                        <SelectItem value="observer">{t("org.observer")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Po utworzeniu otrzymasz unikalny link zaproszenia, który możesz wysłać tej osobie.
-                    Zaproszenie wygasa po 14 dniach.
+                    {t("org.inviteIntro")}
                   </p>
                 </div>
                 <DialogFooter>
-                  <Button variant="ghost" onClick={() => setInviteOpen(false)}>Anuluj</Button>
+                  <Button variant="ghost" onClick={() => setInviteOpen(false)}>{t("org.cancel")}</Button>
                   <Button onClick={sendInvite} disabled={sendingInvite}>
                     {sendingInvite ? <Loader2 className="h-4 w-4 animate-spin mr-1.5" /> : <Mail className="h-4 w-4 mr-1.5" />}
-                    Utwórz zaproszenie
+                    {t("org.createInvite")}
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -311,43 +312,43 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
         />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <StatCard label={labels.memberPlural} value={studentsCount} hint="aktywni" />
-          <StatCard label={labels.teachers} value={teachersCount} hint="dydaktycy" />
-          <StatCard label="Administratorzy" value={adminsCount} hint="zarząd organizacji" />
-          <StatCard label="Oczekujące zaproszenia" value={pendingInvites} hint="czekają na akceptację" />
+          <StatCard label={labels.memberPlural} value={studentsCount} hint={t("org.active")} />
+          <StatCard label={labels.teachers} value={teachersCount} hint={t("org.didactic")} />
+          <StatCard label={t("org.admins")} value={adminsCount} hint={t("org.adminsHint")} />
+          <StatCard label={t("org.pendingInvites")} value={pendingInvites} hint={t("org.pendingInvitesHint")} />
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
           <Card className="p-6 lg:col-span-2">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-lg font-semibold">Członkowie organizacji</h2>
-                <p className="text-sm text-muted-foreground">Wszyscy użytkownicy powiązani z {org.name}.</p>
+                <h2 className="text-lg font-semibold">{t("org.members")}</h2>
+                <p className="text-sm text-muted-foreground">{t("org.membersDesc", { name: org.name })}</p>
               </div>
               <Button variant="outline" size="sm" onClick={loadAll}>
-                <RefreshCw className="h-3.5 w-3.5 mr-1" /> Odśwież
+                <RefreshCw className="h-3.5 w-3.5 mr-1" /> {t("org.refresh")}
               </Button>
             </div>
             {members.length === 0 ? (
               <p className="text-sm text-muted-foreground py-8 text-center">
-                Brak członków. Wyślij pierwsze zaproszenie powyżej.
+                {t("org.noMembers")}
               </p>
             ) : (
               <div className="divide-y">
                 {members.map((m) => (
                   <div key={m.id} className="py-3 flex items-center justify-between gap-3">
                     <div className="min-w-0">
-                      <div className="font-medium truncate">{m.display_name || "Użytkownik"}</div>
+                      <div className="font-medium truncate">{m.display_name || t("org.user")}</div>
                       <div className="text-xs text-muted-foreground">
-                        Dołączył(a) {new Date(m.joined_at).toLocaleDateString("pl-PL")}
+                        {t("org.joinedAt", { date: new Date(m.joined_at).toLocaleDateString(dateLocale) })}
                       </div>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <Badge variant={m.member_role === "owner" ? "default" : "secondary"}>
-                        {memberRoleLabel(m.member_role, kind)}
+                        {memberRoleLabel(m.member_role, kind, t)}
                       </Badge>
                       {m.user_id !== org.owner_id && (
-                        <Button variant="ghost" size="icon" onClick={() => removeMember(m)} aria-label="Usuń">
+                        <Button variant="ghost" size="icon" onClick={() => removeMember(m)} aria-label={t("org.remove")}>
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       )}
@@ -359,10 +360,10 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
           </Card>
 
           <Card className="p-6">
-            <h2 className="text-lg font-semibold mb-1">Zaproszenia</h2>
-            <p className="text-sm text-muted-foreground mb-4">Skopiuj link i wyślij osobie zapraszanej.</p>
+            <h2 className="text-lg font-semibold mb-1">{t("org.invites")}</h2>
+            <p className="text-sm text-muted-foreground mb-4">{t("org.invitesDesc")}</p>
             {invites.length === 0 ? (
-              <p className="text-sm text-muted-foreground py-6 text-center">Brak zaproszeń.</p>
+              <p className="text-sm text-muted-foreground py-6 text-center">{t("org.noInvites")}</p>
             ) : (
               <div className="space-y-3">
                 {invites.map((i) => (
@@ -371,18 +372,18 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
                       <div className="min-w-0">
                         <div className="text-sm font-medium truncate">{i.email}</div>
                         <div className="text-xs text-muted-foreground">
-                          {memberRoleLabel(i.member_role, kind)} · wygasa {new Date(i.expires_at).toLocaleDateString("pl-PL")}
+                          {memberRoleLabel(i.member_role, kind, t)} · {t("org.expiresOn", { date: new Date(i.expires_at).toLocaleDateString(dateLocale) })}
                         </div>
                       </div>
-                      <Badge variant={inviteBadgeVariant(i.status)}>{inviteStatusLabel(i.status)}</Badge>
+                      <Badge variant={inviteBadgeVariant(i.status)}>{inviteStatusLabel(i.status, t)}</Badge>
                     </div>
                     {i.status === "pending" && (
                       <div className="mt-2 flex gap-2">
                         <Button variant="outline" size="sm" onClick={() => copyInviteLink(i.token)}>
-                          <Copy className="h-3.5 w-3.5 mr-1" /> Kopiuj link
+                          <Copy className="h-3.5 w-3.5 mr-1" /> {t("org.copyLink")}
                         </Button>
                         <Button variant="ghost" size="sm" onClick={() => revokeInvite(i.id)}>
-                          Odwołaj
+                          {t("org.revoke")}
                         </Button>
                       </div>
                     )}
@@ -396,42 +397,42 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
         <Card className="p-6 mt-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-lg font-semibold">Dane organizacji</h2>
+              <h2 className="text-lg font-semibold">{t("org.orgData")}</h2>
               <p className="text-sm text-muted-foreground">
-                {org.is_verified ? "Konto zweryfikowane przez Kogni." : "Status: oczekuje na weryfikację."}
+                {org.is_verified ? t("org.verified") : t("org.pending")}
               </p>
             </div>
             <Badge variant={org.is_verified ? "default" : "outline"}>
               {labels.icon}
-              <span className="ml-1.5">{kind === "school" ? "Szkoła" : "Firma szkoleniowa"}</span>
+              <span className="ml-1.5">{kind === "school" ? t("org.schoolBadge") : t("org.companyBadge")}</span>
             </Badge>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="o-name">Nazwa</Label>
+              <Label htmlFor="o-name">{t("org.name")}</Label>
               <Input id="o-name" value={name} onChange={(e) => setName(e.target.value)} />
             </div>
             <div>
-              <Label htmlFor="o-tax">NIP / REGON</Label>
+              <Label htmlFor="o-tax">{t("org.tax")}</Label>
               <Input id="o-tax" value={taxId} onChange={(e) => setTaxId(e.target.value)} />
             </div>
             <div>
-              <Label htmlFor="o-city">Miasto</Label>
+              <Label htmlFor="o-city">{t("org.city")}</Label>
               <Input id="o-city" value={city} onChange={(e) => setCity(e.target.value)} />
             </div>
             <div>
-              <Label htmlFor="o-web">WWW</Label>
+              <Label htmlFor="o-web">{t("org.web")}</Label>
               <Input id="o-web" value={website} onChange={(e) => setWebsite(e.target.value)} />
             </div>
             <div className="sm:col-span-2">
-              <Label htmlFor="o-desc">Opis</Label>
+              <Label htmlFor="o-desc">{t("org.description")}</Label>
               <Input id="o-desc" value={description} onChange={(e) => setDescription(e.target.value)} />
             </div>
           </div>
           <div className="mt-4 flex justify-end">
             <Button onClick={saveDetails} disabled={savingDetails}>
               {savingDetails && <Loader2 className="h-4 w-4 animate-spin mr-1.5" />}
-              Zapisz
+              {t("org.save")}
             </Button>
           </div>
         </Card>
@@ -440,17 +441,17 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
   );
 }
 
-function memberRoleLabel(r: MemberRole, kind: OrgType) {
+function memberRoleLabel(r: MemberRole, kind: OrgType, t: (key: string) => string) {
   switch (r) {
-    case "owner": return "Właściciel";
-    case "admin": return "Administrator";
-    case "teacher": return kind === "school" ? "Nauczyciel" : "Trener";
-    case "student": return kind === "school" ? "Uczeń" : "Kursant";
-    case "observer": return "Obserwator";
+    case "owner": return t("org.owner");
+    case "admin": return t("org.admin");
+    case "teacher": return kind === "school" ? t("org.teacherSchool") : t("org.teacherCompany");
+    case "student": return kind === "school" ? t("org.studentSchool") : t("org.studentCompany");
+    case "observer": return t("org.roleObserver");
   }
 }
-function inviteStatusLabel(s: InviteStatus) {
-  return ({ pending: "Oczekuje", accepted: "Zaakceptowane", revoked: "Odwołane", expired: "Wygasłe" } as const)[s];
+function inviteStatusLabel(s: InviteStatus, t: (key: string) => string) {
+  return ({ pending: t("org.statusPending"), accepted: t("org.statusAccepted"), revoked: t("org.statusRevoked"), expired: t("org.statusExpired") } as const)[s];
 }
 function inviteBadgeVariant(s: InviteStatus): "default" | "secondary" | "outline" | "destructive" {
   if (s === "accepted") return "default";

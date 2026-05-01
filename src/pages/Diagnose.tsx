@@ -285,7 +285,7 @@ export default function Diagnose() {
               </Surface>
 
               <Surface className="p-5 md:col-span-2">
-                <h3 className="text-sm font-semibold mb-2 flex items-center gap-2"><Sparkles className="h-4 w-4 text-accent" /> Rekomendacje</h3>
+                <h3 className="text-sm font-semibold mb-2 flex items-center gap-2"><Sparkles className="h-4 w-4 text-accent" /> {t("diagnose.recommendations")}</h3>
                 <ul className="space-y-1.5 text-sm list-disc pl-5">
                   {summary.recommendations.map((r, i) => <li key={i}>{r}</li>)}
                 </ul>

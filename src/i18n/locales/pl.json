@@ -457,7 +457,16 @@
       "missingName": "Podaj imię dziecka.",
       "missingConsent": "Zgoda rodzica/opiekuna jest wymagana.",
       "created": "Profil dziecka został dodany.",
-      "createFailed": "Nie udało się dodać profilu dziecka."
+      "createFailed": "Nie udało się dodać profilu dziecka.",
+      "subjectOptions": [
+        "Matematyka",
+        "Fizyka",
+        "Chemia",
+        "Biologia",
+        "Język polski",
+        "Język angielski",
+        "Informatyka"
+      ]
     }
   },
   "knowledge": {
@@ -674,7 +683,11 @@
     "start": "Start",
     "stop": "Stop",
     "emptyDash": "—",
-    "optional": "opcjonalnie"
+    "optional": "opcjonalnie",
+    "pageNotFound": "Nie znaleziono strony",
+    "returnHome": "Wróć na stronę główną",
+    "language": "Język",
+    "me": "Ja"
   },
   "errors": {
     "generic": "Coś poszło nie tak. Spróbuj jeszcze raz."
@@ -827,6 +840,8 @@
     "tutorShortcuts": "Skróty tutora",
     "editProfileRates": "Edytuj profil i stawki",
     "viewPublicProfile": "Zobacz swój publiczny profil",
-    "confirmedToast": "Rezerwacja potwierdzona — możesz wejść na sesję!"
+    "confirmedToast": "Rezerwacja potwierdzona — możesz wejść na sesję!",
+    "karma": "Karma",
+    "allCaughtUp": "Wszystko ogarnięte"
   }
 }

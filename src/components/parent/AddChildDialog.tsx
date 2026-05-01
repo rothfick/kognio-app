@@ -28,6 +28,7 @@ export function AddChildDialog({ onCreated }: { onCreated?: () => void }) {
   const [primarySubject, setPrimarySubject] = useState("");
   const [relation, setRelation] = useState<"parent" | "guardian" | "other">("parent");
   const [consent, setConsent] = useState(false);
+  const subjectOptions = t("parent.addChild.subjectOptions", { returnObjects: true }) as string[];
 
   const reset = () => {
     setDisplayName(""); setEmail(""); setDob(""); setGradeLevel("");
@@ -108,7 +109,7 @@ export function AddChildDialog({ onCreated }: { onCreated?: () => void }) {
             <Select value={primarySubject} onValueChange={setPrimarySubject}>
               <SelectTrigger id="subject"><SelectValue placeholder={t("parent.addChild.subjectPlaceholder")} /></SelectTrigger>
               <SelectContent>
-                {["Matematyka","Fizyka","Chemia","Biologia","Język polski","Język angielski","Informatyka"].map((s) => (
+                {subjectOptions.map((s) => (
                   <SelectItem key={s} value={s}>{s}</SelectItem>
                 ))}
               </SelectContent>

@@ -101,7 +101,7 @@ export function Header() {
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="language">
+              <Button variant="ghost" size="icon" aria-label={t("common.language")}> 
                 <Globe className="h-4 w-4" />
                 <span className="ml-1 text-xs uppercase">{currentLang}</span>
               </Button>
@@ -118,7 +118,7 @@ export function Header() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="gap-2 px-2">
                   <Avatar className="h-7 w-7">
-                    {avatarUrl && <AvatarImage src={avatarUrl} alt="me" />}
+                    {avatarUrl && <AvatarImage src={avatarUrl} alt={t("common.me")} />}
                     <AvatarFallback className="bg-accent/20 text-accent text-xs font-bold">
                       {(displayName || user.email || "?")[0]?.toUpperCase()}
                     </AvatarFallback>

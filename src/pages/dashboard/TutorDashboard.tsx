@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 const TutorDashboard = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const [verified, setVerified] = useState<boolean | null>(null);
   const [published, setPublished] = useState<boolean | null>(null);
@@ -64,7 +64,7 @@ const TutorDashboard = () => {
             <StatCard icon={CalIcon} label={t("tutorDash.today")} value="0" hint={t("tutorDash.todayHint")} />
             <StatCard icon={FileText} label={t("tutorDash.notesTodo")} value="0" hint={t("tutorDash.notesHint")} />
             <StatCard icon={Users} label={t("tutorDash.activeStudents")} value="0" />
-            <StatCard icon={Wallet} label={t("tutorDash.monthEarn")} value="0 zł" hint={t("tutorDash.earnHint")} />
+            <StatCard icon={Wallet} label={t("tutorDash.monthEarn")} value={new Intl.NumberFormat(i18n.language, { style: "currency", currency: "PLN", maximumFractionDigits: 0 }).format(0)} hint={t("tutorDash.earnHint")} />
           </div>
 
           <div className="grid gap-5 md:grid-cols-3 mb-6">

@@ -1,14 +1,16 @@
 import { Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useUserRoles } from "@/hooks/useUserRoles";
 import { AppShell } from "@/components/layout/AppShell";
 
 const DashboardRouter = () => {
+  const { t } = useTranslation();
   const { loading, isAdmin, isTutor, isStudent, isParent, isSchool, isCompany } = useUserRoles();
 
   if (loading) {
     return (
       <AppShell>
-        <div className="container py-12 text-muted-foreground text-sm">Ładowanie pulpitu…</div>
+        <div className="container py-12 text-muted-foreground text-sm">{t("common.loadingDashboard")}</div>
       </AppShell>
     );
   }

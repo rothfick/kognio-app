@@ -457,7 +457,16 @@
       "missingName": "Indica el nombre del hijo/a.",
       "missingConsent": "Es obligatorio el consentimiento del padre/madre o tutor.",
       "created": "Perfil del hijo/a añadido.",
-      "createFailed": "No se pudo añadir el perfil del hijo/a."
+      "createFailed": "No se pudo añadir el perfil del hijo/a.",
+      "subjectOptions": [
+        "Matemáticas",
+        "Física",
+        "Química",
+        "Biología",
+        "Polaco",
+        "Inglés",
+        "Informática"
+      ]
     }
   },
   "knowledge": {
@@ -674,7 +683,11 @@
     "start": "Iniciar",
     "stop": "Detener",
     "emptyDash": "—",
-    "optional": "opcional"
+    "optional": "opcional",
+    "pageNotFound": "Página no encontrada",
+    "returnHome": "Volver al inicio",
+    "language": "Idioma",
+    "me": "Yo"
   },
   "errors": {
     "generic": "Algo salió mal. Inténtalo de nuevo."
@@ -827,6 +840,8 @@
     "tutorShortcuts": "Accesos del tutor",
     "editProfileRates": "Editar perfil y tarifas",
     "viewPublicProfile": "Ver tu perfil público",
-    "confirmedToast": "Reserva confirmada — puedes entrar en la sesión."
+    "confirmedToast": "Reserva confirmada — puedes entrar en la sesión.",
+    "karma": "Karma",
+    "allCaughtUp": "Todo al día"
   }
 }
