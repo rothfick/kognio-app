@@ -927,5 +927,34 @@
     "evidenceEvents": "Zdarzenia dowodowe",
     "avgDiagScore": "Średni wynik diagnozy (z planami)",
     "itemsCompleted": "Ukończone kroki planu"
+  },
+  "curriculum": {
+    "section": "Uniwersalna mapa programów nauczania",
+    "systems": "Systemy edukacji",
+    "levels": "Poziomy edukacji",
+    "domains": "Dziedziny nauki",
+    "competencies": "Kompetencje",
+    "edges": "Powiązania prerekwizytów",
+    "sources": "Źródła programowe",
+    "approved": "Zatwierdzone",
+    "draft": "Szkice",
+    "domainsByCount": "Dziedziny wg liczby kompetencji",
+    "levelsByCount": "Poziomy wg liczby kompetencji",
+    "noData": "Brak danych",
+    "loading": "Ładowanie…",
+    "note": "Pełny edytor grafu kompetencji pojawi się w kolejnych iteracjach. Obecnie dane seedowane przez migracje."
+  },
+  "smartReadiness": {
+    "title": "Gotowość na ewidencję SMART",
+    "body": "Kogni obsługuje teraz uniwersalny graf programów i kompetencji, umożliwiając identyfikowalną diagnozę, planowanie i pomiar postępów na różnych etapach edukacji i w wielu dziedzinach. Stanowi to fundament pod ewidencję wymaganą przez programy grantowe (np. FENG Ścieżka SMART) i raportowanie B+R."
+  },
+  "diagnoseTaxonomy": {
+    "useTaxonomy": "Wybierz z mapy programów (opcjonalnie)",
+    "useFreeText": "Wpisz dowolną dziedzinę",
+    "system": "System edukacji",
+    "level": "Poziom",
+    "domain": "Dziedzina",
+    "any": "Dowolny",
+    "loading": "Ładowanie taksonomii…"
   }
 }

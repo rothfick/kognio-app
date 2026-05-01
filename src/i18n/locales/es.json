@@ -927,5 +927,34 @@
     "evidenceEvents": "Eventos de evidencia",
     "avgDiagScore": "Puntuación media del diagnóstico (con planes)",
     "itemsCompleted": "Pasos del plan completados"
+  },
+  "curriculum": {
+    "section": "Mapa universal de currículos",
+    "systems": "Sistemas educativos",
+    "levels": "Niveles educativos",
+    "domains": "Dominios de aprendizaje",
+    "competencies": "Competencias",
+    "edges": "Aristas de prerrequisito",
+    "sources": "Fuentes curriculares",
+    "approved": "Aprobadas",
+    "draft": "Borradores",
+    "domainsByCount": "Dominios por número de competencias",
+    "levelsByCount": "Niveles por número de competencias",
+    "noData": "Sin datos",
+    "loading": "Cargando…",
+    "note": "El editor completo del grafo de competencias llegará en próximas iteraciones. Por ahora los datos se cargan mediante migraciones."
+  },
+  "smartReadiness": {
+    "title": "Preparación para evidencia SMART",
+    "body": "Kogni ahora admite un grafo universal de currículos y competencias, permitiendo diagnóstico, planificación y medición del progreso trazables en múltiples etapas educativas y dominios. Esto sienta las bases para la evidencia requerida por programas de subvenciones (p. ej. FENG Ruta SMART) y la documentación I+D."
+  },
+  "diagnoseTaxonomy": {
+    "useTaxonomy": "Elegir del grafo curricular (opcional)",
+    "useFreeText": "Escribe cualquier dominio",
+    "system": "Sistema educativo",
+    "level": "Nivel",
+    "domain": "Dominio",
+    "any": "Cualquiera",
+    "loading": "Cargando taxonomía…"
   }
 }

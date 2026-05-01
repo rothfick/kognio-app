@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Loader2, Sparkles, CheckCircle2, AlertCircle, Brain, Target, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
+import { CurriculumPicker, type CurriculumSelection } from "@/components/diagnose/CurriculumPicker";
 
 type Choice = { id: string; text: string };
 type Item = { id: string; question: string; choices: Choice[]; kc_label: string; difficulty: number };
@@ -42,6 +43,7 @@ export default function Diagnose() {
   const [phase, setPhase] = useState<"intake" | "running" | "done">("intake");
   const [domain, setDomain] = useState("");
   const [level, setLevel] = useState<string>("");
+  const [taxonomy, setTaxonomy] = useState<CurriculumSelection>({});
   const [submitting, setSubmitting] = useState(false);
 
   const [attemptId, setAttemptId] = useState<string | null>(null);
@@ -57,17 +59,27 @@ export default function Diagnose() {
   const levelLabel = useMemo(() => level ? t(`diagnose.levels.${level}`) : "", [level, t]);
 
   const start = useCallback(async () => {
-    if (!domain.trim()) return toast.error(t("diagnose.missingDomain"));
-    if (!level) return toast.error(t("diagnose.missingLevel"));
     setSubmitting(true);
     try {
+      const lang = i18n.language?.split("-")[0] || "pl";
+      const localizedDomain = (d: typeof taxonomy.domain) => d ? ((lang === "en" ? d.name_en : lang === "es" ? d.name_es : d.name_pl) || d.name_pl) : "";
+      const localizedLevel = (lv: typeof taxonomy.level) => lv ? ((lang === "en" ? lv.name_en : lang === "es" ? lv.name_es : lv.name_pl) || lv.name_pl) : "";
+      const effectiveDomain = (domain.trim() || localizedDomain(taxonomy.domain)).trim();
+      const effectiveLevel = level ? levelLabel : localizedLevel(taxonomy.level);
+      if (!effectiveDomain) return toast.error(t("diagnose.missingDomain"));
+      if (!effectiveLevel) return toast.error(t("diagnose.missingLevel"));
       const { data, error } = await supabase.functions.invoke("diagnostic-adaptive", {
         body: {
           action: "start",
-          domain: domain.trim(),
-          level: levelLabel,
-          language: i18n.language?.split("-")[0] || "pl",
+          domain: effectiveDomain,
+          level: effectiveLevel,
+          language: lang,
           target_questions: TARGET,
+          taxonomy: {
+            system_code: taxonomy.system?.code,
+            level_code: taxonomy.level?.code,
+            domain_code: taxonomy.domain?.code,
+          },
           ...(childId ? { child_id: childId } : {}),
         },
       });
@@ -82,7 +94,7 @@ export default function Diagnose() {
     } finally {
       setSubmitting(false);
     }
-  }, [domain, level, levelLabel, childId, i18n.language, t]);
+  }, [domain, level, levelLabel, taxonomy, childId, i18n.language, t]);
 
   const submit = useCallback(async () => {
     if (!attemptId || !item) return;
@@ -144,6 +156,13 @@ export default function Diagnose() {
               subtitle={t("diagnose.subtitle")}
             />
             <Surface className="p-6 max-w-2xl space-y-5">
+              <div className="rounded-md border border-border/60 bg-muted/30 p-3 space-y-2">
+                <p className="text-xs font-medium text-muted-foreground">{t("diagnoseTaxonomy.useTaxonomy")}</p>
+                <CurriculumPicker onChange={setTaxonomy} />
+              </div>
+              <div>
+                <p className="text-xs font-medium text-muted-foreground mb-1.5">{t("diagnoseTaxonomy.useFreeText")}</p>
+              </div>
               <div>
                 <label className="text-sm font-medium mb-1.5 block">{t("diagnose.domainLabel")}</label>
                 <Input
@@ -187,7 +206,7 @@ export default function Diagnose() {
               <div className="pt-2">
                 <Button
                   onClick={start}
-                  disabled={submitting || !domain.trim() || !level}
+                  disabled={submitting || (!domain.trim() && !taxonomy.domain) || (!level && !taxonomy.level)}
                   size="lg"
                   className="bg-accent-gradient text-accent-foreground shadow-glow"
                 >

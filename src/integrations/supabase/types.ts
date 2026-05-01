@@ -210,6 +210,217 @@ export type Database = {
         }
         Relationships: []
       }
+      competencies: {
+        Row: {
+          bloom_level: string | null
+          code: string
+          created_at: string
+          description_en: string | null
+          description_es: string | null
+          description_pl: string | null
+          difficulty_level: number
+          domain_id: string
+          education_level_id: string | null
+          id: string
+          is_active: boolean
+          name_en: string | null
+          name_es: string | null
+          name_pl: string
+          parent_competency_id: string | null
+          review_status: string
+          source_type: string
+          updated_at: string
+        }
+        Insert: {
+          bloom_level?: string | null
+          code: string
+          created_at?: string
+          description_en?: string | null
+          description_es?: string | null
+          description_pl?: string | null
+          difficulty_level?: number
+          domain_id: string
+          education_level_id?: string | null
+          id?: string
+          is_active?: boolean
+          name_en?: string | null
+          name_es?: string | null
+          name_pl: string
+          parent_competency_id?: string | null
+          review_status?: string
+          source_type?: string
+          updated_at?: string
+        }
+        Update: {
+          bloom_level?: string | null
+          code?: string
+          created_at?: string
+          description_en?: string | null
+          description_es?: string | null
+          description_pl?: string | null
+          difficulty_level?: number
+          domain_id?: string
+          education_level_id?: string | null
+          id?: string
+          is_active?: boolean
+          name_en?: string | null
+          name_es?: string | null
+          name_pl?: string
+          parent_competency_id?: string | null
+          review_status?: string
+          source_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "competencies_domain_id_fkey"
+            columns: ["domain_id"]
+            isOneToOne: false
+            referencedRelation: "learning_domains"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "competencies_education_level_id_fkey"
+            columns: ["education_level_id"]
+            isOneToOne: false
+            referencedRelation: "education_levels"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "competencies_parent_competency_id_fkey"
+            columns: ["parent_competency_id"]
+            isOneToOne: false
+            referencedRelation: "competencies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      competency_prerequisites: {
+        Row: {
+          created_at: string
+          from_competency_id: string
+          id: string
+          rationale: string | null
+          strength: number
+          to_competency_id: string
+        }
+        Insert: {
+          created_at?: string
+          from_competency_id: string
+          id?: string
+          rationale?: string | null
+          strength?: number
+          to_competency_id: string
+        }
+        Update: {
+          created_at?: string
+          from_competency_id?: string
+          id?: string
+          rationale?: string | null
+          strength?: number
+          to_competency_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "competency_prerequisites_from_competency_id_fkey"
+            columns: ["from_competency_id"]
+            isOneToOne: false
+            referencedRelation: "competencies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "competency_prerequisites_to_competency_id_fkey"
+            columns: ["to_competency_id"]
+            isOneToOne: false
+            referencedRelation: "competencies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      competency_source_mappings: {
+        Row: {
+          competency_id: string
+          confidence: number
+          created_at: string
+          id: string
+          source_id: string
+          source_ref: string | null
+        }
+        Insert: {
+          competency_id: string
+          confidence?: number
+          created_at?: string
+          id?: string
+          source_id: string
+          source_ref?: string | null
+        }
+        Update: {
+          competency_id?: string
+          confidence?: number
+          created_at?: string
+          id?: string
+          source_id?: string
+          source_ref?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "competency_source_mappings_competency_id_fkey"
+            columns: ["competency_id"]
+            isOneToOne: false
+            referencedRelation: "competencies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "competency_source_mappings_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "curriculum_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      curriculum_sources: {
+        Row: {
+          country_code: string | null
+          created_at: string
+          description: string | null
+          id: string
+          publisher: string | null
+          source_type: string
+          title: string
+          url: string | null
+          valid_from: string | null
+          valid_to: string | null
+          version: string | null
+        }
+        Insert: {
+          country_code?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          publisher?: string | null
+          source_type: string
+          title: string
+          url?: string | null
+          valid_from?: string | null
+          valid_to?: string | null
+          version?: string | null
+        }
+        Update: {
+          country_code?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          publisher?: string | null
+          source_type?: string
+          title?: string
+          url?: string | null
+          valid_from?: string | null
+          valid_to?: string | null
+          version?: string | null
+        }
+        Relationships: []
+      }
       diagnostic_attempts: {
         Row: {
           child_id: string | null
@@ -417,6 +628,110 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      education_levels: {
+        Row: {
+          age_max: number | null
+          age_min: number | null
+          code: string
+          created_at: string
+          description_en: string | null
+          description_es: string | null
+          description_pl: string | null
+          education_system_id: string
+          id: string
+          is_active: boolean
+          name_en: string | null
+          name_es: string | null
+          name_pl: string
+          order_index: number
+        }
+        Insert: {
+          age_max?: number | null
+          age_min?: number | null
+          code: string
+          created_at?: string
+          description_en?: string | null
+          description_es?: string | null
+          description_pl?: string | null
+          education_system_id: string
+          id?: string
+          is_active?: boolean
+          name_en?: string | null
+          name_es?: string | null
+          name_pl: string
+          order_index?: number
+        }
+        Update: {
+          age_max?: number | null
+          age_min?: number | null
+          code?: string
+          created_at?: string
+          description_en?: string | null
+          description_es?: string | null
+          description_pl?: string | null
+          education_system_id?: string
+          id?: string
+          is_active?: boolean
+          name_en?: string | null
+          name_es?: string | null
+          name_pl?: string
+          order_index?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "education_levels_education_system_id_fkey"
+            columns: ["education_system_id"]
+            isOneToOne: false
+            referencedRelation: "education_systems"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      education_systems: {
+        Row: {
+          code: string
+          country_code: string | null
+          created_at: string
+          description_en: string | null
+          description_es: string | null
+          description_pl: string | null
+          id: string
+          is_active: boolean
+          name_en: string | null
+          name_es: string | null
+          name_pl: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          country_code?: string | null
+          created_at?: string
+          description_en?: string | null
+          description_es?: string | null
+          description_pl?: string | null
+          id?: string
+          is_active?: boolean
+          name_en?: string | null
+          name_es?: string | null
+          name_pl: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          country_code?: string | null
+          created_at?: string
+          description_en?: string | null
+          description_es?: string | null
+          description_pl?: string | null
+          id?: string
+          is_active?: boolean
+          name_en?: string | null
+          name_es?: string | null
+          name_pl?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       email_send_log: {
         Row: {
@@ -667,6 +982,7 @@ export type Database = {
       knowledge_components: {
         Row: {
           code: string
+          competency_id: string | null
           created_at: string
           description_en: string | null
           description_pl: string | null
@@ -683,6 +999,7 @@ export type Database = {
         }
         Insert: {
           code: string
+          competency_id?: string | null
           created_at?: string
           description_en?: string | null
           description_pl?: string | null
@@ -699,6 +1016,7 @@ export type Database = {
         }
         Update: {
           code?: string
+          competency_id?: string | null
           created_at?: string
           description_en?: string | null
           description_pl?: string | null
@@ -715,6 +1033,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "knowledge_components_competency_id_fkey"
+            columns: ["competency_id"]
+            isOneToOne: false
+            referencedRelation: "competencies"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "knowledge_components_parent_kc_id_fkey"
             columns: ["parent_kc_id"]
             isOneToOne: false
@@ -729,6 +1054,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      learning_domains: {
+        Row: {
+          code: string
+          created_at: string
+          description_en: string | null
+          description_es: string | null
+          description_pl: string | null
+          domain_type: string
+          id: string
+          is_active: boolean
+          name_en: string | null
+          name_es: string | null
+          name_pl: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description_en?: string | null
+          description_es?: string | null
+          description_pl?: string | null
+          domain_type?: string
+          id?: string
+          is_active?: boolean
+          name_en?: string | null
+          name_es?: string | null
+          name_pl: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description_en?: string | null
+          description_es?: string | null
+          description_pl?: string | null
+          domain_type?: string
+          id?: string
+          is_active?: boolean
+          name_en?: string | null
+          name_es?: string | null
+          name_pl?: string
+        }
+        Relationships: []
       }
       learning_goals: {
         Row: {
@@ -1636,6 +2003,8 @@ export type Database = {
           created_at: string
           description_en: string | null
           description_pl: string | null
+          domain_id: string | null
+          education_level_id: string | null
           id: string
           is_active: boolean
           level: string | null
@@ -1650,6 +2019,8 @@ export type Database = {
           created_at?: string
           description_en?: string | null
           description_pl?: string | null
+          domain_id?: string | null
+          education_level_id?: string | null
           id?: string
           is_active?: boolean
           level?: string | null
@@ -1664,6 +2035,8 @@ export type Database = {
           created_at?: string
           description_en?: string | null
           description_pl?: string | null
+          domain_id?: string | null
+          education_level_id?: string | null
           id?: string
           is_active?: boolean
           level?: string | null
@@ -1672,7 +2045,22 @@ export type Database = {
           slug?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "subjects_domain_id_fkey"
+            columns: ["domain_id"]
+            isOneToOne: false
+            referencedRelation: "learning_domains"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subjects_education_level_id_fkey"
+            columns: ["education_level_id"]
+            isOneToOne: false
+            referencedRelation: "education_levels"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       suppressed_emails: {
         Row: {
