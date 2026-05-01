@@ -112,6 +112,7 @@ const ParentDashboard = () => {
 };
 
 const ChildCard = ({ child }: { child: ChildRow }) => {
+  const { t } = useTranslation();
   const [trackedKcs, setTrackedKcs] = useState<number | null>(null);
   const [avg, setAvg] = useState<number | null>(null);
   const [latestScore, setLatestScore] = useState<number | null>(null);
@@ -146,7 +147,7 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
         <div>
           <h3 className="font-semibold text-base">{child.display_name}</h3>
           <p className="text-xs text-muted-foreground">
-            {child.grade_level || "—"} · {child.primary_subject || "{t("parent.child.noSubject")}"}
+            {child.grade_level || "—"} · {child.primary_subject || t("parent.child.noSubject")}
           </p>
         </div>
         {child.consent_signed_at ? (
