@@ -339,26 +339,7 @@ export default function Diagnose() {
 
             <Surface className="p-5 mb-4">
               <h3 className="font-semibold text-sm mb-3 flex items-center gap-2"><Brain className="h-4 w-4 text-accent" /> {t("diagnose.competenceMap")}</h3>
-              <div className="space-y-2">
-                {summary.kc_breakdown.map((k, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <span className="text-sm flex-1 truncate">{k.kc_label}</span>
-                    <div className="w-32"><Progress value={k.mastery_pct} /></div>
-                    <span className="text-xs text-muted-foreground w-10 text-right">{k.mastery_pct}%</span>
-                    <Badge
-                      variant="outline"
-                      className={`text-[10px] ${
-                        k.status === "mocna" ? "border-green-500 text-green-600"
-                        : k.status === "luka" ? "border-destructive text-destructive"
-                        : k.status === "do_pracy" ? "border-amber-500 text-amber-600"
-                        : ""
-                      }`}
-                    >
-                      {t(`diagnose.status.${k.status}`, { defaultValue: k.status.replace("_", " ") })}
-                    </Badge>
-                  </div>
-                ))}
-              </div>
+              <TraceabilityList attemptId={attemptId} childId={childId} kcBreakdown={summary.kc_breakdown} />
             </Surface>
 
             <PlanCta attemptId={attemptId} childId={childId} language={i18n.language} />
