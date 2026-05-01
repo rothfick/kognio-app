@@ -124,24 +124,7 @@ const StudentDashboard = () => {
             <StatCard icon={ClipboardList} label={t("student.homework")} value="0" hint={t("student.homeworkHint")} />
           </div>
 
-          <div className="grid gap-5 md:grid-cols-3 mb-6">
-            <AIInsightCard title={t("dashboard.nextStep")} className="md:col-span-2">
-              <p>
-                {t("student.nextStepBody")}
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
-                  <Link to="/diagnose">
-                    {t("dashboard.diagnoseCta")} <ArrowRight className="ml-1 h-3.5 w-3.5" />
-                  </Link>
-                </Button>
-                <Button asChild size="sm" variant="outline">
-                  <Link to="/discover">
-                    {t("student.findTutor")} <ArrowRight className="ml-1 h-3.5 w-3.5" />
-                  </Link>
-                </Button>
-              </div>
-            </AIInsightCard>
+          <div className="grid gap-5 md:grid-cols-1 mb-6">
             <Surface className="p-5">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-[11px] uppercase tracking-wide text-muted-foreground font-medium">{t("student.yourMastery")}</p>
