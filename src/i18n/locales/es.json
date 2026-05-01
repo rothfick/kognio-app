@@ -691,7 +691,9 @@
     "pageNotFound": "Página no encontrada",
     "returnHome": "Volver al inicio",
     "language": "Idioma",
-    "me": "Yo"
+    "me": "Yo",
+    "saving": "Guardando…",
+    "error": "Algo salió mal"
   },
   "errors": {
     "generic": "Algo salió mal. Inténtalo de nuevo."
@@ -1325,5 +1327,91 @@
       "value": "Valor"
     },
     "disclaimer": "Este documento es material interno de preparación. No garantiza financiación, no constituye asesoramiento legal oficial, y la puntuación de preparación es una heurística interna."
+  },
+  "researchConsent": {
+    "draftBadge": "Borrador — requiere revisión legal",
+    "accept": "Aceptar y continuar",
+    "decline": "Rechazar",
+    "notNow": "Ahora no",
+    "viewDetails": "Ver detalles",
+    "hideDetails": "Ocultar detalles",
+    "toastAccepted": "Consentimiento registrado",
+    "legalDisclaimer": "Este texto es un borrador y no constituye documentación legal definitiva. Los términos finales serán revisados por un abogado antes del lanzamiento público.",
+    "types": {
+      "ai_diagnosis_notice": {
+        "title": "Diagnóstico IA — aviso sobre datos",
+        "body": "Kogni utiliza IA para estimar tu nivel de conocimiento, identificar lagunas y proponer rutas de aprendizaje. Tus respuestas se almacenan para construir tu mapa de competencias y mejorar las recomendaciones.",
+        "details": "Qué guardamos: tus respuestas, estimaciones de IA y el resultado del diagnóstico.\nPara qué: para construir tu mapa de competencias y plan de estudio.\nQuién lo ve: solo tú y los administradores con fines de soporte.\nPuedes retirar el consentimiento en cualquier momento desde Ajustes."
+      },
+      "research_participation": {
+        "title": "Participación en investigación (opcional)",
+        "body": "Doy mi consentimiento para el uso de mis datos educativos con fines de diagnóstico, generación de planes de estudio, medición del progreso y análisis anonimizado de la eficacia de Kogni. Los datos pueden utilizarse de forma agregada para la validación del producto y trabajos de investigación y desarrollo. Este consentimiento no sustituye documentación legal formal y puede retirarse.",
+        "details": "Los agregados anónimos pueden usarse para: validación de producto, informes de I+D y documentación de subvenciones. No se exportan identificadores personales."
+      },
+      "parent_child_data_processing": {
+        "title": "Procesamiento de datos padre/hijo",
+        "body": "Como tutor legal, doy mi consentimiento para el procesamiento de los datos educativos de mi hijo/a (respuestas del diagnóstico, estimaciones de competencia, progreso del plan) en Kogni.",
+        "details": "Qué guardamos: respuestas del menor, estimaciones de IA, plan y progreso.\nQuién lo ve: tú como padre/madre, el menor si tiene cuenta enlazada, y administradores con fines de soporte.\nBase legal: consentimiento parental. Puedes retirarlo cuando quieras."
+      },
+      "expert_review_notice": {
+        "title": "Aviso de revisión por experto",
+        "body": "Entiendo que un experto puede revisar las evaluaciones generadas por IA para validar el sistema. Las revisiones se guardan como parte del proceso de calidad e investigación de Kogni.",
+        "details": "Los expertos ven la evaluación vinculada a tu diagnóstico pero no reciben información de contacto."
+      },
+      "terms_of_service": {
+        "title": "Términos del servicio (borrador)",
+        "body": "Acepto el borrador de los Términos del servicio de Kogni.",
+        "details": "Borrador disponible bajo petición. La versión final se publicará antes del lanzamiento público."
+      },
+      "privacy_policy": {
+        "title": "Política de privacidad (borrador)",
+        "body": "Acepto el borrador de la Política de privacidad de Kogni.",
+        "details": "El borrador describe los datos que recopilamos, por qué, y cómo retirar el consentimiento. La versión final será revisada por un abogado."
+      }
+    }
+  },
+  "consent": {
+    "required": "Consentimiento requerido",
+    "requiredAiDiagnosis": "Para iniciar un diagnóstico IA debes aceptar el aviso del diagnóstico IA.",
+    "declined": "Rechazaste. Puedes volver más tarde.",
+    "manage": "Gestionar consentimientos",
+    "status": "Estado",
+    "accepted": "Aceptado",
+    "withdrawn": "Retirado",
+    "version": "Versión",
+    "acceptedAt": "Aceptado el"
+  },
+  "feedback": {
+    "prompt": "¿Te resultó útil este resultado?",
+    "placeholder": "Comentario opcional — ¿qué funcionó, qué no?",
+    "send": "Enviar opinión",
+    "thanks": "¡Gracias por tu opinión!",
+    "alreadySubmitted": "Ya enviaste opinión sobre esto. ¡Gracias!",
+    "rating": "Puntuación",
+    "context": "Contexto",
+    "anonymousOwner": "Usuario anónimo"
+  },
+  "pilot": {
+    "title": "Preparación para el piloto",
+    "subtitle": "Cohortes, consentimientos y feedback de usuarios reales",
+    "activeCohorts": "Cohortes activas",
+    "participants": "Participantes del piloto",
+    "consentsAccepted": "Consentimientos aceptados",
+    "consentsWithdrawn": "Consentimientos retirados",
+    "feedbackEntries": "Entradas de feedback",
+    "averageRating": "Puntuación media",
+    "recentFeedback": "Feedback reciente (anonimizado)",
+    "noFeedback": "Sin feedback aún.",
+    "ownerSelf": "Usuario individual",
+    "ownerParentChild": "Padre/madre–hijo/a",
+    "joinCohort": "Unirse a alfa interna",
+    "joined": "Estás en la cohorte alfa interna",
+    "joinError": "No se pudo unir a la cohorte",
+    "purposeTitle": "¿Qué te trae a Kogni?",
+    "purposeSelfDiagnose": "Quiero diagnosticar mi conocimiento",
+    "purposeTesting": "Estoy probando Kogni",
+    "purposeExpert": "Soy experto / revisor",
+    "skip": "Omitir",
+    "continue": "Continuar"
   }
 }

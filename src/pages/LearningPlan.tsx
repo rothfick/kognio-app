@@ -13,6 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Brain, CheckCircle2, Clock, ListChecks, Sparkles, SkipForward, Archive, Play, TrendingUp, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
+import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
 
 type Plan = {
   id: string;
@@ -294,6 +295,10 @@ export default function LearningPlan() {
             ))}
           </ol>
         </Surface>
+
+        <div className="mt-6">
+          <FeedbackWidget contextType="learning_plan" contextId={plan?.id ?? null} childId={plan?.child_id ?? null} />
+        </div>
 
         <p className="mt-6 text-[11px] text-muted-foreground text-center">{t("plan.credibility")}</p>
       </DashboardShell>

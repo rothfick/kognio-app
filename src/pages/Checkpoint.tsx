@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Sparkles, TrendingUp, TrendingDown, Activity, ListChecks, Telescope, BookOpen } from "lucide-react";
 import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
+import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
 
 type MasteryDeltaRow = {
   skill_area_label: string;
@@ -228,6 +229,10 @@ export default function Checkpoint() {
             <Link to={continueLink}>{t("checkpoint.actions.continueLearning")}</Link>
           </Button>
           <Button size="sm" variant="ghost" disabled>{t("checkpoint.actions.generateNextPlan")}</Button>
+        </div>
+
+        <div className="mt-6">
+          <FeedbackWidget contextType="checkpoint" contextId={cp.id} childId={cp.child_id ?? null} />
         </div>
 
         <p className="mt-6 text-[11px] text-muted-foreground text-center">{t("checkpoint.credibility")}</p>

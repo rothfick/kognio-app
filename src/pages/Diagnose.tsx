@@ -14,6 +14,9 @@ import { ArrowLeft, Loader2, Sparkles, CheckCircle2, AlertCircle, Brain, Target,
 import { toast } from "sonner";
 import { CurriculumPicker, type CurriculumSelection } from "@/components/diagnose/CurriculumPicker";
 import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
+import { ResearchConsentDialog } from "@/components/pilot/ResearchConsentDialog";
+import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
+import { useConsent } from "@/hooks/useConsent";
 
 type Choice = { id: string; text: string };
 type Item = { id: string; question: string; choices: Choice[]; kc_label: string; difficulty: number };
@@ -119,7 +122,17 @@ export default function Diagnose() {
     }
   }, [navigate, t]);
 
+  const aiConsentType: "parent_child_data_processing" | "ai_diagnosis_notice" = childId ? "parent_child_data_processing" : "ai_diagnosis_notice";
+  const { hasConsent: hasAiConsent, refresh: refreshConsent } = useConsent(aiConsentType, childId);
+  const [consentOpen, setConsentOpen] = useState(false);
+  const [pendingStart, setPendingStart] = useState(false);
+
   const start = useCallback(async () => {
+    if (!hasAiConsent) {
+      setPendingStart(true);
+      setConsentOpen(true);
+      return;
+    }
     setSubmitting(true);
     try {
       const lang = i18n.language?.split("-")[0] || "pl";
@@ -155,7 +168,7 @@ export default function Diagnose() {
     } finally {
       setSubmitting(false);
     }
-  }, [domain, level, levelLabel, taxonomy, childId, i18n.language, t]);
+  }, [domain, level, levelLabel, taxonomy, childId, i18n.language, t, hasAiConsent]);
 
   const submit = useCallback(async () => {
     if (!attemptId || !item) return;
@@ -473,8 +486,31 @@ export default function Diagnose() {
                 </Button>
               )}
             </div>
+
+            <div className="mt-4">
+              <FeedbackWidget contextType="diagnosis" contextId={attemptId} childId={childId} />
+            </div>
           </>
         )}
+
+        <ResearchConsentDialog
+          open={consentOpen}
+          onOpenChange={setConsentOpen}
+          consentType={aiConsentType as any}
+          childId={childId}
+          onAccepted={async () => {
+            await refreshConsent();
+            if (pendingStart) {
+              setPendingStart(false);
+              // Re-trigger after consent
+              setTimeout(() => start(), 50);
+            }
+          }}
+          onDeclined={() => {
+            setPendingStart(false);
+            toast.info(t("consent.requiredAiDiagnosis"));
+          }}
+        />
       </DashboardShell>
     </AppShell>
   );

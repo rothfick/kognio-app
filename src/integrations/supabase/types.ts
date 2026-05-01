@@ -418,6 +418,63 @@ export type Database = {
           },
         ]
       }
+      consent_records: {
+        Row: {
+          accepted_at: string | null
+          child_id: string | null
+          consent_type: string
+          consent_version: string
+          content_snapshot: Json
+          created_at: string
+          id: string
+          ip_metadata: Json
+          status: string
+          user_id: string | null
+          withdrawn_at: string | null
+        }
+        Insert: {
+          accepted_at?: string | null
+          child_id?: string | null
+          consent_type: string
+          consent_version?: string
+          content_snapshot?: Json
+          created_at?: string
+          id?: string
+          ip_metadata?: Json
+          status?: string
+          user_id?: string | null
+          withdrawn_at?: string | null
+        }
+        Update: {
+          accepted_at?: string | null
+          child_id?: string | null
+          consent_type?: string
+          consent_version?: string
+          content_snapshot?: Json
+          created_at?: string
+          id?: string
+          ip_metadata?: Json
+          status?: string
+          user_id?: string | null
+          withdrawn_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consent_records_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "consent_records_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       curriculum_sources: {
         Row: {
           country_code: string | null
@@ -2098,6 +2155,117 @@ export type Database = {
           },
         ]
       }
+      pilot_cohorts: {
+        Row: {
+          code: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          ends_at: string | null
+          id: string
+          name: string
+          starts_at: string | null
+          status: string
+          target_group: string | null
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          name: string
+          starts_at?: string | null
+          status?: string
+          target_group?: string | null
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          name?: string
+          starts_at?: string | null
+          status?: string
+          target_group?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pilot_cohorts_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pilot_participants: {
+        Row: {
+          child_id: string | null
+          cohort_id: string
+          completed_at: string | null
+          created_at: string
+          id: string
+          joined_at: string
+          metadata: Json
+          participant_type: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          child_id?: string | null
+          cohort_id: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          joined_at?: string
+          metadata?: Json
+          participant_type?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          child_id?: string | null
+          cohort_id?: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          joined_at?: string
+          metadata?: Json
+          participant_type?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pilot_participants_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pilot_participants_cohort_id_fkey"
+            columns: ["cohort_id"]
+            isOneToOne: false
+            referencedRelation: "pilot_cohorts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pilot_participants_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -2745,6 +2913,57 @@ export type Database = {
           },
         ]
       }
+      user_feedback: {
+        Row: {
+          child_id: string | null
+          context_id: string | null
+          context_type: string
+          created_at: string
+          feedback_text: string | null
+          id: string
+          metadata: Json
+          rating: number | null
+          user_id: string | null
+        }
+        Insert: {
+          child_id?: string | null
+          context_id?: string | null
+          context_type: string
+          created_at?: string
+          feedback_text?: string | null
+          id?: string
+          metadata?: Json
+          rating?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          child_id?: string | null
+          context_id?: string | null
+          context_type?: string
+          created_at?: string
+          feedback_text?: string | null
+          id?: string
+          metadata?: Json
+          rating?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_feedback_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_feedback_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -2809,6 +3028,10 @@ export type Database = {
       }
       is_parent_of_child: {
         Args: { _child_id: string; _parent_id: string }
+        Returns: boolean
+      }
+      is_pilot_participant: {
+        Args: { _cohort_id: string; _user_id: string }
         Returns: boolean
       }
       is_session_participant: {
