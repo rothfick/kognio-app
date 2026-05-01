@@ -248,6 +248,22 @@ const AdminDashboard = () => {
 
           <Surface className="p-5 mb-6">
             <h2 className="font-semibold mb-3 flex items-center gap-2">
+              <TrendingUp className="h-4 w-4 text-accent" /> {t("checkpoint.admin.section")}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-3 mb-3">
+              <StatCard icon={ListChecks} label={t("checkpoint.admin.created")} value={cpStats === null ? "…" : String(cpStats.created)} />
+              <StatCard icon={ClipboardCheck} label={t("checkpoint.admin.completed")} value={cpStats === null ? "…" : String(cpStats.completed)} />
+              <StatCard icon={Activity} label={t("checkpoint.admin.evidenceEvents")} value={cpStats === null ? "…" : String(cpStats.evidenceEvents)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              <StatCard icon={TrendingUp} label={t("checkpoint.admin.avgScoreDelta")} value={cpStats === null || cpStats.avgDelta === null ? "—" : `${cpStats.avgDelta >= 0 ? "+" : ""}${Math.round(cpStats.avgDelta * 100)}%`} />
+              <StatCard icon={Percent} label={t("checkpoint.admin.avgPlanCompletion")} value={cpStats === null || cpStats.avgPlanCompletion === null ? "—" : `${Math.round(cpStats.avgPlanCompletion * 100)}%`} />
+              <StatCard icon={Sparkles} label={t("checkpoint.admin.avgMasteryDelta")} value={cpStats === null || cpStats.avgMasteryDelta === null ? "—" : `${cpStats.avgMasteryDelta >= 0 ? "+" : ""}${Math.round(cpStats.avgMasteryDelta * 100)}%`} />
+            </div>
+          </Surface>
+
+          <Surface className="p-5 mb-6">
+            <h2 className="font-semibold mb-3 flex items-center gap-2">
               <Network className="h-4 w-4 text-accent" /> {t("curriculum.section")}
             </h2>
             <div className="grid gap-4 sm:grid-cols-4 mb-4">
