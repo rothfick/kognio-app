@@ -47,6 +47,8 @@ export default function Diagnose() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const checkpointId = searchParams.get("checkpointId");
+  const attemptParam = searchParams.get("attempt");
+  const stepParam = searchParams.get("step");
 
   const [phase, setPhase] = useState<"intake" | "running" | "done">("intake");
   const [domain, setDomain] = useState("");
@@ -241,6 +243,50 @@ export default function Diagnose() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, checkpointId, attemptId]);
 
+  // Hydrate result view from ?attempt=<id> when navigated from "View result" CTA
+  const [attemptLoading, setAttemptLoading] = useState<boolean>(!!attemptParam);
+  useEffect(() => {
+    if (!attemptParam || !user) { setAttemptLoading(false); return; }
+    let cancelled = false;
+    (async () => {
+      setAttemptLoading(true);
+      const { data, error } = await supabase
+        .from("diagnostic_attempts")
+        .select("id, status, domain, level, score, total_items, correct_items, summary, child_id, user_id")
+        .eq("id", attemptParam)
+        .maybeSingle();
+      if (cancelled) return;
+      if (error || !data || data.status !== "completed" || !data.summary) {
+        setAttemptLoading(false);
+        return;
+      }
+      const s = data.summary as unknown as Summary;
+      setAttemptId(data.id);
+      setSummary(s);
+      const total = data.total_items || 0;
+      const correct = data.correct_items || 0;
+      const pct = total > 0 ? Math.round((correct / total) * 100) : Math.round(Number(data.score || 0));
+      setScore({ pct, total, correct });
+      if (data.domain) setDomain(data.domain);
+      if (data.level) {
+        const matchId = LEVEL_IDS.find((id) => t(`diagnose.levels.${id}`) === data.level);
+        if (matchId) setLevel(matchId);
+      }
+      setPhase("done");
+      setAttemptLoading(false);
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [attemptParam, user]);
+
+  // Auto-open consent dialog when arriving via "Check consent" CTA
+  useEffect(() => {
+    if (stepParam === "consent" && !hasAiConsent && phase === "intake" && !attemptParam) {
+      setConsentOpen(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stepParam, hasAiConsent, phase, attemptParam]);
+
   if (authLoading) {
     return <AppShell><div className="container py-12 text-sm text-muted-foreground">{t("common.loading")}</div></AppShell>;
   }
@@ -250,6 +296,9 @@ export default function Diagnose() {
   }
   if (checkpointId && checkpointLoading) {
     return <AppShell><div className="container py-12 text-sm text-muted-foreground">{t("checkpoint.starting")}</div></AppShell>;
+  }
+  if (attemptLoading) {
+    return <AppShell><div className="container py-12 text-sm text-muted-foreground">{t("common.loading")}</div></AppShell>;
   }
 
   return (
