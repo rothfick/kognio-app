@@ -5,10 +5,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { GraduationCap, Sparkles, Loader2, Check } from "lucide-react";
+import { GraduationCap, Sparkles, Users, Loader2, Check } from "lucide-react";
 import { toast } from "sonner";
 
-type Role = "student" | "tutor";
+type Role = "student" | "tutor" | "parent";
 
 const Onboarding = () => {
   const { user, loading } = useAuth();
@@ -17,7 +17,6 @@ const Onboarding = () => {
   const [submitting, setSubmitting] = useState(false);
   const [checking, setChecking] = useState(true);
 
-  // Jeśli użytkownik już przeszedł onboarding, przerzuć dalej
   useEffect(() => {
     if (!user) return;
     (async () => {
@@ -27,7 +26,7 @@ const Onboarding = () => {
         .eq("id", user.id)
         .maybeSingle();
       if (data?.onboarded_at) {
-        navigate("/discover", { replace: true });
+        navigate("/dashboard", { replace: true });
       } else {
         setChecking(false);
       }
@@ -43,40 +42,38 @@ const Onboarding = () => {
     if (!selected) return;
     setSubmitting(true);
     try {
-      // 1) Upewnij się, że jest właściwa rola
-      // (trigger handle_new_user dodaje 'student' z definicji — dla tutora dorzucamy drugą rolę)
+      // Add the chosen role (student is already auto-added by trigger).
       if (selected === "tutor") {
+        // Tutor self-insert is no longer allowed by RLS — show explanation and stop.
+        toast.error("Konto tutora wymaga weryfikacji. Skontaktuj się z zespołem TutorOS AI.");
+        setSubmitting(false);
+        return;
+      }
+      if (selected === "parent") {
         const { data: existing } = await supabase
           .from("user_roles")
           .select("role")
           .eq("user_id", user.id)
-          .eq("role", "tutor")
+          .eq("role", "parent")
           .maybeSingle();
         if (!existing) {
           const { error } = await supabase
             .from("user_roles")
-            .insert({ user_id: user.id, role: "tutor" });
+            .insert({ user_id: user.id, role: "parent" });
           if (error) throw error;
         }
-        // 2) Załóż profil tutora (upsert po user_id)
-        const { error: tErr } = await supabase
-          .from("tutor_profiles")
-          .upsert(
-            { user_id: user.id, hourly_rate_cents: 10000, currency: "PLN", is_published: false },
-            { onConflict: "user_id" }
-          );
-        if (tErr) throw tErr;
       }
 
-      // 3) Oznacz onboarding jako ukończony
       const { error: pErr } = await supabase
         .from("profiles")
         .update({ onboarded_at: new Date().toISOString() })
         .eq("id", user.id);
       if (pErr) throw pErr;
 
-      toast.success(selected === "tutor" ? "Witaj wśród tutorów!" : "Świetnie, zaczynamy naukę!");
-      navigate(selected === "tutor" ? "/settings" : "/discover", { replace: true });
+      toast.success(
+        selected === "parent" ? "Witaj! Dodaj profil dziecka, aby rozpocząć." : "Świetnie, zaczynamy naukę!"
+      );
+      navigate(selected === "parent" ? "/dashboard/parent" : "/dashboard/student", { replace: true });
     } catch (e: any) {
       console.error(e);
       toast.error(e.message || "Coś poszło nie tak");
@@ -87,7 +84,7 @@ const Onboarding = () => {
 
   return (
     <AppShell>
-      <div className="container mx-auto px-4 py-12 max-w-3xl">
+      <div className="container mx-auto px-4 py-12 max-w-4xl">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold mb-3">Witaj w TutorOS AI 👋</h1>
           <p className="text-lg text-muted-foreground">
@@ -95,22 +92,30 @@ const Onboarding = () => {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-4 mb-8">
+        <div className="grid sm:grid-cols-3 gap-4 mb-8">
           <RoleCard
             active={selected === "student"}
             onClick={() => setSelected("student")}
             icon={<GraduationCap className="h-8 w-8" />}
             title="Jestem uczniem"
-            description="Szukam tutorów, dołączam do kół naukowych i uczę się we własnym tempie."
-            bullets={["Wyszukiwarka tutorów", "Koła naukowe i pomoc rówieśników", "Drugi mózg z notatek"]}
+            description="Uczę się we własnym tempie, dołączam do kół naukowych."
+            bullets={["Diagnoza wiedzy", "Wyszukiwarka tutorów", "Drugi mózg z notatek"]}
+          />
+          <RoleCard
+            active={selected === "parent"}
+            onClick={() => setSelected("parent")}
+            icon={<Users className="h-8 w-8" />}
+            title="Jestem rodzicem"
+            description="Tworzę profil dziecka, otrzymuję raporty postępów."
+            bullets={["Profil dziecka", "Mierzalne raporty", "Kontrola wydatków"]}
           />
           <RoleCard
             active={selected === "tutor"}
             onClick={() => setSelected("tutor")}
             icon={<Sparkles className="h-8 w-8" />}
             title="Jestem tutorem"
-            description="Prowadzę lekcje, zarabiam na korepetycjach, korzystam z AI Co-pilota."
-            bullets={["Profil w wyszukiwarce", "Twoje metody płatności (BLIK, IBAN…)", "AI Co-pilot na sesjach"]}
+            description="Prowadzę lekcje na podstawie danych. (wymaga weryfikacji)"
+            bullets={["Profil w wyszukiwarce", "AI Co-pilot na sesjach", "Twoje metody płatności"]}
           />
         </div>
 
@@ -126,7 +131,7 @@ const Onboarding = () => {
           </Button>
         </div>
         <p className="text-xs text-muted-foreground text-center mt-4">
-          Tutorzy mogą też uczyć się jako uczniowie — wystarczy włączyć drugą rolę w ustawieniach.
+          Konto tutora wymaga weryfikacji przez zespół TutorOS AI.
         </p>
       </div>
     </AppShell>
