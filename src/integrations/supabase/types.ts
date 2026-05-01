@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          id: string
+          payload: Json
+          target_id: string | null
+          target_table: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          payload?: Json
+          target_id?: string | null
+          target_table?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          payload?: Json
+          target_id?: string | null
+          target_table?: string | null
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           created_at: string
@@ -464,6 +494,7 @@ export type Database = {
       session_reports: {
         Row: {
           created_at: string
+          created_by: string | null
           engagement_timeline: Json | null
           flashcards: Json | null
           homework: Json | null
@@ -475,6 +506,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          created_by?: string | null
           engagement_timeline?: Json | null
           flashcards?: Json | null
           homework?: Json | null
@@ -486,6 +518,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          created_by?: string | null
           engagement_timeline?: Json | null
           flashcards?: Json | null
           homework?: Json | null
