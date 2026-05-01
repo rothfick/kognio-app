@@ -109,7 +109,7 @@ const Onboarding = () => {
         const { data: org, error: oErr } = await supabase
           .from("organizations")
           .insert({
-            owner_id: user.id,
+            owner_id: activeUserId,
             name: orgName.trim(),
             org_type: selected,
             slug,
