@@ -20,22 +20,36 @@ Deno.serve(async (req) => {
       { global: { headers: { Authorization: auth } } }
     );
 
-    // Pobierz transkrypt + chat sesji (RLS sam przefiltruje do uczestników)
-    const [{ data: tr }, { data: chat }] = await Promise.all([
+    // Pobierz transkrypt + chat + emocje sesji (RLS sam przefiltruje do uczestników)
+    const [{ data: tr }, { data: chat }, { data: emo }] = await Promise.all([
       supabase.from("session_transcripts").select("speaker_label, text, created_at").eq("session_id", sessionId).order("created_at"),
       supabase.from("session_chat").select("role, content, created_at").eq("session_id", sessionId).order("created_at"),
+      supabase.from("session_emotions").select("engagement, confusion, joy, boredom, recorded_at").eq("session_id", sessionId).order("recorded_at"),
     ]);
 
-    if ((!tr || tr.length === 0) && (!chat || chat.length === 0)) {
+    const hasAny = (tr && tr.length > 0) || (chat && chat.length > 0) || (emo && emo.length > 0);
+    if (!hasAny) {
       return new Response(JSON.stringify({ error: "Brak danych z sesji do podsumowania." }), {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const transcript = [
+    const avg = (k: "engagement" | "confusion" | "joy" | "boredom") => {
+      if (!emo || emo.length === 0) return 0;
+      const vals = emo.map((e: any) => Number(e[k]) || 0);
+      return Math.round((vals.reduce((a, b) => a + b, 0) / vals.length) * 1000) / 1000;
+    };
+    const emoSummary = emo && emo.length > 0
+      ? `Próbki emocji: ${emo.length}. Średnie: zaangażowanie=${avg("engagement")}, dezorientacja=${avg("confusion")}, radość=${avg("joy")}, znudzenie=${avg("boredom")}.`
+      : "Brak danych emocjonalnych.";
+
+    const transcriptParts = [
       ...(tr || []).map((t) => `[${t.speaker_label || "?"}] ${t.text}`),
       ...(chat || []).map((c) => `[${c.role === "ai" ? "AI" : "wiadomość"}] ${c.content}`),
-    ].join("\n");
+    ];
+    const transcript = transcriptParts.length > 0
+      ? transcriptParts.join("\n")
+      : `(Brak transkryptu i czatu — wygeneruj raport wyłącznie na podstawie poniższych metryk emocji.)\n${emoSummary}`;
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -69,6 +83,7 @@ Deno.serve(async (req) => {
       weaknesses: parsed.weaknesses || null,
       homework: parsed.homework || [],
       flashcards: parsed.flashcards || [],
+      engagement_timeline: emo || [],
     }).select().single();
     if (rErr) throw rErr;
 
