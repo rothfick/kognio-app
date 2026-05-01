@@ -57,6 +57,8 @@ const ParentDashboard = () => {
             actions={children.length > 0 ? <AddChildDialog onCreated={load} /> : undefined}
           />
 
+          <ParentNextBestStepBlock />
+
           <div className="grid gap-4 sm:grid-cols-3 mb-6">
             <StatCard icon={Users} label={t("parent.stats.children")} value={String(children.length)} hint={t("parent.stats.childrenHint")} />
             <StatCard icon={LineChart} label={t("parent.stats.avgProgress")} value="—" hint={t("parent.stats.avgProgressHint")} />
