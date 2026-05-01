@@ -197,6 +197,7 @@ export default function Diagnose() {
           item_id: item.id,
           selected_choice: selected === "__skip__" ? null : selected,
           target_questions: TARGET,
+          language: i18n.language?.split("-")[0] || "pl",
         },
       });
       if (error) throw error;
