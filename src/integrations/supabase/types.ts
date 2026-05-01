@@ -1800,6 +1800,68 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          action_label: string | null
+          action_url: string | null
+          body: string | null
+          created_at: string
+          dismissed_at: string | null
+          id: string
+          metadata: Json
+          read_at: string | null
+          scheduled_for: string | null
+          severity: string
+          status: string
+          title: string
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          action_label?: string | null
+          action_url?: string | null
+          body?: string | null
+          created_at?: string
+          dismissed_at?: string | null
+          id?: string
+          metadata?: Json
+          read_at?: string | null
+          scheduled_for?: string | null
+          severity?: string
+          status?: string
+          title: string
+          type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          action_label?: string | null
+          action_url?: string | null
+          body?: string | null
+          created_at?: string
+          dismissed_at?: string | null
+          id?: string
+          metadata?: Json
+          read_at?: string | null
+          scheduled_for?: string | null
+          severity?: string
+          status?: string
+          title?: string
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organization_invites: {
         Row: {
           accepted_at: string | null
