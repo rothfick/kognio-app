@@ -8,9 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  GraduationCap, Globe, LogOut, User as UserIcon, Search, Users, HandHelping,
-  Calendar, Brain, Settings, LayoutDashboard,
+  GraduationCap, Globe, LogOut, User as UserIcon,
+  Settings, LayoutDashboard,
 } from "lucide-react";
+import { getVisibleNavItems } from "@/config/navigation";
+import { isFeatureEnabled } from "@/config/features";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
   DropdownMenuSeparator, DropdownMenuTrigger,
@@ -20,10 +22,11 @@ import { NotificationCenter } from "@/components/notifications/NotificationCente
 export function Header() {
   const { t, i18n } = useTranslation();
   const { user, signOut } = useAuth();
-  const { isTutor, isParent, isAdmin } = useUserRoles();
-  // Jeśli użytkownik jest rodzicem (nawet jeśli ma też rolę student), traktujemy nawigację jak rodzicielską.
-  // Tutor i admin mają pierwszeństwo i zachowują pełną nawigację.
+  const { isTutor, isParent, isAdmin, roles } = useUserRoles();
+  // Parent mode: jeśli użytkownik ma rolę rodzica i nie jest tutorem/adminem,
+  // wymuszamy widok rodzica (nawet jeśli ma też rolę student).
   const parentMode = isParent && !isTutor && !isAdmin;
+  const effectiveRoles = parentMode ? roles.filter((r) => r !== "student") : roles;
   const navigate = useNavigate();
   const [pendingCount, setPendingCount] = useState(0);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -56,15 +59,14 @@ export function Header() {
     return () => { cancelled = true; supabase.removeChannel(ch); };
   }, [user, isTutor]);
 
-  const allNavItems = [
-    { to: "/dashboard", key: "dashboard", Icon: LayoutDashboard, parentVisible: false },
-    { to: "/discover", key: "discover", Icon: Search, parentVisible: false },
-    { to: "/circles", key: "circles", Icon: Users, parentVisible: false },
-    { to: "/peer", key: "peer", Icon: HandHelping, parentVisible: false },
-    { to: "/calendar", key: "calendar", Icon: Calendar, badge: pendingCount, parentVisible: true },
-    { to: "/brain", key: "brain", Icon: Brain, parentVisible: true },
-  ];
-  const navItems = parentMode ? allNavItems.filter((n) => n.parentVisible) : allNavItems;
+  // Centralna konfiguracja nawigacji — filtrowana wg ról + feature flag.
+  const navItems = getVisibleNavItems({ roles: effectiveRoles, isFeatureEnabled }).map((it) => ({
+    to: it.href,
+    key: it.id,
+    labelKey: it.labelKey,
+    Icon: it.icon,
+    badge: it.id === "tutorDashboard" ? pendingCount : 0,
+  }));
 
   const currentLang = (["pl", "en", "es"] as const).find((l) => i18n.language?.startsWith(l)) || "pl";
   const setLang = (l: "pl" | "en" | "es") => i18n.changeLanguage(l);
@@ -81,9 +83,9 @@ export function Header() {
 
         {user && (
           <nav className="hidden md:flex items-center gap-1">
-            {navItems.map(({ to, key, Icon, badge }) => (
+            {navItems.map(({ to, key, labelKey, Icon, badge }) => (
               <NavLink
-                key={to}
+                key={key}
                 to={to}
                 className={({ isActive }) =>
                   `relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-smooth ${
@@ -92,7 +94,7 @@ export function Header() {
                 }
               >
                 <Icon className="h-4 w-4" />
-                {t(`nav.${key}`)}
+                {t(labelKey)}
                 {badge ? (
                   <Badge variant="default" className="h-5 min-w-5 px-1.5 text-[10px] bg-accent text-accent-foreground">
                     {badge}
