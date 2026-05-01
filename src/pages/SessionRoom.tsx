@@ -21,7 +21,7 @@ type Transcript = { id: string; speaker_label: string | null; text: string; crea
 const SessionRoom = () => {
   const { id } = useParams();
   const { user } = useAuth();
-  const [session, setSession] = useState<{ id: string; room_name: string; booking_id: string } | null>(null);
+  const [session, setSession] = useState<{ id: string; room_name: string; booking_id: string; started_at?: string | null } | null>(null);
   const [chat, setChat] = useState<ChatMsg[]>([]);
   const [transcripts, setTranscripts] = useState<Transcript[]>([]);
   const [chatInput, setChatInput] = useState("");
