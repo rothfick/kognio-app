@@ -397,6 +397,25 @@ const AdminDashboard = () => {
 
           <Surface className="p-5 mb-6">
             <h2 className="font-semibold mb-3 flex items-center gap-2">
+              <BookOpen className="h-4 w-4 text-accent" /> {t("adminHomework.sectionTitle")}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-4 mb-4">
+              <StatCard icon={ListChecks} label={t("adminHomework.assignmentsTotal")} value={hw === null ? "…" : String(hw.assignmentsTotal)} />
+              <StatCard icon={ClipboardCheck} label={t("adminHomework.submissionsTotal")} value={hw === null ? "…" : String(hw.submissionsTotal)} />
+              <StatCard icon={Sparkles} label={t("adminHomework.avgScore")} value={hw === null || hw.avgScore === null ? "—" : `${Math.round(hw.avgScore * 100)}%`} />
+              <StatCard icon={AlertTriangle} label={t("adminHomework.needsReview")} value={hw === null ? "…" : String(hw.needsReview)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-5">
+              <StatCard icon={Activity} label={t("adminHomework.evGenerated")} value={hw === null ? "…" : String(hw.evGenerated)} />
+              <StatCard icon={Activity} label={t("adminHomework.evSubmitted")} value={hw === null ? "…" : String(hw.evSubmitted)} />
+              <StatCard icon={Activity} label={t("adminHomework.evAutoGraded")} value={hw === null ? "…" : String(hw.evAutoGraded)} />
+              <StatCard icon={Activity} label={t("adminHomework.evReviewed")} value={hw === null ? "…" : String(hw.evReviewed)} />
+              <StatCard icon={Activity} label={t("adminHomework.evMasteryUpdated")} value={hw === null ? "…" : String(hw.evMastery)} />
+            </div>
+          </Surface>
+
+          <Surface className="p-5 mb-6">
+            <h2 className="font-semibold mb-3 flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-accent" /> {t("smart.section")}
             </h2>
             <div className="grid gap-4 sm:grid-cols-4">
