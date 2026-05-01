@@ -61,12 +61,12 @@ const App = () => (
             <Route path="/parent/children/:childId/knowledge" element={<ProtectedRoute><ChildKnowledge /></ProtectedRoute>} />
             <Route path="/parent/children/:childId/diagnostic" element={<ProtectedRoute><ChildDiagnostic /></ProtectedRoute>} />
             <Route path="/parent/linked/:studentId" element={<ProtectedRoute><LinkedStudentDashboard /></ProtectedRoute>} />
-            <Route path="/diagnose" element={<ProtectedRoute><Diagnose /></ProtectedRoute>} />
+            <Route path="/diagnose" element={<ProtectedRoute><ParentRouteGuard><Diagnose /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/parent/children/:childId/diagnose" element={<ProtectedRoute><Diagnose /></ProtectedRoute>} />
             <Route path="/plans/:planId" element={<ProtectedRoute><LearningPlan /></ProtectedRoute>} />
             <Route path="/checkpoints/:checkpointId" element={<ProtectedRoute><Checkpoint /></ProtectedRoute>} />
             <Route path="/expert/reviews/:reviewId" element={<ProtectedRoute><ExpertReview /></ProtectedRoute>} />
-            <Route path="/dashboard/tutor" element={<ProtectedRoute><TutorDashboard /></ProtectedRoute>} />
+            <Route path="/dashboard/tutor" element={<ProtectedRoute><ParentRouteGuard><TutorDashboard /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/dashboard/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
             <Route path="/admin/research" element={<ProtectedRoute><ResearchDashboard /></ProtectedRoute>} />
             <Route path="/admin/grant-pack" element={<ProtectedRoute><GrantPack /></ProtectedRoute>} />
@@ -75,9 +75,9 @@ const App = () => (
             <Route path="/org/invite/:token" element={<ProtectedRoute><OrgInviteAccept /></ProtectedRoute>} />
             <Route path="/dashboard/legacy" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-            <Route path="/discover" element={<ProtectedRoute><Discover /></ProtectedRoute>} />
-            <Route path="/circles" element={<ProtectedRoute><Circles /></ProtectedRoute>} />
-            <Route path="/peer" element={<ProtectedRoute><Peer /></ProtectedRoute>} />
+            <Route path="/discover" element={<ProtectedRoute><ParentRouteGuard><Discover /></ParentRouteGuard></ProtectedRoute>} />
+            <Route path="/circles" element={<ProtectedRoute><ParentRouteGuard><Circles /></ParentRouteGuard></ProtectedRoute>} />
+            <Route path="/peer" element={<ProtectedRoute><ParentRouteGuard><Peer /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
             <Route path="/brain" element={<ProtectedRoute><Brain /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
