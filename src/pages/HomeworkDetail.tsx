@@ -83,7 +83,7 @@ export default function HomeworkDetail() {
     } finally { setSubmitting(false); }
   };
 
-  if (loading) return <AppShell><DashboardShell><Surface className="p-6 h-40 animate-pulse" /></DashboardShell></AppShell>;
+  if (loading) return <AppShell><DashboardShell><Surface className="p-6 h-40 animate-pulse"><div /></Surface></DashboardShell></AppShell>;
   if (notFound || !assignment) {
     return (
       <AppShell><DashboardShell>

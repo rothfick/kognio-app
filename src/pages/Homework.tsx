@@ -88,7 +88,7 @@ export default function Homework() {
           ) : undefined}
         />
         {loading ? (
-          <Surface className="p-6 animate-pulse h-32" />
+          <Surface className="p-6 animate-pulse h-32"><div /></Surface>
         ) : items.length === 0 ? (
           <Surface className="p-6">
             <EmptyState

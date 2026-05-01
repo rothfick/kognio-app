@@ -45,6 +45,8 @@ import TutorPublicProfile from "./pages/tutor/TutorPublicProfile";
 import BookSession from "./pages/booking/BookSession";
 import GettingStarted from "./pages/GettingStarted";
 import Notifications from "./pages/Notifications";
+import Homework from "./pages/Homework";
+import HomeworkDetail from "./pages/HomeworkDetail";
 
 const queryClient = new QueryClient();
 
@@ -95,6 +97,8 @@ const App = () => (
             <Route path="/book/:tutorId" element={<ProtectedRoute><FeatureRouteGuard feature="booking"><BookSession /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/session/:id" element={<ProtectedRoute><FeatureRouteGuard feature="booking"><SessionRoom /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/payment/:bookingId" element={<ProtectedRoute><ParentRouteGuard><PaymentPage /></ParentRouteGuard></ProtectedRoute>} />
+            <Route path="/homework" element={<ProtectedRoute><FeatureRouteGuard feature="homework"><Homework /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/homework/:id" element={<ProtectedRoute><FeatureRouteGuard feature="homework"><HomeworkDetail /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
