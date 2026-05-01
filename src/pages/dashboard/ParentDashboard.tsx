@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { AppShell } from "@/components/layout/AppShell";
 import { DashboardHeader, DashboardShell } from "@/components/layout/DashboardShell";
 import { RoleGate } from "@/components/auth/RoleGate";
@@ -8,7 +9,7 @@ import { AIInsightCard } from "@/components/ui/ai-insight-card";
 import { EmptyState } from "@/components/EmptyState";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, LineChart, FileText, Plus, BookOpen, ShieldCheck } from "lucide-react";
+import { Users, LineChart, FileText, Plus, BookOpen, ShieldCheck, Brain } from "lucide-react";
 import { AddChildDialog } from "@/components/parent/AddChildDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -108,26 +109,64 @@ const ParentDashboard = () => {
   );
 };
 
-const ChildCard = ({ child }: { child: ChildRow }) => (
-  <Surface className="p-5 flex flex-col gap-3">
-    <div className="flex items-start justify-between gap-3">
-      <div>
-        <h3 className="font-semibold text-base">{child.display_name}</h3>
-        <p className="text-xs text-muted-foreground">
-          {child.grade_level || "—"} · {child.primary_subject || "Brak przedmiotu"}
-        </p>
+const ChildCard = ({ child }: { child: ChildRow }) => {
+  const [trackedKcs, setTrackedKcs] = useState<number | null>(null);
+  const [avg, setAvg] = useState<number | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase
+        .from("child_kc_mastery")
+        .select("mastery_prob")
+        .eq("child_id", child.id);
+      if (cancelled) return;
+      const rows = (data || []) as { mastery_prob: number }[];
+      setTrackedKcs(rows.length);
+      setAvg(rows.length ? rows.reduce((a, r) => a + Number(r.mastery_prob), 0) / rows.length : null);
+    })();
+    return () => { cancelled = true; };
+  }, [child.id]);
+
+  return (
+    <Surface className="p-5 flex flex-col gap-3">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h3 className="font-semibold text-base">{child.display_name}</h3>
+          <p className="text-xs text-muted-foreground">
+            {child.grade_level || "—"} · {child.primary_subject || "Brak przedmiotu"}
+          </p>
+        </div>
+        {child.consent_signed_at ? (
+          <Badge variant="secondary" className="text-[10px]">Zgoda {child.consent_version || "v1"}</Badge>
+        ) : (
+          <Badge variant="destructive" className="text-[10px]">Brak zgody</Badge>
+        )}
       </div>
-      {child.consent_signed_at ? (
-        <Badge variant="secondary" className="text-[10px]">Zgoda {child.consent_version || "v1"}</Badge>
-      ) : (
-        <Badge variant="destructive" className="text-[10px]">Brak zgody</Badge>
-      )}
-    </div>
-    <div className="flex flex-wrap gap-2 mt-auto">
-      <Button size="sm" variant="outline" disabled>Przejdź do diagnozy (wkrótce)</Button>
-      <Button size="sm" variant="ghost" disabled>Raport (wkrótce)</Button>
-    </div>
-  </Surface>
-);
+
+      <div className="rounded-md border bg-card-soft p-3">
+        <div className="flex items-center gap-2 text-xs font-medium mb-1">
+          <Brain className="h-3.5 w-3.5 text-accent" /> Mapa wiedzy
+        </div>
+        {trackedKcs === null ? (
+          <p className="text-xs text-muted-foreground">Ładowanie…</p>
+        ) : trackedKcs === 0 ? (
+          <p className="text-xs text-muted-foreground">Brak diagnozy — wykonaj pierwszy test, aby zbudować mapę wiedzy.</p>
+        ) : (
+          <p className="text-xs text-muted-foreground">
+            Śledzonych KC: <span className="font-medium text-foreground">{trackedKcs}</span> · Średni poziom: <span className="font-medium text-foreground">{Math.round((avg || 0) * 100)}%</span>
+          </p>
+        )}
+      </div>
+
+      <div className="flex flex-wrap gap-2 mt-auto">
+        <Button asChild size="sm" variant="outline">
+          <Link to={`/parent/children/${child.id}/knowledge`}>Zobacz mapę wiedzy</Link>
+        </Button>
+        <Button size="sm" variant="ghost" disabled>Przygotuj diagnozę (wkrótce)</Button>
+      </div>
+    </Surface>
+  );
+};
 
 export default ParentDashboard;
