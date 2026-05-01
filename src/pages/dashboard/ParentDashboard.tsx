@@ -180,9 +180,15 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
           <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
             <Link to={`/parent/children/${child.id}/diagnose`}>{t("parent.child.doDiagnosis")}</Link>
           </Button>
+        ) : planId ? (
+          <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+            <Link to={`/plans/${planId}`}>
+              {t("plan.viewCta")}{planStatus ? ` · ${t(`plan.status.${planStatus}`)}` : ""}
+            </Link>
+          </Button>
         ) : (
           <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
-            <Link to={`/parent/children/${child.id}/knowledge`}>{t("parent.child.viewMap")}</Link>
+            <Link to={`/parent/children/${child.id}/knowledge`}>{t("plan.generateCta")}</Link>
           </Button>
         )}
         <Button asChild size="sm" variant="outline">
