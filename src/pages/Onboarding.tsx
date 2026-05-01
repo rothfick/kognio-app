@@ -89,7 +89,7 @@ const Onboarding = () => {
     <AppShell>
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold mb-3">Witaj w Mądrzej 👋</h1>
+          <h1 className="text-4xl font-bold mb-3">Witaj w TutorOS AI 👋</h1>
           <p className="text-lg text-muted-foreground">
             Powiedz nam, jak chcesz korzystać z platformy. Zawsze możesz zmienić to później w ustawieniach.
           </p>
