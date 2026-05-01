@@ -348,6 +348,7 @@ Deno.serve(async (req) => {
       const itemId = String(body.item_id ?? "");
       const selected = body.selected_choice ?? null; // can be null = "I don't know"
       const targetTotal = Math.max(8, Math.min(20, Number(body.target_questions ?? DEFAULT_TARGET)));
+      const requestedLanguage = ["pl", "en", "es"].includes(body.language) ? body.language : null;
       if (!attemptId || !itemId) return json({ error: "Bad params" }, 400);
 
       // Load attempt + item via user client to enforce RLS
