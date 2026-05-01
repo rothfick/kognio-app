@@ -40,22 +40,27 @@ const Discover = () => {
       const [{ data: tt }, { data: sb }] = await Promise.all([
         supabase
           .from("tutor_profiles")
-          .select("user_id, headline, hourly_rate_cents, currency, rating, sessions_completed, tutor_subjects(subject_id)")
+          .select("user_id, headline, hourly_rate_cents, currency, rating, sessions_completed")
           .eq("is_published", true)
           .limit(100),
         supabase.from("subjects").select("id, name_pl, name_en, slug").order("name_pl"),
       ]);
-      const rows = (tt as Omit<TutorRow, "profiles">[]) || [];
+      const rows = (tt || []) as Array<Omit<TutorRow, "profiles" | "tutor_subjects">>;
       const ids = rows.map((r) => r.user_id);
       let profilesById: Record<string, TutorRow["profiles"]> = {};
+      let subjectsById: Record<string, { subject_id: string }[]> = {};
       if (ids.length) {
-        const { data: pp } = await supabase
-          .from("profiles")
-          .select("id, display_name, avatar_url, bio")
-          .in("id", ids);
-        profilesById = Object.fromEntries((pp || []).map((p: { id: string; display_name: string | null; avatar_url: string | null; bio: string | null }) => [p.id, { display_name: p.display_name, avatar_url: p.avatar_url, bio: p.bio }]));
+        const [{ data: pp }, { data: ts }] = await Promise.all([
+          supabase.from("profiles").select("id, display_name, avatar_url, bio").in("id", ids),
+          supabase.from("tutor_subjects").select("tutor_id, subject_id").in("tutor_id", ids),
+        ]);
+        profilesById = Object.fromEntries((pp || []).map((p) => [p.id, { display_name: p.display_name, avatar_url: p.avatar_url, bio: p.bio }]));
+        subjectsById = (ts || []).reduce((acc: Record<string, { subject_id: string }[]>, r: { tutor_id: string; subject_id: string }) => {
+          (acc[r.tutor_id] ||= []).push({ subject_id: r.subject_id });
+          return acc;
+        }, {});
       }
-      setTutors(rows.map((r) => ({ ...r, profiles: profilesById[r.user_id] || null })));
+      setTutors(rows.map((r) => ({ ...r, profiles: profilesById[r.user_id] || null, tutor_subjects: subjectsById[r.user_id] || [] })));
       setSubjects((sb as Subject[]) || []);
       setLoading(false);
     })();
