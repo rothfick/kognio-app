@@ -116,6 +116,8 @@ const StudentDashboard = () => {
             primaryAction={{ label: t("dashboard.diagnoseCta"), to: "/diagnose" }}
           />
 
+          <NextBestStepBlock />
+
           <div className="grid gap-4 sm:grid-cols-3 mb-6">
             <StatCard icon={Brain} label={t("student.avgMastery")} value={latestScore === null ? "—" : `${Math.round(latestScore * 100)}%`} hint={latestScore === null ? t("student.avgMasteryHint") : t("student.latestDiagnosisHint")} />
             <StatCard icon={CalIcon} label={t("student.nextLesson")} value="—" hint={t("student.noScheduled")} />
