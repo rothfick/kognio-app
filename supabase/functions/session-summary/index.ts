@@ -66,7 +66,8 @@ Deno.serve(async (req) => {
 
     if (!aiRes.ok) {
       const t = await aiRes.text();
-      throw new Error(`AI ${aiRes.status}: ${t}`);
+      console.error("session-summary AI error", aiRes.status, t);
+      throw new Error("AI gateway error");
     }
     const aiData = await aiRes.json();
     let content = aiData.choices?.[0]?.message?.content || "{}";
