@@ -132,7 +132,7 @@ const Onboarding = () => {
       const { error: pErr } = await supabase
         .from("profiles")
         .update({ onboarded_at: new Date().toISOString() })
-        .eq("id", user.id);
+        .eq("id", activeUserId);
       if (pErr) throw pErr;
 
       const dest =
