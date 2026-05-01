@@ -360,4 +360,74 @@ function GoalsSection({
   );
 }
 
+function ChildPlanCard({ childId, attemptId }: { childId: string; attemptId: string }) {
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const [planId, setPlanId] = useState<string | null>(null);
+  const [planStatus, setPlanStatus] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("learning_plans")
+        .select("id, status")
+        .eq("child_id", childId)
+        .neq("status", "archived")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      setPlanId((data as { id?: string } | null)?.id ?? null);
+      setPlanStatus((data as { status?: string } | null)?.status ?? null);
+      setLoading(false);
+    })();
+  }, [childId]);
+
+  const generate = async () => {
+    setGenerating(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("learning-plan-generate", {
+        body: { attempt_id: attemptId, language: i18n.language?.split("-")[0] || "pl" },
+      });
+      if (error) throw error;
+      const id = (data as { plan_id?: string })?.plan_id;
+      if (!id) throw new Error("no plan id");
+      toast.success(t("plan.generated"));
+      navigate(`/plans/${id}`);
+    } catch (e) {
+      toast.error((e as Error).message || t("plan.generateFailed"));
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  return (
+    <Surface className="p-5 mb-6">
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div className="min-w-0">
+          <h2 className="font-semibold flex items-center gap-2 text-base mb-1">
+            <Sparkles className="h-4 w-4 text-accent" /> {t("plan.title")}
+          </h2>
+          <p className="text-xs text-muted-foreground max-w-xl">
+            {planId ? t("plan.whyGenerated") : t("plan.generateHelper")}
+          </p>
+        </div>
+        {loading ? null : planId ? (
+          <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+            <Link to={`/plans/${planId}`}>
+              {t("plan.viewCta")}{planStatus ? ` · ${t(`plan.status.${planStatus}`)}` : ""}
+            </Link>
+          </Button>
+        ) : (
+          <Button onClick={generate} disabled={generating} size="sm" className="bg-accent-gradient text-accent-foreground">
+            {generating ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <Sparkles className="h-4 w-4 mr-1" />}
+            {generating ? t("plan.generating") : t("plan.generateCta")}
+          </Button>
+        )}
+      </div>
+    </Surface>
+  );
+}
+
 export default ChildKnowledge;
