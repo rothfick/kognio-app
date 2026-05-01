@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { AppShell } from "@/components/layout/AppShell";
@@ -10,7 +10,7 @@ import { StatCard } from "@/components/ui/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Brain, CheckCircle2, Clock, ListChecks, Sparkles, SkipForward, Archive, Play } from "lucide-react";
+import { ArrowLeft, Brain, CheckCircle2, Clock, ListChecks, Sparkles, SkipForward, Archive, Play, TrendingUp, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 type Plan = {
@@ -53,10 +53,12 @@ export default function LearningPlan() {
   const { t } = useTranslation();
   const { planId } = useParams<{ planId: string }>();
   const { user, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
   const [plan, setPlan] = useState<Plan | null>(null);
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [denied, setDenied] = useState(false);
+  const [startingCheckpoint, setStartingCheckpoint] = useState(false);
 
   const load = useCallback(async () => {
     if (!user || !planId) return;
@@ -223,6 +225,31 @@ export default function LearningPlan() {
           )}
         </Surface>
 
+        <CheckpointCta
+          plan={plan}
+          doneCount={stats.done}
+          starting={startingCheckpoint}
+          onStart={async () => {
+            if (!plan) return;
+            setStartingCheckpoint(true);
+            try {
+              const { data, error } = await supabase.functions.invoke("checkpoint-create", {
+                body: { learning_plan_id: plan.id, trigger_reason: plan.status === "completed" ? "plan_completed" : "plan_progress" },
+              });
+              if (error) throw error;
+              const d = data as { checkpoint_id?: string; error?: string };
+              if (d?.error) throw new Error(d.error);
+              if (!d.checkpoint_id) throw new Error("no_checkpoint_id");
+              const base = plan.child_id ? `/parent/children/${plan.child_id}/diagnose` : "/diagnose";
+              navigate(`${base}?checkpointId=${d.checkpoint_id}`);
+            } catch (e) {
+              toast.error((e as Error).message || t("checkpoint.finalizeError"));
+            } finally {
+              setStartingCheckpoint(false);
+            }
+          }}
+        />
+
         <Surface className="p-5 mb-4">
           <div className="flex items-center justify-between mb-3">
             <h2 className="font-semibold flex items-center gap-2"><ListChecks className="h-4 w-4 text-accent" /> {t("plan.steps")}</h2>
@@ -270,3 +297,37 @@ export default function LearningPlan() {
     </AppShell>
   );
 }
+
+function CheckpointCta({ plan, doneCount, starting, onStart }: {
+  plan: Plan;
+  doneCount: number;
+  starting: boolean;
+  onStart: () => void;
+}) {
+  const { t } = useTranslation();
+  const eligible = doneCount >= 3 || plan.status === "completed";
+  return (
+    <Surface className="p-5 mb-4 border-accent/30">
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div className="min-w-0">
+          <h3 className="font-semibold text-sm flex items-center gap-2 mb-1">
+            <TrendingUp className="h-4 w-4 text-accent" /> {t("checkpoint.checkProgress")}
+          </h3>
+          <p className="text-xs text-muted-foreground max-w-xl">
+            {eligible ? t("checkpoint.checkProgressHelper") : t("checkpoint.notEligible")}
+          </p>
+        </div>
+        <Button
+          onClick={onStart}
+          disabled={!eligible || starting}
+          size="sm"
+          className="bg-accent-gradient text-accent-foreground"
+        >
+          {starting ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <TrendingUp className="h-4 w-4 mr-1" />}
+          {starting ? t("checkpoint.starting") : t("checkpoint.checkProgress")}
+        </Button>
+      </div>
+    </Surface>
+  );
+}
+

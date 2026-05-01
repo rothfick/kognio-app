@@ -14,20 +14,23 @@ import { EmptyState } from "@/components/EmptyState";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Brain, Calendar as CalIcon, ClipboardList, Sparkles, BookOpen, ArrowRight, Search,
+  Brain, Calendar as CalIcon, ClipboardList, Sparkles, BookOpen, ArrowRight, Search, TrendingUp,
 } from "lucide-react";
 
 type KcRow = { kc_label: string; mastery_pct: number; status: string };
 type LatestPlan = { id: string; status: string; title: string };
+type LatestCheckpoint = { id: string; score_delta: number | null; completed_at: string | null };
 
 const StudentDashboard = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = (i18n.language || "pl").split("-")[0];
   const { user } = useAuth();
   const [latestScore, setLatestScore] = useState<number | null>(null);
   const [latestAttemptId, setLatestAttemptId] = useState<string | null>(null);
   const [kcAreas, setKcAreas] = useState<KcRow[]>([]);
   const [plan, setPlan] = useState<LatestPlan | null>(null);
   const [planProgress, setPlanProgress] = useState<{ done: number; total: number; nextTitle: string | null }>({ done: 0, total: 0, nextTitle: null });
+  const [checkpoint, setCheckpoint] = useState<LatestCheckpoint | null>(null);
 
   useEffect(() => {
     if (!user) return;
@@ -81,6 +84,16 @@ const StudentDashboard = () => {
         const next = list.find((i) => i.status === "pending" || i.status === "in_progress");
         setPlanProgress({ done, total: list.length, nextTitle: next?.title ?? null });
       }
+
+      const { data: cp } = await supabase
+        .from("learning_checkpoints")
+        .select("id, score_delta, completed_at")
+        .eq("user_id", user.id)
+        .eq("status", "completed")
+        .order("completed_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      setCheckpoint((cp as LatestCheckpoint | null) || null);
     })();
   }, [user]);
 
@@ -171,6 +184,26 @@ const StudentDashboard = () => {
             </Surface>
           )}
 
+          {checkpoint && (
+            <Surface className="p-5 mb-6 border-accent/30">
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div className="min-w-0">
+                  <h2 className="font-semibold flex items-center gap-2 text-base mb-1">
+                    <TrendingUp className="h-4 w-4 text-accent" /> {t("checkpoint.latestTitle")}
+                  </h2>
+                  <p className="text-xs text-muted-foreground">
+                    {t("checkpoint.latestSubtitle", { delta: checkpoint.score_delta == null ? "—" : `${(checkpoint.score_delta * 100) >= 0 ? "+" : ""}${Math.round(checkpoint.score_delta * 100)}%` })}
+                  </p>
+                  {checkpoint.completed_at && (
+                    <p className="text-[11px] text-muted-foreground mt-1">{t("checkpoint.completedAt", { date: new Date(checkpoint.completed_at).toLocaleDateString(lang) })}</p>
+                  )}
+                </div>
+                <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+                  <Link to={`/checkpoints/${checkpoint.id}`}>{t("checkpoint.viewReport")}</Link>
+                </Button>
+              </div>
+            </Surface>
+          )}
           {kcAreas.length > 0 && (
             <Surface className="p-5 mb-6">
               <h2 className="font-semibold mb-3 flex items-center gap-2 text-base">

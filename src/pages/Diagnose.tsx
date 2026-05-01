@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useParams, Navigate } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { AppShell } from "@/components/layout/AppShell";
@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Loader2, Sparkles, CheckCircle2, AlertCircle, Brain, Target, ArrowRight } from "lucide-react";
+import { ArrowLeft, Loader2, Sparkles, CheckCircle2, AlertCircle, Brain, Target, ArrowRight, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 import { CurriculumPicker, type CurriculumSelection } from "@/components/diagnose/CurriculumPicker";
 
@@ -39,6 +39,8 @@ export default function Diagnose() {
   const params = useParams<{ childId?: string }>();
   const childId = params.childId ?? null;
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const checkpointId = searchParams.get("checkpointId");
 
   const [phase, setPhase] = useState<"intake" | "running" | "done">("intake");
   const [domain, setDomain] = useState("");
@@ -55,8 +57,66 @@ export default function Diagnose() {
   const [summary, setSummary] = useState<Summary | null>(null);
   const [score, setScore] = useState<{ pct: number; total: number; correct: number } | null>(null);
 
+  // Checkpoint mode
+  const [checkpointLoading, setCheckpointLoading] = useState<boolean>(!!checkpointId);
+  const [checkpointDenied, setCheckpointDenied] = useState(false);
+  const [finalizing, setFinalizing] = useState(false);
+  const [finalizeError, setFinalizeError] = useState(false);
+
   const domainSuggestions = t("diagnose.domainSuggestions", { returnObjects: true }) as string[];
   const levelLabel = useMemo(() => level ? t(`diagnose.levels.${level}`) : "", [level, t]);
+
+  // Load checkpoint metadata + prefill from baseline diagnostic
+  useEffect(() => {
+    if (!checkpointId || !user) return;
+    let cancelled = false;
+    (async () => {
+      const { data: cp, error } = await supabase
+        .from("learning_checkpoints")
+        .select("id, baseline_diagnostic_attempt_id, child_id, status")
+        .eq("id", checkpointId)
+        .maybeSingle();
+      if (cancelled) return;
+      if (error || !cp) { setCheckpointDenied(true); setCheckpointLoading(false); return; }
+      if (cp.baseline_diagnostic_attempt_id) {
+        const { data: ba } = await supabase
+          .from("diagnostic_attempts")
+          .select("domain, level")
+          .eq("id", cp.baseline_diagnostic_attempt_id)
+          .maybeSingle();
+        if (!cancelled && ba) {
+          if (ba.domain) setDomain(ba.domain);
+          // Best-effort match level to LEVEL_IDS by translated label
+          if (ba.level) {
+            const matchId = LEVEL_IDS.find((id) => t(`diagnose.levels.${id}`) === ba.level);
+            if (matchId) setLevel(matchId);
+          }
+        }
+      }
+      setCheckpointLoading(false);
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkpointId, user]);
+
+  // After diagnostic completes in checkpoint mode, finalize and navigate
+  const finalizeCheckpoint = useCallback(async (cpId: string, attempt: string) => {
+    setFinalizing(true);
+    setFinalizeError(false);
+    try {
+      const { data, error } = await supabase.functions.invoke("checkpoint-finalize", {
+        body: { checkpoint_id: cpId, checkpoint_attempt_id: attempt },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+      navigate(`/checkpoints/${cpId}`);
+    } catch (e: any) {
+      setFinalizeError(true);
+      toast.error(e?.message || t("checkpoint.finalizeError"));
+    } finally {
+      setFinalizing(false);
+    }
+  }, [navigate, t]);
 
   const start = useCallback(async () => {
     setSubmitting(true);
@@ -133,10 +193,24 @@ export default function Diagnose() {
     }
   }, [attemptId, item, selected, t]);
 
+  // Auto-finalize when checkpoint mode and diagnosis just completed
+  useEffect(() => {
+    if (phase === "done" && checkpointId && attemptId && !finalizing && !finalizeError) {
+      finalizeCheckpoint(checkpointId, attemptId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, checkpointId, attemptId]);
+
   if (authLoading) {
     return <AppShell><div className="container py-12 text-sm text-muted-foreground">{t("common.loading")}</div></AppShell>;
   }
   if (!user) return <Navigate to="/auth" replace />;
+  if (checkpointId && checkpointDenied) {
+    return <AppShell><DashboardShell><div className="py-12 text-sm text-muted-foreground">{t("checkpoint.denied")}</div></DashboardShell></AppShell>;
+  }
+  if (checkpointId && checkpointLoading) {
+    return <AppShell><div className="container py-12 text-sm text-muted-foreground">{t("checkpoint.starting")}</div></AppShell>;
+  }
 
   return (
     <AppShell>
@@ -148,6 +222,20 @@ export default function Diagnose() {
             </Link>
           </Button>
         </div>
+
+        {checkpointId && (
+          <Surface variant="ai" className="p-4 mb-4 border-accent/40">
+            <div className="flex items-start gap-3">
+              <TrendingUp className="h-4 w-4 text-accent mt-0.5 shrink-0" />
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Badge variant="secondary" className="text-[10px]">{t("checkpoint.modeBadge")}</Badge>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">{t("checkpoint.modeNote")}</p>
+              </div>
+            </div>
+          </Surface>
+        )}
 
         {phase === "intake" && (
           <>
@@ -291,7 +379,32 @@ export default function Diagnose() {
           </>
         )}
 
-        {phase === "done" && summary && score && (
+        {phase === "done" && summary && score && checkpointId && (
+          <>
+            <DashboardHeader title={t("checkpoint.modeBadge")} subtitle={t("checkpoint.reportSubtitle")} />
+            <Surface className="p-6 max-w-2xl">
+              {finalizing && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Loader2 className="h-4 w-4 animate-spin" /> {t("checkpoint.starting")}
+                </div>
+              )}
+              {finalizeError && (
+                <div className="space-y-3">
+                  <p className="text-sm text-destructive">{t("checkpoint.finalizeError")}</p>
+                  <Button
+                    size="sm"
+                    onClick={() => attemptId && finalizeCheckpoint(checkpointId, attemptId)}
+                    className="bg-accent-gradient text-accent-foreground"
+                  >
+                    {t("checkpoint.retryFinalize")}
+                  </Button>
+                </div>
+              )}
+            </Surface>
+          </>
+        )}
+
+        {phase === "done" && summary && score && !checkpointId && (
           <>
             <DashboardHeader title={t("diagnose.resultTitle")} subtitle={`${domain} • ${levelLabel}`} />
 

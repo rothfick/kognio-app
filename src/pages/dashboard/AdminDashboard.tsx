@@ -6,7 +6,7 @@ import { RoleGate } from "@/components/auth/RoleGate";
 import { Surface } from "@/components/ui/surface";
 import { StatCard } from "@/components/ui/stat-card";
 import { EmptyState } from "@/components/EmptyState";
-import { ShieldCheck, AlertTriangle, Sparkles, Activity, ClipboardList, GraduationCap, Network, BookOpen, ListChecks, ClipboardCheck, Globe2, Layers, Library, BadgeCheck, Telescope, Link2, Unlink, Percent, User, Users, Cpu } from "lucide-react";
+import { ShieldCheck, AlertTriangle, Sparkles, Activity, ClipboardList, GraduationCap, Network, BookOpen, ListChecks, ClipboardCheck, Globe2, Layers, Library, BadgeCheck, Telescope, Link2, Unlink, Percent, User, Users, Cpu, TrendingUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 type DomainRow = { id: string; name_pl: string; name_en: string | null; name_es: string | null };
@@ -61,6 +61,7 @@ const AdminDashboard = () => {
     source: string | null;
   };
   const [recent, setRecent] = useState<RecentRow[] | null>(null);
+  const [cpStats, setCpStats] = useState<{ created: number; completed: number; avgDelta: number | null; avgPlanCompletion: number | null; avgMasteryDelta: number | null; evidenceEvents: number } | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -173,6 +174,31 @@ const AdminDashboard = () => {
         };
       });
       setRecent(rows);
+
+      // Checkpoint stats
+      const [cpCreated, cpCompletedCount, cpCompletedRows, cpEvidence] = await Promise.all([
+        supabase.from("learning_checkpoints").select("id", { count: "exact", head: true }),
+        supabase.from("learning_checkpoints").select("id", { count: "exact", head: true }).eq("status", "completed"),
+        supabase.from("learning_checkpoints").select("score_delta, summary, mastery_delta").eq("status", "completed"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).in("event_type", ["checkpoint_created", "checkpoint_completed"]),
+      ]);
+      const cpRows = (cpCompletedRows.data || []) as Array<{ score_delta: number | null; summary: { completed_plan_items?: number; total_plan_items?: number } | null; mastery_delta: Array<{ delta: number | null }> | null }>;
+      const deltas = cpRows.map((r) => r.score_delta).filter((d): d is number => typeof d === "number");
+      const planRatios = cpRows.map((r) => {
+        const t = r.summary?.total_plan_items ?? 0; const d = r.summary?.completed_plan_items ?? 0;
+        return t ? d / t : null;
+      }).filter((d): d is number => typeof d === "number");
+      const masteryDeltas: number[] = [];
+      cpRows.forEach((r) => { (Array.isArray(r.mastery_delta) ? r.mastery_delta : []).forEach((m) => { if (typeof m?.delta === "number") masteryDeltas.push(m.delta); }); });
+      const avg = (a: number[]) => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+      setCpStats({
+        created: cpCreated.count ?? 0,
+        completed: cpCompletedCount.count ?? 0,
+        avgDelta: avg(deltas),
+        avgPlanCompletion: avg(planRatios),
+        avgMasteryDelta: avg(masteryDeltas),
+        evidenceEvents: cpEvidence.count ?? 0,
+      });
     })();
   }, []);
 
@@ -217,6 +243,22 @@ const AdminDashboard = () => {
               <StatCard icon={ClipboardCheck} label={t("smart.itemsCompleted")} value={planItemsDone === null ? "…" : String(planItemsDone)} />
               <StatCard icon={Activity} label={t("smart.evidenceEvents")} value={evidenceCount === null ? "…" : String(evidenceCount)} />
               <StatCard icon={Sparkles} label={t("smart.avgDiagScore")} value={diagAvgScore === null ? "—" : `${Math.round(diagAvgScore * 100)}%`} />
+            </div>
+          </Surface>
+
+          <Surface className="p-5 mb-6">
+            <h2 className="font-semibold mb-3 flex items-center gap-2">
+              <TrendingUp className="h-4 w-4 text-accent" /> {t("checkpoint.admin.section")}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-3 mb-3">
+              <StatCard icon={ListChecks} label={t("checkpoint.admin.created")} value={cpStats === null ? "…" : String(cpStats.created)} />
+              <StatCard icon={ClipboardCheck} label={t("checkpoint.admin.completed")} value={cpStats === null ? "…" : String(cpStats.completed)} />
+              <StatCard icon={Activity} label={t("checkpoint.admin.evidenceEvents")} value={cpStats === null ? "…" : String(cpStats.evidenceEvents)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              <StatCard icon={TrendingUp} label={t("checkpoint.admin.avgScoreDelta")} value={cpStats === null || cpStats.avgDelta === null ? "—" : `${cpStats.avgDelta >= 0 ? "+" : ""}${Math.round(cpStats.avgDelta * 100)}%`} />
+              <StatCard icon={Percent} label={t("checkpoint.admin.avgPlanCompletion")} value={cpStats === null || cpStats.avgPlanCompletion === null ? "—" : `${Math.round(cpStats.avgPlanCompletion * 100)}%`} />
+              <StatCard icon={Sparkles} label={t("checkpoint.admin.avgMasteryDelta")} value={cpStats === null || cpStats.avgMasteryDelta === null ? "—" : `${cpStats.avgMasteryDelta >= 0 ? "+" : ""}${Math.round(cpStats.avgMasteryDelta * 100)}%`} />
             </div>
           </Surface>
 

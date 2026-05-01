@@ -10,7 +10,7 @@ import { AIInsightCard } from "@/components/ui/ai-insight-card";
 import { EmptyState } from "@/components/EmptyState";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, LineChart, FileText, Plus, BookOpen, ShieldCheck, Brain } from "lucide-react";
+import { Users, LineChart, FileText, Plus, BookOpen, ShieldCheck, Brain, TrendingUp } from "lucide-react";
 import { AddChildDialog } from "@/components/parent/AddChildDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -112,18 +112,20 @@ const ParentDashboard = () => {
 };
 
 const ChildCard = ({ child }: { child: ChildRow }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = (i18n.language || "pl").split("-")[0];
   const [trackedKcs, setTrackedKcs] = useState<number | null>(null);
   const [avg, setAvg] = useState<number | null>(null);
   const [latestScore, setLatestScore] = useState<number | null>(null);
   const [hasDiagnostic, setHasDiagnostic] = useState<boolean>(false);
   const [planId, setPlanId] = useState<string | null>(null);
   const [planStatus, setPlanStatus] = useState<string | null>(null);
+  const [checkpoint, setCheckpoint] = useState<{ id: string; score_delta: number | null; completed_at: string | null } | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const [{ data: m }, { data: la }, { data: pl }] = await Promise.all([
+      const [{ data: m }, { data: la }, { data: pl }, { data: cp }] = await Promise.all([
         supabase.from("child_kc_mastery").select("mastery_prob").eq("child_id", child.id),
         supabase.from("diagnostic_attempts")
           .select("score").eq("child_id", child.id).eq("status", "completed")
@@ -131,6 +133,9 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
         supabase.from("learning_plans")
           .select("id, status").eq("child_id", child.id).neq("status", "archived")
           .order("created_at", { ascending: false }).limit(1).maybeSingle(),
+        supabase.from("learning_checkpoints")
+          .select("id, score_delta, completed_at").eq("child_id", child.id).eq("status", "completed")
+          .order("completed_at", { ascending: false }).limit(1).maybeSingle(),
       ]);
       if (cancelled) return;
       const rows = (m || []) as { mastery_prob: number }[];
@@ -140,6 +145,7 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
       setLatestScore(la ? Number((la as { score?: number }).score ?? 0) : null);
       setPlanId((pl as { id?: string } | null)?.id ?? null);
       setPlanStatus((pl as { status?: string } | null)?.status ?? null);
+      setCheckpoint((cp as { id: string; score_delta: number | null; completed_at: string | null } | null) || null);
     })();
     return () => { cancelled = true; };
   }, [child.id]);
@@ -174,6 +180,21 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
           </p>
         )}
       </div>
+
+      {checkpoint && (
+        <div className="rounded-md border border-accent/30 bg-card-soft p-3 space-y-1">
+          <div className="flex items-center gap-2 text-xs font-medium">
+            <TrendingUp className="h-3.5 w-3.5 text-accent" /> {t("checkpoint.latestTitle")}
+          </div>
+          <p className="text-xs text-muted-foreground">
+            {t("checkpoint.latestSubtitle", { delta: checkpoint.score_delta == null ? "—" : `${(checkpoint.score_delta * 100) >= 0 ? "+" : ""}${Math.round(checkpoint.score_delta * 100)}%` })}
+            {checkpoint.completed_at ? ` · ${new Date(checkpoint.completed_at).toLocaleDateString(lang)}` : ""}
+          </p>
+          <Link to={`/checkpoints/${checkpoint.id}`} className="text-xs text-accent underline-offset-2 hover:underline">
+            {t("checkpoint.viewReport")}
+          </Link>
+        </div>
+      )}
 
       <div className="flex flex-wrap gap-2 mt-auto">
         {!hasDiagnostic ? (

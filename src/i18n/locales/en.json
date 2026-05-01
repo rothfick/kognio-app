@@ -1060,6 +1060,22 @@
     "unchangedAreas": "Unchanged",
     "areaOnlyBefore": "Only in baseline",
     "noAreas": "No comparison data.",
-    "credibility": "This report is based on structured diagnostic data, without subjective judgment."
+    "credibility": "This report is based on structured diagnostic data, without subjective judgment.",
+    "finalizeError": "Could not finalize the checkpoint. Please try again.",
+    "retryFinalize": "Retry finalization",
+    "loading": "Loading progress report…",
+    "createdAt": "Created {{date}}",
+    "completedAt": "Completed {{date}}",
+    "back": "Back",
+    "backToDashboard": "Back to dashboard",
+    "admin": {
+      "section": "Progress checkpoints",
+      "created": "Checkpoints created",
+      "completed": "Checkpoints completed",
+      "avgScoreDelta": "Average score change",
+      "avgPlanCompletion": "Average plan completion",
+      "avgMasteryDelta": "Average mastery change",
+      "evidenceEvents": "Checkpoint evidence events"
+    }
   }
 }
