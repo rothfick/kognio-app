@@ -66,6 +66,58 @@ export default function Diagnose() {
   const domainSuggestions = t("diagnose.domainSuggestions", { returnObjects: true }) as string[];
   const levelLabel = useMemo(() => level ? t(`diagnose.levels.${level}`) : "", [level, t]);
 
+  // Load checkpoint metadata + prefill from baseline diagnostic
+  useEffect(() => {
+    if (!checkpointId || !user) return;
+    let cancelled = false;
+    (async () => {
+      const { data: cp, error } = await supabase
+        .from("learning_checkpoints")
+        .select("id, baseline_diagnostic_attempt_id, child_id, status")
+        .eq("id", checkpointId)
+        .maybeSingle();
+      if (cancelled) return;
+      if (error || !cp) { setCheckpointDenied(true); setCheckpointLoading(false); return; }
+      if (cp.baseline_diagnostic_attempt_id) {
+        const { data: ba } = await supabase
+          .from("diagnostic_attempts")
+          .select("domain, level")
+          .eq("id", cp.baseline_diagnostic_attempt_id)
+          .maybeSingle();
+        if (!cancelled && ba) {
+          if (ba.domain) setDomain(ba.domain);
+          // Best-effort match level to LEVEL_IDS by translated label
+          if (ba.level) {
+            const matchId = LEVEL_IDS.find((id) => t(`diagnose.levels.${id}`) === ba.level);
+            if (matchId) setLevel(matchId);
+          }
+        }
+      }
+      setCheckpointLoading(false);
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkpointId, user]);
+
+  // After diagnostic completes in checkpoint mode, finalize and navigate
+  const finalizeCheckpoint = useCallback(async (cpId: string, attempt: string) => {
+    setFinalizing(true);
+    setFinalizeError(false);
+    try {
+      const { data, error } = await supabase.functions.invoke("checkpoint-finalize", {
+        body: { checkpoint_id: cpId, checkpoint_attempt_id: attempt },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+      navigate(`/checkpoints/${cpId}`);
+    } catch (e: any) {
+      setFinalizeError(true);
+      toast.error(e?.message || t("checkpoint.finalizeError"));
+    } finally {
+      setFinalizing(false);
+    }
+  }, [navigate, t]);
+
   const start = useCallback(async () => {
     setSubmitting(true);
     try {
