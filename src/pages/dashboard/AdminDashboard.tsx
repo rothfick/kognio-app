@@ -257,6 +257,32 @@ const AdminDashboard = () => {
         sessionCompletedEvents: evSessionCompleted.count ?? 0,
         tutorNoteEvents: evTutorNote.count ?? 0,
       });
+
+      // Homework stats
+      const [hwAssignments, hwSubs, hwNeedsReview, hwScores, hwGen, hwSubmitted, hwAuto, hwReviewed, hwMastery] = await Promise.all([
+        supabase.from("assignments").select("id", { count: "exact", head: true }),
+        supabase.from("assignment_submissions").select("id", { count: "exact", head: true }),
+        supabase.from("assignments").select("id", { count: "exact", head: true }).eq("status", "submitted"),
+        supabase.from("assignment_submissions").select("score_percentage"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "homework_generated"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "homework_submitted"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "homework_auto_graded"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "homework_reviewed"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "mastery_updated_from_homework"),
+      ]);
+      const scores = ((hwScores.data || []) as { score_percentage: number | null }[])
+        .map((r) => Number(r.score_percentage)).filter((n) => !Number.isNaN(n) && n !== null);
+      setHw({
+        assignmentsTotal: hwAssignments.count ?? 0,
+        submissionsTotal: hwSubs.count ?? 0,
+        needsReview: hwNeedsReview.count ?? 0,
+        avgScore: scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null,
+        evGenerated: hwGen.count ?? 0,
+        evSubmitted: hwSubmitted.count ?? 0,
+        evAutoGraded: hwAuto.count ?? 0,
+        evReviewed: hwReviewed.count ?? 0,
+        evMastery: hwMastery.count ?? 0,
+      });
     })();
   }, []);
 
