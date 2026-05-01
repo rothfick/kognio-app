@@ -23,7 +23,7 @@ const StudentDashboard = () => {
           <DashboardHeader
             title={t("dashboard.studentTitle")}
             subtitle={t("dashboard.studentSubtitle")}
-            primaryAction={{ label: t("dashboard.diagnoseCta"), to: "/dashboard/student" }}
+            primaryAction={{ label: t("dashboard.diagnoseCta"), to: "/diagnose" }}
           />
 
           <div className="grid gap-4 sm:grid-cols-3 mb-6">
