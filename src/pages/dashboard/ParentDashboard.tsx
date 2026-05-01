@@ -172,7 +172,7 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
       <div className="flex flex-wrap gap-2 mt-auto">
         {!hasDiagnostic ? (
           <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
-            <Link to={`/parent/children/${child.id}/diagnostic`}>Zrób diagnozę</Link>
+            <Link to={`/parent/children/${child.id}/diagnose`}>Zrób diagnozę AI</Link>
           </Button>
         ) : (
           <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
