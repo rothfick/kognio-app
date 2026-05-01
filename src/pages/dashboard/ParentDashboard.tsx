@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Users, LineChart, FileText, Plus, BookOpen, ShieldCheck, Brain, TrendingUp } from "lucide-react";
 import { AddChildDialog } from "@/components/parent/AddChildDialog";
+import { LinkedStudentsSection } from "@/components/parent-link/LinkedStudentsSection";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { NextBestActionCard } from "@/components/journey/NextBestActionCard";
@@ -105,6 +106,10 @@ const ParentDashboard = () => {
               </div>
             )}
           </Surface>
+
+          <div className="mt-6">
+            <LinkedStudentsSection />
+          </div>
 
           <p className="mt-6 text-[11px] text-muted-foreground text-center">
             {t("parent.footerNote")}

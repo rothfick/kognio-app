@@ -12,6 +12,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { Plus, Trash2 } from "lucide-react";
+import { useUserRoles } from "@/hooks/useUserRoles";
+import { StudentParentLinksSection } from "@/components/parent-link/StudentParentLinks";
+import { LinkedStudentsSection } from "@/components/parent-link/LinkedStudentsSection";
 
 type PaymentMethod = { id: string; method_type: string; label: string; details: string; is_default: boolean };
 type TutorProfile = { user_id: string; headline: string | null; description: string | null; hourly_rate_cents: number; currency: string; is_published: boolean };
@@ -19,6 +22,7 @@ type TutorProfile = { user_id: string; headline: string | null; description: str
 const Settings = () => {
   const { t, i18n } = useTranslation();
   const { user } = useAuth();
+  const { isStudent, isParent } = useUserRoles();
   const [methods, setMethods] = useState<PaymentMethod[]>([]);
   const [tutor, setTutor] = useState<TutorProfile | null>(null);
   const [isTutor, setIsTutor] = useState(false);
@@ -119,6 +123,10 @@ const Settings = () => {
             </SelectContent>
           </Select>
         </Card>
+
+        {/* Parent/student link sections */}
+        {isStudent && <StudentParentLinksSection />}
+        {isParent && <LinkedStudentsSection />}
 
         {/* Tutor profile */}
         {!isTutor ? (
