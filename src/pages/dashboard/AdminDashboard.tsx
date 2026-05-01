@@ -17,6 +17,9 @@ const AdminDashboard = () => {
   const [diagItems, setDiagItems] = useState<number | null>(null);
   const [diagAttempts, setDiagAttempts] = useState<number | null>(null);
   const [diagAvgScore, setDiagAvgScore] = useState<number | null>(null);
+  const [plansCount, setPlansCount] = useState<number | null>(null);
+  const [evidenceCount, setEvidenceCount] = useState<number | null>(null);
+  const [planItemsDone, setPlanItemsDone] = useState<number | null>(null);
 
   useEffect(() => {
     (async () => {
