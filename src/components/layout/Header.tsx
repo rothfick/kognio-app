@@ -20,7 +20,8 @@ import { NotificationCenter } from "@/components/notifications/NotificationCente
 export function Header() {
   const { t, i18n } = useTranslation();
   const { user, signOut } = useAuth();
-  const { isTutor } = useUserRoles();
+  const { isTutor, isParent, isStudent, isAdmin } = useUserRoles();
+  const parentOnly = isParent && !isStudent && !isTutor && !isAdmin;
   const navigate = useNavigate();
   const [pendingCount, setPendingCount] = useState(0);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
