@@ -8,3 +8,6 @@ verify_jwt = true
 
 [functions.brain-chat]
 verify_jwt = true
+
+[functions.process-email-queue]
+verify_jwt = true
