@@ -212,43 +212,61 @@ export type Database = {
       }
       diagnostic_attempts: {
         Row: {
-          child_id: string
+          child_id: string | null
           completed_at: string | null
           correct_items: number
           created_at: string
+          domain: string | null
           id: string
+          language: string
+          level: string | null
+          mode: string
           score: number | null
           started_at: string
           started_by: string | null
           status: string
-          subject_id: string
+          subject_id: string | null
+          summary: Json | null
           total_items: number
+          user_id: string | null
         }
         Insert: {
-          child_id: string
+          child_id?: string | null
           completed_at?: string | null
           correct_items?: number
           created_at?: string
+          domain?: string | null
           id?: string
+          language?: string
+          level?: string | null
+          mode?: string
           score?: number | null
           started_at?: string
           started_by?: string | null
           status?: string
-          subject_id: string
+          subject_id?: string | null
+          summary?: Json | null
           total_items?: number
+          user_id?: string | null
         }
         Update: {
-          child_id?: string
+          child_id?: string | null
           completed_at?: string | null
           correct_items?: number
           created_at?: string
+          domain?: string | null
           id?: string
+          language?: string
+          level?: string | null
+          mode?: string
           score?: number | null
           started_at?: string
           started_by?: string | null
           status?: string
-          subject_id?: string
+          subject_id?: string | null
+          summary?: Json | null
           total_items?: number
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -277,50 +295,65 @@ export type Database = {
       diagnostic_items: {
         Row: {
           approved_by_admin: boolean
+          attempt_id: string | null
           choices: Json
           code: string
           correct_choice: string
           created_at: string
           difficulty_level: number
+          domain: string | null
           explanation: string | null
+          generated_by: string | null
           id: string
           is_active: boolean
-          kc_id: string
+          kc_id: string | null
+          kc_label: string | null
           language: string
+          level: string | null
           question: string
-          subject_id: string
+          subject_id: string | null
           updated_at: string
         }
         Insert: {
           approved_by_admin?: boolean
+          attempt_id?: string | null
           choices: Json
           code: string
           correct_choice: string
           created_at?: string
           difficulty_level?: number
+          domain?: string | null
           explanation?: string | null
+          generated_by?: string | null
           id?: string
           is_active?: boolean
-          kc_id: string
+          kc_id?: string | null
+          kc_label?: string | null
           language?: string
+          level?: string | null
           question: string
-          subject_id: string
+          subject_id?: string | null
           updated_at?: string
         }
         Update: {
           approved_by_admin?: boolean
+          attempt_id?: string | null
           choices?: Json
           code?: string
           correct_choice?: string
           created_at?: string
           difficulty_level?: number
+          domain?: string | null
           explanation?: string | null
+          generated_by?: string | null
           id?: string
           is_active?: boolean
-          kc_id?: string
+          kc_id?: string | null
+          kc_label?: string | null
           language?: string
+          level?: string | null
           question?: string
-          subject_id?: string
+          subject_id?: string | null
           updated_at?: string
         }
         Relationships: [
