@@ -20,8 +20,10 @@ import { NotificationCenter } from "@/components/notifications/NotificationCente
 export function Header() {
   const { t, i18n } = useTranslation();
   const { user, signOut } = useAuth();
-  const { isTutor, isParent, isStudent, isAdmin } = useUserRoles();
-  const parentOnly = isParent && !isStudent && !isTutor && !isAdmin;
+  const { isTutor, isParent, isAdmin } = useUserRoles();
+  // Jeśli użytkownik jest rodzicem (nawet jeśli ma też rolę student), traktujemy nawigację jak rodzicielską.
+  // Tutor i admin mają pierwszeństwo i zachowują pełną nawigację.
+  const parentMode = isParent && !isTutor && !isAdmin;
   const navigate = useNavigate();
   const [pendingCount, setPendingCount] = useState(0);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -55,14 +57,14 @@ export function Header() {
   }, [user, isTutor]);
 
   const allNavItems = [
-    { to: "/dashboard", key: "dashboard", Icon: LayoutDashboard, parentVisible: true },
+    { to: "/dashboard", key: "dashboard", Icon: LayoutDashboard, parentVisible: false },
     { to: "/discover", key: "discover", Icon: Search, parentVisible: false },
     { to: "/circles", key: "circles", Icon: Users, parentVisible: false },
     { to: "/peer", key: "peer", Icon: HandHelping, parentVisible: false },
     { to: "/calendar", key: "calendar", Icon: Calendar, badge: pendingCount, parentVisible: true },
     { to: "/brain", key: "brain", Icon: Brain, parentVisible: true },
   ];
-  const navItems = parentOnly ? allNavItems.filter((n) => n.parentVisible) : allNavItems;
+  const navItems = parentMode ? allNavItems.filter((n) => n.parentVisible) : allNavItems;
 
   const currentLang = (["pl", "en", "es"] as const).find((l) => i18n.language?.startsWith(l)) || "pl";
   const setLang = (l: "pl" | "en" | "es") => i18n.changeLanguage(l);
