@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -12,12 +12,16 @@ import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/EmptyState";
 import { Pencil, Sparkles, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { createNotification } from "@/lib/notifications";
 
 type AssignmentRow = {
   id: string; title: string; status: string; skill_area_label: string | null;
   source_type: string; due_at: string | null; created_at: string;
   owner_type: string; user_id: string | null; child_id: string | null; booking_id: string | null;
 };
+
+type FilterKey = "all" | "assigned" | "in_progress" | "submitted" | "graded" | "archived";
+const FILTERS: FilterKey[] = ["all", "assigned", "in_progress", "submitted", "graded", "archived"];
 
 export default function Homework() {
   const { t, i18n } = useTranslation();
@@ -26,6 +30,7 @@ export default function Homework() {
   const [items, setItems] = useState<AssignmentRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [filter, setFilter] = useState<FilterKey>("all");
 
   const load = async () => {
     if (!user) return;
@@ -39,6 +44,8 @@ export default function Homework() {
     setLoading(false);
   };
   useEffect(() => { load(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [user]);
+
+  const filtered = useMemo(() => filter === "all" ? items : items.filter((a) => a.status === filter), [items, filter]);
 
   const generateForSelf = async () => {
     if (!user) return;
@@ -62,10 +69,19 @@ export default function Homework() {
           language: lang,
         },
       });
-      if (error || (data as { error?: string })?.error) {
+      const result = data as { assignment_id?: string; error?: string } | null;
+      if (error || result?.error || !result?.assignment_id) {
         toast.error(t("homeworkToast.generateFailed"));
       } else {
         toast.success(t("homeworkToast.generated"));
+        await createNotification({
+          userId: user.id,
+          type: "homework_assigned",
+          severity: "info",
+          title: t("homeworkToast.generated"),
+          actionLabel: t("homework.openCta"),
+          actionUrl: `/homework/${result.assignment_id}`,
+        });
         await load();
       }
     } finally { setGenerating(false); }
@@ -87,19 +103,43 @@ export default function Homework() {
             </Button>
           ) : undefined}
         />
+
+        <div className="flex flex-wrap gap-1.5 mb-4" role="tablist" aria-label={t("homework.filters.all")}>
+          {FILTERS.map((f) => (
+            <Button
+              key={f}
+              size="sm"
+              variant={filter === f ? "default" : "outline"}
+              onClick={() => setFilter(f)}
+              className="h-7 text-xs"
+              role="tab"
+              aria-selected={filter === f}
+            >
+              {t(`homework.filters.${f}`)}
+              {f !== "all" && (
+                <span className="ml-1.5 opacity-70 tabular-nums">
+                  {items.filter((a) => a.status === f).length}
+                </span>
+              )}
+            </Button>
+          ))}
+        </div>
+
         {loading ? (
           <Surface className="p-6 animate-pulse h-32"><div /></Surface>
-        ) : items.length === 0 ? (
+        ) : filtered.length === 0 ? (
           <Surface className="p-6">
             <EmptyState
               icon={Pencil}
-              title={isTutor ? t("homework.emptyTutorTitle") : isAdmin ? t("homework.emptyAdminTitle") : t("homework.emptyTitle")}
+              title={items.length === 0
+                ? (isTutor ? t("homework.emptyTutorTitle") : isAdmin ? t("homework.emptyAdminTitle") : t("homework.emptyTitle"))
+                : t("homework.emptyTitle")}
               description={isTutor ? t("homework.emptyTutorDesc") : t("homework.emptyDesc")}
             />
           </Surface>
         ) : (
           <div className="grid gap-3">
-            {items.map((a) => (
+            {filtered.map((a) => (
               <Surface key={a.id} className="p-4 flex items-center justify-between gap-3 flex-wrap">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">

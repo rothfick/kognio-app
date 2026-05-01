@@ -140,10 +140,13 @@ Deno.serve(async (req) => {
       created_by: user.id,
     };
     try {
-      await supabase.from("smart_evidence_events").insert([
-        { ...evtBase, event_type: "homework_submitted", output_summary: { item_count: items.length } },
-        { ...evtBase, event_type: needsReview ? "homework_submitted" : "homework_auto_graded", output_summary: { score, max, percentage } },
-      ] as never);
+      const events: Array<Record<string, unknown>> = [
+        { ...evtBase, event_type: "homework_submitted", output_summary: { item_count: items.length, score, max, percentage } },
+      ];
+      if (!needsReview) {
+        events.push({ ...evtBase, event_type: "homework_auto_graded", output_summary: { score, max, percentage } });
+      }
+      await supabase.from("smart_evidence_events").insert(events as never);
     } catch (_e) { /* non-blocking */ }
 
     // Update mastery if we have a skill_area_label and the assignment was auto-graded
