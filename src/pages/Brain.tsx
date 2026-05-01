@@ -114,11 +114,15 @@ const ParentBrainView = () => {
 const Brain = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
+  const { isParent, isStudent, isTutor, isAdmin, loading: rolesLoading } = useUserRoles();
+  const parentOnly = isParent && !isStudent && !isTutor && !isAdmin;
   const [q, setQ] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [transcripts, setTranscripts] = useState<{ id: string; text: string; created_at: string }[]>([]);
   const [reports, setReports] = useState<{ id: string; summary: string | null; strengths: string | null; weaknesses: string | null; flashcards: any; created_at: string }[]>([]);
+
+  if (!rolesLoading && parentOnly) return <ParentBrainView />;
 
   useEffect(() => {
     if (!user) return;
