@@ -13,6 +13,7 @@ import {
   Layers, Telescope, BadgeCheck, Percent, Link2, Unlink, GraduationCap,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { PilotReadinessSection } from "@/components/pilot/PilotReadinessSection";
 
 type AlgoVersion = { version: string; source: string; count: number; latest: string | null };
 
