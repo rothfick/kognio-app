@@ -320,6 +320,33 @@ export default function LearningPlan() {
                         <SkipForward className="h-3.5 w-3.5 mr-1" /> {t("plan.actions.skip")}
                       </Button>
                     )}
+                    {isFeatureEnabled("homework") && plan && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        disabled={generatingItemId === it.id}
+                        onClick={async () => {
+                          setGeneratingItemId(it.id);
+                          const res = await generateHomework({
+                            source_type: "learning_plan",
+                            source_id: plan.id,
+                            owner_type: plan.owner_type,
+                            child_id: plan.child_id,
+                            learning_plan_id: plan.id,
+                            learning_plan_item_id: it.id,
+                            skill_area_label: it.skill_area,
+                            language: langCode(i18n.language),
+                            title_hint: it.title,
+                          });
+                          setGeneratingItemId(null);
+                          if (res.ok) toast.success(t("homeworkToast.generated"));
+                          else toast.error(t("homeworkToast.generateFailed"));
+                        }}
+                      >
+                        {generatingItemId === it.id ? <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" /> : <Sparkles className="h-3.5 w-3.5 mr-1" />}
+                        {t("homework.generateFromPlanItem")}
+                      </Button>
+                    )}
                   </div>
                 </div>
               </li>
