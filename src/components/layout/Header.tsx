@@ -76,7 +76,7 @@ export function Header() {
 
         {user && (
           <nav className="hidden md:flex items-center gap-1">
-            {navItems.map(({ to, key, Icon, label, badge }) => (
+            {navItems.map(({ to, key, Icon, badge }) => (
               <NavLink
                 key={to}
                 to={to}
@@ -87,7 +87,7 @@ export function Header() {
                 }
               >
                 <Icon className="h-4 w-4" />
-                {label || t(`nav.${key}`)}
+                {t(`nav.${key}`)}
                 {badge ? (
                   <Badge variant="default" className="h-5 min-w-5 px-1.5 text-[10px] bg-accent text-accent-foreground">
                     {badge}
@@ -99,10 +99,19 @@ export function Header() {
         )}
 
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={toggleLang} aria-label="language">
-            <Globe className="h-4 w-4" />
-            <span className="ml-1 text-xs uppercase">{i18n.language?.slice(0, 2) || "pl"}</span>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="language">
+                <Globe className="h-4 w-4" />
+                <span className="ml-1 text-xs uppercase">{currentLang}</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-32">
+              <DropdownMenuItem onClick={() => setLang("pl")}>Polski</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLang("en")}>English</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLang("es")}>Español</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           {user ? (
             <DropdownMenu>
@@ -121,7 +130,7 @@ export function Header() {
                 <DropdownMenuLabel>{t("nav.myProfile")}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => navigate("/dashboard")}>
-                  <LayoutDashboard className="h-4 w-4 mr-2" /> Pulpit
+                  <LayoutDashboard className="h-4 w-4 mr-2" /> {t("nav.dashboard")}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/profile")}>
                   <UserIcon className="h-4 w-4 mr-2" /> {t("nav.profile")}
