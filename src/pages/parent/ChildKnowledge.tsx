@@ -18,7 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArrowLeft, BookOpen, Brain, Plus, Target, Loader2, Archive, Sparkles } from "lucide-react";
+import { ArrowLeft, BookOpen, Brain, Plus, Target, Loader2, Archive, Sparkles, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 
 type Child = { id: string; display_name: string; grade_level: string | null; primary_subject: string | null };
