@@ -10,7 +10,7 @@ import { AIInsightCard } from "@/components/ui/ai-insight-card";
 import { EmptyState } from "@/components/EmptyState";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, LineChart, FileText, Plus, BookOpen, ShieldCheck, Brain, TrendingUp, Calendar as CalIcon, ArrowRight } from "lucide-react";
+import { Users, LineChart, FileText, Plus, BookOpen, ShieldCheck, Brain, TrendingUp } from "lucide-react";
 import { AddChildDialog } from "@/components/parent/AddChildDialog";
 import { LinkedStudentsSection } from "@/components/parent-link/LinkedStudentsSection";
 import { supabase } from "@/integrations/supabase/client";
@@ -18,6 +18,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { NextBestActionCard } from "@/components/journey/NextBestActionCard";
 import { useNextBestAction } from "@/hooks/useJourneyState";
 import { isFeatureEnabled } from "@/config/features";
+import { UpcomingBookingCard } from "@/components/booking/UpcomingBookingCard";
+import { useUpcomingBookings } from "@/hooks/useUpcomingBookings";
 
 type ChildRow = {
   id: string;
@@ -245,83 +247,13 @@ const ParentNextBestStepBlock = () => {
 };
 
 const UpcomingChildBookings = () => {
-  const { t } = useTranslation();
-  const { user } = useAuth();
-  const [items, setItems] = useState<Array<{ id: string; starts_at: string; status: string; student_id: string; student_name: string }>>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!user) return;
-    let cancelled = false;
-    (async () => {
-      const { data: pc } = await supabase
-        .from("parent_children")
-        .select("id, display_name")
-        .eq("parent_id", user.id);
-      const childMap: Record<string, string> = {};
-      (pc || []).forEach((c: any) => { childMap[c.id] = c.display_name; });
-
-      const { data: links } = await supabase
-        .from("student_parent_links")
-        .select("student_id")
-        .eq("parent_id", user.id)
-        .eq("status", "active");
-      const linkedIds = ((links || []) as { student_id: string }[]).map((l) => l.student_id);
-      if (linkedIds.length) {
-        const { data: profs } = await supabase
-          .from("profiles").select("id, display_name").in("id", linkedIds);
-        (profs || []).forEach((p: any) => { childMap[p.id] = p.display_name || ""; });
-      }
-
-      const allIds = Object.keys(childMap);
-      if (!allIds.length) { if (!cancelled) { setItems([]); setLoading(false); } return; }
-
-      const { data: bk } = await supabase
-        .from("bookings")
-        .select("id, starts_at, status, student_id")
-        .in("student_id", allIds)
-        .gte("ends_at", new Date().toISOString())
-        .order("starts_at", { ascending: true })
-        .limit(5);
-      if (cancelled) return;
-      setItems(((bk || []) as any[]).map((b) => ({
-        ...b,
-        student_name: childMap[b.student_id] || "—",
-      })));
-      setLoading(false);
-    })();
-    return () => { cancelled = true; };
-  }, [user]);
-
+  const { items, loading } = useUpcomingBookings("parent_children");
   return (
-    <Surface className="p-5">
-      <h2 className="font-semibold mb-4 flex items-center gap-2">
-        <CalIcon className="h-4 w-4 text-accent" /> {t("parent.upcomingTitle")}
-      </h2>
-      {loading ? (
-        <p className="text-sm text-muted-foreground">{t("common.loading")}</p>
-      ) : items.length === 0 ? (
-        <p className="text-sm text-muted-foreground">{t("parent.upcomingEmpty")}</p>
-      ) : (
-        <div className="space-y-2">
-          {items.map((b) => (
-            <div key={b.id} className="flex items-center justify-between rounded-md border bg-card-soft px-3 py-2">
-              <div className="min-w-0">
-                <p className="text-sm font-medium">{new Date(b.starts_at).toLocaleString()}</p>
-                <p className="text-xs text-muted-foreground">
-                  {b.student_name} · {t(`calendar.status.${b.status}`, { defaultValue: b.status })}
-                </p>
-              </div>
-            </div>
-          ))}
-          <div className="pt-2">
-            <Button asChild size="sm" variant="outline">
-              <Link to="/calendar">{t("parent.upcomingViewAll")} <ArrowRight className="h-4 w-4 ml-1" /></Link>
-            </Button>
-          </div>
-        </div>
-      )}
-    </Surface>
+    <UpcomingBookingCard
+      loading={loading}
+      items={items}
+      emptyShowFindTutor={isFeatureEnabled("tutorMarketplace")}
+    />
   );
 };
 
