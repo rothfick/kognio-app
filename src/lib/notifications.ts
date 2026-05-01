@@ -54,6 +54,7 @@ function actionUrlCategory(url?: string): string {
   if (url.startsWith("/calendar")) return "calendar";
   if (url.startsWith("/discover")) return "discover";
   if (url.startsWith("/dashboard")) return "dashboard";
+  if (url.startsWith("/homework")) return "homework";
   return "other";
 }
 
