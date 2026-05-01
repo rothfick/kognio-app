@@ -367,6 +367,29 @@ const Dashboard = () => {
           </Card>
         </div>
 
+        {/* Stan rezerwacji tutora — wszystkie z akcjami */}
+        <Card className="p-5 bg-card-soft">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="font-semibold">Stan rezerwacji uczniów</h2>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Potwierdź oczekujące, aby uczeń zobaczył przycisk „Wejdź".
+              </p>
+            </div>
+            <Button asChild variant="ghost" size="sm"><Link to="/calendar">Wszystkie</Link></Button>
+          </div>
+          {bookings.filter((b) => b.tutor_id === user?.id).length === 0 ? (
+            <p className="text-sm text-muted-foreground text-center py-4">Brak rezerwacji.</p>
+          ) : (
+            <div className="space-y-2">
+              {bookings
+                .filter((b) => b.tutor_id === user?.id)
+                .slice(0, 8)
+                .map((b) => <BookingRow key={b.id} b={b} side="tutor" />)}
+            </div>
+          )}
+        </Card>
+
         <Card className="p-5 bg-card-soft">
           <h2 className="font-semibold mb-4">Skróty tutora</h2>
           <div className="grid gap-2 sm:grid-cols-2">
