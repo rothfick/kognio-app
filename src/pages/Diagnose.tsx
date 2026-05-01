@@ -379,7 +379,32 @@ export default function Diagnose() {
           </>
         )}
 
-        {phase === "done" && summary && score && (
+        {phase === "done" && summary && score && checkpointId && (
+          <>
+            <DashboardHeader title={t("checkpoint.modeBadge")} subtitle={t("checkpoint.reportSubtitle")} />
+            <Surface className="p-6 max-w-2xl">
+              {finalizing && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Loader2 className="h-4 w-4 animate-spin" /> {t("checkpoint.starting")}
+                </div>
+              )}
+              {finalizeError && (
+                <div className="space-y-3">
+                  <p className="text-sm text-destructive">{t("checkpoint.finalizeError")}</p>
+                  <Button
+                    size="sm"
+                    onClick={() => attemptId && finalizeCheckpoint(checkpointId, attemptId)}
+                    className="bg-accent-gradient text-accent-foreground"
+                  >
+                    {t("checkpoint.retryFinalize")}
+                  </Button>
+                </div>
+              )}
+            </Surface>
+          </>
+        )}
+
+        {phase === "done" && summary && score && !checkpointId && (
           <>
             <DashboardHeader title={t("diagnose.resultTitle")} subtitle={`${domain} • ${levelLabel}`} />
 
