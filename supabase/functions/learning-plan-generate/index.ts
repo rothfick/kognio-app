@@ -229,7 +229,7 @@ Deno.serve(async (req) => {
     // Load attempt (RLS enforced)
     const { data: attempt, error: aErr } = await userClient
       .from("diagnostic_attempts")
-      .select("id, user_id, child_id, domain, level, status, score, summary")
+      .select("id, user_id, child_id, domain, level, status, score, summary, education_system_id, education_level_id, learning_domain_id, taxonomy_payload")
       .eq("id", attemptId)
       .maybeSingle();
     if (aErr) return json({ error: aErr.message }, 400);
@@ -250,6 +250,38 @@ Deno.serve(async (req) => {
 
     const plan = buildPlanFromSummary(domain, level, language, summary);
 
+    // Load candidate competencies for matching plan items
+    const taxonomyDomainId = (attempt as any).learning_domain_id ?? null;
+    const taxonomyLevelId = (attempt as any).education_level_id ?? null;
+    let candidates: Array<{ id: string; code: string; name_pl: string; name_en: string | null; name_es: string | null }> = [];
+    if (taxonomyDomainId) {
+      let q = userClient
+        .from("competencies")
+        .select("id, code, name_pl, name_en, name_es")
+        .eq("is_active", true)
+        .in("review_status", ["approved", "expert_reviewed"])
+        .eq("domain_id", taxonomyDomainId);
+      if (taxonomyLevelId) q = q.eq("education_level_id", taxonomyLevelId);
+      const { data } = await q;
+      candidates = (data || []) as typeof candidates;
+    }
+    const norm = (s: string) => s.toLowerCase().normalize("NFKD").replace(/\p{Diacritic}/gu, "").replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
+    const matchCompetency = (label: string | null): { id: string | null; confidence: number; reason: string } => {
+      if (!label || !candidates.length) return { id: null, confidence: 0, reason: "no_candidates" };
+      const nl = norm(label);
+      for (const c of candidates) {
+        const names = [c.code, c.name_pl, c.name_en, c.name_es].filter(Boolean).map((x) => norm(String(x)));
+        if (names.includes(nl)) return { id: c.id, confidence: 0.95, reason: "exact_match" };
+      }
+      for (const c of candidates) {
+        const names = [c.name_pl, c.name_en, c.name_es].filter(Boolean).map((x) => norm(String(x)));
+        for (const n of names) {
+          if (n && (nl.includes(n) || n.includes(nl))) return { id: c.id, confidence: 0.7, reason: "contains_match" };
+        }
+      }
+      return { id: null, confidence: 0, reason: "no_match" };
+    };
+
     const ownerType: "user" | "child" = attempt.child_id ? "child" : "user";
     const evidence = {
       diagnostic_attempt_id: attempt.id,
@@ -257,6 +289,7 @@ Deno.serve(async (req) => {
       score: attempt.score,
       domain,
       level,
+      taxonomy: (attempt as any).taxonomy_payload ?? {},
       weak_areas_used: (summary.kc_breakdown || []).filter((r) => Number(r.mastery_pct) < 50).map((r) => r.kc_label),
       strengths_used: summary.strengths || [],
       recommendations_used: summary.recommendations || [],
@@ -280,19 +313,32 @@ Deno.serve(async (req) => {
 
     if (pErr || !planRow) return json({ error: pErr?.message || "Failed to create plan" }, 400);
 
-    const itemRows = plan.items.map((it) => ({
-      plan_id: planRow.id,
-      order_index: it.order_index,
-      kind: it.kind,
-      skill_area: it.skill_area,
-      title: it.title,
-      description: it.description,
-      rationale: it.rationale,
-      evidence_ref: { diagnostic_attempt_id: attempt.id, skill_area: it.skill_area },
-      estimated_minutes: it.estimated_minutes,
-      difficulty_level: it.difficulty_level,
-      status: "pending",
-    }));
+    const itemRows = plan.items.map((it) => {
+      const m = matchCompetency(it.skill_area);
+      return {
+        plan_id: planRow.id,
+        order_index: it.order_index,
+        kind: it.kind,
+        skill_area: it.skill_area,
+        title: it.title,
+        description: it.description,
+        rationale: it.rationale,
+        evidence_ref: {
+          diagnostic_attempt_id: attempt.id,
+          skill_area: it.skill_area,
+          competency_id: m.id,
+          match_confidence: m.confidence,
+          match_reason: m.reason,
+        },
+        estimated_minutes: it.estimated_minutes,
+        difficulty_level: it.difficulty_level,
+        status: "pending",
+        competency_id: m.id,
+        learning_domain_id: taxonomyDomainId,
+        education_level_id: taxonomyLevelId,
+        algorithm_version: ALG_VERSION,
+      };
+    });
 
     const { error: iErr } = await userClient.from("learning_plan_items").insert(itemRows);
     if (iErr) {
