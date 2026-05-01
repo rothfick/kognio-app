@@ -46,8 +46,9 @@ const ChildKnowledge = () => {
   const [subjectId, setSubjectId] = useState<string | null>(null);
   const [groups, setGroups] = useState<KC[]>([]);
   const [kcs, setKcs] = useState<KC[]>([]);
-  const [mastery, setMastery] = useState<Record<string, number>>({});
+  const [mastery, setMastery] = useState<Record<string, Mastery>>({});
   const [goals, setGoals] = useState<Goal[]>([]);
+  const [latestAttempt, setLatestAttempt] = useState<LatestAttempt | null>(null);
   const [loading, setLoading] = useState(true);
   const [denied, setDenied] = useState(false);
 
@@ -85,11 +86,22 @@ const ChildKnowledge = () => {
     // Mastery
     const { data: m } = await supabase
       .from("child_kc_mastery")
-      .select("kc_id, mastery_prob")
+      .select("kc_id, mastery_prob, source, last_updated")
       .eq("child_id", childId);
-    const map: Record<string, number> = {};
-    (m as Mastery[] | null)?.forEach((r) => { map[r.kc_id] = Number(r.mastery_prob); });
+    const map: Record<string, Mastery> = {};
+    (m as Mastery[] | null)?.forEach((r) => { map[r.kc_id] = r; });
     setMastery(map);
+
+    // Latest completed attempt
+    const { data: la } = await supabase
+      .from("diagnostic_attempts")
+      .select("id, status, score, correct_items, total_items, completed_at")
+      .eq("child_id", childId)
+      .eq("status", "completed")
+      .order("completed_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    setLatestAttempt((la as LatestAttempt) || null);
 
     // Goals
     const { data: g } = await supabase
