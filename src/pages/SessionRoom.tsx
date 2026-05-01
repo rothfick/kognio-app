@@ -261,10 +261,10 @@ const SessionRoom = () => {
                 )}
                 <div className="flex-1 overflow-y-auto space-y-2 pr-2">
                   {transcripts.length === 0 && <p className="text-sm text-muted-foreground italic">{t("session.transcriptEmpty")}</p>}
-                  {transcripts.map((t) => (
-                    <div key={t.id} className="p-3 rounded-lg bg-background border-l-2 border-accent">
-                      <p className="text-xs font-medium text-accent">{t.speaker_label || t("session.speaker")}</p>
-                      <p className="text-sm">{t.text}</p>
+                  {transcripts.map((tr) => (
+                    <div key={tr.id} className="p-3 rounded-lg bg-background border-l-2 border-accent">
+                      <p className="text-xs font-medium text-accent">{tr.speaker_label || t("session.speaker")}</p>
+                      <p className="text-sm">{tr.text}</p>
                     </div>
                   ))}
                 </div>

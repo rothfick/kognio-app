@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui/card";
@@ -9,6 +10,7 @@ import { toast } from "sonner";
 import { Loader2, CheckCircle2, AlertTriangle } from "lucide-react";
 
 const OrgInviteAccept = () => {
+  const { t } = useTranslation();
   const { token } = useParams<{ token: string }>();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
@@ -32,7 +34,7 @@ const OrgInviteAccept = () => {
     })();
   }, [token, user]);
 
-  if (loading) return <div className="grid min-h-[40vh] place-items-center text-muted-foreground">Ładowanie…</div>;
+  if (loading) return <div className="grid min-h-[40vh] place-items-center text-muted-foreground">{t("common.loading")}</div>;
   if (!user) return <Navigate to={`/auth?next=/org/invite/${token}`} replace />;
   if (!token) return <Navigate to="/" replace />;
 
@@ -47,7 +49,7 @@ const OrgInviteAccept = () => {
       return;
     }
     setDone(true);
-    toast.success("Dołączono do organizacji.");
+    toast.success(t("org.joinedToast"));
     setTimeout(() => navigate("/dashboard", { replace: true }), 1200);
     void data;
   };
@@ -59,32 +61,32 @@ const OrgInviteAccept = () => {
           {done ? (
             <>
               <CheckCircle2 className="h-12 w-12 mx-auto text-accent mb-3" />
-              <h1 className="text-2xl font-semibold mb-2">Dołączono!</h1>
-              <p className="text-muted-foreground">Przekierowuję do pulpitu…</p>
+              <h1 className="text-2xl font-semibold mb-2">{t("org.joined")}</h1>
+              <p className="text-muted-foreground">{t("org.redirecting")}</p>
             </>
           ) : error ? (
             <>
               <AlertTriangle className="h-12 w-12 mx-auto text-destructive mb-3" />
-              <h1 className="text-2xl font-semibold mb-2">Nie udało się dołączyć</h1>
+              <h1 className="text-2xl font-semibold mb-2">{t("org.joinFailed")}</h1>
               <p className="text-muted-foreground mb-6">{error}</p>
-              <Button onClick={() => navigate("/dashboard")}>Wróć do pulpitu</Button>
+              <Button onClick={() => navigate("/dashboard")}>{t("org.backToDash")}</Button>
             </>
           ) : (
             <>
-              <h1 className="text-2xl font-semibold mb-2">Zaproszenie do organizacji</h1>
+              <h1 className="text-2xl font-semibold mb-2">{t("org.inviteTitle")}</h1>
               <p className="text-muted-foreground mb-6">
                 {orgName
-                  ? <>Zostałeś zaproszony(a) do <strong>{orgName}</strong>.</>
-                  : "Zostałeś zaproszony(a) do organizacji w Kogni."}
+                  ? <span dangerouslySetInnerHTML={{ __html: t("org.inviteBodyNamed", { name: orgName }) }} />
+                  : t("org.inviteBodyGeneric")}
                 <br />
-                Kliknij poniżej, aby zaakceptować zaproszenie.
+                {t("org.inviteBodyClick")}
               </p>
               <Button onClick={accept} disabled={working} className="bg-accent-gradient text-accent-foreground">
                 {working && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                Zaakceptuj zaproszenie
+                {t("org.accept")}
               </Button>
               <p className="text-xs text-muted-foreground mt-4">
-                Zaproszenie musi być zaakceptowane z konta utworzonego pod tym samym adresem e-mail.
+                {t("org.sameEmailNote")}
               </p>
             </>
           )}
