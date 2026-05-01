@@ -1271,5 +1271,59 @@
     "source": "Source",
     "count": "Occurrences",
     "latest": "Last used"
+  },
+  "grantPack": {
+    "title": "Grant Documentation Pack",
+    "subtitle": "Structured description of Kogni's innovation, R&D components, risks, KPIs, and validation data.",
+    "noPilotData": "No pilot data yet — this document describes the architecture and validation plan.",
+    "copy": "Copy",
+    "copied": "Copied",
+    "exportJson": "Export JSON",
+    "exportMarkdown": "Export Markdown",
+    "metricsHeading": "Aggregate metrics",
+    "adminLink": {
+      "eyebrow": "Grant readiness",
+      "hint": "Open the structured documentation pack for FENG / SMART Path."
+    },
+    "sections": {
+      "executive_summary": "Executive Summary",
+      "problem_statement": "Problem Statement",
+      "proposed_solution": "Proposed Solution",
+      "innovation_components": "Innovation Components",
+      "rd_hypotheses": "R&D Hypotheses",
+      "tech_risks": "Technological Risks",
+      "validation_kpis": "Validation KPIs",
+      "evidence_architecture": "Evidence Architecture",
+      "data_model": "Data Model & Traceability",
+      "algorithm_versioning": "Algorithm Versioning",
+      "pilot_validation_plan": "Pilot Validation Plan",
+      "market_impact": "Market / Impact Narrative",
+      "readiness_checklist": "Readiness Checklist",
+      "export": "Export"
+    },
+    "readinessGroups": {
+      "product": "A. Product readiness",
+      "rd": "B. R&D readiness",
+      "data": "C. Data readiness",
+      "legal": "D. Legal / privacy readiness",
+      "pilot": "E. Pilot readiness",
+      "grant": "F. Grant application readiness"
+    },
+    "status": {
+      "ready": "Ready",
+      "partial": "Partial",
+      "missing": "Missing"
+    },
+    "table": {
+      "label": "Item",
+      "status": "Status",
+      "evidence": "Evidence source",
+      "recommendation": "Recommendation",
+      "severity": "Severity",
+      "mitigation": "Mitigation",
+      "kpi": "KPI",
+      "value": "Value"
+    },
+    "disclaimer": "This document is internal grant-preparation material. It does not guarantee funding, is not official legal advice, and the readiness score is an internal heuristic."
   }
 }
