@@ -101,6 +101,19 @@ const Brain = () => {
           )}
         </Card>
 
+        {transcripts.length === 0 && reports.length === 0 && (
+          <Card className="p-8 text-center bg-card-soft mb-6">
+            <Sparkles className="h-10 w-10 mx-auto mb-3 text-accent" />
+            <h3 className="font-semibold mb-2">Twój Drugi Mózg jest pusty</h3>
+            <p className="text-muted-foreground mb-4">
+              Po pierwszej sesji pojawią się tu transkrypty, fiszki, raporty i graf wiedzy.
+            </p>
+            <Button asChild className="bg-accent-gradient text-accent-foreground">
+              <Link to="/discover"><Search className="h-4 w-4 mr-2" />Znajdź tutora</Link>
+            </Button>
+          </Card>
+        )}
+
         <Tabs defaultValue="graph">
           <TabsList>
             <TabsTrigger value="graph"><Network className="h-4 w-4 mr-2" />Graf wiedzy</TabsTrigger>
