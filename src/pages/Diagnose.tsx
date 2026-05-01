@@ -168,7 +168,7 @@ export default function Diagnose() {
     } finally {
       setSubmitting(false);
     }
-  }, [domain, level, levelLabel, taxonomy, childId, i18n.language, t]);
+  }, [domain, level, levelLabel, taxonomy, childId, i18n.language, t, hasAiConsent]);
 
   const submit = useCallback(async () => {
     if (!attemptId || !item) return;
