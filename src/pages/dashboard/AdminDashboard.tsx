@@ -194,6 +194,7 @@ const AdminDashboard = () => {
             <p className="text-sm text-muted-foreground leading-relaxed">{t("smartReadiness.body")}</p>
           </Surface>
 
+          <div className="grid gap-5 md:grid-cols-2">
             <Surface className="p-5">
               <h2 className="font-semibold mb-3 flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-accent" />{t("admin.verifications")}</h2>
               <EmptyState icon={ShieldCheck} title={t("admin.verifNoneTitle")} description={t("admin.verifNoneDesc")} />
