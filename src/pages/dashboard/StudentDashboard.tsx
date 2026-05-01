@@ -204,8 +204,7 @@ const StudentDashboard = () => {
               </div>
             </Surface>
           )}
-
-
+          {kcAreas.length > 0 && (
             <Surface className="p-5 mb-6">
               <h2 className="font-semibold mb-3 flex items-center gap-2 text-base">
                 <Sparkles className="h-4 w-4 text-accent" /> {t("knowledge.aiDiagnosisAreas")}
