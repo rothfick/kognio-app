@@ -309,10 +309,19 @@
     "strengthsLabel": "Strengths:",
     "workLabel": "To work on:",
     "noFlashcards": "Flashcards will appear after a report is generated.",
-    "errorStatus": "Error {{status}}"
+    "errorStatus": "Error {{status}}",
+    "parentTitle": "Children's Second Brain",
+    "parentSubtitle": "Pick a child to open their knowledge map, reports and session transcripts.",
+    "parentEmpty": "You don't have any linked children or students yet.",
+    "parentChildrenSection": "Your children",
+    "parentLinkedSection": "Linked students",
+    "parentOpen": "Open"
   },
   "calendar": {
     "title": "Calendar",
+    "parentTitle": "Your children's bookings",
+    "parentSubtitle": "Upcoming and past lessons linked to your children. View only — you don't confirm or pay on their behalf.",
+    "parentEmpty": "No bookings linked to your children.",
     "upcoming": "Upcoming sessions",
     "past": "Past sessions",
     "empty": "No scheduled sessions.",
