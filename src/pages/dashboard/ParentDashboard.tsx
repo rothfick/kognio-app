@@ -14,6 +14,8 @@ import { Users, LineChart, FileText, Plus, BookOpen, ShieldCheck, Brain, Trendin
 import { AddChildDialog } from "@/components/parent/AddChildDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { NextBestActionCard } from "@/components/journey/NextBestActionCard";
+import { useNextBestAction } from "@/hooks/useJourneyState";
 
 type ChildRow = {
   id: string;
@@ -54,6 +56,8 @@ const ParentDashboard = () => {
             subtitle={t("dashboard.parentSubtitle")}
             actions={children.length > 0 ? <AddChildDialog onCreated={load} /> : undefined}
           />
+
+          <ParentNextBestStepBlock />
 
           <div className="grid gap-4 sm:grid-cols-3 mb-6">
             <StatCard icon={Users} label={t("parent.stats.children")} value={String(children.length)} hint={t("parent.stats.childrenHint")} />
@@ -218,6 +222,14 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
       </div>
     </Surface>
   );
+};
+
+const ParentNextBestStepBlock = () => {
+  const nb = useNextBestAction();
+  if (nb.loading || nb.mode !== "parent") return null;
+  if (nb.addChild) return <div className="mb-6"><NextBestActionCard action={nb.action} /></div>;
+  const top = nb.children[0];
+  return <div className="mb-6"><NextBestActionCard action={top.action} childName={top.child.displayName} /></div>;
 };
 
 export default ParentDashboard;

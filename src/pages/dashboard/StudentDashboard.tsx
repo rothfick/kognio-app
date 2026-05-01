@@ -12,6 +12,8 @@ import { AIInsightCard } from "@/components/ui/ai-insight-card";
 import { MasteryBadge } from "@/components/ui/mastery-badge";
 import { EmptyState } from "@/components/EmptyState";
 import { Button } from "@/components/ui/button";
+import { NextBestActionCard } from "@/components/journey/NextBestActionCard";
+import { useNextBestAction } from "@/hooks/useJourneyState";
 import { Badge } from "@/components/ui/badge";
 import {
   Brain, Calendar as CalIcon, ClipboardList, Sparkles, BookOpen, ArrowRight, Search, TrendingUp,
@@ -113,6 +115,8 @@ const StudentDashboard = () => {
             subtitle={t("dashboard.studentSubtitle")}
             primaryAction={{ label: t("dashboard.diagnoseCta"), to: "/diagnose" }}
           />
+
+          <NextBestStepBlock />
 
           <div className="grid gap-4 sm:grid-cols-3 mb-6">
             <StatCard icon={Brain} label={t("student.avgMastery")} value={latestScore === null ? "—" : `${Math.round(latestScore * 100)}%`} hint={latestScore === null ? t("student.avgMasteryHint") : t("student.latestDiagnosisHint")} />
@@ -251,6 +255,12 @@ const StudentDashboard = () => {
       </AppShell>
     </RoleGate>
   );
+};
+
+const NextBestStepBlock = () => {
+  const nb = useNextBestAction();
+  if (nb.loading || nb.mode !== "self") return null;
+  return <div className="mb-6"><NextBestActionCard action={nb.action} /></div>;
 };
 
 export default StudentDashboard;

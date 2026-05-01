@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { PilotReadinessSection } from "@/components/pilot/PilotReadinessSection";
+import { FirstSuccessFunnelSection } from "@/components/journey/FirstSuccessFunnelSection";
 
 type AlgoVersion = { version: string; source: string; count: number; latest: string | null };
 
@@ -335,6 +336,8 @@ const ResearchDashboardInner = () => {
             </Surface>
 
             <PilotReadinessSection />
+
+            <FirstSuccessFunnelSection />
 
             {/* Key metrics */}
             <section>

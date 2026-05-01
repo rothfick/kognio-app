@@ -35,6 +35,7 @@ import { SchoolDashboard, CompanyDashboard } from "./pages/dashboard/OrgDashboar
 import OrgInviteAccept from "./pages/OrgInviteAccept";
 import ResearchDashboard from "./pages/admin/ResearchDashboard";
 import GrantPack from "./pages/admin/GrantPack";
+import GettingStarted from "./pages/GettingStarted";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +51,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/dashboard" element={<ProtectedRoute><DashboardRouter /></ProtectedRoute>} />
+            <Route path="/getting-started" element={<ProtectedRoute><GettingStarted /></ProtectedRoute>} />
             <Route path="/dashboard/student" element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
             <Route path="/dashboard/parent" element={<ProtectedRoute><ParentDashboard /></ProtectedRoute>} />
             <Route path="/parent/children/:childId/knowledge" element={<ProtectedRoute><ChildKnowledge /></ProtectedRoute>} />
