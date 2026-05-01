@@ -280,10 +280,18 @@ const ResearchDashboardInner = () => {
           title={t("research.title")}
           subtitle={t("research.subtitle")}
           actions={
-            <Button onClick={handleExport} disabled={!data}>
-              <Download className="h-4 w-4 mr-2" />
-              {t("export.smartReport")}
-            </Button>
+            <div className="flex gap-2">
+              <Button asChild variant="outline">
+                <a href="/admin/grant-pack">
+                  <BadgeCheck className="h-4 w-4 mr-2" />
+                  {t("grantPack.title")}
+                </a>
+              </Button>
+              <Button onClick={handleExport} disabled={!data}>
+                <Download className="h-4 w-4 mr-2" />
+                {t("export.smartReport")}
+              </Button>
+            </div>
           }
         />
 
