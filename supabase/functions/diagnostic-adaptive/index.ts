@@ -353,7 +353,7 @@ Deno.serve(async (req) => {
       // Load attempt + item via user client to enforce RLS
       const { data: attempt, error: aErr } = await userClient
         .from("diagnostic_attempts")
-        .select("id, domain, level, language, status, total_items, correct_items, child_id, user_id")
+        .select("id, domain, level, language, status, total_items, correct_items, child_id, user_id, education_system_id, education_level_id, learning_domain_id, taxonomy_payload")
         .eq("id", attemptId)
         .maybeSingle();
       if (aErr || !attempt) return json({ error: "Attempt not found or no access" }, 404);
