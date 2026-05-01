@@ -209,6 +209,19 @@ const AdminDashboard = () => {
         <DashboardShell>
           <DashboardHeader title={t("dashboard.adminTitle")} subtitle={t("dashboard.adminSubtitle")} />
 
+          <a href="/admin/research" className="block mb-6">
+            <Surface variant="ai" className="p-5 hover:shadow-elegant transition-shadow">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs uppercase tracking-wide text-muted-foreground">{t("research.adminLink.eyebrow")}</p>
+                  <p className="text-lg font-semibold mt-1">{t("research.title")}</p>
+                  <p className="text-sm text-muted-foreground">{t("research.adminLink.hint")}</p>
+                </div>
+                <Telescope className="h-8 w-8 text-accent" />
+              </div>
+            </Surface>
+          </a>
+
           <div className="grid gap-4 sm:grid-cols-4 mb-6">
             <StatCard icon={ShieldCheck} label={t("admin.verifications")} value="0" hint={t("admin.verificationsHint")} />
             <StatCard icon={AlertTriangle} label={t("admin.disputes")} value="0" />
