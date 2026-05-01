@@ -193,10 +193,24 @@ export default function Diagnose() {
     }
   }, [attemptId, item, selected, t]);
 
+  // Auto-finalize when checkpoint mode and diagnosis just completed
+  useEffect(() => {
+    if (phase === "done" && checkpointId && attemptId && !finalizing && !finalizeError) {
+      finalizeCheckpoint(checkpointId, attemptId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, checkpointId, attemptId]);
+
   if (authLoading) {
     return <AppShell><div className="container py-12 text-sm text-muted-foreground">{t("common.loading")}</div></AppShell>;
   }
   if (!user) return <Navigate to="/auth" replace />;
+  if (checkpointId && checkpointDenied) {
+    return <AppShell><DashboardShell><div className="py-12 text-sm text-muted-foreground">{t("checkpoint.denied")}</div></DashboardShell></AppShell>;
+  }
+  if (checkpointId && checkpointLoading) {
+    return <AppShell><div className="container py-12 text-sm text-muted-foreground">{t("checkpoint.starting")}</div></AppShell>;
+  }
 
   return (
     <AppShell>
