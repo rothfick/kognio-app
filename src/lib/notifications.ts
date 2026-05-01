@@ -31,7 +31,12 @@ export type NotificationType =
   | "homework_assigned"
   | "homework_submitted"
   | "homework_graded"
-  | "homework_needs_review";
+  | "homework_needs_review"
+  // live lesson
+  | "session_room_ready"
+  | "session_started"
+  | "session_ended"
+  | "lesson_note_submitted";
 
 export interface CreateNotificationInput {
   userId: string;
