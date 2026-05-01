@@ -17,23 +17,28 @@ import {
   Brain, Calendar as CalIcon, ClipboardList, Sparkles, BookOpen, ArrowRight, Search,
 } from "lucide-react";
 
+type KcRow = { kc_label: string; mastery_pct: number; status: string };
+
 const StudentDashboard = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [latestScore, setLatestScore] = useState<number | null>(null);
+  const [kcAreas, setKcAreas] = useState<KcRow[]>([]);
 
   useEffect(() => {
     if (!user) return;
     (async () => {
       const { data } = await supabase
         .from("diagnostic_attempts")
-        .select("score")
+        .select("score, summary")
         .eq("user_id", user.id)
         .eq("status", "completed")
         .order("completed_at", { ascending: false })
         .limit(1)
         .maybeSingle();
       setLatestScore(data?.score === null || data?.score === undefined ? null : Number(data.score));
+      const summary = (data as { summary?: { kc_breakdown?: KcRow[] } } | null)?.summary;
+      setKcAreas(Array.isArray(summary?.kc_breakdown) ? (summary!.kc_breakdown as KcRow[]) : []);
     })();
   }, [user]);
 
