@@ -63,13 +63,25 @@ export default function Diagnose() {
     if (!level) return toast.error(t("diagnose.missingLevel"));
     setSubmitting(true);
     try {
+      const lang = i18n.language?.split("-")[0] || "pl";
+      const localizedDomain = (d: typeof taxonomy.domain) => d ? ((lang === "en" ? d.name_en : lang === "es" ? d.name_es : d.name_pl) || d.name_pl) : "";
+      const localizedLevel = (lv: typeof taxonomy.level) => lv ? ((lang === "en" ? lv.name_en : lang === "es" ? lv.name_es : lv.name_pl) || lv.name_pl) : "";
+      const effectiveDomain = (domain.trim() || localizedDomain(taxonomy.domain)).trim();
+      const effectiveLevel = level ? levelLabel : localizedLevel(taxonomy.level);
+      if (!effectiveDomain) return toast.error(t("diagnose.missingDomain"));
+      if (!effectiveLevel) return toast.error(t("diagnose.missingLevel"));
       const { data, error } = await supabase.functions.invoke("diagnostic-adaptive", {
         body: {
           action: "start",
-          domain: domain.trim(),
-          level: levelLabel,
-          language: i18n.language?.split("-")[0] || "pl",
+          domain: effectiveDomain,
+          level: effectiveLevel,
+          language: lang,
           target_questions: TARGET,
+          taxonomy: {
+            system_code: taxonomy.system?.code,
+            level_code: taxonomy.level?.code,
+            domain_code: taxonomy.domain?.code,
+          },
           ...(childId ? { child_id: childId } : {}),
         },
       });
@@ -84,7 +96,7 @@ export default function Diagnose() {
     } finally {
       setSubmitting(false);
     }
-  }, [domain, level, levelLabel, childId, i18n.language, t]);
+  }, [domain, level, levelLabel, taxonomy, childId, i18n.language, t]);
 
   const submit = useCallback(async () => {
     if (!attemptId || !item) return;
