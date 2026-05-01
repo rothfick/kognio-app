@@ -150,7 +150,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
       setInvites((iRes.data || []) as InviteRow[]);
     } catch (e: any) {
       console.error(e);
-      toast.error(e.message || "Nie udało się wczytać danych organizacji.");
+      toast.error(e.message || t("org.loadFailed"));
     } finally {
       setLoading(false);
     }
@@ -163,7 +163,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
 
   const saveDetails = async () => {
     if (!org) return;
-    if (!name.trim()) { toast.error("Nazwa nie może być pusta."); return; }
+    if (!name.trim()) { toast.error(t("org.nameEmpty")); return; }
     setSavingDetails(true);
     const { error } = await supabase
       .from("organizations")
@@ -177,7 +177,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
       .eq("id", org.id);
     setSavingDetails(false);
     if (error) { toast.error(error.message); return; }
-    toast.success("Zapisano dane organizacji.");
+    toast.success(t("org.saved"));
     loadAll();
   };
 
@@ -185,7 +185,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
     if (!org || !user) return;
     const email = inviteEmail.trim().toLowerCase();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      toast.error("Podaj poprawny e-mail.");
+      toast.error(t("org.invalidEmail"));
       return;
     }
     setSendingInvite(true);
@@ -197,7 +197,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
     });
     setSendingInvite(false);
     if (error) { toast.error(error.message); return; }
-    toast.success("Zaproszenie utworzone. Skopiuj i wyślij link osobie zapraszanej.");
+    toast.success(t("org.inviteCreated"));
     setInviteEmail("");
     setInviteRole("student");
     setInviteOpen(false);
@@ -210,26 +210,26 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
       .update({ status: "revoked" as InviteStatus })
       .eq("id", id);
     if (error) { toast.error(error.message); return; }
-    toast.success("Zaproszenie odwołane.");
+    toast.success(t("org.inviteRevoked"));
     loadAll();
   };
 
   const removeMember = async (m: MemberRow) => {
     if (!org) return;
     if (m.user_id === org.owner_id) {
-      toast.error("Nie możesz usunąć właściciela organizacji.");
+      toast.error(t("org.cannotRemoveOwner"));
       return;
     }
     const { error } = await supabase.from("organization_members").delete().eq("id", m.id);
     if (error) { toast.error(error.message); return; }
-    toast.success("Członek usunięty.");
+    toast.success(t("org.memberRemoved"));
     loadAll();
   };
 
   const copyInviteLink = (token: string) => {
     const url = `${window.location.origin}/org/invite/${token}`;
     navigator.clipboard.writeText(url);
-    toast.success("Link zaproszenia skopiowany.");
+    toast.success(t("org.linkCopied"));
   };
 
   const studentsCount = members.filter((m) => m.member_role === "student").length;
