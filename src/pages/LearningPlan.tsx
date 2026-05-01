@@ -55,7 +55,7 @@ type Item = {
 };
 
 export default function LearningPlan() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { planId } = useParams<{ planId: string }>();
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
@@ -64,6 +64,7 @@ export default function LearningPlan() {
   const [loading, setLoading] = useState(true);
   const [denied, setDenied] = useState(false);
   const [startingCheckpoint, setStartingCheckpoint] = useState(false);
+  const [generatingItemId, setGeneratingItemId] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     if (!user || !planId) return;
