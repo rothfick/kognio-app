@@ -122,7 +122,7 @@ const ParentChecklist = () => {
     },
     {
       titleKey: "gettingStarted.parent.s2.title", descKey: "gettingStarted.parent.s2.desc",
-      step: { key: "consent", status: !child ? "locked" : child.hasConsent ? "done" : "current", route: child ? `/parent/children/${child.childId}/diagnose` : "/dashboard/parent", ctaKey: "gettingStarted.parent.s2.cta", estMin: 1 },
+      step: { key: "consent", status: !child ? "locked" : child.hasConsent ? "done" : "current", route: child ? `/parent/children/${child.childId}/diagnose?step=consent` : "/dashboard/parent", ctaKey: "gettingStarted.parent.s2.cta", estMin: 1 },
     },
     {
       titleKey: "gettingStarted.parent.s3.title", descKey: "gettingStarted.parent.s3.desc",
