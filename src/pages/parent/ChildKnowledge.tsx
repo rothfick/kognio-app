@@ -17,13 +17,14 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArrowLeft, BookOpen, Brain, Plus, Target, Loader2, Archive } from "lucide-react";
+import { ArrowLeft, BookOpen, Brain, Plus, Target, Loader2, Archive, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 type Child = { id: string; display_name: string; grade_level: string | null; primary_subject: string | null };
 type KC = { id: string; code: string; name_pl: string; parent_kc_id: string | null; order_index: number };
-type Mastery = { kc_id: string; mastery_prob: number };
+type Mastery = { kc_id: string; mastery_prob: number; source: string | null; last_updated: string | null };
 type Goal = { id: string; title: string; description: string | null; target_date: string | null; status: string; created_at: string };
+type LatestAttempt = { id: string; status: string; score: number | null; correct_items: number; total_items: number; completed_at: string | null };
 
 const SUBJECT_CODE = "math_7_9";
 
