@@ -295,6 +295,10 @@ export default function LearningPlan() {
           </ol>
         </Surface>
 
+        <div className="mt-6">
+          <FeedbackWidget contextType="learning_plan" contextId={plan?.id ?? null} childId={plan?.child_id ?? null} />
+        </div>
+
         <p className="mt-6 text-[11px] text-muted-foreground text-center">{t("plan.credibility")}</p>
       </DashboardShell>
     </AppShell>
