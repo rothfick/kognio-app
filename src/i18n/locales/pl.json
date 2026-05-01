@@ -2246,5 +2246,161 @@
     "evSessionCompleted": "Zakończone sesje",
     "evTutorNote": "Notatki korepetytorów",
     "note": "Liczniki marketplace korzystają z tego samego potoku SMART evidence co diagnoza i plany."
+  },
+  "homework": {
+    "title": "Zadania domowe",
+    "subtitle": "Ukierunkowana praktyka na Twoje słabsze obszary — automatycznie sprawdzana.",
+    "tutorTitle": "Zadania uczniów",
+    "tutorSubtitle": "Zadania powiązane z Twoimi uczniami i sesjami.",
+    "adminTitle": "Zadania domowe (widok administratora)",
+    "newCta": "Wygeneruj zadanie",
+    "generateForChild": "Wygeneruj dla {{name}}",
+    "generateFromPlanItem": "Wygeneruj praktykę",
+    "generateFromCheckpoint": "Wygeneruj praktykę kontynuacyjną",
+    "generateFromNote": "Wygeneruj zadanie z notatki",
+    "openCta": "Otwórz",
+    "startCta": "Rozpocznij",
+    "continueCta": "Kontynuuj",
+    "reviewCta": "Zobacz",
+    "submitCta": "Wyślij odpowiedzi",
+    "submittingCta": "Wysyłanie…",
+    "filters": {
+      "all": "Wszystkie",
+      "assigned": "Przypisane",
+      "in_progress": "W trakcie",
+      "submitted": "Wysłane",
+      "graded": "Sprawdzone",
+      "archived": "Zarchiwizowane",
+      "needs_review": "Wymaga sprawdzenia"
+    },
+    "selectChild": "Wybierz dziecko",
+    "skillArea": "Obszar umiejętności",
+    "due": "Termin",
+    "noDue": "Brak terminu",
+    "questions": "Pytania",
+    "noItems": "To zadanie nie ma jeszcze pytań.",
+    "answerHint": "Odpowiedz na pytania i wyślij, aby otrzymać automatyczną informację zwrotną.",
+    "needsReviewBanner": "Niektóre odpowiedzi wymagają sprawdzenia przez korepetytora.",
+    "scoreLabel": "Wynik",
+    "questionLabel": "Pytanie {{n}}",
+    "explanation": "Wyjaśnienie",
+    "yourAnswer": "Twoja odpowiedź",
+    "correctAnswer": "Poprawna odpowiedź",
+    "true": "Prawda",
+    "false": "Fałsz",
+    "shortAnswerPlaceholder": "Wpisz odpowiedź…",
+    "shortAnswerNotice": "Pytania otwarte zostaną sprawdzone przez korepetytora.",
+    "back": "Powrót do zadań",
+    "loading": "Wczytywanie zadania…",
+    "notFound": "Nie znaleziono zadania.",
+    "notFoundCta": "Powrót do listy",
+    "emptyTitle": "Brak zadań.",
+    "emptyDesc": "Wygeneruj pierwsze ćwiczenie, aby zacząć uzupełniać luki w wiedzy.",
+    "emptyTutorTitle": "Brak zadań uczniów.",
+    "emptyTutorDesc": "Utwórz zadanie z notatki po sesji lub elementu planu nauki.",
+    "emptyAdminTitle": "Brak zadań w systemie.",
+    "tutorOnly": "Widok korepetytora",
+    "adminOnly": "Widok administratora"
+  },
+  "assignment": {
+    "status": {
+      "draft": "Szkic",
+      "assigned": "Przypisane",
+      "in_progress": "W trakcie",
+      "submitted": "Wysłane",
+      "graded": "Sprawdzone",
+      "archived": "Zarchiwizowane"
+    },
+    "source": {
+      "diagnosis": "Z diagnozy",
+      "learning_plan": "Z planu nauki",
+      "booking": "Z sesji",
+      "session_note": "Z notatki po sesji",
+      "manual": "Ręcznie"
+    },
+    "item": {
+      "multiple_choice": "Wielokrotny wybór",
+      "true_false": "Prawda / Fałsz",
+      "short_answer": "Odpowiedź otwarta"
+    }
+  },
+  "grading": {
+    "autoGraded": "Sprawdzone automatycznie",
+    "needsReview": "Wymaga sprawdzenia",
+    "submitted": "Wysłane",
+    "reviewed": "Sprawdzone",
+    "scoreOf": "{{score}} / {{max}}",
+    "percentage": "{{n}}%",
+    "correct": "Poprawne",
+    "incorrect": "Niepoprawne",
+    "skipped": "Brak odpowiedzi",
+    "feedbackTitle": "Informacja zwrotna",
+    "noFeedback": "Brak dodatkowej informacji zwrotnej."
+  },
+  "mastery": {
+    "homework": {
+      "updated": "Biegłość zaktualizowana na podstawie zadania.",
+      "increase": "Biegłość w obszarze {{area}} wzrosła o {{delta}}%.",
+      "decrease": "Biegłość w obszarze {{area}} skorygowana o {{delta}}%."
+    }
+  },
+  "dashboardHomework": {
+    "title": "Zadania domowe",
+    "active": "Aktywne",
+    "graded": "Sprawdzone",
+    "needsReview": "Wymaga sprawdzenia",
+    "lastScore": "Ostatni wynik",
+    "nextDue": "Najbliższy termin",
+    "nextDueNone": "Brak nadchodzących terminów",
+    "openCta": "Otwórz zadania",
+    "generateCta": "Wygeneruj zadanie",
+    "emptyTitle": "Brak aktywnych zadań",
+    "emptyDesc": "Wygeneruj praktykę dla swoich słabszych obszarów.",
+    "weakAreasHint": "Zauważyliśmy słabsze obszary — wygeneruj praktykę, aby zniwelować luki.",
+    "childActive": "{{count}} aktywnych",
+    "childLatestScore": "Ostatnio: {{score}}%",
+    "tutorAssignedCount": "{{count}} zadań powiązanych z Twoimi sesjami",
+    "tutorNeedsReviewCount": "{{count}} odpowiedzi czeka na sprawdzenie"
+  },
+  "adminHomework": {
+    "sectionTitle": "Zadania domowe",
+    "assignmentsTotal": "Zadania",
+    "submissionsTotal": "Wysłane odpowiedzi",
+    "avgScore": "Średni wynik",
+    "needsReview": "Wymaga sprawdzenia",
+    "evGenerated": "Wygenerowane zadania",
+    "evSubmitted": "Wysłane odpowiedzi",
+    "evAutoGraded": "Sprawdzone automatycznie",
+    "evReviewed": "Sprawdzone ręcznie",
+    "evMasteryUpdated": "Aktualizacje biegłości z zadań"
+  },
+  "homeworkToast": {
+    "generated": "Zadanie wygenerowane.",
+    "generateFailed": "Nie udało się wygenerować zadania.",
+    "submitted": "Zadanie wysłane.",
+    "submitFailed": "Nie udało się wysłać odpowiedzi.",
+    "answerRequired": "Odpowiedz na co najmniej jedno pytanie.",
+    "missingTutor": "Tylko korepetytor tej sesji może to zrobić.",
+    "missingPermission": "Nie masz dostępu do tego zadania.",
+    "noContext": "Nie znaleziono jeszcze słabego obszaru — najpierw wykonaj diagnozę."
+  },
+  "notifHomework": {
+    "assigned": {
+      "title": "Nowe zadanie domowe",
+      "body": "{{title}} jest gotowe — spróbuj teraz."
+    },
+    "submitted": {
+      "title": "Zadanie wysłane",
+      "body": "Twoje odpowiedzi zostały zapisane."
+    },
+    "graded": {
+      "title": "Zadanie sprawdzone",
+      "body": "{{title}} — wynik: {{score}}%."
+    },
+    "needsReview": {
+      "title": "Zadanie wymaga sprawdzenia",
+      "body": "Niektóre odpowiedzi wymagają sprawdzenia przez korepetytora."
+    },
+    "viewHomework": "Otwórz zadania"
   }
 }
