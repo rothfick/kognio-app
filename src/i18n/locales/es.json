@@ -1077,5 +1077,99 @@
       "avgMasteryDelta": "Cambio medio de dominio",
       "evidenceEvents": "Eventos de evidencia de puntos de control"
     }
+  },
+  "expertReview": {
+    "adminSection": "Revisiones de expertos (Human-in-the-loop)",
+    "workspaceTitle": "Revisión de experto",
+    "reviewedTitle": "Revisado por un experto",
+    "submitted": "Revisión enviada",
+    "submittedAt": "Enviado: {{date}}",
+    "created": "Creado: {{date}}",
+    "denied": "No tienes acceso a esta revisión.",
+    "back": "Volver",
+    "ownerType": "Tipo de propietario",
+    "aiSummaryTitle": "Resumen de IA",
+    "itemsTitle": "Elementos a revisar",
+    "noItems": "No hay elementos para revisar.",
+    "aiValue": "Valor de IA",
+    "verdictLabel": "Veredicto",
+    "confidence": "Confianza (0–1)",
+    "correctionNote": "Nota de corrección",
+    "correctionNotePlaceholder": "Comentario o corrección opcional",
+    "notesTitle": "Notas generales",
+    "notesPlaceholder": "Notas del revisor visibles para el usuario después del envío (si es seguro)",
+    "saveNotes": "Guardar notas",
+    "submit": "Enviar revisión",
+    "evidenceTitle": "Rastro de evidencia",
+    "evidenceReview": "ID de revisión",
+    "evidenceDiagnostic": "ID de diagnóstico",
+    "evidencePlan": "ID del plan",
+    "evidenceCheckpoint": "ID de checkpoint",
+    "evidenceAlgorithm": "Algoritmo",
+    "credibility": "La revisión de un experto refuerza la credibilidad y seguridad de las recomendaciones de IA.",
+    "openReview": "Abrir revisión",
+    "sourceDiagnostic": "Diagnóstico fuente",
+    "sourceLearningPlan": "Plan fuente",
+    "sourceCheckpoint": "Checkpoint fuente",
+    "createDiagnostic": "Diagnósticos para revisar",
+    "createPlan": "Planes para revisar",
+    "createCheckpoint": "Checkpoints para revisar",
+    "createCta": "Crear revisión",
+    "noSource": "Sin datos fuente.",
+    "assignmentNote": "La revisión se crea y se asigna al administrador actual. Otros revisores no pueden acceder a los datos del usuario sin asignación explícita.",
+    "recentSubmitted": "Revisiones enviadas recientemente",
+    "noRecent": "Aún no hay revisiones.",
+    "metrics": {
+      "created": "Creadas",
+      "submitted": "Enviadas",
+      "avgAgreement": "Acuerdo medio IA–experto",
+      "disagreements": "Desacuerdos",
+      "correctionRate": "Tasa de corrección",
+      "byType": "Diag / Plan / Checkpoint",
+      "byTypeHint": "Revisiones por tipo"
+    },
+    "errors": {
+      "noOwner": "La fuente no tiene propietario – no se puede crear la revisión."
+    },
+    "types": {
+      "diagnostic": "Diagnóstico",
+      "learning_plan": "Plan de aprendizaje",
+      "checkpoint": "Checkpoint"
+    },
+    "status": {
+      "draft": "Borrador",
+      "submitted": "Enviada",
+      "archived": "Archivada"
+    },
+    "owner": {
+      "user": "Usuario",
+      "child": "Hijo/a"
+    },
+    "itemType": {
+      "skill_gap": "Brecha de habilidad",
+      "mastery_score": "Puntuación de dominio",
+      "competency_mapping": "Mapeo de competencia",
+      "recommendation": "Recomendación",
+      "plan_step": "Paso del plan",
+      "checkpoint_delta": "Delta de checkpoint"
+    }
+  },
+  "agreement": {
+    "scoreLabel": "Acuerdo",
+    "computed": "Acuerdo calculado"
+  },
+  "verdict": {
+    "pending": "Pendiente",
+    "agree": "De acuerdo",
+    "partially_agree": "Parcialmente",
+    "disagree": "En desacuerdo",
+    "unsure": "Inseguro"
+  },
+  "reviewer": {
+    "role": {
+      "expert": "Experto",
+      "tutor": "Tutor",
+      "admin": "Administrador"
+    }
   }
 }
