@@ -234,7 +234,7 @@ export default function Diagnose() {
     } finally {
       setSubmitting(false);
     }
-  }, [attemptId, item, selected, t]);
+  }, [attemptId, item, selected, t, i18n.language]);
 
   // Auto-finalize when checkpoint mode and diagnosis just completed
   useEffect(() => {
