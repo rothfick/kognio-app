@@ -18,27 +18,53 @@ import {
 } from "lucide-react";
 
 type KcRow = { kc_label: string; mastery_pct: number; status: string };
+type LatestPlan = { id: string; status: string; title: string };
 
 const StudentDashboard = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [latestScore, setLatestScore] = useState<number | null>(null);
+  const [latestAttemptId, setLatestAttemptId] = useState<string | null>(null);
   const [kcAreas, setKcAreas] = useState<KcRow[]>([]);
+  const [plan, setPlan] = useState<LatestPlan | null>(null);
+  const [planProgress, setPlanProgress] = useState<{ done: number; total: number; nextTitle: string | null }>({ done: 0, total: 0, nextTitle: null });
 
   useEffect(() => {
     if (!user) return;
     (async () => {
       const { data } = await supabase
         .from("diagnostic_attempts")
-        .select("score, summary")
+        .select("id, score, summary")
         .eq("user_id", user.id)
         .eq("status", "completed")
         .order("completed_at", { ascending: false })
         .limit(1)
         .maybeSingle();
       setLatestScore(data?.score === null || data?.score === undefined ? null : Number(data.score));
+      setLatestAttemptId((data as { id?: string } | null)?.id ?? null);
       const summary = (data as { summary?: { kc_breakdown?: KcRow[] } } | null)?.summary;
       setKcAreas(Array.isArray(summary?.kc_breakdown) ? (summary!.kc_breakdown as KcRow[]) : []);
+
+      const { data: p } = await supabase
+        .from("learning_plans")
+        .select("id, status, title")
+        .eq("user_id", user.id)
+        .neq("status", "archived")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      setPlan((p as LatestPlan | null) || null);
+      if (p?.id) {
+        const { data: items } = await supabase
+          .from("learning_plan_items")
+          .select("status, title, order_index")
+          .eq("plan_id", p.id)
+          .order("order_index");
+        const list = (items || []) as { status: string; title: string; order_index: number }[];
+        const done = list.filter((i) => i.status === "done").length;
+        const next = list.find((i) => i.status === "pending" || i.status === "in_progress");
+        setPlanProgress({ done, total: list.length, nextTitle: next?.title ?? null });
+      }
     })();
   }, [user]);
 
