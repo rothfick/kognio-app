@@ -372,18 +372,18 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
                       <div className="min-w-0">
                         <div className="text-sm font-medium truncate">{i.email}</div>
                         <div className="text-xs text-muted-foreground">
-                          {memberRoleLabel(i.member_role, kind)} · wygasa {new Date(i.expires_at).toLocaleDateString("pl-PL")}
+                          {memberRoleLabel(i.member_role, kind, t)} · {t("org.expiresOn", { date: new Date(i.expires_at).toLocaleDateString(dateLocale) })}
                         </div>
                       </div>
-                      <Badge variant={inviteBadgeVariant(i.status)}>{inviteStatusLabel(i.status)}</Badge>
+                      <Badge variant={inviteBadgeVariant(i.status)}>{inviteStatusLabel(i.status, t)}</Badge>
                     </div>
                     {i.status === "pending" && (
                       <div className="mt-2 flex gap-2">
                         <Button variant="outline" size="sm" onClick={() => copyInviteLink(i.token)}>
-                          <Copy className="h-3.5 w-3.5 mr-1" /> Kopiuj link
+                          <Copy className="h-3.5 w-3.5 mr-1" /> {t("org.copyLink")}
                         </Button>
                         <Button variant="ghost" size="sm" onClick={() => revokeInvite(i.id)}>
-                          Odwołaj
+                          {t("org.revoke")}
                         </Button>
                       </div>
                     )}
@@ -397,42 +397,42 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
         <Card className="p-6 mt-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-lg font-semibold">Dane organizacji</h2>
+              <h2 className="text-lg font-semibold">{t("org.orgData")}</h2>
               <p className="text-sm text-muted-foreground">
-                {org.is_verified ? "Konto zweryfikowane przez Kogni." : "Status: oczekuje na weryfikację."}
+                {org.is_verified ? t("org.verified") : t("org.pending")}
               </p>
             </div>
             <Badge variant={org.is_verified ? "default" : "outline"}>
               {labels.icon}
-              <span className="ml-1.5">{kind === "school" ? "Szkoła" : "Firma szkoleniowa"}</span>
+              <span className="ml-1.5">{kind === "school" ? t("org.schoolBadge") : t("org.companyBadge")}</span>
             </Badge>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="o-name">Nazwa</Label>
+              <Label htmlFor="o-name">{t("org.name")}</Label>
               <Input id="o-name" value={name} onChange={(e) => setName(e.target.value)} />
             </div>
             <div>
-              <Label htmlFor="o-tax">NIP / REGON</Label>
+              <Label htmlFor="o-tax">{t("org.tax")}</Label>
               <Input id="o-tax" value={taxId} onChange={(e) => setTaxId(e.target.value)} />
             </div>
             <div>
-              <Label htmlFor="o-city">Miasto</Label>
+              <Label htmlFor="o-city">{t("org.city")}</Label>
               <Input id="o-city" value={city} onChange={(e) => setCity(e.target.value)} />
             </div>
             <div>
-              <Label htmlFor="o-web">WWW</Label>
+              <Label htmlFor="o-web">{t("org.web")}</Label>
               <Input id="o-web" value={website} onChange={(e) => setWebsite(e.target.value)} />
             </div>
             <div className="sm:col-span-2">
-              <Label htmlFor="o-desc">Opis</Label>
+              <Label htmlFor="o-desc">{t("org.description")}</Label>
               <Input id="o-desc" value={description} onChange={(e) => setDescription(e.target.value)} />
             </div>
           </div>
           <div className="mt-4 flex justify-end">
             <Button onClick={saveDetails} disabled={savingDetails}>
               {savingDetails && <Loader2 className="h-4 w-4 animate-spin mr-1.5" />}
-              Zapisz
+              {t("org.save")}
             </Button>
           </div>
         </Card>
