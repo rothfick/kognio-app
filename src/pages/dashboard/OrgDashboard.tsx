@@ -398,7 +398,7 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
             <div>
               <h2 className="text-lg font-semibold">Dane organizacji</h2>
               <p className="text-sm text-muted-foreground">
-                {org.is_verified ? "Konto zweryfikowane przez TutorOS AI." : "Status: oczekuje na weryfikację."}
+                {org.is_verified ? "Konto zweryfikowane przez Kogni." : "Status: oczekuje na weryfikację."}
               </p>
             </div>
             <Badge variant={org.is_verified ? "default" : "outline"}>

@@ -53,7 +53,7 @@ const TutorDashboard = () => {
               <div className="flex-1">
                 <p className="text-sm font-medium mb-1">Profil oczekuje na weryfikację</p>
                 <p className="text-xs text-muted-foreground">
-                  Po weryfikacji przez zespół TutorOS AI Twój profil będzie mógł być publikowany w wyszukiwarce.
+                  Po weryfikacji przez zespół Kogni Twój profil będzie mógł być publikowany w wyszukiwarce.
                 </p>
               </div>
               <Badge variant="secondary" className="text-[10px]">W toku</Badge>

@@ -75,7 +75,7 @@ const OrgInviteAccept = () => {
               <p className="text-muted-foreground mb-6">
                 {orgName
                   ? <>Zostałeś zaproszony(a) do <strong>{orgName}</strong>.</>
-                  : "Zostałeś zaproszony(a) do organizacji w TutorOS AI."}
+                  : "Zostałeś zaproszony(a) do organizacji w Kogni."}
                 <br />
                 Kliknij poniżej, aby zaakceptować zaproszenie.
               </p>

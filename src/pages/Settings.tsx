@@ -110,11 +110,12 @@ const Settings = () => {
         {/* Language */}
         <Card className="p-6 bg-card-soft">
           <Label className="text-base mb-3 block">{t("settings.language")}</Label>
-          <Select value={i18n.language?.startsWith("en") ? "en" : "pl"} onValueChange={(v) => i18n.changeLanguage(v)}>
+          <Select value={(["pl","en","es"] as const).find((l) => i18n.language?.startsWith(l)) || "pl"} onValueChange={(v) => i18n.changeLanguage(v)}>
             <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="pl">{t("settings.languagePl")}</SelectItem>
               <SelectItem value="en">{t("settings.languageEn")}</SelectItem>
+              <SelectItem value="es">{t("settings.languageEs")}</SelectItem>
             </SelectContent>
           </Select>
         </Card>

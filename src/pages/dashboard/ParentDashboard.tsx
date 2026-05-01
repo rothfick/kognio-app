@@ -62,7 +62,7 @@ const ParentDashboard = () => {
           <div className="grid gap-5 md:grid-cols-3 mb-6">
             <AIInsightCard title="Co warto wiedzieć" className="md:col-span-2">
               <p>
-                Po każdym tygodniu nauki TutorOS AI wygeneruje krótki raport oparty na danych z lekcji, diagnozy i zadań domowych. Bez subiektywnych opinii.
+                Po każdym tygodniu nauki Kogni wygeneruje krótki raport oparty na danych z lekcji, diagnozy i zadań domowych. Bez subiektywnych opinii.
               </p>
             </AIInsightCard>
             <Surface className="p-5">
