@@ -226,14 +226,10 @@ const StudentDashboard = () => {
                 <StudentUpcomingBookings hasWeakAreas={kcAreas.some((k) => Number(k.mastery_pct || 0) < 50)} />
               )}
               {isFeatureEnabled("homework") && (
-                <Surface className="p-5">
-                  <h2 className="font-semibold mb-3 flex items-center gap-2"><BookOpen className="h-4 w-4 text-accent" /> {t("student.homeworkSection")}</h2>
-                  <EmptyState
-                    icon={Sparkles}
-                    title={t("student.noTasksTitle")}
-                    description={t("student.noTasksDesc")}
-                  />
-                </Surface>
+                <StudentHomeworkBlock
+                  hasWeakAreas={kcAreas.some((k) => Number(k.mastery_pct || 0) < 50)}
+                  diagnosticAttemptId={latestAttemptId}
+                />
               )}
             </div>
           )}
