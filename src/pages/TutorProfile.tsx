@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Star } from "lucide-react";
+import { Star, Settings as SettingsIcon } from "lucide-react";
 import { toast } from "sonner";
 
 const TutorProfile = () => {
@@ -78,6 +78,14 @@ const TutorProfile = () => {
           <p className="text-foreground/80 leading-relaxed whitespace-pre-wrap">{tutor.description || tutor.profiles?.bio || "—"}</p>
         </Card>
 
+        {user?.id === tutor.user_id ? (
+          <Card className="p-6 bg-card-soft text-center">
+            <p className="text-muted-foreground mb-4">To Twój publiczny profil tutora.</p>
+            <Button asChild className="bg-accent-gradient text-accent-foreground">
+              <Link to="/settings"><SettingsIcon className="h-4 w-4 mr-2" />Edytuj profil</Link>
+            </Button>
+          </Card>
+        ) : (
         <Card className="p-6 bg-card-soft">
           <h2 className="text-xl font-semibold mb-4">Zarezerwuj sesję (1h)</h2>
           <div className="grid grid-cols-2 gap-3 mb-4">
@@ -88,6 +96,7 @@ const TutorProfile = () => {
             {user ? "Zarezerwuj" : "Zaloguj się aby zarezerwować"}
           </Button>
         </Card>
+        )}
       </div>
     </AppShell>
   );

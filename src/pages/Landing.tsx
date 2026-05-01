@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AppShell } from "@/components/layout/AppShell";
+import { useAuth } from "@/contexts/AuthContext";
 import { Brain, Users, Wallet, ArrowRight, Sparkles, Video, MessageSquare } from "lucide-react";
 
 const Landing = () => {
   const { t } = useTranslation();
+  const { user, loading } = useAuth();
+  if (!loading && user) return <Navigate to="/discover" replace />;
 
   const features = [
     { Icon: Brain, titleKey: "feature1Title", descKey: "feature1Desc" },

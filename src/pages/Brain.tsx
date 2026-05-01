@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -6,7 +7,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Brain as BrainIcon, Sparkles, FileText, Loader2, Network } from "lucide-react";
+import { Brain as BrainIcon, Sparkles, FileText, Loader2, Network, Search } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { KnowledgeGraph } from "@/components/brain/KnowledgeGraph";
@@ -99,6 +100,19 @@ const Brain = () => {
             </Card>
           )}
         </Card>
+
+        {transcripts.length === 0 && reports.length === 0 && (
+          <Card className="p-8 text-center bg-card-soft mb-6">
+            <Sparkles className="h-10 w-10 mx-auto mb-3 text-accent" />
+            <h3 className="font-semibold mb-2">Twój Drugi Mózg jest pusty</h3>
+            <p className="text-muted-foreground mb-4">
+              Po pierwszej sesji pojawią się tu transkrypty, fiszki, raporty i graf wiedzy.
+            </p>
+            <Button asChild className="bg-accent-gradient text-accent-foreground">
+              <Link to="/discover"><Search className="h-4 w-4 mr-2" />Znajdź tutora</Link>
+            </Button>
+          </Card>
+        )}
 
         <Tabs defaultValue="graph">
           <TabsList>

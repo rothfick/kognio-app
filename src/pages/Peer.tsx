@@ -9,10 +9,18 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { HandHelping, Plus } from "lucide-react";
+import { HandHelping, Plus, Check } from "lucide-react";
 import { toast } from "sonner";
 
-type Req = { id: string; title: string; description: string | null; status: string; requester_id: string; created_at: string };
+type Req = {
+  id: string;
+  title: string;
+  description: string | null;
+  status: string;
+  requester_id: string;
+  helper_id: string | null;
+  created_at: string;
+};
 
 const Peer = () => {
   const { t } = useTranslation();
@@ -22,9 +30,15 @@ const Peer = () => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const [tab, setTab] = useState<"open" | "mine">("open");
 
   const load = async () => {
-    const { data } = await supabase.from("peer_requests").select("*").eq("status", "open").order("created_at", { ascending: false }).limit(50);
+    setLoading(true);
+    const { data } = await supabase
+      .from("peer_requests")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(80);
     setReqs((data as Req[]) || []);
     setLoading(false);
   };
@@ -36,6 +50,35 @@ const Peer = () => {
     if (error) { toast.error(error.message); return; }
     toast.success("Prośba opublikowana"); setOpen(false); setTitle(""); setDesc(""); load();
   };
+
+  const offerHelp = async (r: Req) => {
+    if (!user) return;
+    if (r.requester_id === user.id) { toast.error("To Twoja własna prośba"); return; }
+    const { error } = await supabase
+      .from("peer_requests")
+      .update({ helper_id: user.id, status: "matched" })
+      .eq("id", r.id)
+      .eq("status", "open");
+    if (error) { toast.error(error.message); return; }
+    toast.success("Świetnie! Skontaktuj się z osobą proszącą.");
+    load();
+  };
+
+  const resolve = async (r: Req) => {
+    const { error } = await supabase
+      .from("peer_requests")
+      .update({ status: "resolved", resolved_at: new Date().toISOString() })
+      .eq("id", r.id);
+    if (error) { toast.error(error.message); return; }
+    toast.success("Oznaczono jako rozwiązane");
+    load();
+  };
+
+  const visible = reqs.filter((r) => {
+    if (tab === "open") return r.status === "open";
+    if (!user) return false;
+    return r.requester_id === user.id || r.helper_id === user.id;
+  });
 
   return (
     <AppShell>
@@ -58,26 +101,64 @@ const Peer = () => {
           </Dialog>
         </div>
 
+        <div className="flex gap-2 mb-6">
+          <Button variant={tab === "open" ? "default" : "ghost"} size="sm" onClick={() => setTab("open")}>Otwarte</Button>
+          <Button variant={tab === "mine" ? "default" : "ghost"} size="sm" onClick={() => setTab("mine")}>Moje</Button>
+        </div>
+
         {loading ? <p className="text-muted-foreground">{t("common.loading")}</p>
-        : reqs.length === 0 ? (
-          <Card className="p-10 text-center bg-card-soft"><p className="text-muted-foreground">{t("peer.empty")}</p></Card>
+        : visible.length === 0 ? (
+          <Card className="p-10 text-center bg-card-soft">
+            <HandHelping className="h-10 w-10 mx-auto mb-3 text-accent" />
+            <h3 className="font-semibold mb-2">
+              {tab === "open" ? "Nikt aktualnie nie potrzebuje pomocy" : "Nie masz jeszcze żadnych próśb"}
+            </h3>
+            <p className="text-muted-foreground mb-4">
+              {tab === "open" ? "Sprawdź ponownie później albo opublikuj własną prośbę." : "Opublikuj prośbę, jeśli z czymś utknąłeś."}
+            </p>
+            <Button onClick={() => setOpen(true)} className="bg-accent-gradient text-accent-foreground">
+              <Plus className="h-4 w-4 mr-2" />{t("peer.ask")}
+            </Button>
+          </Card>
         ) : (
           <div className="space-y-3">
-            {reqs.map((r) => (
-              <Card key={r.id} className="p-5 hover:shadow-soft transition-smooth bg-card-soft">
-                <div className="flex items-start gap-4">
-                  <div className="grid h-10 w-10 place-items-center rounded-lg bg-accent/15 text-accent shrink-0"><HandHelping className="h-5 w-5" /></div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <h3 className="font-semibold">{r.title}</h3>
-                      <Badge variant="secondary" className="text-xs">{t("peer.open")}</Badge>
+            {visible.map((r) => {
+              const isMine = user?.id === r.requester_id;
+              const isHelper = user?.id === r.helper_id;
+              return (
+                <Card key={r.id} className="p-5 hover:shadow-soft transition-smooth bg-card-soft">
+                  <div className="flex items-start gap-4">
+                    <div className="grid h-10 w-10 place-items-center rounded-lg bg-accent/15 text-accent shrink-0"><HandHelping className="h-5 w-5" /></div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap mb-1">
+                        <h3 className="font-semibold">{r.title}</h3>
+                        <Badge
+                          variant={r.status === "open" ? "secondary" : r.status === "resolved" ? "default" : "outline"}
+                          className="text-xs"
+                        >
+                          {r.status === "open" && t("peer.open")}
+                          {r.status === "matched" && "W trakcie"}
+                          {r.status === "resolved" && "Rozwiązane"}
+                        </Badge>
+                        {isMine && <Badge variant="outline" className="text-xs">Twoja prośba</Badge>}
+                        {isHelper && <Badge variant="outline" className="text-xs">Pomagasz</Badge>}
+                      </div>
+                      <p className="text-sm text-muted-foreground line-clamp-2">{r.description}</p>
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-2">{r.description}</p>
+                    <div className="flex flex-col gap-2 shrink-0">
+                      {r.status === "open" && !isMine && (
+                        <Button variant="outline" size="sm" onClick={() => offerHelp(r)}>Pomogę</Button>
+                      )}
+                      {r.status === "matched" && (isMine || isHelper) && (
+                        <Button variant="default" size="sm" onClick={() => resolve(r)}>
+                          <Check className="h-4 w-4 mr-1" /> Rozwiązane
+                        </Button>
+                      )}
+                    </div>
                   </div>
-                  <Button variant="outline" size="sm">Pomogę</Button>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              );
+            })}
           </div>
         )}
       </div>
