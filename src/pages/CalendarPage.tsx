@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,24 +7,62 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar as CalIcon, Video, Check, X, CreditCard, Search } from "lucide-react";
+import {
+  Calendar as CalIcon, Video, Check, X, CreditCard, Search,
+  Clock, CheckCircle2, XCircle, Trophy,
+} from "lucide-react";
 import { toast } from "sonner";
 
 type Booking = { id: string; starts_at: string; ends_at: string; status: string; price_cents: number; currency: string; tutor_id: string; student_id: string };
 type SessionRow = { id: string; booking_id: string };
 
+const STATUS_META: Record<string, { label: string; icon: any; cls: string; hint: string }> = {
+  pending:   { label: "Oczekuje na potwierdzenie", icon: Clock,        cls: "bg-muted text-muted-foreground border-muted-foreground/20", hint: "Tutor musi zaakceptować rezerwację, zanim wejdziesz na sesję." },
+  confirmed: { label: "Potwierdzona",              icon: CheckCircle2, cls: "bg-accent/15 text-accent border-accent/40",                hint: "Możesz wejść do pokoju sesji." },
+  completed: { label: "Zakończona",                icon: Trophy,       cls: "bg-primary/10 text-primary border-primary/30",             hint: "Sesja odbyła się — opłać lub potwierdź płatność." },
+  cancelled: { label: "Anulowana",                 icon: XCircle,      cls: "bg-destructive/10 text-destructive border-destructive/40", hint: "Ta rezerwacja została anulowana." },
+};
+
+const StatusBadge = ({ status }: { status: string }) => {
+  const m = STATUS_META[status] || STATUS_META.pending;
+  const Icon = m.icon;
+  return (
+    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium ${m.cls}`}>
+      <Icon className="h-3.5 w-3.5" />
+      {m.label}
+    </span>
+  );
+};
+
 const CalendarPage = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [sessions, setSessions] = useState<Record<string, string>>({}); // booking_id -> session_id
+  const [sessions, setSessions] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
+  const prevStatusRef = useRef<Record<string, string>>({});
 
   const load = async () => {
     if (!user) return;
-    const { data: bk } = await supabase.from("bookings").select("*").or(`student_id.eq.${user.id},tutor_id.eq.${user.id}`).order("starts_at", { ascending: true });
-    setBookings((bk as Booking[]) || []);
-    const ids = (bk || []).map((b) => b.id);
+    const { data: bk } = await supabase
+      .from("bookings").select("*")
+      .or(`student_id.eq.${user.id},tutor_id.eq.${user.id}`)
+      .order("starts_at", { ascending: true });
+    const list = (bk as Booking[]) || [];
+
+    // Wykryj zmianę pending -> confirmed (np. po realtime / po odświeżeniu)
+    list.forEach((b) => {
+      const prev = prevStatusRef.current[b.id];
+      if (prev && prev === "pending" && b.status === "confirmed") {
+        toast.success("Rezerwacja potwierdzona — możesz już wejść na sesję!", {
+          description: new Date(b.starts_at).toLocaleString(),
+        });
+      }
+    });
+    prevStatusRef.current = Object.fromEntries(list.map((b) => [b.id, b.status]));
+
+    setBookings(list);
+    const ids = list.map((b) => b.id);
     if (ids.length) {
       const { data: ss } = await supabase.from("sessions").select("id, booking_id").in("booking_id", ids);
       const map: Record<string, string> = {};
@@ -33,11 +71,42 @@ const CalendarPage = () => {
     }
     setLoading(false);
   };
+
   useEffect(() => { load(); }, [user]);
+
+  // Realtime: nasłuchuj zmian na własnych rezerwacjach
+  useEffect(() => {
+    if (!user) return;
+    const channel = supabase
+      .channel(`bookings-${user.id}`)
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "bookings" },
+        (payload: any) => {
+          const row = payload.new as Booking;
+          if (row.student_id !== user.id && row.tutor_id !== user.id) return;
+          const prev = prevStatusRef.current[row.id];
+          if (prev === "pending" && row.status === "confirmed") {
+            toast.success("Rezerwacja potwierdzona — możesz już wejść na sesję!", {
+              description: new Date(row.starts_at).toLocaleString(),
+            });
+          }
+          load();
+        }
+      )
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [user]);
 
   const updateStatus = async (id: string, status: "confirmed" | "cancelled" | "completed") => {
     const { error } = await supabase.from("bookings").update({ status }).eq("id", id);
-    if (error) toast.error(error.message); else { toast.success("Zaktualizowano"); load(); }
+    if (error) toast.error(error.message);
+    else {
+      if (status === "confirmed") toast.success("Potwierdzono rezerwację");
+      else if (status === "cancelled") toast("Rezerwacja anulowana");
+      else toast.success("Oznaczono jako zakończoną");
+      load();
+    }
   };
 
   const now = Date.now();
@@ -48,35 +117,61 @@ const CalendarPage = () => {
     const isTutor = b.tutor_id === user?.id;
     const sessionId = sessions[b.id];
     const start = new Date(b.starts_at);
-    const canJoin = Date.now() >= start.getTime() - 15 * 60_000 && Date.now() <= new Date(b.ends_at).getTime() + 30 * 60_000;
+    const meta = STATUS_META[b.status] || STATUS_META.pending;
+    const canEnter = b.status === "confirmed" || b.status === "completed";
+
     return (
       <Card className="p-4 bg-card-soft">
-        <div className="flex items-center gap-4">
-          <div className="grid h-10 w-10 place-items-center rounded-lg bg-accent/15 text-accent shrink-0"><CalIcon className="h-5 w-5" /></div>
+        <div className="flex items-start gap-4">
+          <div className="grid h-10 w-10 place-items-center rounded-lg bg-accent/15 text-accent shrink-0">
+            <CalIcon className="h-5 w-5" />
+          </div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-2 flex-wrap mb-1">
               <p className="font-medium">{start.toLocaleString()}</p>
-              <Badge variant={b.status === "confirmed" ? "default" : b.status === "cancelled" ? "destructive" : "secondary"}>{b.status}</Badge>
+              <StatusBadge status={b.status} />
               {isTutor && <Badge variant="outline">jako tutor</Badge>}
             </div>
-            <p className="text-sm text-muted-foreground">{(b.price_cents / 100).toFixed(0)} {b.currency}</p>
+            <p className="text-sm text-muted-foreground mb-1">{(b.price_cents / 100).toFixed(0)} {b.currency}</p>
+            <p className="text-xs text-muted-foreground">{meta.hint}</p>
           </div>
-          <div className="flex gap-2 flex-wrap justify-end">
-            {isTutor && b.status === "pending" && (
-              <>
-                <Button size="sm" onClick={() => updateStatus(b.id, "confirmed")}><Check className="h-4 w-4 mr-1" />Potwierdź</Button>
-                <Button size="sm" variant="ghost" onClick={() => updateStatus(b.id, "cancelled")}><X className="h-4 w-4" /></Button>
-              </>
-            )}
-            {sessionId && b.status !== "cancelled" && (
-              <Button size="sm" asChild className="bg-accent-gradient text-accent-foreground">
-                <Link to={`/session/${sessionId}`}><Video className="h-4 w-4 mr-1" />Wejdź</Link>
+        </div>
+
+        <div className="mt-3 flex gap-2 flex-wrap justify-end border-t pt-3">
+          {isTutor && b.status === "pending" && (
+            <>
+              <Button size="sm" onClick={() => updateStatus(b.id, "confirmed")}>
+                <Check className="h-4 w-4 mr-1" />Potwierdź
               </Button>
-            )}
-            {!isTutor && (b.status === "confirmed" || b.status === "completed") && (
-              <Button size="sm" variant="outline" asChild><Link to={`/payment/${b.id}`}><CreditCard className="h-4 w-4 mr-1" />Zapłać</Link></Button>
-            )}
-          </div>
+              <Button size="sm" variant="ghost" onClick={() => updateStatus(b.id, "cancelled")}>
+                <X className="h-4 w-4 mr-1" />Odrzuć
+              </Button>
+            </>
+          )}
+
+          {b.status === "pending" && !isTutor && (
+            <span className="text-xs text-muted-foreground self-center">
+              Czekamy na potwierdzenie tutora — przyciski akcji pojawią się po akceptacji.
+            </span>
+          )}
+
+          {sessionId && canEnter && (
+            <Button size="sm" asChild className="bg-accent-gradient text-accent-foreground">
+              <Link to={`/session/${sessionId}`}><Video className="h-4 w-4 mr-1" />Wejdź</Link>
+            </Button>
+          )}
+
+          {!isTutor && canEnter && (
+            <Button size="sm" variant="outline" asChild>
+              <Link to={`/payment/${b.id}`}><CreditCard className="h-4 w-4 mr-1" />Zapłać</Link>
+            </Button>
+          )}
+
+          {isTutor && b.status === "confirmed" && new Date(b.ends_at).getTime() < now && (
+            <Button size="sm" variant="outline" onClick={() => updateStatus(b.id, "completed")}>
+              <Trophy className="h-4 w-4 mr-1" />Oznacz jako zakończoną
+            </Button>
+          )}
         </div>
       </Card>
     );
