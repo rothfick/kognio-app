@@ -6,7 +6,7 @@ import { RoleGate } from "@/components/auth/RoleGate";
 import { Surface } from "@/components/ui/surface";
 import { StatCard } from "@/components/ui/stat-card";
 import { EmptyState } from "@/components/EmptyState";
-import { ShieldCheck, AlertTriangle, Sparkles, Activity, ClipboardList, GraduationCap, Network, BookOpen, ListChecks, ClipboardCheck, Globe2, Layers, Library, BadgeCheck } from "lucide-react";
+import { ShieldCheck, AlertTriangle, Sparkles, Activity, ClipboardList, GraduationCap, Network, BookOpen, ListChecks, ClipboardCheck, Globe2, Layers, Library, BadgeCheck, Telescope, Link2, Unlink, Percent, User, Users, Cpu } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 type DomainRow = { id: string; name_pl: string; name_en: string | null; name_es: string | null };
@@ -34,6 +34,33 @@ const AdminDashboard = () => {
   } | null>(null);
   const [domainCounts, setDomainCounts] = useState<Array<{ domain: DomainRow; count: number }>>([]);
   const [levelCounts, setLevelCounts] = useState<Array<{ level: LevelRow; count: number }>>([]);
+
+  // Traceability stats
+  type TraceStats = {
+    withTaxonomy: number;
+    withCustomDomain: number;
+    mappedMastery: number;
+    unmappedMastery: number;
+    matchRate: number | null;
+    selfMastery: number;
+    parentChildMastery: number;
+    withAlgorithm: number;
+  };
+  const [trace, setTrace] = useState<TraceStats | null>(null);
+  type RecentRow = {
+    id: string;
+    created_at: string;
+    owner_type: "self" | "child";
+    domain: string | null;
+    level: string | null;
+    score: number | null;
+    mapped: number;
+    unmapped: number;
+    algorithm_version: string | null;
+    prompt_version: string | null;
+    source: string | null;
+  };
+  const [recent, setRecent] = useState<RecentRow[] | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -89,6 +116,63 @@ const AdminDashboard = () => {
       }
       setDomainCounts(domainsArr.map((d) => ({ domain: d, count: domainMap.get(d.id) || 0 })).sort((a, b) => b.count - a.count));
       setLevelCounts(levelsArr.map((l) => ({ level: l, count: levelMap.get(l.id) || 0 })).sort((a, b) => b.count - a.count));
+
+      // Traceability stats
+      const [withTax, withCustom, mappedCkc, unmappedCkc, mappedUcm, unmappedUcm, ucmAll, ckcAll, withAlgo, recentAttempts] = await Promise.all([
+        supabase.from("diagnostic_attempts").select("id", { count: "exact", head: true }).not("learning_domain_id", "is", null),
+        supabase.from("diagnostic_attempts").select("id", { count: "exact", head: true }).is("learning_domain_id", null).not("domain", "is", null),
+        supabase.from("child_kc_mastery").select("id", { count: "exact", head: true }).not("competency_id", "is", null),
+        supabase.from("child_kc_mastery").select("id", { count: "exact", head: true }).is("competency_id", null),
+        supabase.from("user_competency_mastery").select("id", { count: "exact", head: true }).not("competency_id", "is", null),
+        supabase.from("user_competency_mastery").select("id", { count: "exact", head: true }).is("competency_id", null),
+        supabase.from("user_competency_mastery").select("id", { count: "exact", head: true }),
+        supabase.from("child_kc_mastery").select("id", { count: "exact", head: true }),
+        supabase.from("diagnostic_attempts").select("id", { count: "exact", head: true }).not("algorithm_version", "is", null),
+        supabase.from("diagnostic_attempts")
+          .select("id, created_at, user_id, child_id, domain, level, score, algorithm_version, prompt_version, mode, summary")
+          .eq("status", "completed")
+          .order("created_at", { ascending: false })
+          .limit(10),
+      ]);
+
+      const mappedTotal = (mappedCkc.count ?? 0) + (mappedUcm.count ?? 0);
+      const unmappedTotal = (unmappedCkc.count ?? 0) + (unmappedUcm.count ?? 0);
+      const denom = mappedTotal + unmappedTotal;
+      setTrace({
+        withTaxonomy: withTax.count ?? 0,
+        withCustomDomain: withCustom.count ?? 0,
+        mappedMastery: mappedTotal,
+        unmappedMastery: unmappedTotal,
+        matchRate: denom === 0 ? null : mappedTotal / denom,
+        selfMastery: ucmAll.count ?? 0,
+        parentChildMastery: ckcAll.count ?? 0,
+        withAlgorithm: withAlgo.count ?? 0,
+      });
+
+      const rows: RecentRow[] = ((recentAttempts.data || []) as Array<{
+        id: string; created_at: string; user_id: string | null; child_id: string | null;
+        domain: string | null; level: string | null; score: number | null;
+        algorithm_version: string | null; prompt_version: string | null; mode: string | null;
+        summary: { kc_breakdown?: Array<{ competency_id?: string | null }> } | null;
+      }>).map((a) => {
+        const breakdown = a.summary?.kc_breakdown ?? [];
+        const mapped = breakdown.filter((b) => !!b.competency_id).length;
+        const unmapped = breakdown.filter((b) => !b.competency_id).length;
+        return {
+          id: a.id,
+          created_at: a.created_at,
+          owner_type: a.child_id ? "child" : "self",
+          domain: a.domain,
+          level: a.level,
+          score: a.score,
+          mapped,
+          unmapped,
+          algorithm_version: a.algorithm_version,
+          prompt_version: a.prompt_version,
+          source: a.mode,
+        };
+      });
+      setRecent(rows);
     })();
   }, []);
 
@@ -185,6 +269,75 @@ const AdminDashboard = () => {
               </div>
             </div>
             <p className="mt-3 text-[11px] text-muted-foreground">{t("curriculum.note")}</p>
+          </Surface>
+
+          <Surface className="p-5 mb-6">
+            <h2 className="font-semibold mb-3 flex items-center gap-2">
+              <Telescope className="h-4 w-4 text-accent" /> {t("traceability.panelTitle")}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-4 mb-4">
+              <StatCard icon={Layers} label={t("traceability.withTaxonomy")} value={trace === null ? "…" : String(trace.withTaxonomy)} />
+              <StatCard icon={BookOpen} label={t("traceability.withCustomDomain")} value={trace === null ? "…" : String(trace.withCustomDomain)} />
+              <StatCard icon={Link2} label={t("traceability.mappedMastery")} value={trace === null ? "…" : String(trace.mappedMastery)} />
+              <StatCard icon={Unlink} label={t("traceability.unmappedMastery")} value={trace === null ? "…" : String(trace.unmappedMastery)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-4 mb-4">
+              <StatCard icon={Percent} label={t("traceability.matchRate")} value={trace === null || trace.matchRate === null ? "—" : `${Math.round(trace.matchRate * 100)}%`} />
+              <StatCard icon={User} label={t("traceability.selfMastery")} value={trace === null ? "…" : String(trace.selfMastery)} />
+              <StatCard icon={Users} label={t("traceability.parentChildMastery")} value={trace === null ? "…" : String(trace.parentChildMastery)} />
+              <StatCard icon={Cpu} label={t("traceability.withAlgorithm")} value={trace === null ? "…" : String(trace.withAlgorithm)} />
+            </div>
+
+            <div className="rounded-md border border-border/60 p-3 mb-4">
+              <p className="text-xs font-medium text-muted-foreground mb-2">{t("traceability.recentTitle")}</p>
+              {recent === null ? (
+                <p className="text-xs text-muted-foreground">…</p>
+              ) : recent.length === 0 ? (
+                <p className="text-xs text-muted-foreground">{t("traceability.noDiagnostics")}</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="text-left text-muted-foreground">
+                        <th className="py-1 pr-3 font-medium">{t("traceability.colCreated")}</th>
+                        <th className="py-1 pr-3 font-medium">{t("traceability.colOwner")}</th>
+                        <th className="py-1 pr-3 font-medium">{t("traceability.colDomain")}</th>
+                        <th className="py-1 pr-3 font-medium">{t("traceability.colLevel")}</th>
+                        <th className="py-1 pr-3 font-medium tabular-nums">{t("traceability.colScore")}</th>
+                        <th className="py-1 pr-3 font-medium tabular-nums">{t("traceability.colMapped")}</th>
+                        <th className="py-1 pr-3 font-medium tabular-nums">{t("traceability.colUnmapped")}</th>
+                        <th className="py-1 pr-3 font-medium">{t("traceability.colAlgorithm")}</th>
+                        <th className="py-1 pr-3 font-medium">{t("traceability.colPromptVersion")}</th>
+                        <th className="py-1 font-medium">{t("traceability.colSource")}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {recent.map((r) => (
+                        <tr key={r.id} className="border-t border-border/40">
+                          <td className="py-1 pr-3 whitespace-nowrap">{new Date(r.created_at).toLocaleString(lang)}</td>
+                          <td className="py-1 pr-3">{r.owner_type === "child" ? t("traceability.ownerChild") : t("traceability.ownerSelf")}</td>
+                          <td className="py-1 pr-3">{r.domain || t("traceability.anonymous")}</td>
+                          <td className="py-1 pr-3">{r.level || t("traceability.anonymous")}</td>
+                          <td className="py-1 pr-3 tabular-nums">{r.score === null ? "—" : `${Math.round(Number(r.score) * 100)}%`}</td>
+                          <td className="py-1 pr-3 tabular-nums">{r.mapped}</td>
+                          <td className="py-1 pr-3 tabular-nums">{r.unmapped}</td>
+                          <td className="py-1 pr-3">{r.algorithm_version || t("traceability.anonymous")}</td>
+                          <td className="py-1 pr-3">{r.prompt_version || t("traceability.anonymous")}</td>
+                          <td className="py-1">{r.source || t("traceability.anonymous")}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </Surface>
+
+          <Surface className="p-5 mb-6 border-accent/40">
+            <h2 className="font-semibold mb-2 flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-accent" /> {t("traceability.infoTitle")}
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t("traceability.infoBody")}</p>
           </Surface>
 
           <Surface className="p-5 mb-6 border-accent/40">

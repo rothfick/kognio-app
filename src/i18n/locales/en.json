@@ -988,6 +988,20 @@
     "colUnmapped": "Unmapped",
     "colAlgorithm": "Algorithm",
     "colDate": "Date",
-    "noDiagnostics": "No traceability data."
+    "colCreated": "Created at",
+    "colOwner": "Owner type",
+    "colScore": "Score",
+    "colPromptVersion": "Prompt version",
+    "colSource": "Source",
+    "noDiagnostics": "No traceability data.",
+    "panelTitle": "Diagnostic and Competency Traceability",
+    "selfMastery": "Self-user mastery rows",
+    "parentChildMastery": "Parent-child mastery rows",
+    "withAlgorithm": "Diagnostics with algorithm version",
+    "ownerSelf": "Student",
+    "ownerChild": "Child",
+    "anonymous": "—",
+    "infoTitle": "Why it matters (FENG / SMART)",
+    "infoBody": "This panel shows whether Kogni diagnostics are structurally linked to the competency graph. This makes it possible to document which knowledge areas were detected, how they were mapped to competencies, and which algorithm version produced the result."
   }
 }
