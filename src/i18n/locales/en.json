@@ -927,5 +927,34 @@
     "evidenceEvents": "Evidence events",
     "avgDiagScore": "Average diagnostic score (with plans)",
     "itemsCompleted": "Plan steps completed"
+  },
+  "curriculum": {
+    "section": "Universal curriculum graph",
+    "systems": "Education systems",
+    "levels": "Education levels",
+    "domains": "Learning domains",
+    "competencies": "Competencies",
+    "edges": "Prerequisite edges",
+    "sources": "Curriculum sources",
+    "approved": "Approved",
+    "draft": "Drafts",
+    "domainsByCount": "Domains by competency count",
+    "levelsByCount": "Levels by competency count",
+    "noData": "No data",
+    "loading": "Loading…",
+    "note": "A full competency graph editor will arrive in upcoming iterations. For now data is seeded via migrations."
+  },
+  "smartReadiness": {
+    "title": "SMART evidence readiness",
+    "body": "Kogni now supports a universal curriculum and competency graph, enabling traceable diagnosis, planning and progress measurement across multiple educational stages and domains. This forms the foundation for evidence required by grant programs (e.g. FENG SMART Path) and R&D reporting."
+  },
+  "diagnoseTaxonomy": {
+    "useTaxonomy": "Pick from curriculum graph (optional)",
+    "useFreeText": "Type any domain",
+    "system": "Education system",
+    "level": "Level",
+    "domain": "Domain",
+    "any": "Any",
+    "loading": "Loading taxonomy…"
   }
 }
