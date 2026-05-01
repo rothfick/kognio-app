@@ -2246,5 +2246,161 @@
     "evSessionCompleted": "Sessions completed",
     "evTutorNote": "Tutor notes submitted",
     "note": "Marketplace counters use the same SMART evidence pipeline as diagnosis and plans."
+  },
+  "homework": {
+    "title": "Homework",
+    "subtitle": "Targeted practice for your weak areas — auto-graded.",
+    "tutorTitle": "Student assignments",
+    "tutorSubtitle": "Assignments linked to your students and sessions.",
+    "adminTitle": "Homework (admin view)",
+    "newCta": "Generate homework",
+    "generateForChild": "Generate for {{name}}",
+    "generateFromPlanItem": "Generate practice",
+    "generateFromCheckpoint": "Generate follow-up practice",
+    "generateFromNote": "Generate assignment from note",
+    "openCta": "Open",
+    "startCta": "Start",
+    "continueCta": "Continue",
+    "reviewCta": "Review",
+    "submitCta": "Submit answers",
+    "submittingCta": "Submitting…",
+    "filters": {
+      "all": "All",
+      "assigned": "Assigned",
+      "in_progress": "In progress",
+      "submitted": "Submitted",
+      "graded": "Graded",
+      "archived": "Archived",
+      "needs_review": "Needs review"
+    },
+    "selectChild": "Select child",
+    "skillArea": "Skill area",
+    "due": "Due",
+    "noDue": "No due date",
+    "questions": "Questions",
+    "noItems": "This assignment has no questions yet.",
+    "answerHint": "Answer the questions and submit to get auto-graded feedback.",
+    "needsReviewBanner": "Some answers need tutor review.",
+    "scoreLabel": "Score",
+    "questionLabel": "Question {{n}}",
+    "explanation": "Explanation",
+    "yourAnswer": "Your answer",
+    "correctAnswer": "Correct answer",
+    "true": "True",
+    "false": "False",
+    "shortAnswerPlaceholder": "Type your answer…",
+    "shortAnswerNotice": "Short-answer questions will be reviewed by your tutor.",
+    "back": "Back to homework",
+    "loading": "Loading homework…",
+    "notFound": "Homework not found.",
+    "notFoundCta": "Back to list",
+    "emptyTitle": "No homework yet.",
+    "emptyDesc": "Generate your first practice assignment to start closing knowledge gaps.",
+    "emptyTutorTitle": "No student assignments yet.",
+    "emptyTutorDesc": "Create an assignment from a session note or a learning plan item.",
+    "emptyAdminTitle": "No assignments in the system yet.",
+    "tutorOnly": "Tutor view",
+    "adminOnly": "Admin view"
+  },
+  "assignment": {
+    "status": {
+      "draft": "Draft",
+      "assigned": "Assigned",
+      "in_progress": "In progress",
+      "submitted": "Submitted",
+      "graded": "Graded",
+      "archived": "Archived"
+    },
+    "source": {
+      "diagnosis": "From diagnosis",
+      "learning_plan": "From learning plan",
+      "booking": "From session",
+      "session_note": "From session note",
+      "manual": "Manual"
+    },
+    "item": {
+      "multiple_choice": "Multiple choice",
+      "true_false": "True / False",
+      "short_answer": "Short answer"
+    }
+  },
+  "grading": {
+    "autoGraded": "Auto-graded",
+    "needsReview": "Needs review",
+    "submitted": "Submitted",
+    "reviewed": "Reviewed",
+    "scoreOf": "{{score}} / {{max}}",
+    "percentage": "{{n}}%",
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "skipped": "No answer",
+    "feedbackTitle": "Feedback",
+    "noFeedback": "No additional feedback yet."
+  },
+  "mastery": {
+    "homework": {
+      "updated": "Mastery updated from homework.",
+      "increase": "Mastery in {{area}} went up by {{delta}}%.",
+      "decrease": "Mastery in {{area}} adjusted by {{delta}}%."
+    }
+  },
+  "dashboardHomework": {
+    "title": "Homework",
+    "active": "Active",
+    "graded": "Graded",
+    "needsReview": "Needs review",
+    "lastScore": "Last score",
+    "nextDue": "Next due",
+    "nextDueNone": "No upcoming due date",
+    "openCta": "Open homework",
+    "generateCta": "Generate homework",
+    "emptyTitle": "No active homework",
+    "emptyDesc": "Generate practice from your weak areas.",
+    "weakAreasHint": "We spotted weak areas — generate practice to close the gap.",
+    "childActive": "{{count}} active",
+    "childLatestScore": "Latest: {{score}}%",
+    "tutorAssignedCount": "{{count}} assignments linked to your sessions",
+    "tutorNeedsReviewCount": "{{count}} submissions waiting for review"
+  },
+  "adminHomework": {
+    "sectionTitle": "Homework",
+    "assignmentsTotal": "Assignments",
+    "submissionsTotal": "Submissions",
+    "avgScore": "Average score",
+    "needsReview": "Needs review",
+    "evGenerated": "Homework generated",
+    "evSubmitted": "Homework submitted",
+    "evAutoGraded": "Homework auto-graded",
+    "evReviewed": "Homework reviewed",
+    "evMasteryUpdated": "Mastery updates from homework"
+  },
+  "homeworkToast": {
+    "generated": "Homework generated.",
+    "generateFailed": "Could not generate homework.",
+    "submitted": "Homework submitted.",
+    "submitFailed": "Could not submit answers.",
+    "answerRequired": "Answer at least one question.",
+    "missingTutor": "Only the tutor of this booking can do this.",
+    "missingPermission": "You don't have access to this assignment.",
+    "noContext": "No weak area found yet — take a diagnosis first."
+  },
+  "notifHomework": {
+    "assigned": {
+      "title": "New homework",
+      "body": "{{title}} is ready — try it now."
+    },
+    "submitted": {
+      "title": "Homework submitted",
+      "body": "Your answers are in."
+    },
+    "graded": {
+      "title": "Homework graded",
+      "body": "{{title}} — score: {{score}}%."
+    },
+    "needsReview": {
+      "title": "Homework needs review",
+      "body": "Some answers need tutor review."
+    },
+    "viewHomework": "Open homework"
   }
 }
