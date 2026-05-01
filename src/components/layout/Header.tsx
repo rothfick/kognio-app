@@ -53,7 +53,7 @@ export function Header() {
   }, [user, isTutor]);
 
   const navItems = [
-    { to: "/dashboard", key: "dashboard", Icon: LayoutDashboard, label: "Pulpit" },
+    { to: "/dashboard", key: "dashboard", Icon: LayoutDashboard },
     { to: "/discover", key: "discover", Icon: Search },
     { to: "/circles", key: "circles", Icon: Users },
     { to: "/peer", key: "peer", Icon: HandHelping },
@@ -61,10 +61,8 @@ export function Header() {
     { to: "/brain", key: "brain", Icon: Brain },
   ];
 
-  const toggleLang = () => {
-    const next = i18n.language?.startsWith("en") ? "pl" : "en";
-    i18n.changeLanguage(next);
-  };
+  const currentLang = (["pl", "en", "es"] as const).find((l) => i18n.language?.startsWith(l)) || "pl";
+  const setLang = (l: "pl" | "en" | "es") => i18n.changeLanguage(l);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-md">
