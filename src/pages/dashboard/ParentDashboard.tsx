@@ -146,7 +146,7 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
         <div>
           <h3 className="font-semibold text-base">{child.display_name}</h3>
           <p className="text-xs text-muted-foreground">
-            {child.grade_level || "—"} · {child.primary_subject || "{t("parent.child.noSubject")}"}
+            {child.grade_level || "—"} · {child.primary_subject || t("parent.child.noSubject")}
           </p>
         </div>
         {child.consent_signed_at ? (
