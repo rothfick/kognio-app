@@ -422,14 +422,20 @@ const LiveLessonRoom = () => {
     if (!booking || !user) return;
     try {
       const skills = noteSkills.split(",").map(s => s.trim()).filter(Boolean);
+      const firstSkill = skills[0] ?? booking.skill_area_label ?? null;
       const res = await generateHomework({
-        sourceType: "session_note",
-        bookingId: booking.id,
-        skillAreaLabels: skills.length ? skills : (booking.skill_area_label ? [booking.skill_area_label] : []),
+        source_type: "session_note",
+        owner_type: booking.child_id ? "child" : "user",
+        child_id: booking.child_id ?? null,
+        booking_id: booking.id,
+        skill_area_label: firstSkill,
+        competency_id: booking.competency_id ?? null,
       });
       if (res?.assignment_id) {
         toast.success(t("homework.toast.created"));
         navigate(`/homework/${res.assignment_id}`);
+      } else if (res?.error) {
+        toast.error(t("homework.toast.createFailed"));
       }
     } catch (e) {
       console.error(e); toast.error(t("homework.toast.createFailed"));
