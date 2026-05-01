@@ -420,39 +420,132 @@ Deno.serve(async (req) => {
           })
           .eq("id", attemptId);
 
-        // If parent->child, also seed child_kc_mastery from kc_breakdown.
-        // AI-adaptive diagnostics do not have curriculum KC ids yet, so use stable
-        // deterministic UUIDs derived from attempt+label instead of random IDs.
-        if (attempt.child_id && Array.isArray(summary?.kc_breakdown)) {
-          const encoder = new TextEncoder();
-          const stableSyntheticKcId = async (label: string) => {
-            const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", encoder.encode(`${attemptId}:${label.toLowerCase()}`)));
-            digest[6] = (digest[6] & 0x0f) | 0x40;
-            digest[8] = (digest[8] & 0x3f) | 0x80;
-            const hex = [...digest.slice(0, 16)].map((b) => b.toString(16).padStart(2, "0")).join("");
-            return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
-          };
+        // Competency matching v1 + persist mastery (child or self)
+        const taxonomyDomainId = (attempt as any).learning_domain_id ?? null;
+        const taxonomyLevelId = (attempt as any).education_level_id ?? null;
+
+        // Preload candidate competencies if domain selected
+        let candidates: Array<{ id: string; code: string; name_pl: string; name_en: string | null; name_es: string | null }> = [];
+        if (taxonomyDomainId) {
+          let q = admin
+            .from("competencies")
+            .select("id, code, name_pl, name_en, name_es")
+            .eq("is_active", true)
+            .in("review_status", ["approved", "expert_reviewed"])
+            .eq("domain_id", taxonomyDomainId);
+          if (taxonomyLevelId) q = q.eq("education_level_id", taxonomyLevelId);
+          const { data } = await q;
+          candidates = (data || []) as typeof candidates;
+        }
+
+        const norm = (s: string) => s.toLowerCase().normalize("NFKD").replace(/\p{Diacritic}/gu, "").replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
+        const matchCompetency = (label: string): { id: string | null; confidence: number; reason: string } => {
+          if (!candidates.length) return { id: null, confidence: 0, reason: "no_candidates" };
+          const nl = norm(label);
+          // exact name/code match
+          for (const c of candidates) {
+            const names = [c.code, c.name_pl, c.name_en, c.name_es].filter(Boolean).map((x) => norm(String(x)));
+            if (names.includes(nl)) return { id: c.id, confidence: 0.95, reason: "exact_match" };
+          }
+          // contains match (label contains competency name OR vice versa)
+          for (const c of candidates) {
+            const names = [c.name_pl, c.name_en, c.name_es].filter(Boolean).map((x) => norm(String(x)));
+            for (const n of names) {
+              if (n && (nl.includes(n) || n.includes(nl))) return { id: c.id, confidence: 0.7, reason: "contains_match" };
+            }
+          }
+          return { id: null, confidence: 0, reason: "no_match" };
+        };
+
+        const encoder = new TextEncoder();
+        const stableSyntheticKcId = async (label: string) => {
+          const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", encoder.encode(`${attemptId}:${label.toLowerCase()}`)));
+          digest[6] = (digest[6] & 0x0f) | 0x40;
+          digest[8] = (digest[8] & 0x3f) | 0x80;
+          const hex = [...digest.slice(0, 16)].map((b) => b.toString(16).padStart(2, "0")).join("");
+          return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+        };
+
+        if (Array.isArray(summary?.kc_breakdown)) {
           for (const kb of summary.kc_breakdown) {
             const label = String(kb.kc_label ?? "").trim();
             if (!label) continue;
-            const kcId = await stableSyntheticKcId(label);
-            const payload = {
-              child_id: attempt.child_id,
-              kc_id: kcId,
-              mastery_prob: Math.max(0, Math.min(1, (kb.mastery_pct ?? 0) / 100)),
-              confidence: 0.6,
-              source: "diagnostic_ai_adaptive",
-              evidence: { attempt_id: attemptId, kc_label: label, status: kb.status },
-              last_updated: new Date().toISOString(),
+            const masteryProb = Math.max(0, Math.min(1, (kb.mastery_pct ?? 0) / 100));
+            const match = matchCompetency(label);
+            const evidence = {
+              attempt_id: attemptId,
+              domain: attempt.domain,
+              level: attempt.level,
+              taxonomy: (attempt as any).taxonomy_payload ?? {},
+              skill_area_label: label,
+              competency_id: match.id,
+              match_confidence: match.confidence,
+              match_reason: match.reason,
+              algorithm_version: "diagnostic_ai_adaptive_v1",
+              status: kb.status,
             };
-            const { data: existing } = await admin
-              .from("child_kc_mastery")
-              .select("id")
-              .eq("child_id", attempt.child_id)
-              .eq("kc_id", kcId)
-              .maybeSingle();
-            if (existing?.id) await admin.from("child_kc_mastery").update(payload).eq("id", existing.id);
-            else await admin.from("child_kc_mastery").insert(payload);
+
+            try {
+              if (attempt.child_id) {
+                const kcId = await stableSyntheticKcId(label);
+                const payload: Record<string, unknown> = {
+                  child_id: attempt.child_id,
+                  kc_id: kcId,
+                  mastery_prob: masteryProb,
+                  confidence: match.id ? 0.7 : 0.5,
+                  source: "diagnostic_ai_adaptive",
+                  evidence,
+                  last_updated: new Date().toISOString(),
+                  competency_id: match.id,
+                  learning_domain_id: taxonomyDomainId,
+                  education_level_id: taxonomyLevelId,
+                  skill_area_label: label,
+                  algorithm_version: "diagnostic_ai_adaptive_v1",
+                  confidence_reason: match.reason,
+                };
+                const { data: existing } = await admin
+                  .from("child_kc_mastery")
+                  .select("id")
+                  .eq("child_id", attempt.child_id)
+                  .eq("kc_id", kcId)
+                  .maybeSingle();
+                if (existing?.id) await admin.from("child_kc_mastery").update(payload).eq("id", existing.id);
+                else await admin.from("child_kc_mastery").insert(payload);
+              } else if (attempt.user_id) {
+                const payload: Record<string, unknown> = {
+                  user_id: attempt.user_id,
+                  competency_id: match.id,
+                  learning_domain_id: taxonomyDomainId,
+                  education_level_id: taxonomyLevelId,
+                  skill_area_label: label,
+                  mastery_prob: masteryProb,
+                  confidence: match.id ? 0.7 : 0.5,
+                  source: "diagnostic_ai_adaptive",
+                  algorithm_version: "diagnostic_ai_adaptive_v1",
+                  evidence,
+                  last_updated: new Date().toISOString(),
+                };
+                // Manual upsert: prefer competency_id key, else label+domain+level
+                let existingId: string | null = null;
+                if (match.id) {
+                  const { data: ex } = await admin.from("user_competency_mastery")
+                    .select("id").eq("user_id", attempt.user_id).eq("competency_id", match.id).maybeSingle();
+                  existingId = ex?.id ?? null;
+                } else {
+                  const { data: ex } = await admin.from("user_competency_mastery")
+                    .select("id")
+                    .eq("user_id", attempt.user_id)
+                    .is("competency_id", null)
+                    .ilike("skill_area_label", label)
+                    .maybeSingle();
+                  existingId = ex?.id ?? null;
+                }
+                if (existingId) await admin.from("user_competency_mastery").update(payload).eq("id", existingId);
+                else await admin.from("user_competency_mastery").insert(payload);
+              }
+            } catch (persistErr) {
+              console.warn("mastery persist failed for label", label, persistErr);
+            }
           }
         }
 
