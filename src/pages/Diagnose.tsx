@@ -122,7 +122,7 @@ export default function Diagnose() {
     }
   }, [navigate, t]);
 
-  const aiConsentType = childId ? "parent_child_data_processing" : "ai_diagnosis_notice";
+  const aiConsentType: "parent_child_data_processing" | "ai_diagnosis_notice" = childId ? "parent_child_data_processing" : "ai_diagnosis_notice";
   const { hasConsent: hasAiConsent, refresh: refreshConsent } = useConsent(aiConsentType, childId);
   const [consentOpen, setConsentOpen] = useState(false);
   const [pendingStart, setPendingStart] = useState(false);
