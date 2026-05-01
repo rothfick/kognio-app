@@ -69,7 +69,7 @@ const ParentDashboard = () => {
             </AIInsightCard>
             <Surface className="p-5">
               <h3 className="font-semibold mb-1 text-sm flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-accent" /> Bezpieczeństwo
+                <ShieldCheck className="h-4 w-4 text-accent" /> {t("parent.safetyTitle")}
               </h3>
               <p className="text-xs text-muted-foreground">
                 {t("parent.safetyBody")}
@@ -167,7 +167,7 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
           <p className="text-xs text-muted-foreground">{t("parent.child.noDiagnosis")}</p>
         ) : (
           <p className="text-xs text-muted-foreground">
-            {t("parent.child.diagSummary", { score: Math.round((latestScore || 0) * 100), kc: trackedKcs, avg: Math.round((avg || 0) * 100) })} <span className="font-medium text-foreground">{Math.round((latestScore || 0) * 100)}%</span> · KC: <span className="font-medium text-foreground">{trackedKcs}</span> · Średni: <span className="font-medium text-foreground">{Math.round((avg || 0) * 100)}%</span>
+            {t("parent.child.diagSummary", { score: Math.round((latestScore || 0) * 100), kc: trackedKcs, avg: Math.round((avg || 0) * 100) })}
           </p>
         )}
       </div>
