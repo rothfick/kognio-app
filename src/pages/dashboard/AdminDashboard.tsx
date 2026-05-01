@@ -174,6 +174,31 @@ const AdminDashboard = () => {
         };
       });
       setRecent(rows);
+
+      // Checkpoint stats
+      const [cpCreated, cpCompletedCount, cpCompletedRows, cpEvidence] = await Promise.all([
+        supabase.from("learning_checkpoints").select("id", { count: "exact", head: true }),
+        supabase.from("learning_checkpoints").select("id", { count: "exact", head: true }).eq("status", "completed"),
+        supabase.from("learning_checkpoints").select("score_delta, summary, mastery_delta").eq("status", "completed"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).in("event_type", ["checkpoint_created", "checkpoint_completed"]),
+      ]);
+      const cpRows = (cpCompletedRows.data || []) as Array<{ score_delta: number | null; summary: { completed_plan_items?: number; total_plan_items?: number } | null; mastery_delta: Array<{ delta: number | null }> | null }>;
+      const deltas = cpRows.map((r) => r.score_delta).filter((d): d is number => typeof d === "number");
+      const planRatios = cpRows.map((r) => {
+        const t = r.summary?.total_plan_items ?? 0; const d = r.summary?.completed_plan_items ?? 0;
+        return t ? d / t : null;
+      }).filter((d): d is number => typeof d === "number");
+      const masteryDeltas: number[] = [];
+      cpRows.forEach((r) => { (Array.isArray(r.mastery_delta) ? r.mastery_delta : []).forEach((m) => { if (typeof m?.delta === "number") masteryDeltas.push(m.delta); }); });
+      const avg = (a: number[]) => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+      setCpStats({
+        created: cpCreated.count ?? 0,
+        completed: cpCompletedCount.count ?? 0,
+        avgDelta: avg(deltas),
+        avgPlanCompletion: avg(planRatios),
+        avgMasteryDelta: avg(masteryDeltas),
+        evidenceEvents: cpEvidence.count ?? 0,
+      });
     })();
   }, []);
 
