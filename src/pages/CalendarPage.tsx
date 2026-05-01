@@ -39,13 +39,69 @@ const StatusBadge = ({ status }: { status: string }) => {
 const CalendarPage = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
+  const { isParent, isStudent, isTutor, isAdmin } = useUserRoles();
+  const parentOnly = isParent && !isStudent && !isTutor && !isAdmin;
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [studentNames, setStudentNames] = useState<Record<string, string>>({});
   const [sessions, setSessions] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const prevStatusRef = useRef<Record<string, string>>({});
 
   const load = async () => {
     if (!user) return;
+
+    if (parentOnly) {
+      // Zbierz student_id powiązanych dzieci (parent_children -> child profile_id) oraz linked students
+      const { data: pc } = await supabase
+        .from("parent_children")
+        .select("id, display_name")
+        .eq("parent_id", user.id);
+      const childIds = ((pc || []) as { id: string; display_name: string }[]).map((c) => c.id);
+      const childNameMap: Record<string, string> = {};
+      (pc || []).forEach((c: any) => { childNameMap[c.id] = c.display_name; });
+
+      const { data: links } = await supabase
+        .from("student_parent_links")
+        .select("student_id")
+        .eq("parent_id", user.id)
+        .eq("status", "active");
+      const linkedIds = ((links || []) as { student_id: string }[]).map((l) => l.student_id);
+
+      const { data: linkedProfiles } = linkedIds.length
+        ? await supabase.from("profiles").select("id, display_name").in("id", linkedIds)
+        : { data: [] as any[] } as any;
+      ((linkedProfiles || []) as any[]).forEach((p) => { childNameMap[p.id] = p.display_name || ""; });
+
+      const allStudentIds = [...new Set([...childIds, ...linkedIds])];
+      setStudentNames(childNameMap);
+
+      if (allStudentIds.length === 0) {
+        setBookings([]);
+        setSessions({});
+        setLoading(false);
+        return;
+      }
+
+      const { data: bk } = await supabase
+        .from("bookings")
+        .select("*")
+        .in("student_id", allStudentIds)
+        .order("starts_at", { ascending: true });
+      const list = (bk as Booking[]) || [];
+      setBookings(list);
+      const ids = list.map((b) => b.id);
+      if (ids.length) {
+        const { data: ss } = await supabase.from("sessions").select("id, booking_id").in("booking_id", ids);
+        const map: Record<string, string> = {};
+        (ss as SessionRow[] | null)?.forEach((s) => { map[s.booking_id] = s.id; });
+        setSessions(map);
+      } else {
+        setSessions({});
+      }
+      setLoading(false);
+      return;
+    }
+
     const { data: bk } = await supabase
       .from("bookings").select("*")
       .or(`student_id.eq.${user.id},tutor_id.eq.${user.id}`)
@@ -74,7 +130,7 @@ const CalendarPage = () => {
     setLoading(false);
   };
 
-  useEffect(() => { load(); }, [user]);
+  useEffect(() => { load(); }, [user, parentOnly]);
 
   // Realtime: nasłuchuj zmian na własnych rezerwacjach
   useEffect(() => {
