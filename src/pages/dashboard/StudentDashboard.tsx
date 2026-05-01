@@ -121,6 +121,40 @@ const StudentDashboard = () => {
             </Surface>
           </div>
 
+          {(plan || latestAttemptId) && (
+            <Surface className="p-5 mb-6">
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div className="min-w-0">
+                  <h2 className="font-semibold flex items-center gap-2 text-base mb-1">
+                    <Sparkles className="h-4 w-4 text-accent" /> {plan ? plan.title : t("plan.title")}
+                  </h2>
+                  {plan ? (
+                    <>
+                      <p className="text-xs text-muted-foreground">
+                        <Badge variant="secondary" className="text-[10px] mr-1.5">{t(`plan.status.${plan.status}`)}</Badge>
+                        {t("plan.progress", { done: planProgress.done, total: planProgress.total })}
+                      </p>
+                      {planProgress.nextTitle && (
+                        <p className="text-xs mt-2"><span className="text-muted-foreground">{t("plan.nextStep")}: </span>{planProgress.nextTitle}</p>
+                      )}
+                    </>
+                  ) : (
+                    <p className="text-xs text-muted-foreground max-w-xl">{t("plan.generateHelper")}</p>
+                  )}
+                </div>
+                {plan ? (
+                  <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+                    <Link to={`/plans/${plan.id}`}>{t("plan.continueCta")}</Link>
+                  </Button>
+                ) : (
+                  <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+                    <Link to="/diagnose">{t("plan.generateCta")}</Link>
+                  </Button>
+                )}
+              </div>
+            </Surface>
+          )}
+
           {kcAreas.length > 0 && (
             <Surface className="p-5 mb-6">
               <h2 className="font-semibold mb-3 flex items-center gap-2 text-base">
