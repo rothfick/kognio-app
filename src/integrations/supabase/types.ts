@@ -97,6 +97,57 @@ export type Database = {
           },
         ]
       }
+      child_kc_mastery: {
+        Row: {
+          child_id: string
+          confidence: number
+          created_at: string
+          evidence: Json
+          id: string
+          kc_id: string
+          last_updated: string
+          mastery_prob: number
+          source: string
+        }
+        Insert: {
+          child_id: string
+          confidence?: number
+          created_at?: string
+          evidence?: Json
+          id?: string
+          kc_id: string
+          last_updated?: string
+          mastery_prob?: number
+          source?: string
+        }
+        Update: {
+          child_id?: string
+          confidence?: number
+          created_at?: string
+          evidence?: Json
+          id?: string
+          kc_id?: string
+          last_updated?: string
+          mastery_prob?: number
+          source?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "child_kc_mastery_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "child_kc_mastery_kc_id_fkey"
+            columns: ["kc_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_components"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       circle_members: {
         Row: {
           circle_id: string
@@ -224,6 +275,55 @@ export type Database = {
         }
         Relationships: []
       }
+      kc_prerequisites: {
+        Row: {
+          created_at: string
+          from_kc_id: string
+          id: string
+          strength: number
+          subject_id: string
+          to_kc_id: string
+        }
+        Insert: {
+          created_at?: string
+          from_kc_id: string
+          id?: string
+          strength?: number
+          subject_id: string
+          to_kc_id: string
+        }
+        Update: {
+          created_at?: string
+          from_kc_id?: string
+          id?: string
+          strength?: number
+          subject_id?: string
+          to_kc_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kc_prerequisites_from_kc_id_fkey"
+            columns: ["from_kc_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_components"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kc_prerequisites_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kc_prerequisites_to_kc_id_fkey"
+            columns: ["to_kc_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_components"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       knowledge_chunks: {
         Row: {
           circle_id: string | null
@@ -265,6 +365,133 @@ export type Database = {
             columns: ["session_id"]
             isOneToOne: false
             referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_components: {
+        Row: {
+          code: string
+          created_at: string
+          description_en: string | null
+          description_pl: string | null
+          difficulty_level: number
+          grade_level: string | null
+          id: string
+          is_active: boolean
+          name_en: string | null
+          name_pl: string
+          order_index: number
+          parent_kc_id: string | null
+          subject_id: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description_en?: string | null
+          description_pl?: string | null
+          difficulty_level?: number
+          grade_level?: string | null
+          id?: string
+          is_active?: boolean
+          name_en?: string | null
+          name_pl: string
+          order_index?: number
+          parent_kc_id?: string | null
+          subject_id: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description_en?: string | null
+          description_pl?: string | null
+          difficulty_level?: number
+          grade_level?: string | null
+          id?: string
+          is_active?: boolean
+          name_en?: string | null
+          name_pl?: string
+          order_index?: number
+          parent_kc_id?: string | null
+          subject_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_components_parent_kc_id_fkey"
+            columns: ["parent_kc_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_components"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_components_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      learning_goals: {
+        Row: {
+          child_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          status: string
+          subject_id: string | null
+          target_date: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          child_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          status?: string
+          subject_id?: string | null
+          target_date?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          child_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          status?: string
+          subject_id?: string | null
+          target_date?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "learning_goals_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_goals_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_goals_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
             referencedColumns: ["id"]
           },
         ]
@@ -730,27 +957,45 @@ export type Database = {
       subjects: {
         Row: {
           category: string | null
+          code: string
           created_at: string
+          description_en: string | null
+          description_pl: string | null
           id: string
+          is_active: boolean
+          level: string | null
           name_en: string
           name_pl: string
           slug: string
+          updated_at: string
         }
         Insert: {
           category?: string | null
+          code: string
           created_at?: string
+          description_en?: string | null
+          description_pl?: string | null
           id?: string
+          is_active?: boolean
+          level?: string | null
           name_en: string
           name_pl: string
           slug: string
+          updated_at?: string
         }
         Update: {
           category?: string | null
+          code?: string
           created_at?: string
+          description_en?: string | null
+          description_pl?: string | null
           id?: string
+          is_active?: boolean
+          level?: string | null
           name_en?: string
           name_pl?: string
           slug?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -954,6 +1199,10 @@ export type Database = {
       }
       is_parent_of: {
         Args: { _parent_id: string; _student_id: string }
+        Returns: boolean
+      }
+      is_parent_of_child: {
+        Args: { _child_id: string; _parent_id: string }
         Returns: boolean
       }
       is_session_participant: {
