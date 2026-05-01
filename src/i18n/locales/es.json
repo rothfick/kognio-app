@@ -22,7 +22,14 @@
     "parentDashboard": "Panel del padre",
     "adminDashboard": "Admin",
     "research": "Investigación",
-    "grantPack": "Paquete de subvención"
+    "grantPack": "Paquete de subvención",
+    "operations": "Operaciones",
+    "tutorVerification": "Verificación de tutores",
+    "findTutor": "Buscar tutor",
+    "notifications": "Notificaciones",
+    "availability": "Disponibilidad",
+    "bookings": "Reservas",
+    "tutorDashboard": "Panel del tutor"
   },
   "landing": {
     "heroEyebrow": "Plataforma inteligente de aprendizaje",

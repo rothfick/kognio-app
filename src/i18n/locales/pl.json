@@ -22,7 +22,14 @@
     "parentDashboard": "Pulpit rodzica",
     "adminDashboard": "Admin",
     "research": "Badania",
-    "grantPack": "Pakiet grantowy"
+    "grantPack": "Pakiet grantowy",
+    "operations": "Operacje",
+    "tutorVerification": "Weryfikacja korepetytorów",
+    "findTutor": "Znajdź korepetytora",
+    "notifications": "Powiadomienia",
+    "availability": "Dostępność",
+    "bookings": "Rezerwacje",
+    "tutorDashboard": "Panel korepetytora"
   },
   "landing": {
     "heroEyebrow": "Inteligentna platforma nauki",

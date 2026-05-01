@@ -22,7 +22,14 @@
     "parentDashboard": "Parent dashboard",
     "adminDashboard": "Admin",
     "research": "Research",
-    "grantPack": "Grant pack"
+    "grantPack": "Grant pack",
+    "operations": "Operations",
+    "tutorVerification": "Tutor verification",
+    "findTutor": "Find tutor",
+    "notifications": "Notifications",
+    "availability": "Availability",
+    "bookings": "Bookings",
+    "tutorDashboard": "Tutor dashboard"
   },
   "landing": {
     "heroEyebrow": "Intelligent learning platform",
