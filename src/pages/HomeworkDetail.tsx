@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -33,7 +33,6 @@ export default function HomeworkDetail() {
   const { id } = useParams<{ id: string }>();
   const { t, i18n } = useTranslation();
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [assignment, setAssignment] = useState<Assignment | null>(null);
   const [items, setItems] = useState<Item[]>([]);
   const [submission, setSubmission] = useState<Submission | null>(null);
