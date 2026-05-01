@@ -297,6 +297,9 @@ export default function Diagnose() {
   if (checkpointId && checkpointLoading) {
     return <AppShell><div className="container py-12 text-sm text-muted-foreground">{t("checkpoint.starting")}</div></AppShell>;
   }
+  if (attemptLoading) {
+    return <AppShell><div className="container py-12 text-sm text-muted-foreground">{t("common.loading")}</div></AppShell>;
+  }
 
   return (
     <AppShell>
