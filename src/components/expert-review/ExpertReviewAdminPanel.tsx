@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BadgeCheck, ClipboardCheck, Loader2, Percent, Sparkles, ListChecks, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
+import { createNotification } from "@/lib/notifications";
 
 type RecentReview = {
   id: string;
@@ -176,7 +177,18 @@ export function ExpertReviewAdminPanel() {
       }
 
       toast.success(t("expertReview.created"));
-      navigate(`/expert/reviews/${(review as { id: string }).id}`);
+      const reviewId = (review as { id: string }).id;
+      await createNotification({
+        userId: user.id,
+        type: "expert_review_assigned",
+        severity: "info",
+        title: t("notifications.expert_review_assigned.title"),
+        body: t("notifications.expert_review_assigned.body", { type: t(`expertReview.types.${reviewType}`, reviewType) }),
+        actionLabel: t("notifications.expert_review_assigned.action"),
+        actionUrl: `/expert/reviews/${reviewId}`,
+        metadata: { review_id: reviewId, review_type: reviewType },
+      });
+      navigate(`/expert/reviews/${reviewId}`);
     } catch (e) {
       toast.error((e as Error).message);
     } finally {

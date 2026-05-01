@@ -17,6 +17,7 @@ import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge"
 import { ResearchConsentDialog } from "@/components/pilot/ResearchConsentDialog";
 import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
 import { useConsent } from "@/hooks/useConsent";
+import { createNotification } from "@/lib/notifications";
 
 type Choice = { id: string; text: string };
 type Item = { id: string; question: string; choices: Choice[]; kc_label: string; difficulty: number };
@@ -113,6 +114,18 @@ export default function Diagnose() {
       });
       if (error) throw error;
       if ((data as any)?.error) throw new Error((data as any).error);
+      if (user) {
+        await createNotification({
+          userId: user.id,
+          type: "checkpoint_completed",
+          severity: "success",
+          title: t("notifications.checkpoint_completed.title"),
+          body: t("notifications.checkpoint_completed.body"),
+          actionLabel: t("notifications.checkpoint_completed.action"),
+          actionUrl: `/checkpoints/${cpId}`,
+          metadata: { checkpoint_id: cpId },
+        });
+      }
       navigate(`/checkpoints/${cpId}`);
     } catch (e: any) {
       setFinalizeError(true);
@@ -120,7 +133,7 @@ export default function Diagnose() {
     } finally {
       setFinalizing(false);
     }
-  }, [navigate, t]);
+  }, [navigate, t, user]);
 
   const aiConsentType: "parent_child_data_processing" | "ai_diagnosis_notice" = childId ? "parent_child_data_processing" : "ai_diagnosis_notice";
   const { hasConsent: hasAiConsent, refresh: refreshConsent } = useConsent(aiConsentType, childId);
@@ -194,6 +207,18 @@ export default function Diagnose() {
           setSummary(d.summary);
           setScore({ pct: d.score_pct, total: d.total, correct: d.correct });
           setPhase("done");
+          if (user && !checkpointId) {
+            createNotification({
+              userId: user.id,
+              type: "diagnosis_completed",
+              severity: "success",
+              title: t("notifications.diagnosis_completed.title"),
+              body: t("notifications.diagnosis_completed.body"),
+              actionLabel: t("notifications.diagnosis_completed.action"),
+              actionUrl: "/dashboard",
+              metadata: { attempt_id: attemptId, child_id: childId },
+            });
+          }
         } else {
           setItem(d.item);
           setQuestionIdx(d.question_index);
@@ -519,6 +544,7 @@ export default function Diagnose() {
 function PlanCta({ attemptId, childId, language }: { attemptId: string | null; childId: string | null; language: string }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [planId, setPlanId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -547,6 +573,18 @@ function PlanCta({ attemptId, childId, language }: { attemptId: string | null; c
       const id = (data as { plan_id?: string })?.plan_id;
       if (!id) throw new Error("no plan id");
       toast.success(t("plan.generated"));
+      if (user) {
+        await createNotification({
+          userId: user.id,
+          type: "plan_ready",
+          severity: "success",
+          title: t("notifications.plan_ready.title"),
+          body: t("notifications.plan_ready.body"),
+          actionLabel: t("notifications.plan_ready.action"),
+          actionUrl: `/plans/${id}`,
+          metadata: { plan_id: id, child_id: childId },
+        });
+      }
       navigate(`/plans/${id}`);
     } catch (e) {
       toast.error((e as Error).message || t("plan.generateFailed"));
