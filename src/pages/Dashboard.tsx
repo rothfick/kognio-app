@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserRoles } from "@/hooks/useUserRoles";
@@ -15,20 +16,21 @@ import {
   Clock, CheckCircle2, XCircle, Trophy, Video,
 } from "lucide-react";
 
-const STATUS_META: Record<string, { label: string; icon: any; cls: string }> = {
-  pending:   { label: "Oczekuje",     icon: Clock,        cls: "bg-muted text-muted-foreground border-muted-foreground/20" },
-  confirmed: { label: "Potwierdzona", icon: CheckCircle2, cls: "bg-accent/15 text-accent border-accent/40" },
-  completed: { label: "Zakończona",   icon: Trophy,       cls: "bg-primary/10 text-primary border-primary/30" },
-  cancelled: { label: "Anulowana",    icon: XCircle,      cls: "bg-destructive/10 text-destructive border-destructive/40" },
+const STATUS_META: Record<string, { icon: any; cls: string }> = {
+  pending:   { icon: Clock,        cls: "bg-muted text-muted-foreground border-muted-foreground/20" },
+  confirmed: { icon: CheckCircle2, cls: "bg-accent/15 text-accent border-accent/40" },
+  completed: { icon: Trophy,       cls: "bg-primary/10 text-primary border-primary/30" },
+  cancelled: { icon: XCircle,      cls: "bg-destructive/10 text-destructive border-destructive/40" },
 };
 
 const StatusPill = ({ status }: { status: string }) => {
+  const { t } = useTranslation();
   const m = STATUS_META[status] || STATUS_META.pending;
   const Icon = m.icon;
   return (
     <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium ${m.cls}`}>
       <Icon className="h-3.5 w-3.5" />
-      {m.label}
+      {t(`calendar.status.${status}`, { defaultValue: t("calendar.status.pending") })}
     </span>
   );
 };
@@ -41,6 +43,7 @@ type Payment = { id: string; booking_id: string; status: string; amount_cents: n
 type TutorProfile = { is_published: boolean; rating: number | null; sessions_completed: number; headline: string | null };
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const { isTutor, isStudent, loading: rolesLoading } = useUserRoles();
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -70,7 +73,7 @@ const Dashboard = () => {
     list.forEach((b) => {
       const prev = prevStatusRef.current[b.id];
       if (prev && prev === "pending" && b.status === "confirmed") {
-        toast.success("Rezerwacja potwierdzona — możesz wejść na sesję!", {
+        toast.success(t("dashboardLegacy.confirmedToast"), {
           description: new Date(b.starts_at).toLocaleString(),
         });
       }
@@ -103,7 +106,7 @@ const Dashboard = () => {
         if (row.student_id !== user.id && row.tutor_id !== user.id) return;
         const prev = prevStatusRef.current[row.id];
         if (prev === "pending" && row.status === "confirmed") {
-          toast.success("Rezerwacja potwierdzona — możesz wejść na sesję!", {
+          toast.success(t("dashboardLegacy.confirmedToast"), {
             description: new Date(row.starts_at).toLocaleString(),
           });
         }
@@ -156,17 +159,17 @@ const Dashboard = () => {
         <div className="flex gap-1.5">
           {canEnter && (
             <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
-              <Link to={`/session/${sessionId}`}><Video className="h-3.5 w-3.5 mr-1" />Wejdź</Link>
+              <Link to={`/session/${sessionId}`}><Video className="h-3.5 w-3.5 mr-1" />{t("calendar.enter")}</Link>
             </Button>
           )}
           {showPay && (
             <Button asChild size="sm" variant="outline">
-              <Link to={`/payment/${b.id}`}><CreditCard className="h-3.5 w-3.5 mr-1" />Zapłać</Link>
+              <Link to={`/payment/${b.id}`}><CreditCard className="h-3.5 w-3.5 mr-1" />{t("calendar.pay")}</Link>
             </Button>
           )}
           {b.status === "pending" && (
             <Button asChild size="sm" variant="ghost">
-              <Link to="/calendar">Szczegóły</Link>
+              <Link to="/calendar">{t("common.details")}</Link>
             </Button>
           )}
         </div>
@@ -175,7 +178,7 @@ const Dashboard = () => {
   };
 
   if (loading || rolesLoading) {
-    return <AppShell><div className="container py-10 text-muted-foreground">Ładowanie panelu…</div></AppShell>;
+    return <AppShell><div className="container py-10 text-muted-foreground">{t("common.loadingPanel")}</div></AppShell>;
   }
 
   const showRoleTabs = isStudent && isTutor;
@@ -184,15 +187,15 @@ const Dashboard = () => {
     <AppShell>
       <div className="container mx-auto px-4 py-10 max-w-6xl">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Cześć! 👋</h1>
-          <p className="text-muted-foreground">Twój dzisiejszy przegląd nauki i tutoringu.</p>
+          <h1 className="text-4xl font-bold mb-2">{t("dashboardLegacy.title")}</h1>
+          <p className="text-muted-foreground">{t("dashboardLegacy.subtitle")}</p>
         </div>
 
         {showRoleTabs ? (
           <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
             <TabsList className="mb-6">
-              <TabsTrigger value="student"><GraduationCap className="h-4 w-4 mr-2" />Jako uczeń</TabsTrigger>
-              <TabsTrigger value="tutor"><Sparkles className="h-4 w-4 mr-2" />Jako tutor</TabsTrigger>
+              <TabsTrigger value="student"><GraduationCap className="h-4 w-4 mr-2" />{t("dashboardLegacy.asStudent")}</TabsTrigger>
+              <TabsTrigger value="tutor"><Sparkles className="h-4 w-4 mr-2" />{t("dashboardLegacy.asTutor")}</TabsTrigger>
             </TabsList>
             <TabsContent value="student"><StudentView /></TabsContent>
             <TabsContent value="tutor"><TutorView /></TabsContent>
@@ -206,22 +209,22 @@ const Dashboard = () => {
     return (
       <div className="space-y-6">
         <div className="grid gap-4 sm:grid-cols-3">
-          <Stat icon={CalIcon} label="Nadchodzące sesje" value={studentUpcoming.length} />
-          <Stat icon={CreditCard} label="Niezapłacone" value={studentUnpaid.length} hint={studentUnpaid.length ? "Wymagają Twojego działania" : "Wszystko gra"} />
-          <Stat icon={Star} label="Karma" value={karma} hint="Z pomagania innym" />
+          <Stat icon={CalIcon} label={t("dashboardLegacy.upcomingSessions")} value={studentUpcoming.length} />
+          <Stat icon={CreditCard} label={t("dashboardLegacy.unpaid")} value={studentUnpaid.length} hint={studentUnpaid.length ? t("dashboardLegacy.needsAction") : t("dashboardLegacy.allGood")} />
+          <Stat icon={Star} label="Karma" value={karma} hint={t("dashboardLegacy.karmaHint")} />
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="p-5 bg-card-soft">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold">Najbliższe sesje</h2>
-              <Button asChild variant="ghost" size="sm"><Link to="/calendar">Wszystkie</Link></Button>
+              <h2 className="font-semibold">{t("dashboardLegacy.upcomingSessions")}</h2>
+              <Button asChild variant="ghost" size="sm"><Link to="/calendar">{t("dashboardLegacy.all")}</Link></Button>
             </div>
             {studentUpcoming.length === 0 ? (
               <div className="text-center py-6">
-                <p className="text-sm text-muted-foreground mb-3">Brak nadchodzących sesji</p>
+                <p className="text-sm text-muted-foreground mb-3">{t("dashboardLegacy.noUpcoming")}</p>
                 <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
-                  <Link to="/discover"><Search className="h-4 w-4 mr-2" />Znajdź tutora</Link>
+                  <Link to="/discover"><Search className="h-4 w-4 mr-2" />{t("student.findTutor")}</Link>
                 </Button>
               </div>
             ) : (
@@ -232,23 +235,23 @@ const Dashboard = () => {
           </Card>
 
           <Card className="p-5 bg-card-soft">
-            <h2 className="font-semibold mb-4">Co dalej?</h2>
+            <h2 className="font-semibold mb-4">{t("dashboardLegacy.whatNext")}</h2>
             <div className="space-y-2">
               <Button asChild variant="outline" className="w-full justify-start">
-                <Link to="/discover"><Search className="h-4 w-4 mr-2" />Znajdź tutora</Link>
+                <Link to="/discover"><Search className="h-4 w-4 mr-2" />{t("student.findTutor")}</Link>
               </Button>
               <Button asChild variant="outline" className="w-full justify-start">
-                <Link to="/circles"><Users className="h-4 w-4 mr-2" />Dołącz do kręgu nauki</Link>
+                <Link to="/circles"><Users className="h-4 w-4 mr-2" />{t("dashboardLegacy.joinCircle")}</Link>
               </Button>
               <Button asChild variant="outline" className="w-full justify-start">
-                <Link to="/peer"><HandHelping className="h-4 w-4 mr-2" />Poproś o pomoc / pomóż innym</Link>
+                <Link to="/peer"><HandHelping className="h-4 w-4 mr-2" />{t("dashboardLegacy.askOrHelp")}</Link>
               </Button>
               <Button asChild variant="outline" className="w-full justify-start">
-                <Link to="/brain"><Sparkles className="h-4 w-4 mr-2" />Otwórz Drugi Mózg</Link>
+                <Link to="/brain"><Sparkles className="h-4 w-4 mr-2" />{t("dashboardLegacy.openBrain")}</Link>
               </Button>
               {!isTutor && (
                 <Button asChild className="w-full justify-start bg-accent-gradient text-accent-foreground mt-2">
-                  <Link to="/settings"><GraduationCap className="h-4 w-4 mr-2" />Zostań również tutorem</Link>
+                  <Link to="/settings"><GraduationCap className="h-4 w-4 mr-2" />{t("dashboardLegacy.alsoTutor")}</Link>
                 </Button>
               )}
             </div>
@@ -259,14 +262,14 @@ const Dashboard = () => {
         <Card className="p-5 bg-card-soft">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="font-semibold">Stan Twoich rezerwacji</h2>
+              <h2 className="font-semibold">{t("dashboardLegacy.bookingStatus")}</h2>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Po potwierdzeniu przez tutora pojawi się przycisk „Wejdź". Po sesji — „Zapłać".
+                {t("dashboardLegacy.bookingStatusHint")}
               </p>
             </div>
           </div>
           {studentUpcoming.length === 0 && bookings.filter((b) => b.student_id === user?.id).length === 0 ? (
-            <p className="text-sm text-muted-foreground text-center py-4">Nie masz jeszcze żadnych rezerwacji.</p>
+            <p className="text-sm text-muted-foreground text-center py-4">{t("dashboardLegacy.noBookings")}</p>
           ) : (
             <div className="space-y-2">
               {bookings
@@ -281,7 +284,7 @@ const Dashboard = () => {
           <Card className="p-5 bg-card-soft border-accent/40">
             <div className="flex items-center gap-2 mb-3">
               <AlertCircle className="h-5 w-5 text-accent" />
-              <h2 className="font-semibold">Sesje do opłacenia</h2>
+              <h2 className="font-semibold">{t("dashboardLegacy.sessionsToPay")}</h2>
             </div>
             <div className="space-y-2">
               {studentUnpaid.map((b) => (
@@ -292,7 +295,7 @@ const Dashboard = () => {
                     <p className="text-xs text-muted-foreground">{(b.price_cents / 100).toFixed(2)} {b.currency}</p>
                   </div>
                   <Button asChild size="sm">
-                    <Link to={`/payment/${b.id}`}>Zapłać <ArrowRight className="h-3 w-3 ml-1" /></Link>
+                    <Link to={`/payment/${b.id}`}>{t("calendar.pay")} <ArrowRight className="h-3 w-3 ml-1" /></Link>
                   </Button>
                 </div>
               ))}
@@ -315,12 +318,12 @@ const Dashboard = () => {
             <div className="flex items-start gap-3">
               <AlertCircle className="h-5 w-5 text-accent shrink-0 mt-0.5" />
               <div className="flex-1">
-                <h3 className="font-semibold text-accent mb-1">Twój profil tutora jest ukryty</h3>
+                <h3 className="font-semibold text-accent mb-1">{t("dashboardLegacy.hiddenTutorTitle")}</h3>
                 <p className="text-sm text-muted-foreground mb-3">
-                  Uzupełnij nagłówek i opis, dodaj metodę płatności, a następnie włącz przełącznik „Opublikowany w wyszukiwarce".
+                  {t("dashboardLegacy.hiddenTutorBody")}
                 </p>
                 <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
-                  <Link to="/settings"><SettingsIcon className="h-4 w-4 mr-2" />Dokończ konfigurację</Link>
+                  <Link to="/settings"><SettingsIcon className="h-4 w-4 mr-2" />{t("dashboardLegacy.finishSetup")}</Link>
                 </Button>
               </div>
             </div>
@@ -328,20 +331,20 @@ const Dashboard = () => {
         )}
 
         <div className="grid gap-4 sm:grid-cols-4">
-          <Stat icon={CalIcon} label="Nadchodzące sesje" value={tutorUpcoming.length} />
-          <Stat icon={AlertCircle} label="Do potwierdzenia" value={tutorPending.length} hint={tutorPending.length ? "Czekają na akceptację" : "Wszystko ogarnięte"} />
-          <Stat icon={Star} label="Ocena" value={tutorProfile?.rating?.toFixed(1) || "—"} hint={`${tutorProfile?.sessions_completed || 0} sesji`} />
-          <Stat icon={Wallet} label="Zarobki potwierdzone" value={`${(earnings / 100).toFixed(0)} zł`} />
+          <Stat icon={CalIcon} label={t("dashboardLegacy.upcomingSessions")} value={tutorUpcoming.length} />
+          <Stat icon={AlertCircle} label={t("dashboardLegacy.toConfirm")} value={tutorPending.length} hint={tutorPending.length ? t("dashboardLegacy.waitingApproval") : "Wszystko ogarnięte"} />
+          <Stat icon={Star} label={t("dashboardLegacy.rating")} value={tutorProfile?.rating?.toFixed(1) || "—"} hint={t("dashboardLegacy.sessionsCount", { count: tutorProfile?.sessions_completed || 0 })} />
+          <Stat icon={Wallet} label={t("dashboardLegacy.confirmedEarnings")} value={`${(earnings / 100).toFixed(0)} zł`} />
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="p-5 bg-card-soft">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold">Najbliższe sesje</h2>
-              <Button asChild variant="ghost" size="sm"><Link to="/calendar">Wszystkie</Link></Button>
+              <h2 className="font-semibold">{t("dashboardLegacy.upcomingSessions")}</h2>
+              <Button asChild variant="ghost" size="sm"><Link to="/calendar">{t("dashboardLegacy.all")}</Link></Button>
             </div>
             {tutorUpcoming.length === 0 ? (
-              <p className="text-sm text-muted-foreground text-center py-6">Brak nadchodzących sesji</p>
+              <p className="text-sm text-muted-foreground text-center py-6">{t("dashboardLegacy.noUpcoming")}</p>
             ) : (
               <div className="space-y-2">
                 {tutorUpcoming.slice(0, 3).map((b) => <BookingRow key={b.id} b={b} side="tutor" />)}
@@ -350,16 +353,16 @@ const Dashboard = () => {
           </Card>
 
           <Card className="p-5 bg-card-soft">
-            <h2 className="font-semibold mb-4">Wpłaty oczekujące potwierdzenia</h2>
+            <h2 className="font-semibold mb-4">{t("dashboardLegacy.pendingPayments")}</h2>
             {tutorUnconfirmedPayments.length === 0 ? (
-              <p className="text-sm text-muted-foreground text-center py-6">Brak nowych wpłat</p>
+              <p className="text-sm text-muted-foreground text-center py-6">{t("dashboardLegacy.noNewPayments")}</p>
             ) : (
               <div className="space-y-2">
                 {tutorUnconfirmedPayments.map((p) => (
                   <div key={p.id} className="flex items-center gap-3 p-3 rounded-lg border bg-background">
                     <Wallet className="h-4 w-4 text-accent shrink-0" />
                     <p className="flex-1 text-sm font-medium">{(p.amount_cents / 100).toFixed(2)} {p.currency}</p>
-                    <Button asChild size="sm"><Link to={`/payment/${p.booking_id}`}>Sprawdź</Link></Button>
+                    <Button asChild size="sm"><Link to={`/payment/${p.booking_id}`}>{t("dashboardLegacy.check")}</Link></Button>
                   </div>
                 ))}
               </div>
@@ -371,15 +374,15 @@ const Dashboard = () => {
         <Card className="p-5 bg-card-soft">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="font-semibold">Stan rezerwacji uczniów</h2>
+              <h2 className="font-semibold">{t("dashboardLegacy.studentBookings")}</h2>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Potwierdź oczekujące, aby uczeń zobaczył przycisk „Wejdź".
+                {t("dashboardLegacy.studentBookingsHint")}
               </p>
             </div>
-            <Button asChild variant="ghost" size="sm"><Link to="/calendar">Wszystkie</Link></Button>
+            <Button asChild variant="ghost" size="sm"><Link to="/calendar">{t("dashboardLegacy.all")}</Link></Button>
           </div>
           {bookings.filter((b) => b.tutor_id === user?.id).length === 0 ? (
-            <p className="text-sm text-muted-foreground text-center py-4">Brak rezerwacji.</p>
+            <p className="text-sm text-muted-foreground text-center py-4">{t("dashboardLegacy.noBookingsShort")}</p>
           ) : (
             <div className="space-y-2">
               {bookings
@@ -391,13 +394,13 @@ const Dashboard = () => {
         </Card>
 
         <Card className="p-5 bg-card-soft">
-          <h2 className="font-semibold mb-4">Skróty tutora</h2>
+          <h2 className="font-semibold mb-4">{t("dashboardLegacy.tutorShortcuts")}</h2>
           <div className="grid gap-2 sm:grid-cols-2">
             <Button asChild variant="outline" className="justify-start">
-              <Link to="/settings"><SettingsIcon className="h-4 w-4 mr-2" />Edytuj profil i stawki</Link>
+              <Link to="/settings"><SettingsIcon className="h-4 w-4 mr-2" />{t("dashboardLegacy.editProfileRates")}</Link>
             </Button>
             <Button asChild variant="outline" className="justify-start">
-              <Link to={`/tutor/${user?.id}`}><GraduationCap className="h-4 w-4 mr-2" />Zobacz swój publiczny profil</Link>
+              <Link to={`/tutor/${user?.id}`}><GraduationCap className="h-4 w-4 mr-2" />{t("dashboardLegacy.viewPublicProfile")}</Link>
             </Button>
           </div>
         </Card>

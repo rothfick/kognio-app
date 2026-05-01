@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -23,6 +24,7 @@ const slugify = (s: string) =>
     .slice(0, 48) || "org";
 
 const Onboarding = () => {
+  const { t } = useTranslation();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [selected, setSelected] = useState<Role | null>(null);
@@ -53,7 +55,7 @@ const Onboarding = () => {
   }, [user, navigate]);
 
   if (loading || checking) {
-    return <div className="grid min-h-[50vh] place-items-center text-muted-foreground">Ładowanie…</div>;
+    return <div className="grid min-h-[50vh] place-items-center text-muted-foreground">{t("onboarding.loading")}</div>;
   }
   if (!user) return <Navigate to="/auth" replace />;
 
@@ -64,7 +66,7 @@ const Onboarding = () => {
     setSubmitting(true);
     try {
       if (selected === "tutor") {
-        toast.error("Konto korepetytora wymaga weryfikacji. Skontaktuj się z zespołem Kogni.");
+        toast.error(t("onboarding.tutorBlocked"));
         setSubmitting(false);
         return;
       }
@@ -88,7 +90,7 @@ const Onboarding = () => {
       // Create the organization for school / training_company
       if (isOrg) {
         if (!orgName.trim()) {
-          toast.error("Podaj nazwę placówki.");
+          toast.error(t("onboarding.orgNameRequired"));
           setSubmitting(false);
           return;
         }
@@ -130,14 +132,14 @@ const Onboarding = () => {
         : "/dashboard/student";
 
       toast.success(
-        isOrg ? "Placówka utworzona. Możesz zapraszać uczniów i nauczycieli."
-        : selected === "parent" ? "Witaj! Dodaj profil dziecka, aby rozpocząć."
-        : "Świetnie, zaczynamy naukę!"
+        isOrg ? t("onboarding.orgCreated")
+        : selected === "parent" ? t("onboarding.parentWelcome")
+        : t("onboarding.studentWelcome")
       );
       navigate(dest, { replace: true });
     } catch (e: any) {
       console.error(e);
-      toast.error(e.message || "Coś poszło nie tak");
+      toast.error(e.message || t("onboarding.genericError"));
     } finally {
       setSubmitting(false);
     }
@@ -147,9 +149,9 @@ const Onboarding = () => {
     <AppShell>
       <div className="container mx-auto px-4 py-12 max-w-5xl">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold mb-3">Witaj w Kogni 👋</h1>
+          <h1 className="text-4xl font-bold mb-3">{t("onboarding.welcome")}</h1>
           <p className="text-lg text-muted-foreground">
-            Powiedz nam, jak chcesz korzystać z platformy. Zawsze możesz zmienić to później w ustawieniach.
+            {t("onboarding.subtitle")}
           </p>
         </div>
 
@@ -158,72 +160,72 @@ const Onboarding = () => {
             active={selected === "student"}
             onClick={() => setSelected("student")}
             icon={<GraduationCap className="h-7 w-7" />}
-            title="Uczeń"
-            description="Uczę się, dołączam do kół, korzystam z AI."
-            bullets={["Diagnoza wiedzy", "Tutorzy", "Drugi mózg"]}
+            title={t("onboarding.roles.student")}
+            description={t("onboarding.roleDescriptions.student")}
+            bullets={[t("onboarding.roleDescriptions.studentB1"), t("onboarding.roleDescriptions.studentB2"), t("onboarding.roleDescriptions.studentB3")]}
           />
           <RoleCard
             active={selected === "parent"}
             onClick={() => setSelected("parent")}
             icon={<Users className="h-7 w-7" />}
-            title="Rodzic"
-            description="Profil dziecka, raporty postępów."
-            bullets={["Profil dziecka", "Raporty", "Kontrola"]}
+            title={t("onboarding.roles.parent")}
+            description={t("onboarding.roles.parentDesc")}
+            bullets={[t("onboarding.roles.parentB1"), t("onboarding.roles.parentB2"), t("onboarding.roles.parentB3")]}
           />
           <RoleCard
             active={selected === "tutor"}
             onClick={() => setSelected("tutor")}
             icon={<Sparkles className="h-7 w-7" />}
-            title="Tutor"
-            description="Lekcje 1:1 z AI Co-pilotem. (weryfikacja)"
-            bullets={["Profil", "AI Co-pilot", "Płatności"]}
+            title={t("onboarding.roles.tutor")}
+            description={t("onboarding.roleDescriptions.tutorDesc")}
+            bullets={[t("onboarding.roles.tutorB1"), t("onboarding.roles.tutorB2"), t("onboarding.roles.tutorB3")]}
           />
           <RoleCard
             active={selected === "school"}
             onClick={() => setSelected("school")}
             icon={<School className="h-7 w-7" />}
-            title="Szkoła"
-            description="Zarządzaj uczniami, nauczycielami, grupami."
-            bullets={["Wielu użytkowników", "Zaproszenia", "Raporty placówki"]}
+            title={t("onboarding.roles.school")}
+            description={t("onboarding.roles.schoolDesc")}
+            bullets={[t("onboarding.roles.schoolB1"), t("onboarding.roles.schoolB2"), t("onboarding.roles.schoolB3")]}
           />
           <RoleCard
             active={selected === "training_company"}
             onClick={() => setSelected("training_company")}
             icon={<Building2 className="h-7 w-7" />}
-            title="Firma szkoleniowa"
-            description="Kursy dla pracowników i klientów B2B."
-            bullets={["Zespoły", "Zaproszenia", "Raporty firmowe"]}
+            title={t("onboarding.roles.company")}
+            description={t("onboarding.roles.companyDesc")}
+            bullets={[t("onboarding.roles.companyB1"), t("onboarding.roles.companyB2"), t("onboarding.roles.companyB3")]}
           />
         </div>
 
         {isOrg && (
           <Card className="p-6 mb-8 bg-card-soft">
             <h2 className="text-xl font-semibold mb-1">
-              {selected === "school" ? "Dane szkoły" : "Dane firmy szkoleniowej"}
+              {selected === "school" ? t("onboarding.org.schoolDataTitle") : t("onboarding.org.companyDataTitle")}
             </h2>
             <p className="text-sm text-muted-foreground mb-6">
-              Te informacje pomogą uczniom i pracownikom rozpoznać Twoją placówkę. Możesz zmienić je później.
+              {t("onboarding.org.intro")}
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="org-name">Nazwa *</Label>
-                <Input id="org-name" value={orgName} onChange={(e) => setOrgName(e.target.value)} placeholder={selected === "school" ? "np. SP nr 5 w Warszawie" : "np. Akademia Kodowania Sp. z o.o."} />
+                <Label htmlFor="org-name">{t("onboarding.org.name")}</Label>
+                <Input id="org-name" value={orgName} onChange={(e) => setOrgName(e.target.value)} placeholder={selected === "school" ? t("onboarding.org.nameHintSchool") : t("onboarding.org.nameHintCompany")} />
               </div>
               <div>
-                <Label htmlFor="org-taxid">NIP / numer REGON</Label>
-                <Input id="org-taxid" value={orgTaxId} onChange={(e) => setOrgTaxId(e.target.value)} placeholder="opcjonalnie" />
+                <Label htmlFor="org-taxid">{t("onboarding.org.taxId")}</Label>
+                <Input id="org-taxid" value={orgTaxId} onChange={(e) => setOrgTaxId(e.target.value)} placeholder={t("onboarding.org.optional")} />
               </div>
               <div>
-                <Label htmlFor="org-city">Miasto</Label>
-                <Input id="org-city" value={orgCity} onChange={(e) => setOrgCity(e.target.value)} placeholder="np. Warszawa" />
+                <Label htmlFor="org-city">{t("onboarding.org.city")}</Label>
+                <Input id="org-city" value={orgCity} onChange={(e) => setOrgCity(e.target.value)} placeholder={t("onboarding.org.cityHint")} />
               </div>
               <div>
-                <Label htmlFor="org-web">Strona WWW</Label>
+                <Label htmlFor="org-web">{t("onboarding.org.website")}</Label>
                 <Input id="org-web" value={orgWebsite} onChange={(e) => setOrgWebsite(e.target.value)} placeholder="https://…" />
               </div>
               <div className="sm:col-span-2">
-                <Label htmlFor="org-desc">Krótki opis</Label>
-                <Textarea id="org-desc" value={orgDescription} onChange={(e) => setOrgDescription(e.target.value)} rows={3} placeholder="Dla kogo, czego uczycie, kontakt…" />
+                <Label htmlFor="org-desc">{t("onboarding.org.description")}</Label>
+                <Textarea id="org-desc" value={orgDescription} onChange={(e) => setOrgDescription(e.target.value)} rows={3} placeholder={t("onboarding.org.descriptionHint")} />
               </div>
             </div>
           </Card>
@@ -237,11 +239,11 @@ const Onboarding = () => {
             className="bg-accent-gradient text-accent-foreground min-w-[220px]"
           >
             {submitting ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Check className="h-4 w-4 mr-2" />}
-            Kontynuuj
+            {t("onboarding.continue")}
           </Button>
         </div>
         <p className="text-xs text-muted-foreground text-center mt-4">
-          Konto korepetytora wymaga weryfikacji przez zespół Kogni.
+          {t("onboarding.tutorPendingNote")}
         </p>
       </div>
     </AppShell>

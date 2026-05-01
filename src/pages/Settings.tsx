@@ -56,7 +56,7 @@ const Settings = () => {
         .insert({ user_id: user.id, role: "tutor" });
       if (rErr) {
         console.error("user_roles insert", rErr);
-        toast.error(`Nie udało się nadać roli: ${rErr.message}`);
+        toast.error(t("settings.roleGrantFailed", { msg: rErr.message }));
         return;
       }
     }
@@ -69,10 +69,10 @@ const Settings = () => {
       );
     if (tErr) {
       console.error("tutor_profiles upsert", tErr);
-      toast.error(`Nie udało się utworzyć profilu tutora: ${tErr.message}`);
+      toast.error(t("settings.tutorProfileCreateFailed", { msg: tErr.message }));
       return;
     }
-    toast.success("Jesteś tutorem! Uzupełnij profil.");
+    toast.success(t("settings.becameTutor"));
     setIsTutor(true);
     await load();
   };
@@ -84,7 +84,7 @@ const Settings = () => {
       headline: tutor.headline, description: tutor.description,
       hourly_rate_cents: tutor.hourly_rate_cents, currency: tutor.currency, is_published: tutor.is_published,
     }).eq("user_id", user.id);
-    if (error) toast.error(error.message); else toast.success("Zapisano");
+    if (error) toast.error(error.message); else toast.success(t("settings.savedToast"));
   };
 
   const addMethod = async () => {
@@ -94,7 +94,7 @@ const Settings = () => {
       is_default: methods.length === 0,
     });
     if (error) { toast.error(error.message); return; }
-    toast.success("Dodano metodę"); setLabel(""); setDetails(""); load();
+    toast.success(t("settings.addedMethodToast")); setLabel(""); setDetails(""); load();
   };
 
   const removeMethod = async (id: string) => {
@@ -123,31 +123,31 @@ const Settings = () => {
         {/* Tutor profile */}
         {!isTutor ? (
           <Card className="p-6 bg-card-soft text-center">
-            <p className="mb-4 text-muted-foreground">Chcesz pomagać innym i zarabiać?</p>
+            <p className="mb-4 text-muted-foreground">{t("settings.becomeTutorPrompt")}</p>
             <Button onClick={becomeTutor} className="bg-accent-gradient text-accent-foreground">{t("settings.becomeTutor")}</Button>
           </Card>
         ) : tutor && (
           <Card className="p-6 bg-card-soft space-y-4">
-            <h2 className="text-xl font-semibold">Profil tutora</h2>
+            <h2 className="text-xl font-semibold">{t("settings.tutorProfile")}</h2>
             {!tutor.is_published && (
               <div className="rounded-md border border-accent/40 bg-accent/10 p-3 text-sm">
-                <p className="font-medium text-accent">Twój profil jest ukryty</p>
+                <p className="font-medium text-accent">{t("settings.tutorHidden")}</p>
                 <p className="text-muted-foreground mt-1">
-                  Uzupełnij nagłówek i opis, a następnie włącz przełącznik <strong>„Opublikowany w wyszukiwarce”</strong> poniżej, aby uczniowie mogli Cię znaleźć.
+                  {t("settings.tutorHiddenHint")}
                 </p>
               </div>
             )}
             <div>
-              <Label>Nagłówek</Label>
-              <Input value={tutor.headline || ""} onChange={(e) => setTutor({ ...tutor, headline: e.target.value })} placeholder="np. Matematyka maturalna z 7-letnim stażem" maxLength={120} />
+              <Label>{t("settings.headline")}</Label>
+              <Input value={tutor.headline || ""} onChange={(e) => setTutor({ ...tutor, headline: e.target.value })} placeholder={t("settings.headlinePlaceholder")} maxLength={120} />
             </div>
             <div>
-              <Label>Opis</Label>
+              <Label>{t("settings.description")}</Label>
               <Textarea value={tutor.description || ""} onChange={(e) => setTutor({ ...tutor, description: e.target.value })} rows={4} maxLength={2000} />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label>Stawka / h (zł)</Label>
+                <Label>{t("settings.ratePerHour")}</Label>
                 <Input
                   type="number"
                   min={0}
@@ -160,12 +160,12 @@ const Settings = () => {
                 />
               </div>
               <div>
-                <Label>Waluta</Label>
+                <Label>{t("settings.currency")}</Label>
                 <Input value={tutor.currency} onChange={(e) => setTutor({ ...tutor, currency: e.target.value.toUpperCase().slice(0, 3) })} />
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <Label>Opublikowany w wyszukiwarce</Label>
+              <Label>{t("settings.publishToggle")}</Label>
               <Switch checked={tutor.is_published} onCheckedChange={(v) => setTutor({ ...tutor, is_published: v })} />
             </div>
             <Button onClick={saveTutor} className="bg-accent-gradient text-accent-foreground">{t("common.save")}</Button>
@@ -176,7 +176,7 @@ const Settings = () => {
         {isTutor && (
           <Card className="p-6 bg-card-soft space-y-4">
             <h2 className="text-xl font-semibold">{t("settings.paymentMethods")}</h2>
-            <p className="text-sm text-muted-foreground">Te dane uczniowie zobaczą po rezerwacji sesji, by Ci zapłacić bezpośrednio.</p>
+            <p className="text-sm text-muted-foreground">{t("settings.paymentHint")}</p>
 
             {methods.map((m) => (
               <div key={m.id} className="flex items-center gap-3 p-3 rounded-lg border bg-background">
@@ -197,11 +197,11 @@ const Settings = () => {
                   <SelectItem value="iban">IBAN</SelectItem>
                   <SelectItem value="revolut">Revolut</SelectItem>
                   <SelectItem value="paypal">PayPal</SelectItem>
-                  <SelectItem value="other">Inne</SelectItem>
+                  <SelectItem value="other">{t("settings.otherMethod")}</SelectItem>
                 </SelectContent>
               </Select>
-              <Input placeholder="Etykieta (np. mBank)" value={label} onChange={(e) => setLabel(e.target.value)} />
-              <Input placeholder="Numer / dane" value={details} onChange={(e) => setDetails(e.target.value)} />
+              <Input placeholder={t("settings.labelPlaceholder")} value={label} onChange={(e) => setLabel(e.target.value)} />
+              <Input placeholder={t("settings.detailsPlaceholder")} value={details} onChange={(e) => setDetails(e.target.value)} />
               <Button onClick={addMethod}><Plus className="h-4 w-4 mr-1" />{t("settings.addMethod")}</Button>
             </div>
           </Card>

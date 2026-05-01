@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { LiveKitRoom, VideoConference } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export function LiveKitVideo({ sessionId, onLeave }: Props) {
+  const { t } = useTranslation();
   const [token, setToken] = useState<string | null>(null);
   const [wsUrl, setWsUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -21,7 +23,7 @@ export function LiveKitVideo({ sessionId, onLeave }: Props) {
     (async () => {
       try {
         const { data: { session: s } } = await supabase.auth.getSession();
-        if (!s?.access_token) throw new Error("Brak sesji użytkownika");
+        if (!s?.access_token) throw new Error(t("session.noUserSession"));
         const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/livekit-token`, {
           method: "POST",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${s.access_token}` },
@@ -33,18 +35,18 @@ export function LiveKitVideo({ sessionId, onLeave }: Props) {
         setToken(json.token);
         setWsUrl(json.wsUrl);
       } catch (e: any) {
-        if (!cancelled) setError(e.message || "Nie udało się pobrać tokenu wideo");
+        if (!cancelled) setError(e.message || t("session.videoTokenError"));
       }
     })();
     return () => { cancelled = true; };
-  }, [sessionId]);
+  }, [sessionId, t]);
 
   if (error) {
     return (
       <div className="aspect-video grid place-items-center bg-muted text-center p-6 rounded-lg">
         <div>
           <VideoOff className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-          <p className="text-sm font-medium mb-1">Wideo niedostępne</p>
+          <p className="text-sm font-medium mb-1">{t("session.videoUnavailable")}</p>
           <p className="text-xs text-muted-foreground max-w-xs">{error}</p>
         </div>
       </div>
@@ -63,9 +65,9 @@ export function LiveKitVideo({ sessionId, onLeave }: Props) {
     return (
       <div className="aspect-video grid place-items-center bg-hero text-primary-foreground rounded-lg">
         <div className="text-center">
-          <p className="mb-3 text-sm opacity-90">Gotowi na sesję?</p>
+          <p className="mb-3 text-sm opacity-90">{t("session.ready")}</p>
           <Button onClick={() => setConnect(true)} className="bg-accent-gradient text-accent-foreground">
-            Dołącz do pokoju wideo
+            {t("session.joinVideo")}
           </Button>
         </div>
       </div>

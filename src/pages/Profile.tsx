@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { AppShell } from "@/components/layout/AppShell";
@@ -19,6 +20,7 @@ const TZ_OPTIONS = [
 ];
 
 const Profile = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const { isTutor } = useUserRoles();
   const [displayName, setDisplayName] = useState("");
@@ -40,7 +42,7 @@ const Profile = () => {
     if (!existing) {
       await supabase.from("tutor_profiles").insert({ user_id: user.id, hourly_rate_cents: 0, is_published: false });
     }
-    toast.success("Witaj w gronie tutorów! Uzupełnij profil, by zostać opublikowanym.");
+    toast.success(t("profile.becomeTutorToast"));
     setBecoming(false);
     window.location.href = "/settings";
   };
@@ -70,13 +72,13 @@ const Profile = () => {
       timezone,
     }).eq("id", user.id);
     setSaving(false);
-    if (error) toast.error(error.message); else toast.success("Profil zapisany");
+    if (error) toast.error(error.message); else toast.success(t("profile.saved"));
   };
 
   const onUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!user || !e.target.files?.[0]) return;
     const file = e.target.files[0];
-    if (file.size > 4 * 1024 * 1024) { toast.error("Maks 4 MB"); return; }
+    if (file.size > 4 * 1024 * 1024) { toast.error(t("profile.maxFile")); return; }
     setUploading(true);
     const ext = file.name.split(".").pop() || "jpg";
     const path = `${user.id}/avatar-${Date.now()}.${ext}`;
@@ -87,29 +89,29 @@ const Profile = () => {
     await supabase.from("profiles").update({ avatar_url: url }).eq("id", user.id);
     setAvatarUrl(url);
     setUploading(false);
-    toast.success("Avatar zaktualizowany");
+    toast.success(t("profile.avatarUpdated"));
   };
 
-  if (loading) return <AppShell><div className="container py-10">Ładowanie…</div></AppShell>;
+  if (loading) return <AppShell><div className="container py-10">{t("common.loading")}</div></AppShell>;
 
   return (
     <AppShell>
       <div className="container mx-auto px-4 py-10 max-w-2xl">
         <div className="flex items-center gap-3 mb-6">
           <div className="grid h-10 w-10 place-items-center rounded-lg bg-hero text-primary-foreground"><UserIcon className="h-5 w-5" /></div>
-          <h1 className="text-3xl font-bold">Twój profil</h1>
+          <h1 className="text-3xl font-bold">{t("profile.title")}</h1>
         </div>
 
         <Card className="p-6 bg-card-soft mb-6">
           <div className="flex items-center gap-5">
             <Avatar className="h-24 w-24">
-              {avatarUrl && <AvatarImage src={avatarUrl} alt="avatar" />}
+              {avatarUrl && <AvatarImage src={avatarUrl} alt={t("profile.title")} />}
               <AvatarFallback className="bg-accent/20 text-accent text-3xl font-bold">
                 {(displayName || user?.email || "?")[0]?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1">
-              <p className="font-medium mb-1">{displayName || "Bez nazwy"}</p>
+              <p className="font-medium mb-1">{displayName || t("profile.unnamed")}</p>
               <p className="text-sm text-muted-foreground mb-3">{user?.email}</p>
               <label className="inline-flex">
                 <input type="file" accept="image/*" className="hidden" onChange={onUpload} disabled={uploading} />
@@ -117,7 +119,7 @@ const Profile = () => {
                   <Button asChild variant="outline" size="sm" disabled={uploading}>
                     <span className="cursor-pointer">
                       {uploading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Upload className="h-4 w-4 mr-2" />}
-                      Zmień avatar
+                      {t("profile.changeAvatar")}
                     </span>
                   </Button>
                 </span>
@@ -128,19 +130,19 @@ const Profile = () => {
 
         <Card className="p-6 bg-card-soft space-y-4">
           <div>
-            <Label>Nazwa wyświetlana</Label>
-            <Input value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="np. Anna K." />
+            <Label>{t("profile.displayName")}</Label>
+            <Input value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder={t("profile.displayNamePlaceholder")} />
           </div>
           <div>
-            <Label>Imię i nazwisko (prywatne)</Label>
-            <Input value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Anna Kowalska" />
+            <Label>{t("profile.fullName")}</Label>
+            <Input value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder={t("profile.fullNamePlaceholder")} />
           </div>
           <div>
-            <Label>O mnie</Label>
-            <Textarea value={bio} onChange={(e) => setBio(e.target.value)} placeholder="Krótko o sobie…" rows={4} />
+            <Label>{t("profile.about")}</Label>
+            <Textarea value={bio} onChange={(e) => setBio(e.target.value)} placeholder={t("profile.aboutPlaceholder")} rows={4} />
           </div>
           <div>
-            <Label>Strefa czasowa</Label>
+            <Label>{t("profile.timezone")}</Label>
             <select
               value={timezone}
               onChange={(e) => setTimezone(e.target.value)}
@@ -150,7 +152,7 @@ const Profile = () => {
             </select>
           </div>
           <Button onClick={save} disabled={saving} className="w-full bg-accent-gradient text-accent-foreground">
-            {saving ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}Zapisz profil
+            {saving ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}{t("profile.saveProfile")}
           </Button>
         </Card>
 
@@ -160,20 +162,20 @@ const Profile = () => {
               <GraduationCap className="h-6 w-6" />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-semibold mb-1">{isTutor ? "Twój profil tutora" : "Zostań tutorem"}</h2>
+              <h2 className="text-lg font-semibold mb-1">{isTutor ? t("profile.tutorProfile") : t("profile.becomeTutor")}</h2>
               <p className="text-sm text-muted-foreground mb-4">
                 {isTutor
-                  ? "Edytuj headline, opis, stawkę i przedmioty, by uczniowie mogli Cię znaleźć."
-                  : "Ucz innych, dziel się wiedzą i zarabiaj na własnych warunkach. Platforma nie pobiera prowizji."}
+                  ? t("profile.tutorProfileDesc")
+                  : t("profile.becomeTutorDesc")}
               </p>
               {isTutor ? (
                 <Button asChild variant="outline">
-                  <Link to="/settings">Edytuj profil tutora <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                  <Link to="/settings">{t("profile.editTutorProfile")} <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
               ) : (
                 <Button onClick={becomeTutor} disabled={becoming} className="bg-accent-gradient text-accent-foreground">
                   {becoming ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <GraduationCap className="h-4 w-4 mr-2" />}
-                  Zostań tutorem
+                  {t("profile.becomeTutor")}
                 </Button>
               )}
             </div>

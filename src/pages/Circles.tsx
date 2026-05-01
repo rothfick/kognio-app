@@ -59,7 +59,7 @@ const Circles = () => {
     if (data) {
       await supabase.from("circle_members").insert({ circle_id: data.id, user_id: user.id, role: "owner" });
     }
-    toast.success("Krąg utworzony");
+    toast.success(t("circles.created"));
     setOpen(false); setName(""); setTopic(""); setDesc(""); load();
   };
 
@@ -67,7 +67,7 @@ const Circles = () => {
     if (!user) return;
     const { error } = await supabase.from("circle_members").insert({ circle_id: id, user_id: user.id });
     if (error) { toast.error(error.message); return; }
-    toast.success("Dołączono!");
+    toast.success(t("circles.joined"));
     setMemberships((prev) => new Set(prev).add(id));
     setCounts((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
   };
@@ -78,7 +78,7 @@ const Circles = () => {
     if (error) { toast.error(error.message); return; }
     setMemberships((prev) => { const n = new Set(prev); n.delete(id); return n; });
     setCounts((prev) => ({ ...prev, [id]: Math.max(0, (prev[id] || 1) - 1) }));
-    toast.success("Opuszczono krąg");
+    toast.success(t("circles.left"));
   };
 
   return (
@@ -96,10 +96,10 @@ const Circles = () => {
             <DialogContent>
               <DialogHeader><DialogTitle>{t("circles.create")}</DialogTitle></DialogHeader>
               <div className="space-y-3">
-                <Input placeholder="Nazwa kręgu" value={name} onChange={(e) => setName(e.target.value)} />
-                <Input placeholder="Temat (np. matura matematyka rozszerzona)" value={topic} onChange={(e) => setTopic(e.target.value)} />
-                <Textarea placeholder="Opis" value={desc} onChange={(e) => setDesc(e.target.value)} />
-                <Button onClick={create} className="w-full">Utwórz</Button>
+                <Input placeholder={t("circles.namePlaceholder")} value={name} onChange={(e) => setName(e.target.value)} />
+                <Input placeholder={t("circles.topicPlaceholder")} value={topic} onChange={(e) => setTopic(e.target.value)} />
+                <Textarea placeholder={t("circles.descriptionPlaceholder")} value={desc} onChange={(e) => setDesc(e.target.value)} />
+                <Button onClick={create} className="w-full">{t("circles.submitCreate")}</Button>
               </div>
             </DialogContent>
           </Dialog>
@@ -110,8 +110,8 @@ const Circles = () => {
         ) : circles.length === 0 ? (
           <Card className="p-10 text-center bg-card-soft">
             <Users className="h-10 w-10 mx-auto mb-3 text-accent" />
-            <h3 className="font-semibold mb-2">Nie ma jeszcze żadnego kręgu</h3>
-            <p className="text-muted-foreground mb-4">Załóż pierwszy i zaproś znajomych do wspólnej nauki.</p>
+            <h3 className="font-semibold mb-2">{t("circles.emptyTitle")}</h3>
+            <p className="text-muted-foreground mb-4">{t("circles.emptyDesc")}</p>
             <Button onClick={() => setOpen(true)} className="bg-accent-gradient text-accent-foreground">
               <Plus className="h-4 w-4 mr-2" />{t("circles.create")}
             </Button>
@@ -135,15 +135,15 @@ const Circles = () => {
                     {joined ? (
                       <>
                         <Button className="flex-1" variant="default" disabled>
-                          <Check className="h-4 w-4 mr-1" /> Należysz
+                          <Check className="h-4 w-4 mr-1" /> {t("circles.memberJoined")}
                         </Button>
                         {c.created_by !== user?.id && (
-                          <Button variant="ghost" size="sm" onClick={() => leave(c.id)}>Opuść</Button>
+                          <Button variant="ghost" size="sm" onClick={() => leave(c.id)}>{t("circles.leave")}</Button>
                         )}
                       </>
                     ) : (
                       <Button onClick={() => join(c.id)} className="flex-1" variant="outline" disabled={full}>
-                        {full ? "Pełny" : t("circles.join")}
+                        {full ? t("circles.full") : t("circles.join")}
                       </Button>
                     )}
                   </div>

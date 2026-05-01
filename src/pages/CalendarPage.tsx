@@ -16,20 +16,21 @@ import { toast } from "sonner";
 type Booking = { id: string; starts_at: string; ends_at: string; status: string; price_cents: number; currency: string; tutor_id: string; student_id: string };
 type SessionRow = { id: string; booking_id: string };
 
-const STATUS_META: Record<string, { label: string; icon: any; cls: string; hint: string }> = {
-  pending:   { label: "Oczekuje na potwierdzenie", icon: Clock,        cls: "bg-muted text-muted-foreground border-muted-foreground/20", hint: "Tutor musi zaakceptować rezerwację, zanim wejdziesz na sesję." },
-  confirmed: { label: "Potwierdzona",              icon: CheckCircle2, cls: "bg-accent/15 text-accent border-accent/40",                hint: "Możesz wejść do pokoju sesji." },
-  completed: { label: "Zakończona",                icon: Trophy,       cls: "bg-primary/10 text-primary border-primary/30",             hint: "Sesja odbyła się — opłać lub potwierdź płatność." },
-  cancelled: { label: "Anulowana",                 icon: XCircle,      cls: "bg-destructive/10 text-destructive border-destructive/40", hint: "Ta rezerwacja została anulowana." },
+const STATUS_META: Record<string, { icon: any; cls: string }> = {
+  pending:   { icon: Clock,        cls: "bg-muted text-muted-foreground border-muted-foreground/20" },
+  confirmed: { icon: CheckCircle2, cls: "bg-accent/15 text-accent border-accent/40" },
+  completed: { icon: Trophy,       cls: "bg-primary/10 text-primary border-primary/30" },
+  cancelled: { icon: XCircle,      cls: "bg-destructive/10 text-destructive border-destructive/40" },
 };
 
 const StatusBadge = ({ status }: { status: string }) => {
+  const { t } = useTranslation();
   const m = STATUS_META[status] || STATUS_META.pending;
   const Icon = m.icon;
   return (
     <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium ${m.cls}`}>
       <Icon className="h-3.5 w-3.5" />
-      {m.label}
+      {t(`calendar.status.${status}`, { defaultValue: t("calendar.status.pending") })}
     </span>
   );
 };
@@ -54,7 +55,7 @@ const CalendarPage = () => {
     list.forEach((b) => {
       const prev = prevStatusRef.current[b.id];
       if (prev && prev === "pending" && b.status === "confirmed") {
-        toast.success("Rezerwacja potwierdzona — możesz już wejść na sesję!", {
+        toast.success(t("calendar.confirmedToast"), {
           description: new Date(b.starts_at).toLocaleString(),
         });
       }
@@ -87,7 +88,7 @@ const CalendarPage = () => {
           if (row.student_id !== user.id && row.tutor_id !== user.id) return;
           const prev = prevStatusRef.current[row.id];
           if (prev === "pending" && row.status === "confirmed") {
-            toast.success("Rezerwacja potwierdzona — możesz już wejść na sesję!", {
+            toast.success(t("calendar.confirmedToast"), {
               description: new Date(row.starts_at).toLocaleString(),
             });
           }
@@ -102,9 +103,9 @@ const CalendarPage = () => {
     const { error } = await supabase.from("bookings").update({ status }).eq("id", id);
     if (error) toast.error(error.message);
     else {
-      if (status === "confirmed") toast.success("Potwierdzono rezerwację");
-      else if (status === "cancelled") toast("Rezerwacja anulowana");
-      else toast.success("Oznaczono jako zakończoną");
+      if (status === "confirmed") toast.success(t("calendar.confirmToast"));
+      else if (status === "cancelled") toast(t("calendar.cancelToast"));
+      else toast.success(t("calendar.completedToast"));
       load();
     }
   };
@@ -117,7 +118,6 @@ const CalendarPage = () => {
     const isTutor = b.tutor_id === user?.id;
     const sessionId = sessions[b.id];
     const start = new Date(b.starts_at);
-    const meta = STATUS_META[b.status] || STATUS_META.pending;
     const canEnter = b.status === "confirmed" || b.status === "completed";
 
     return (
@@ -130,10 +130,10 @@ const CalendarPage = () => {
             <div className="flex items-center gap-2 flex-wrap mb-1">
               <p className="font-medium">{start.toLocaleString()}</p>
               <StatusBadge status={b.status} />
-              {isTutor && <Badge variant="outline">jako tutor</Badge>}
+              {isTutor && <Badge variant="outline">{t("calendar.asTutor")}</Badge>}
             </div>
             <p className="text-sm text-muted-foreground mb-1">{(b.price_cents / 100).toFixed(0)} {b.currency}</p>
-            <p className="text-xs text-muted-foreground">{meta.hint}</p>
+            <p className="text-xs text-muted-foreground">{t(`calendar.hint.${b.status}`, { defaultValue: t("calendar.hint.pending") })}</p>
           </div>
         </div>
 
@@ -141,35 +141,35 @@ const CalendarPage = () => {
           {isTutor && b.status === "pending" && (
             <>
               <Button size="sm" onClick={() => updateStatus(b.id, "confirmed")}>
-                <Check className="h-4 w-4 mr-1" />Potwierdź
+                <Check className="h-4 w-4 mr-1" />{t("calendar.confirm")}
               </Button>
               <Button size="sm" variant="ghost" onClick={() => updateStatus(b.id, "cancelled")}>
-                <X className="h-4 w-4 mr-1" />Odrzuć
+                <X className="h-4 w-4 mr-1" />{t("calendar.reject")}
               </Button>
             </>
           )}
 
           {b.status === "pending" && !isTutor && (
             <span className="text-xs text-muted-foreground self-center">
-              Czekamy na potwierdzenie tutora — przyciski akcji pojawią się po akceptacji.
+              {t("calendar.waitingTutor")}
             </span>
           )}
 
           {sessionId && canEnter && (
             <Button size="sm" asChild className="bg-accent-gradient text-accent-foreground">
-              <Link to={`/session/${sessionId}`}><Video className="h-4 w-4 mr-1" />Wejdź</Link>
+              <Link to={`/session/${sessionId}`}><Video className="h-4 w-4 mr-1" />{t("calendar.enter")}</Link>
             </Button>
           )}
 
           {!isTutor && canEnter && (
             <Button size="sm" variant="outline" asChild>
-              <Link to={`/payment/${b.id}`}><CreditCard className="h-4 w-4 mr-1" />Zapłać</Link>
+              <Link to={`/payment/${b.id}`}><CreditCard className="h-4 w-4 mr-1" />{t("calendar.pay")}</Link>
             </Button>
           )}
 
           {isTutor && b.status === "confirmed" && new Date(b.ends_at).getTime() < now && (
             <Button size="sm" variant="outline" onClick={() => updateStatus(b.id, "completed")}>
-              <Trophy className="h-4 w-4 mr-1" />Oznacz jako zakończoną
+              <Trophy className="h-4 w-4 mr-1" />{t("calendar.markCompleted")}
             </Button>
           )}
         </div>
@@ -189,7 +189,7 @@ const CalendarPage = () => {
                 <CalIcon className="h-10 w-10 mx-auto mb-3 text-accent" />
                 <p className="text-muted-foreground mb-4">{t("calendar.empty")}</p>
                 <Button asChild className="bg-accent-gradient text-accent-foreground">
-                  <Link to="/discover"><Search className="h-4 w-4 mr-2" />Znajdź tutora</Link>
+                  <Link to="/discover"><Search className="h-4 w-4 mr-2" />{t("calendar.findTutor")}</Link>
                 </Button>
               </Card>
             ) : <div className="space-y-3 mb-8">{upcoming.map((b) => <Item key={b.id} b={b} />)}</div>}

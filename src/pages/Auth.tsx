@@ -15,8 +15,8 @@ import { AppShell } from "@/components/layout/AppShell";
 import { GraduationCap } from "lucide-react";
 
 const schema = z.object({
-  email: z.string().trim().email("Nieprawidłowy e-mail").max(255),
-  password: z.string().min(6, "Min. 6 znaków").max(100),
+  email: z.string().trim().email().max(255),
+  password: z.string().min(6).max(100),
 });
 
 const Auth = () => {
@@ -39,7 +39,8 @@ const Auth = () => {
     e.preventDefault();
     const parsed = schema.safeParse({ email, password });
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0].message);
+      const issue = parsed.error.issues[0];
+      toast.error(issue.path[0] === "email" ? t("auth.invalidEmail") : t("auth.passwordMin"));
       return;
     }
     setLoading(true);

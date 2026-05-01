@@ -204,7 +204,24 @@
       "stabilna": "stabilna",
       "do_pracy": "do pracy",
       "luka": "luka"
-    }
+    },
+    "completedToast": "Diagnoza zakończona.",
+    "initialTitle": "Diagnoza wstępna",
+    "initialTitleNamed": "Diagnoza wstępna — {{name}}",
+    "initialSubtitle": "Diagnoza v1: krótki test wyboru. Wynik zainicjuje mapę wiedzy dziecka.",
+    "backToKnowledge": "Wróć do mapy wiedzy",
+    "v1Badge": "Diagnoza v1",
+    "noQuestions": "Brak dostępnych pytań.",
+    "skipShort": "Nie wiem",
+    "allAnswered": "Wszystkie pytania udzielone. Finalizacja…",
+    "deterministicNote": "Diagnoza v1 jest deterministyczna i nie zawiera AI. Pełna adaptacyjna diagnoza zostanie dodana w kolejnych etapach.",
+    "resultTitleNamed": "Wynik diagnozy{{name}}",
+    "resultSubtitleV1": "Diagnoza wstępna v1 zakończona. Mapa wiedzy została zainicjowana.",
+    "noStrongKc": "Brak komponentów ≥ 75%.",
+    "catchUpAreas": "Obszary do nadrobienia",
+    "noLowGaps": "Brak luk poniżej 50%.",
+    "addLearningGoal": "Dodaj cel nauki",
+    "v1AiLaterNote": "To jest diagnoza wstępna v1. Pełna adaptacyjna diagnoza AI zostanie dodana w kolejnych etapach."
   },
   "discover": {
     "title": "Znajdź swojego korepetytora",
@@ -655,7 +672,9 @@
     "yes": "tak",
     "no": "nie",
     "start": "Start",
-    "stop": "Stop"
+    "stop": "Stop",
+    "emptyDash": "—",
+    "optional": "opcjonalnie"
   },
   "errors": {
     "generic": "Coś poszło nie tak. Spróbuj jeszcze raz."
@@ -732,7 +751,8 @@
     "transferTitle": "Tytuł przelewu",
     "markPaid": "Oznaczam jako zapłacone",
     "confirmReceived": "Potwierdzam otrzymanie",
-    "completed": "Płatność zakończona"
+    "completed": "Płatność zakończona",
+    "copyToast": "Skopiowano"
   },
   "profile": {
     "title": "Twój profil",
@@ -768,5 +788,45 @@
     "time": "Godzina",
     "book": "Zarezerwuj",
     "loginToBook": "Zaloguj się aby zarezerwować"
+  },
+  "dashboardLegacy": {
+    "title": "Cześć! 👋",
+    "subtitle": "Twój dzisiejszy przegląd nauki i tutoringu.",
+    "asStudent": "Jako uczeń",
+    "asTutor": "Jako tutor",
+    "upcomingSessions": "Nadchodzące sesje",
+    "unpaid": "Niezapłacone",
+    "needsAction": "Wymagają Twojego działania",
+    "allGood": "Wszystko gra",
+    "karmaHint": "Z pomagania innym",
+    "all": "Wszystkie",
+    "noUpcoming": "Brak nadchodzących sesji",
+    "whatNext": "Co dalej?",
+    "joinCircle": "Dołącz do kręgu nauki",
+    "askOrHelp": "Poproś o pomoc / pomóż innym",
+    "openBrain": "Otwórz Drugi Mózg",
+    "alsoTutor": "Zostań również tutorem",
+    "bookingStatus": "Stan Twoich rezerwacji",
+    "bookingStatusHint": "Po potwierdzeniu przez tutora pojawi się przycisk „Wejdź”. Po sesji — „Zapłać”.",
+    "noBookings": "Nie masz jeszcze żadnych rezerwacji.",
+    "sessionsToPay": "Sesje do opłacenia",
+    "hiddenTutorTitle": "Twój profil tutora jest ukryty",
+    "hiddenTutorBody": "Uzupełnij nagłówek i opis, dodaj metodę płatności, a następnie włącz przełącznik „Opublikowany w wyszukiwarce”.",
+    "finishSetup": "Dokończ konfigurację",
+    "toConfirm": "Do potwierdzenia",
+    "waitingApproval": "Czekają na akceptację",
+    "rating": "Ocena",
+    "sessionsCount": "{{count}} sesji",
+    "confirmedEarnings": "Zarobki potwierdzone",
+    "pendingPayments": "Wpłaty oczekujące potwierdzenia",
+    "noNewPayments": "Brak nowych wpłat",
+    "check": "Sprawdź",
+    "studentBookings": "Stan rezerwacji uczniów",
+    "studentBookingsHint": "Potwierdź oczekujące, aby uczeń zobaczył przycisk „Wejdź”.",
+    "noBookingsShort": "Brak rezerwacji.",
+    "tutorShortcuts": "Skróty tutora",
+    "editProfileRates": "Edytuj profil i stawki",
+    "viewPublicProfile": "Zobacz swój publiczny profil",
+    "confirmedToast": "Rezerwacja potwierdzona — możesz wejść na sesję!"
   }
 }

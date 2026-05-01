@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -19,6 +20,7 @@ type ChatMsg = { id: string; user_id: string; role: string; content: string; cre
 type Transcript = { id: string; speaker_label: string | null; text: string; created_at: string };
 
 const SessionRoom = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const { user } = useAuth();
   const [session, setSession] = useState<{ id: string; room_name: string; booking_id: string; started_at?: string | null } | null>(null);
@@ -80,7 +82,7 @@ const SessionRoom = () => {
     const text = trInput.trim();
     setTrInput("");
     const { error } = await supabase.from("session_transcripts").insert({
-      session_id: session.id, speaker_id: user.id, speaker_label: "Notatka", text, starts_at_ms: 0, ends_at_ms: 0,
+      session_id: session.id, speaker_id: user.id, speaker_label: t("session.note"), text, starts_at_ms: 0, ends_at_ms: 0,
     });
     if (error) toast.error(error.message);
   };
@@ -122,7 +124,7 @@ const SessionRoom = () => {
       });
       if (!res.ok || !res.body) {
         const j = await res.json().catch(() => ({}));
-        throw new Error(j.error || `Błąd ${res.status}`);
+        throw new Error(j.error || t("brain.errorStatus", { status: res.status }));
       }
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -154,7 +156,7 @@ const SessionRoom = () => {
         setAiStream("");
       }
     } catch (e: any) {
-      toast.error(e.message || "Błąd AI");
+      toast.error(e.message || t("session.aiError"));
       setAiStream("");
     } finally {
       setAiLoading(false);
@@ -172,8 +174,8 @@ const SessionRoom = () => {
         body: JSON.stringify({ sessionId: session.id }),
       });
       const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "Błąd");
-      toast.success("Raport sesji wygenerowany!");
+      if (!res.ok) throw new Error(json.error || t("session.genericError"));
+      toast.success(t("session.summaryGenerated"));
       // oznacz koniec sesji
       await supabase.from("sessions").update({ ended_at: new Date().toISOString() }).eq("id", session.id);
     } catch (e: any) {
@@ -183,7 +185,7 @@ const SessionRoom = () => {
     }
   };
 
-  if (!session) return <AppShell><div className="container py-10">Ładowanie pokoju…</div></AppShell>;
+  if (!session) return <AppShell><div className="container py-10">{t("common.loadingRoom")}</div></AppShell>;
 
   return (
     <AppShell>
@@ -195,19 +197,19 @@ const SessionRoom = () => {
             {user && <EmotionEngine sessionId={session.id} userId={user.id} />}
             <Button onClick={generateSummary} disabled={summarizing} className="bg-accent-gradient text-accent-foreground">
               {summarizing ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
-              Wygeneruj raport AI
+              {t("session.generateSummary")}
             </Button>
-            <Button asChild variant="outline"><Link to={`/payment/${session.booking_id}`}>Przejdź do płatności <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
+            <Button asChild variant="outline"><Link to={`/payment/${session.booking_id}`}>{t("session.goPayment")} <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
           </div>
 
           {/* Right: chat / transkrypt / co-pilot */}
           <Card className="lg:col-span-2 p-0 bg-card-soft flex flex-col h-[calc(100vh-12rem)] overflow-hidden">
             <Tabs defaultValue="board" className="flex-1 flex flex-col">
               <TabsList className="m-3">
-                <TabsTrigger value="board"><PenTool className="h-4 w-4 mr-2" />Tablica</TabsTrigger>
-                <TabsTrigger value="chat"><MessageSquare className="h-4 w-4 mr-2" />Czat</TabsTrigger>
-                <TabsTrigger value="transcript"><Mic className="h-4 w-4 mr-2" />Transkrypt</TabsTrigger>
-                <TabsTrigger value="copilot"><Sparkles className="h-4 w-4 mr-2" />AI Co-pilot</TabsTrigger>
+                <TabsTrigger value="board"><PenTool className="h-4 w-4 mr-2" />{t("session.board")}</TabsTrigger>
+                <TabsTrigger value="chat"><MessageSquare className="h-4 w-4 mr-2" />{t("session.chat")}</TabsTrigger>
+                <TabsTrigger value="transcript"><Mic className="h-4 w-4 mr-2" />{t("session.transcript")}</TabsTrigger>
+                <TabsTrigger value="copilot"><Sparkles className="h-4 w-4 mr-2" />{t("session.copilot")}</TabsTrigger>
               </TabsList>
 
               {/* TABLICA */}
@@ -221,7 +223,7 @@ const SessionRoom = () => {
               {/* CHAT */}
               <TabsContent value="chat" className="flex-1 flex flex-col px-4 pb-4 mt-0 data-[state=inactive]:hidden">
                 <div className="flex-1 overflow-y-auto space-y-2 pr-2">
-                  {chat.length === 0 && <p className="text-sm text-muted-foreground italic">Czat jest pusty.</p>}
+                  {chat.length === 0 && <p className="text-sm text-muted-foreground italic">{t("session.chatEmpty")}</p>}
                   {chat.map((m) => {
                     const isAi = m.role === "ai";
                     const isMine = !isAi && m.user_id === user?.id;
@@ -245,7 +247,7 @@ const SessionRoom = () => {
                   <div ref={chatEnd} />
                 </div>
                 <form onSubmit={(e) => { e.preventDefault(); sendChat(); }} className="flex gap-2 mt-3 pt-3 border-t">
-                  <Input value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder="Napisz wiadomość…" />
+                  <Input value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder={t("session.messagePlaceholder")} />
                   <Button type="submit" size="icon"><Send className="h-4 w-4" /></Button>
                 </form>
               </TabsContent>
@@ -258,16 +260,16 @@ const SessionRoom = () => {
                   </div>
                 )}
                 <div className="flex-1 overflow-y-auto space-y-2 pr-2">
-                  {transcripts.length === 0 && <p className="text-sm text-muted-foreground italic">Transkrypt pusty. Włącz auto-transkrypcję powyżej lub dodaj notatkę ręcznie.</p>}
-                  {transcripts.map((t) => (
-                    <div key={t.id} className="p-3 rounded-lg bg-background border-l-2 border-accent">
-                      <p className="text-xs font-medium text-accent">{t.speaker_label || "Mówca"}</p>
-                      <p className="text-sm">{t.text}</p>
+                  {transcripts.length === 0 && <p className="text-sm text-muted-foreground italic">{t("session.transcriptEmpty")}</p>}
+                  {transcripts.map((tr) => (
+                    <div key={tr.id} className="p-3 rounded-lg bg-background border-l-2 border-accent">
+                      <p className="text-xs font-medium text-accent">{tr.speaker_label || t("session.speaker")}</p>
+                      <p className="text-sm">{tr.text}</p>
                     </div>
                   ))}
                 </div>
                 <form onSubmit={(e) => { e.preventDefault(); addTranscript(); }} className="flex gap-2 mt-3 pt-3 border-t">
-                  <Textarea value={trInput} onChange={(e) => setTrInput(e.target.value)} placeholder="Dodaj fragment transkryptu / notatkę z lekcji…" rows={2} className="resize-none" />
+                  <Textarea value={trInput} onChange={(e) => setTrInput(e.target.value)} placeholder={t("session.transcriptPlaceholder")} rows={2} className="resize-none" />
                   <Button type="submit" size="icon"><FileText className="h-4 w-4" /></Button>
                 </form>
               </TabsContent>
@@ -277,7 +279,7 @@ const SessionRoom = () => {
                 <div className="flex-1 overflow-y-auto space-y-3 pr-2">
                   <Card className="p-3 bg-background">
                     <p className="text-xs font-medium text-accent mb-1">🤖 AI Co-pilot</p>
-                    <p className="text-sm text-muted-foreground">Pytania trafiają do AI z kontekstem ostatnich wypowiedzi. Cała rozmowa zapisuje się w czacie sesji.</p>
+                    <p className="text-sm text-muted-foreground">{t("session.copilotIntro")}</p>
                   </Card>
                   {chat.filter((m) => m.role === "ai" || m.user_id === user?.id).slice(-30).map((m) => {
                     const isAi = m.role === "ai";
@@ -297,7 +299,7 @@ const SessionRoom = () => {
                   })}
                   {aiStream && (
                     <div className="flex flex-col max-w-[85%] mr-auto items-start">
-                      <span className="text-[10px] font-semibold text-accent mb-0.5 ml-2">🤖 AI pisze…</span>
+                      <span className="text-[10px] font-semibold text-accent mb-0.5 ml-2">🤖 {t("session.aiTyping")}</span>
                       <div className="p-3 rounded-2xl rounded-bl-sm bg-accent/10 border border-accent/40">
                         <p className="text-sm whitespace-pre-wrap">{aiStream}</p>
                       </div>
@@ -305,7 +307,7 @@ const SessionRoom = () => {
                   )}
                 </div>
                 <form onSubmit={(e) => { e.preventDefault(); askCopilot(); }} className="flex gap-2 mt-3 pt-3 border-t">
-                  <Input value={aiInput} onChange={(e) => setAiInput(e.target.value)} placeholder="Zapytaj AI o cokolwiek…" disabled={aiLoading} />
+                  <Input value={aiInput} onChange={(e) => setAiInput(e.target.value)} placeholder={t("session.askAiPlaceholder")} disabled={aiLoading} />
                   <Button type="submit" size="icon" disabled={aiLoading}>
                     {aiLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                   </Button>

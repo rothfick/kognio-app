@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -14,7 +15,9 @@ type Props = {
 // Web Speech API typings (browser-only, prefixed)
 type AnySpeechRecognition = any;
 
-export const LiveTranscriber = ({ sessionId, userId, speakerLabel = "Ja" }: Props) => {
+export const LiveTranscriber = ({ sessionId, userId, speakerLabel }: Props) => {
+  const { t, i18n } = useTranslation();
+  const resolvedSpeakerLabel = speakerLabel || t("session.me");
   const [supported, setSupported] = useState<boolean>(true);
   const [listening, setListening] = useState(false);
   const [interim, setInterim] = useState("");
@@ -31,7 +34,7 @@ export const LiveTranscriber = ({ sessionId, userId, speakerLabel = "Ja" }: Prop
       return;
     }
     const rec: AnySpeechRecognition = new SR();
-    rec.lang = navigator.language?.startsWith("en") ? "en-US" : "pl-PL";
+    rec.lang = i18n.language?.startsWith("en") ? "en-US" : i18n.language?.startsWith("es") ? "es-ES" : "pl-PL";
     rec.continuous = true;
     rec.interimResults = true;
 
@@ -48,7 +51,7 @@ export const LiveTranscriber = ({ sessionId, userId, speakerLabel = "Ja" }: Prop
           const { error } = await supabase.from("session_transcripts").insert({
             session_id: sessionId,
             speaker_id: userId,
-            speaker_label: speakerLabel,
+            speaker_label: resolvedSpeakerLabel,
             text,
             starts_at_ms: startsMs,
             ends_at_ms: endsMs,
@@ -64,7 +67,7 @@ export const LiveTranscriber = ({ sessionId, userId, speakerLabel = "Ja" }: Prop
     rec.onerror = (e: any) => {
       console.warn("SpeechRecognition error", e?.error);
       if (e?.error === "not-allowed" || e?.error === "service-not-allowed") {
-        toast.error("Brak dostępu do mikrofonu");
+        toast.error(t("session.micDenied"));
         setListening(false);
         manualStopRef.current = true;
       }
@@ -90,7 +93,7 @@ export const LiveTranscriber = ({ sessionId, userId, speakerLabel = "Ja" }: Prop
       if (restartTimerRef.current) window.clearTimeout(restartTimerRef.current);
       try { rec.stop(); } catch {}
     };
-  }, [sessionId, userId, speakerLabel]);
+  }, [sessionId, userId, resolvedSpeakerLabel, i18n.language, t]);
 
   const start = () => {
     if (!recRef.current) return;
@@ -99,7 +102,7 @@ export const LiveTranscriber = ({ sessionId, userId, speakerLabel = "Ja" }: Prop
     try {
       recRef.current.start();
       setListening(true);
-      toast.success("Transkrypcja włączona");
+      toast.success(t("session.transcriptionOn"));
     } catch (e: any) {
       // Already started
       console.warn(e);
@@ -111,7 +114,7 @@ export const LiveTranscriber = ({ sessionId, userId, speakerLabel = "Ja" }: Prop
     try { recRef.current?.stop(); } catch {}
     setListening(false);
     setInterim("");
-    toast.message("Transkrypcja zatrzymana");
+    toast.message(t("session.transcriptionOffToast"));
   };
 
   if (!supported) {
@@ -120,8 +123,7 @@ export const LiveTranscriber = ({ sessionId, userId, speakerLabel = "Ja" }: Prop
         <div className="flex items-start gap-2 text-sm text-muted-foreground">
           <AlertCircle className="h-4 w-4 mt-0.5 text-accent" />
           <p>
-            Twoja przeglądarka nie obsługuje rozpoznawania mowy w przeglądarce.
-            Użyj Chrome lub Edge, albo dodawaj notatki ręcznie poniżej.
+            {t("session.speechUnsupported")}
           </p>
         </div>
       </Card>
@@ -138,20 +140,20 @@ export const LiveTranscriber = ({ sessionId, userId, speakerLabel = "Ja" }: Prop
         />
         <div className="min-w-0">
           <p className="text-xs font-medium">
-            {listening ? "Słucham…" : "Auto-transkrypcja wyłączona"}
+            {listening ? t("session.listening") : t("session.autoOff")}
           </p>
           <p className="text-xs text-muted-foreground truncate">
-            {interim || "Włącz, aby automatycznie zapisywać wypowiedzi do transkryptu."}
+            {interim || t("session.autoHint")}
           </p>
         </div>
       </div>
       {listening ? (
         <Button size="sm" variant="outline" onClick={stop}>
-          <MicOff className="h-4 w-4 mr-2" /> Stop
+          <MicOff className="h-4 w-4 mr-2" /> {t("common.stop")}
         </Button>
       ) : (
         <Button size="sm" onClick={start}>
-          <Mic className="h-4 w-4 mr-2" /> Start
+          <Mic className="h-4 w-4 mr-2" /> {t("common.start")}
         </Button>
       )}
     </Card>

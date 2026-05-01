@@ -204,7 +204,24 @@
       "stabilna": "stable",
       "do_pracy": "to work on",
       "luka": "gap"
-    }
+    },
+    "completedToast": "Diagnosis completed.",
+    "initialTitle": "Initial diagnosis",
+    "initialTitleNamed": "Initial diagnosis — {{name}}",
+    "initialSubtitle": "Diagnosis v1: a short multiple-choice test. The score will initialize the child knowledge map.",
+    "backToKnowledge": "Back to knowledge map",
+    "v1Badge": "Diagnosis v1",
+    "noQuestions": "No questions available.",
+    "skipShort": "I don’t know",
+    "allAnswered": "All questions answered. Finalizing…",
+    "deterministicNote": "Diagnosis v1 is deterministic and does not include AI. The full adaptive AI diagnosis will be added in later stages.",
+    "resultTitleNamed": "Diagnosis result{{name}}",
+    "resultSubtitleV1": "Initial diagnosis v1 completed. The knowledge map has been initialized.",
+    "noStrongKc": "No components ≥ 75%.",
+    "catchUpAreas": "Areas to catch up",
+    "noLowGaps": "No gaps below 50%.",
+    "addLearningGoal": "Add learning goal",
+    "v1AiLaterNote": "This is initial diagnosis v1. The full adaptive AI diagnosis will be added in later stages."
   },
   "discover": {
     "title": "Find your tutor",
@@ -655,7 +672,9 @@
     "yes": "yes",
     "no": "no",
     "start": "Start",
-    "stop": "Stop"
+    "stop": "Stop",
+    "emptyDash": "—",
+    "optional": "optional"
   },
   "errors": {
     "generic": "Something went wrong. Please try again."
@@ -732,7 +751,8 @@
     "transferTitle": "Transfer title",
     "markPaid": "I mark this as paid",
     "confirmReceived": "I confirm receipt",
-    "completed": "Payment completed"
+    "completed": "Payment completed",
+    "copyToast": "Copied"
   },
   "profile": {
     "title": "Your profile",
@@ -768,5 +788,45 @@
     "time": "Time",
     "book": "Book",
     "loginToBook": "Sign in to book"
+  },
+  "dashboardLegacy": {
+    "title": "Hi! 👋",
+    "subtitle": "Your overview of today’s learning and tutoring.",
+    "asStudent": "As student",
+    "asTutor": "As tutor",
+    "upcomingSessions": "Upcoming sessions",
+    "unpaid": "Unpaid",
+    "needsAction": "Needs your action",
+    "allGood": "All good",
+    "karmaHint": "From helping others",
+    "all": "All",
+    "noUpcoming": "No upcoming sessions",
+    "whatNext": "What next?",
+    "joinCircle": "Join a learning circle",
+    "askOrHelp": "Ask for help / help others",
+    "openBrain": "Open Second Brain",
+    "alsoTutor": "Also become a tutor",
+    "bookingStatus": "Your booking status",
+    "bookingStatusHint": "After tutor confirmation the “Enter” button will appear. After the session — “Pay”.",
+    "noBookings": "You do not have any bookings yet.",
+    "sessionsToPay": "Sessions to pay",
+    "hiddenTutorTitle": "Your tutor profile is hidden",
+    "hiddenTutorBody": "Complete the headline and description, add a payment method, then enable the “Published in search” toggle.",
+    "finishSetup": "Finish setup",
+    "toConfirm": "To confirm",
+    "waitingApproval": "Awaiting acceptance",
+    "rating": "Rating",
+    "sessionsCount": "{{count}} sessions",
+    "confirmedEarnings": "Confirmed earnings",
+    "pendingPayments": "Payments awaiting confirmation",
+    "noNewPayments": "No new payments",
+    "check": "Check",
+    "studentBookings": "Student booking status",
+    "studentBookingsHint": "Confirm pending bookings so the student can see the “Enter” button.",
+    "noBookingsShort": "No bookings.",
+    "tutorShortcuts": "Tutor shortcuts",
+    "editProfileRates": "Edit profile and rates",
+    "viewPublicProfile": "View your public profile",
+    "confirmedToast": "Booking confirmed — you can enter the session!"
   }
 }
