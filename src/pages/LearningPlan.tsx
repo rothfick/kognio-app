@@ -204,6 +204,8 @@ export default function LearningPlan() {
         </div>
 
         <ExpertReviewBadge reviewType="learning_plan" sourceId={plan.id} />
+
+        <Surface className="p-5 mb-6">
           <h2 className="font-semibold mb-2 flex items-center gap-2"><Sparkles className="h-4 w-4 text-accent" /> {t("plan.whyTitle")}</h2>
           <p className="text-sm text-muted-foreground mb-3">{t("plan.whyGenerated")}</p>
           {!!(plan.evidence?.weak_areas_used?.length) && (
