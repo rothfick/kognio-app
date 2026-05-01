@@ -532,6 +532,7 @@ export default function Diagnose() {
 function PlanCta({ attemptId, childId, language }: { attemptId: string | null; childId: string | null; language: string }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [planId, setPlanId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
