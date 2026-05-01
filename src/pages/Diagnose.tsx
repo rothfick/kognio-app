@@ -199,7 +199,7 @@ export default function Diagnose() {
               <div className="pt-2">
                 <Button
                   onClick={start}
-                  disabled={submitting || !domain.trim() || !level}
+                  disabled={submitting || (!domain.trim() && !taxonomy.domain) || (!level && !taxonomy.level)}
                   size="lg"
                   className="bg-accent-gradient text-accent-foreground shadow-glow"
                 >
