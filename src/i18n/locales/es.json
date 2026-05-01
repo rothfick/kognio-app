@@ -434,6 +434,9 @@
     "noChildrenTitle": "No has añadido hijos/as",
     "noChildrenDesc": "Añade el perfil de tu hijo/a para iniciar el diagnóstico y recibir informes de progreso.",
     "footerNote": "Política de privacidad · Consentimiento del padre/madre o tutor · Los documentos legales requieren revisión antes del lanzamiento público.",
+    "upcomingTitle": "Próximas sesiones de tus hijos",
+    "upcomingEmpty": "No hay sesiones próximas vinculadas a tus hijos.",
+    "upcomingViewAll": "Abrir el calendario completo",
     "child": {
       "noSubject": "Sin asignatura",
       "consent": "Consentimiento {{version}}",
