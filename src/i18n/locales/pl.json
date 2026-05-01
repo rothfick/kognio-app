@@ -1372,6 +1372,7 @@
   },
   "consent": {
     "required": "Wymagana zgoda",
+    "alreadyConfirmed": "Zgoda na diagnozę AI została już potwierdzona.",
     "requiredAiDiagnosis": "Aby rozpocząć diagnozę AI, musisz zaakceptować informację o diagnozie AI.",
     "declined": "Odrzucono. Możesz wrócić do tego później.",
     "manage": "Zarządzaj zgodami",

@@ -139,7 +139,7 @@ export default function Diagnose() {
   }, [navigate, t, user]);
 
   const aiConsentType: "parent_child_data_processing" | "ai_diagnosis_notice" = childId ? "parent_child_data_processing" : "ai_diagnosis_notice";
-  const { hasConsent: hasAiConsent, refresh: refreshConsent } = useConsent(aiConsentType, childId);
+  const { hasConsent: hasAiConsent, loading: consentLoading, refresh: refreshConsent } = useConsent(aiConsentType, childId);
   const [consentOpen, setConsentOpen] = useState(false);
   const [pendingStart, setPendingStart] = useState(false);
 
@@ -279,13 +279,17 @@ export default function Diagnose() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attemptParam, user]);
 
-  // Auto-open consent dialog when arriving via "Check consent" CTA
+  // Auto-handle "Check consent" CTA: if consent already granted, return to checklist; otherwise open dialog
   useEffect(() => {
-    if (stepParam === "consent" && !hasAiConsent && phase === "intake" && !attemptParam) {
+    if (stepParam !== "consent" || consentLoading || phase !== "intake" || attemptParam) return;
+    if (hasAiConsent) {
+      toast.success(t("consent.alreadyConfirmed"));
+      navigate("/getting-started", { replace: true });
+    } else {
       setConsentOpen(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stepParam, hasAiConsent, phase, attemptParam]);
+  }, [stepParam, hasAiConsent, consentLoading, phase, attemptParam]);
 
   if (authLoading) {
     return <AppShell><div className="container py-12 text-sm text-muted-foreground">{t("common.loading")}</div></AppShell>;
@@ -576,6 +580,9 @@ export default function Diagnose() {
               setPendingStart(false);
               // Re-trigger after consent
               setTimeout(() => start(), 50);
+            } else if (stepParam === "consent") {
+              toast.success(t("consent.alreadyConfirmed"));
+              navigate("/getting-started", { replace: true });
             }
           }}
           onDeclined={() => {
