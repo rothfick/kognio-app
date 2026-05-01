@@ -435,4 +435,42 @@ function ChildPlanCard({ childId, attemptId }: { childId: string; attemptId: str
   );
 }
 
+function ChildCheckpointCard({ childId }: { childId: string }) {
+  const { t, i18n } = useTranslation();
+  const lang = (i18n.language || "pl").split("-")[0];
+  const [cp, setCp] = useState<{ id: string; score_delta: number | null; completed_at: string | null } | null>(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("learning_checkpoints")
+        .select("id, score_delta, completed_at")
+        .eq("child_id", childId).eq("status", "completed")
+        .order("completed_at", { ascending: false }).limit(1).maybeSingle();
+      setCp((data as { id: string; score_delta: number | null; completed_at: string | null } | null) || null);
+      setLoading(false);
+    })();
+  }, [childId]);
+  if (loading || !cp) return null;
+  const deltaStr = cp.score_delta == null ? "—" : `${(cp.score_delta * 100) >= 0 ? "+" : ""}${Math.round(cp.score_delta * 100)}%`;
+  return (
+    <Surface className="p-5 mb-6 border-accent/30">
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div className="min-w-0">
+          <h2 className="font-semibold flex items-center gap-2 text-base mb-1">
+            <TrendingUp className="h-4 w-4 text-accent" /> {t("checkpoint.latestTitle")}
+          </h2>
+          <p className="text-xs text-muted-foreground">{t("checkpoint.latestSubtitle", { delta: deltaStr })}</p>
+          {cp.completed_at && (
+            <p className="text-[11px] text-muted-foreground mt-1">{t("checkpoint.completedAt", { date: new Date(cp.completed_at).toLocaleDateString(lang) })}</p>
+          )}
+        </div>
+        <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+          <Link to={`/checkpoints/${cp.id}`}>{t("checkpoint.viewReport")}</Link>
+        </Button>
+      </div>
+    </Surface>
+  );
+}
+
 export default ChildKnowledge;
