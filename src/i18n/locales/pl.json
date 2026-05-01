@@ -309,7 +309,13 @@
     "strengthsLabel": "Mocne strony:",
     "workLabel": "Do pracy:",
     "noFlashcards": "Fiszki pojawią się po wygenerowaniu raportu.",
-    "errorStatus": "Błąd {{status}}"
+    "errorStatus": "Błąd {{status}}",
+    "parentTitle": "Drugi Mózg dzieci",
+    "parentSubtitle": "Wybierz dziecko, aby otworzyć jego mapę wiedzy, raporty i transkrypty sesji.",
+    "parentEmpty": "Nie masz jeszcze powiązanych dzieci ani uczniów.",
+    "parentChildrenSection": "Twoje dzieci",
+    "parentLinkedSection": "Powiązani uczniowie",
+    "parentOpen": "Otwórz"
   },
   "calendar": {
     "title": "Kalendarz",
