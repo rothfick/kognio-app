@@ -14,6 +14,294 @@ export type Database = {
   }
   public: {
     Tables: {
+      assignment_items: {
+        Row: {
+          assignment_id: string
+          choices: Json
+          competency_id: string | null
+          correct_answer: Json | null
+          created_at: string
+          difficulty_level: number | null
+          evidence: Json
+          explanation: string | null
+          id: string
+          item_type: string
+          order_index: number
+          points: number | null
+          prompt: string
+          skill_area_label: string | null
+        }
+        Insert: {
+          assignment_id: string
+          choices?: Json
+          competency_id?: string | null
+          correct_answer?: Json | null
+          created_at?: string
+          difficulty_level?: number | null
+          evidence?: Json
+          explanation?: string | null
+          id?: string
+          item_type?: string
+          order_index: number
+          points?: number | null
+          prompt: string
+          skill_area_label?: string | null
+        }
+        Update: {
+          assignment_id?: string
+          choices?: Json
+          competency_id?: string | null
+          correct_answer?: Json | null
+          created_at?: string
+          difficulty_level?: number | null
+          evidence?: Json
+          explanation?: string | null
+          id?: string
+          item_type?: string
+          order_index?: number
+          points?: number | null
+          prompt?: string
+          skill_area_label?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assignment_items_assignment_id_fkey"
+            columns: ["assignment_id"]
+            isOneToOne: false
+            referencedRelation: "assignments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignment_items_competency_id_fkey"
+            columns: ["competency_id"]
+            isOneToOne: false
+            referencedRelation: "competencies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assignment_submissions: {
+        Row: {
+          answers: Json
+          assignment_id: string
+          created_at: string
+          feedback: Json
+          graded_at: string | null
+          id: string
+          max_score: number | null
+          percentage: number | null
+          score: number | null
+          status: string
+          submitted_by: string | null
+        }
+        Insert: {
+          answers?: Json
+          assignment_id: string
+          created_at?: string
+          feedback?: Json
+          graded_at?: string | null
+          id?: string
+          max_score?: number | null
+          percentage?: number | null
+          score?: number | null
+          status?: string
+          submitted_by?: string | null
+        }
+        Update: {
+          answers?: Json
+          assignment_id?: string
+          created_at?: string
+          feedback?: Json
+          graded_at?: string | null
+          id?: string
+          max_score?: number | null
+          percentage?: number | null
+          score?: number | null
+          status?: string
+          submitted_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assignment_submissions_assignment_id_fkey"
+            columns: ["assignment_id"]
+            isOneToOne: false
+            referencedRelation: "assignments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignment_submissions_submitted_by_fkey"
+            columns: ["submitted_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assignments: {
+        Row: {
+          algorithm_version: string | null
+          booking_id: string | null
+          child_id: string | null
+          competency_id: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          diagnostic_attempt_id: string | null
+          due_at: string | null
+          education_level_id: string | null
+          evidence: Json
+          generated_by: string | null
+          id: string
+          learning_domain_id: string | null
+          learning_plan_id: string | null
+          learning_plan_item_id: string | null
+          owner_type: string
+          prompt_version: string | null
+          session_note_id: string | null
+          skill_area_label: string | null
+          source_id: string | null
+          source_type: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          algorithm_version?: string | null
+          booking_id?: string | null
+          child_id?: string | null
+          competency_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          diagnostic_attempt_id?: string | null
+          due_at?: string | null
+          education_level_id?: string | null
+          evidence?: Json
+          generated_by?: string | null
+          id?: string
+          learning_domain_id?: string | null
+          learning_plan_id?: string | null
+          learning_plan_item_id?: string | null
+          owner_type: string
+          prompt_version?: string | null
+          session_note_id?: string | null
+          skill_area_label?: string | null
+          source_id?: string | null
+          source_type?: string
+          status?: string
+          title: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          algorithm_version?: string | null
+          booking_id?: string | null
+          child_id?: string | null
+          competency_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          diagnostic_attempt_id?: string | null
+          due_at?: string | null
+          education_level_id?: string | null
+          evidence?: Json
+          generated_by?: string | null
+          id?: string
+          learning_domain_id?: string | null
+          learning_plan_id?: string | null
+          learning_plan_item_id?: string | null
+          owner_type?: string
+          prompt_version?: string | null
+          session_note_id?: string | null
+          skill_area_label?: string | null
+          source_id?: string | null
+          source_type?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assignments_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_competency_id_fkey"
+            columns: ["competency_id"]
+            isOneToOne: false
+            referencedRelation: "competencies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_diagnostic_attempt_id_fkey"
+            columns: ["diagnostic_attempt_id"]
+            isOneToOne: false
+            referencedRelation: "diagnostic_attempts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_education_level_id_fkey"
+            columns: ["education_level_id"]
+            isOneToOne: false
+            referencedRelation: "education_levels"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_learning_domain_id_fkey"
+            columns: ["learning_domain_id"]
+            isOneToOne: false
+            referencedRelation: "learning_domains"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_learning_plan_id_fkey"
+            columns: ["learning_plan_id"]
+            isOneToOne: false
+            referencedRelation: "learning_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_learning_plan_item_id_fkey"
+            columns: ["learning_plan_item_id"]
+            isOneToOne: false
+            referencedRelation: "learning_plan_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_session_note_id_fkey"
+            columns: ["session_note_id"]
+            isOneToOne: false
+            referencedRelation: "session_notes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -3503,6 +3791,10 @@ export type Database = {
         Args: { _approve: boolean; _notes?: string; _tutor_user_id: string }
         Returns: undefined
       }
+      can_access_assignment: {
+        Args: { _assignment: string; _user: string }
+        Returns: boolean
+      }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
@@ -3516,6 +3808,10 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      is_assignment_tutor: {
+        Args: { _assignment: string; _user: string }
         Returns: boolean
       }
       is_booking_participant: {
