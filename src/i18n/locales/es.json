@@ -988,6 +988,20 @@
     "colUnmapped": "Sin vincular",
     "colAlgorithm": "Algoritmo",
     "colDate": "Fecha",
-    "noDiagnostics": "Sin datos de trazabilidad."
+    "colCreated": "Creado",
+    "colOwner": "Tipo de propietario",
+    "colScore": "Puntuación",
+    "colPromptVersion": "Versión del prompt",
+    "colSource": "Fuente",
+    "noDiagnostics": "Sin datos de trazabilidad.",
+    "panelTitle": "Trazabilidad de diagnósticos y competencias",
+    "selfMastery": "Filas de dominio del propio usuario",
+    "parentChildMastery": "Filas de dominio padre-hijo",
+    "withAlgorithm": "Diagnósticos con versión de algoritmo",
+    "ownerSelf": "Estudiante",
+    "ownerChild": "Hijo/a",
+    "anonymous": "—",
+    "infoTitle": "Por qué importa (FENG / SMART)",
+    "infoBody": "Este panel muestra si los diagnósticos de Kogni están vinculados estructuralmente al grafo de competencias. Esto permite documentar qué áreas de conocimiento se detectaron, cómo se asignaron a competencias y qué versión del algoritmo produjo el resultado."
   }
 }
