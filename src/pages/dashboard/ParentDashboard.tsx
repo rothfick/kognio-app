@@ -224,4 +224,12 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
   );
 };
 
+const ParentNextBestStepBlock = () => {
+  const nb = useNextBestAction();
+  if (nb.loading || nb.mode !== "parent") return null;
+  if (nb.addChild) return <div className="mb-6"><NextBestActionCard action={nb.action} /></div>;
+  const top = nb.children[0];
+  return <div className="mb-6"><NextBestActionCard action={top.action} childName={top.child.displayName} /></div>;
+};
+
 export default ParentDashboard;
