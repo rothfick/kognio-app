@@ -10,7 +10,7 @@ import { AIInsightCard } from "@/components/ui/ai-insight-card";
 import { EmptyState } from "@/components/EmptyState";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, LineChart, FileText, Plus, BookOpen, ShieldCheck, Brain, TrendingUp } from "lucide-react";
+import { Users, LineChart, FileText, Plus, BookOpen, ShieldCheck, Brain, TrendingUp, Calendar as CalIcon, ArrowRight } from "lucide-react";
 import { AddChildDialog } from "@/components/parent/AddChildDialog";
 import { LinkedStudentsSection } from "@/components/parent-link/LinkedStudentsSection";
 import { supabase } from "@/integrations/supabase/client";
