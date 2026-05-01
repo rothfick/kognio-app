@@ -68,10 +68,12 @@ const CalendarPage = () => {
                 <Button size="sm" variant="ghost" onClick={() => updateStatus(b.id, "cancelled")}><X className="h-4 w-4" /></Button>
               </>
             )}
-            {sessionId && canJoin && b.status === "confirmed" && (
-              <Button size="sm" asChild className="bg-accent-gradient text-accent-foreground"><Link to={`/session/${sessionId}`}><Video className="h-4 w-4 mr-1" />Wejdź</Link></Button>
+            {sessionId && b.status !== "cancelled" && (
+              <Button size="sm" asChild className="bg-accent-gradient text-accent-foreground">
+                <Link to={`/session/${sessionId}`}><Video className="h-4 w-4 mr-1" />Wejdź</Link>
+              </Button>
             )}
-            {!isTutor && b.status === "confirmed" && (
+            {!isTutor && (b.status === "confirmed" || b.status === "completed") && (
               <Button size="sm" variant="outline" asChild><Link to={`/payment/${b.id}`}><CreditCard className="h-4 w-4 mr-1" />Zapłać</Link></Button>
             )}
           </div>
