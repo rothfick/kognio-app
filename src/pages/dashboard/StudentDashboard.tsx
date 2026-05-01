@@ -84,6 +84,16 @@ const StudentDashboard = () => {
         const next = list.find((i) => i.status === "pending" || i.status === "in_progress");
         setPlanProgress({ done, total: list.length, nextTitle: next?.title ?? null });
       }
+
+      const { data: cp } = await supabase
+        .from("learning_checkpoints")
+        .select("id, score_delta, completed_at")
+        .eq("user_id", user.id)
+        .eq("status", "completed")
+        .order("completed_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      setCheckpoint((cp as LatestCheckpoint | null) || null);
     })();
   }, [user]);
 
