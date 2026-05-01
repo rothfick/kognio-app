@@ -160,7 +160,7 @@ const Discover = () => {
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold truncate">{tt.profiles?.display_name || "Tutor"}</h3>
+                      <h3 className="font-semibold truncate">{tt.profiles?.display_name || t("common.tutor")}</h3>
                       <p className="text-sm text-muted-foreground line-clamp-2">{tt.headline}</p>
                     </div>
                   </div>
