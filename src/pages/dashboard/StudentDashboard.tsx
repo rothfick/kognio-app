@@ -14,20 +14,23 @@ import { EmptyState } from "@/components/EmptyState";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Brain, Calendar as CalIcon, ClipboardList, Sparkles, BookOpen, ArrowRight, Search,
+  Brain, Calendar as CalIcon, ClipboardList, Sparkles, BookOpen, ArrowRight, Search, TrendingUp,
 } from "lucide-react";
 
 type KcRow = { kc_label: string; mastery_pct: number; status: string };
 type LatestPlan = { id: string; status: string; title: string };
+type LatestCheckpoint = { id: string; score_delta: number | null; completed_at: string | null };
 
 const StudentDashboard = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = (i18n.language || "pl").split("-")[0];
   const { user } = useAuth();
   const [latestScore, setLatestScore] = useState<number | null>(null);
   const [latestAttemptId, setLatestAttemptId] = useState<string | null>(null);
   const [kcAreas, setKcAreas] = useState<KcRow[]>([]);
   const [plan, setPlan] = useState<LatestPlan | null>(null);
   const [planProgress, setPlanProgress] = useState<{ done: number; total: number; nextTitle: string | null }>({ done: 0, total: 0, nextTitle: null });
+  const [checkpoint, setCheckpoint] = useState<LatestCheckpoint | null>(null);
 
   useEffect(() => {
     if (!user) return;
