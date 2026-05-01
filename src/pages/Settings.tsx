@@ -124,6 +124,10 @@ const Settings = () => {
           </Select>
         </Card>
 
+        {/* Parent/student link sections */}
+        {isStudent && <StudentParentLinksSection />}
+        {isParent && <LinkedStudentsSection />}
+
         {/* Tutor profile */}
         {!isTutor ? (
           <Card className="p-6 bg-card-soft text-center">
