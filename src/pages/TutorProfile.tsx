@@ -28,12 +28,18 @@ const TutorProfile = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase
+      const { data: tp } = await supabase
         .from("tutor_profiles")
-        .select("user_id, headline, description, hourly_rate_cents, currency, rating, sessions_completed, profiles!inner(display_name, bio)")
+        .select("user_id, headline, description, hourly_rate_cents, currency, rating, sessions_completed")
         .eq("user_id", id as string)
         .maybeSingle();
-      setTutor(data as any);
+      if (!tp) { setLoading(false); return; }
+      const { data: pr } = await supabase
+        .from("profiles")
+        .select("display_name, bio")
+        .eq("id", tp.user_id)
+        .maybeSingle();
+      setTutor({ ...tp, profiles: pr ? { display_name: pr.display_name, bio: pr.bio } : null });
       setLoading(false);
     })();
   }, [id]);
