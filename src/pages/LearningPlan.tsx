@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Brain, CheckCircle2, Clock, ListChecks, Sparkles, SkipForward, Archive, Play, TrendingUp, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
 
 type Plan = {
   id: string;
@@ -201,6 +202,8 @@ export default function LearningPlan() {
           <StatCard icon={Brain} label={t("plan.weakAreasCovered")} value={String(stats.weakAreas)} />
           <StatCard icon={Sparkles} label={t("plan.diagnosticScore")} value={plan.evidence?.score != null ? `${Math.round(Number(plan.evidence.score) * 100)}%` : "—"} />
         </div>
+
+        <ExpertReviewBadge reviewType="learning_plan" sourceId={plan.id} />
 
         <Surface className="p-5 mb-6">
           <h2 className="font-semibold mb-2 flex items-center gap-2"><Sparkles className="h-4 w-4 text-accent" /> {t("plan.whyTitle")}</h2>

@@ -1077,5 +1077,99 @@
       "avgMasteryDelta": "Średnia zmiana opanowania",
       "evidenceEvents": "Zdarzenia dowodowe punktów kontrolnych"
     }
+  },
+  "expertReview": {
+    "adminSection": "Recenzje eksperckie (Human-in-the-loop)",
+    "workspaceTitle": "Recenzja ekspercka",
+    "reviewedTitle": "Zweryfikowane przez eksperta",
+    "submitted": "Recenzja przesłana",
+    "submittedAt": "Przesłano: {{date}}",
+    "created": "Utworzono: {{date}}",
+    "denied": "Brak dostępu do tej recenzji.",
+    "back": "Powrót",
+    "ownerType": "Typ właściciela",
+    "aiSummaryTitle": "Podsumowanie AI",
+    "itemsTitle": "Pozycje do oceny",
+    "noItems": "Brak pozycji do oceny.",
+    "aiValue": "Wynik AI",
+    "verdictLabel": "Werdykt",
+    "confidence": "Pewność (0–1)",
+    "correctionNote": "Notatka korekty",
+    "correctionNotePlaceholder": "Opcjonalny komentarz lub korekta",
+    "notesTitle": "Uwagi ogólne",
+    "notesPlaceholder": "Notatki recenzenta widoczne dla użytkownika po przesłaniu (jeśli bezpieczne)",
+    "saveNotes": "Zapisz notatki",
+    "submit": "Prześlij recenzję",
+    "evidenceTitle": "Ślad dowodowy",
+    "evidenceReview": "ID recenzji",
+    "evidenceDiagnostic": "ID diagnozy",
+    "evidencePlan": "ID planu",
+    "evidenceCheckpoint": "ID checkpointu",
+    "evidenceAlgorithm": "Algorytm",
+    "credibility": "Recenzja ekspercka wzmacnia wiarygodność i bezpieczeństwo rekomendacji AI.",
+    "openReview": "Otwórz recenzję",
+    "sourceDiagnostic": "Źródłowa diagnoza",
+    "sourceLearningPlan": "Źródłowy plan",
+    "sourceCheckpoint": "Źródłowy checkpoint",
+    "createDiagnostic": "Diagnozy do recenzji",
+    "createPlan": "Plany do recenzji",
+    "createCheckpoint": "Checkpointy do recenzji",
+    "createCta": "Utwórz recenzję",
+    "noSource": "Brak danych źródłowych.",
+    "assignmentNote": "Recenzja jest tworzona z przypisaniem do bieżącego administratora. Inni recenzenci nie mają dostępu do danych użytkownika bez wyraźnego przypisania.",
+    "recentSubmitted": "Ostatnio przesłane recenzje",
+    "noRecent": "Brak recenzji.",
+    "metrics": {
+      "created": "Utworzone",
+      "submitted": "Przesłane",
+      "avgAgreement": "Średnia zgodność AI–ekspert",
+      "disagreements": "Niezgodności",
+      "correctionRate": "Wskaźnik korekt",
+      "byType": "Diag / Plan / Checkpoint",
+      "byTypeHint": "Liczba recenzji według typu"
+    },
+    "errors": {
+      "noOwner": "Brak właściciela źródła – nie można utworzyć recenzji."
+    },
+    "types": {
+      "diagnostic": "Diagnoza",
+      "learning_plan": "Plan nauki",
+      "checkpoint": "Checkpoint"
+    },
+    "status": {
+      "draft": "Szkic",
+      "submitted": "Przesłana",
+      "archived": "Zarchiwizowana"
+    },
+    "owner": {
+      "user": "Użytkownik",
+      "child": "Dziecko"
+    },
+    "itemType": {
+      "skill_gap": "Luka",
+      "mastery_score": "Wynik biegłości",
+      "competency_mapping": "Mapowanie kompetencji",
+      "recommendation": "Rekomendacja",
+      "plan_step": "Krok planu",
+      "checkpoint_delta": "Delta checkpointu"
+    }
+  },
+  "agreement": {
+    "scoreLabel": "Zgodność",
+    "computed": "Obliczona zgodność"
+  },
+  "verdict": {
+    "pending": "Oczekuje",
+    "agree": "Zgadzam się",
+    "partially_agree": "Częściowo",
+    "disagree": "Nie zgadzam się",
+    "unsure": "Niepewne"
+  },
+  "reviewer": {
+    "role": {
+      "expert": "Ekspert",
+      "tutor": "Korepetytor",
+      "admin": "Administrator"
+    }
   }
 }

@@ -1077,5 +1077,99 @@
       "avgMasteryDelta": "Average mastery change",
       "evidenceEvents": "Checkpoint evidence events"
     }
+  },
+  "expertReview": {
+    "adminSection": "Expert Reviews (Human-in-the-loop)",
+    "workspaceTitle": "Expert review",
+    "reviewedTitle": "Reviewed by expert",
+    "submitted": "Review submitted",
+    "submittedAt": "Submitted: {{date}}",
+    "created": "Created: {{date}}",
+    "denied": "You do not have access to this review.",
+    "back": "Back",
+    "ownerType": "Owner type",
+    "aiSummaryTitle": "AI summary",
+    "itemsTitle": "Items to review",
+    "noItems": "No items to review.",
+    "aiValue": "AI value",
+    "verdictLabel": "Verdict",
+    "confidence": "Confidence (0–1)",
+    "correctionNote": "Correction note",
+    "correctionNotePlaceholder": "Optional comment or correction",
+    "notesTitle": "Overall notes",
+    "notesPlaceholder": "Reviewer notes visible to the user after submission (if safe)",
+    "saveNotes": "Save notes",
+    "submit": "Submit review",
+    "evidenceTitle": "Evidence trail",
+    "evidenceReview": "Review ID",
+    "evidenceDiagnostic": "Diagnostic ID",
+    "evidencePlan": "Plan ID",
+    "evidenceCheckpoint": "Checkpoint ID",
+    "evidenceAlgorithm": "Algorithm",
+    "credibility": "Expert review strengthens credibility and safety of AI recommendations.",
+    "openReview": "Open review",
+    "sourceDiagnostic": "Source diagnostic",
+    "sourceLearningPlan": "Source learning plan",
+    "sourceCheckpoint": "Source checkpoint",
+    "createDiagnostic": "Diagnostics to review",
+    "createPlan": "Plans to review",
+    "createCheckpoint": "Checkpoints to review",
+    "createCta": "Create review",
+    "noSource": "No source data.",
+    "assignmentNote": "Reviews are created and assigned to the current admin. Other reviewers cannot access user data without explicit assignment.",
+    "recentSubmitted": "Recently submitted reviews",
+    "noRecent": "No reviews yet.",
+    "metrics": {
+      "created": "Created",
+      "submitted": "Submitted",
+      "avgAgreement": "Avg AI–expert agreement",
+      "disagreements": "Disagreements",
+      "correctionRate": "Correction rate",
+      "byType": "Diag / Plan / Checkpoint",
+      "byTypeHint": "Reviews by type"
+    },
+    "errors": {
+      "noOwner": "Source has no owner – review cannot be created."
+    },
+    "types": {
+      "diagnostic": "Diagnostic",
+      "learning_plan": "Learning plan",
+      "checkpoint": "Checkpoint"
+    },
+    "status": {
+      "draft": "Draft",
+      "submitted": "Submitted",
+      "archived": "Archived"
+    },
+    "owner": {
+      "user": "User",
+      "child": "Child"
+    },
+    "itemType": {
+      "skill_gap": "Skill gap",
+      "mastery_score": "Mastery score",
+      "competency_mapping": "Competency mapping",
+      "recommendation": "Recommendation",
+      "plan_step": "Plan step",
+      "checkpoint_delta": "Checkpoint delta"
+    }
+  },
+  "agreement": {
+    "scoreLabel": "Agreement",
+    "computed": "Computed agreement"
+  },
+  "verdict": {
+    "pending": "Pending",
+    "agree": "Agree",
+    "partially_agree": "Partially",
+    "disagree": "Disagree",
+    "unsure": "Unsure"
+  },
+  "reviewer": {
+    "role": {
+      "expert": "Expert",
+      "tutor": "Tutor",
+      "admin": "Administrator"
+    }
   }
 }
