@@ -136,7 +136,64 @@ const AdminDashboard = () => {
             </div>
           </Surface>
 
-          <div className="grid gap-5 md:grid-cols-2">
+          <Surface className="p-5 mb-6">
+            <h2 className="font-semibold mb-3 flex items-center gap-2">
+              <Network className="h-4 w-4 text-accent" /> {t("curriculum.section")}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-4 mb-4">
+              <StatCard icon={Globe2} label={t("curriculum.systems")} value={curr === null ? "…" : String(curr.systems)} />
+              <StatCard icon={Layers} label={t("curriculum.levels")} value={curr === null ? "…" : String(curr.levels)} />
+              <StatCard icon={BookOpen} label={t("curriculum.domains")} value={curr === null ? "…" : String(curr.domains)} />
+              <StatCard icon={GraduationCap} label={t("curriculum.competencies")} value={curr === null ? "…" : String(curr.competencies)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-4 mb-4">
+              <StatCard icon={Network} label={t("curriculum.edges")} value={curr === null ? "…" : String(curr.edges)} />
+              <StatCard icon={Library} label={t("curriculum.sources")} value={curr === null ? "…" : String(curr.sources)} />
+              <StatCard icon={BadgeCheck} label={t("curriculum.approved")} value={curr === null ? "…" : String(curr.approved)} />
+              <StatCard icon={ClipboardList} label={t("curriculum.draft")} value={curr === null ? "…" : String(curr.draft)} />
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="rounded-md border border-border/60 p-3">
+                <p className="text-xs font-medium text-muted-foreground mb-2">{t("curriculum.domainsByCount")}</p>
+                {domainCounts.length === 0 ? (
+                  <p className="text-xs text-muted-foreground">{t("curriculum.noData")}</p>
+                ) : (
+                  <ul className="space-y-1 text-sm">
+                    {domainCounts.map((d) => (
+                      <li key={d.domain.id} className="flex justify-between">
+                        <span>{localized(d.domain)}</span>
+                        <span className="text-muted-foreground tabular-nums">{d.count}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <div className="rounded-md border border-border/60 p-3">
+                <p className="text-xs font-medium text-muted-foreground mb-2">{t("curriculum.levelsByCount")}</p>
+                {levelCounts.length === 0 ? (
+                  <p className="text-xs text-muted-foreground">{t("curriculum.noData")}</p>
+                ) : (
+                  <ul className="space-y-1 text-sm">
+                    {levelCounts.filter((l) => l.count > 0).map((l) => (
+                      <li key={l.level.id} className="flex justify-between">
+                        <span>{localized(l.level)}</span>
+                        <span className="text-muted-foreground tabular-nums">{l.count}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+            <p className="mt-3 text-[11px] text-muted-foreground">{t("curriculum.note")}</p>
+          </Surface>
+
+          <Surface className="p-5 mb-6 border-accent/40">
+            <h2 className="font-semibold mb-2 flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-accent" /> {t("smartReadiness.title")}
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t("smartReadiness.body")}</p>
+          </Surface>
+
             <Surface className="p-5">
               <h2 className="font-semibold mb-3 flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-accent" />{t("admin.verifications")}</h2>
               <EmptyState icon={ShieldCheck} title={t("admin.verifNoneTitle")} description={t("admin.verifNoneDesc")} />
