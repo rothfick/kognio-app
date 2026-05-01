@@ -20,6 +20,9 @@ import {
 import { toast } from "sonner";
 import { logBookingEvent } from "@/lib/bookingEvents";
 import { createNotification } from "@/lib/notifications";
+import { generateHomework, langCode } from "@/lib/homeworkClient";
+import { isFeatureEnabled } from "@/config/features";
+import { Sparkles } from "lucide-react";
 
 type Booking = {
   id: string;
