@@ -278,7 +278,7 @@ const ResearchDashboardInner = () => {
       <DashboardShell>
         <DashboardHeader
           title={t("research.title")}
-          description={t("research.subtitle")}
+          subtitle={t("research.subtitle")}
           actions={
             <Button onClick={handleExport} disabled={!data}>
               <Download className="h-4 w-4 mr-2" />
