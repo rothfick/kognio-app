@@ -21,6 +21,9 @@ import {
 import { isFeatureEnabled } from "@/config/features";
 import { UpcomingBookingCard } from "@/components/booking/UpcomingBookingCard";
 import { useUpcomingBookings } from "@/hooks/useUpcomingBookings";
+import { HomeworkWidget } from "@/components/homework/HomeworkWidget";
+import { generateHomework, langCode } from "@/lib/homeworkClient";
+import { toast } from "sonner";
 
 type KcRow = { kc_label: string; mastery_pct: number; status: string };
 type LatestPlan = { id: string; status: string; title: string };
