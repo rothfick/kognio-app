@@ -59,8 +59,6 @@ export default function Diagnose() {
   const levelLabel = useMemo(() => level ? t(`diagnose.levels.${level}`) : "", [level, t]);
 
   const start = useCallback(async () => {
-    if (!domain.trim()) return toast.error(t("diagnose.missingDomain"));
-    if (!level) return toast.error(t("diagnose.missingLevel"));
     setSubmitting(true);
     try {
       const lang = i18n.language?.split("-")[0] || "pl";
