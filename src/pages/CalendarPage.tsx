@@ -176,6 +176,7 @@ const CalendarPage = () => {
     const sessionId = sessions[b.id];
     const start = new Date(b.starts_at);
     const canEnter = b.status === "confirmed" || b.status === "completed";
+    const childName = parentOnly ? studentNames[b.student_id] : null;
 
     return (
       <Card className="p-4 bg-card-soft">
@@ -188,48 +189,55 @@ const CalendarPage = () => {
               <p className="font-medium">{start.toLocaleString()}</p>
               <StatusBadge status={b.status} />
               {isTutor && <Badge variant="outline">{t("calendar.asTutor")}</Badge>}
+              {parentOnly && childName && (
+                <Badge variant="secondary" className="gap-1">
+                  <UsersIcon className="h-3 w-3" /> {childName}
+                </Badge>
+              )}
             </div>
             <p className="text-sm text-muted-foreground mb-1">{(b.price_cents / 100).toFixed(0)} {b.currency}</p>
             <p className="text-xs text-muted-foreground">{t(`calendar.hint.${b.status}`, { defaultValue: t("calendar.hint.pending") })}</p>
           </div>
         </div>
 
-        <div className="mt-3 flex gap-2 flex-wrap justify-end border-t pt-3">
-          {isTutor && b.status === "pending" && (
-            <>
-              <Button size="sm" onClick={() => updateStatus(b.id, "confirmed")}>
-                <Check className="h-4 w-4 mr-1" />{t("calendar.confirm")}
+        {!parentOnly && (
+          <div className="mt-3 flex gap-2 flex-wrap justify-end border-t pt-3">
+            {isTutor && b.status === "pending" && (
+              <>
+                <Button size="sm" onClick={() => updateStatus(b.id, "confirmed")}>
+                  <Check className="h-4 w-4 mr-1" />{t("calendar.confirm")}
+                </Button>
+                <Button size="sm" variant="ghost" onClick={() => updateStatus(b.id, "cancelled")}>
+                  <X className="h-4 w-4 mr-1" />{t("calendar.reject")}
+                </Button>
+              </>
+            )}
+
+            {b.status === "pending" && !isTutor && (
+              <span className="text-xs text-muted-foreground self-center">
+                {t("calendar.waitingTutor")}
+              </span>
+            )}
+
+            {sessionId && canEnter && (
+              <Button size="sm" asChild className="bg-accent-gradient text-accent-foreground">
+                <Link to={`/session/${sessionId}`}><Video className="h-4 w-4 mr-1" />{t("calendar.enter")}</Link>
               </Button>
-              <Button size="sm" variant="ghost" onClick={() => updateStatus(b.id, "cancelled")}>
-                <X className="h-4 w-4 mr-1" />{t("calendar.reject")}
+            )}
+
+            {!isTutor && canEnter && (
+              <Button size="sm" variant="outline" asChild>
+                <Link to={`/payment/${b.id}`}><CreditCard className="h-4 w-4 mr-1" />{t("calendar.pay")}</Link>
               </Button>
-            </>
-          )}
+            )}
 
-          {b.status === "pending" && !isTutor && (
-            <span className="text-xs text-muted-foreground self-center">
-              {t("calendar.waitingTutor")}
-            </span>
-          )}
-
-          {sessionId && canEnter && (
-            <Button size="sm" asChild className="bg-accent-gradient text-accent-foreground">
-              <Link to={`/session/${sessionId}`}><Video className="h-4 w-4 mr-1" />{t("calendar.enter")}</Link>
-            </Button>
-          )}
-
-          {!isTutor && canEnter && (
-            <Button size="sm" variant="outline" asChild>
-              <Link to={`/payment/${b.id}`}><CreditCard className="h-4 w-4 mr-1" />{t("calendar.pay")}</Link>
-            </Button>
-          )}
-
-          {isTutor && b.status === "confirmed" && new Date(b.ends_at).getTime() < now && (
-            <Button size="sm" variant="outline" onClick={() => updateStatus(b.id, "completed")}>
-              <Trophy className="h-4 w-4 mr-1" />{t("calendar.markCompleted")}
-            </Button>
-          )}
-        </div>
+            {isTutor && b.status === "confirmed" && new Date(b.ends_at).getTime() < now && (
+              <Button size="sm" variant="outline" onClick={() => updateStatus(b.id, "completed")}>
+                <Trophy className="h-4 w-4 mr-1" />{t("calendar.markCompleted")}
+              </Button>
+            )}
+          </div>
+        )}
       </Card>
     );
   };
