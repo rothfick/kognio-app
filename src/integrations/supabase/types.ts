@@ -2193,6 +2193,112 @@ export type Database = {
           },
         ]
       }
+      live_session_events: {
+        Row: {
+          booking_id: string
+          created_at: string
+          event_type: string
+          id: string
+          payload: Json
+          user_id: string | null
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string
+          event_type: string
+          id?: string
+          payload?: Json
+          user_id?: string | null
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          payload?: Json
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "live_session_events_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "live_session_events_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      live_sessions: {
+        Row: {
+          booking_id: string
+          created_at: string
+          ended_at: string | null
+          ended_by: string | null
+          id: string
+          metadata: Json
+          room_name: string
+          started_at: string | null
+          started_by: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string
+          ended_at?: string | null
+          ended_by?: string | null
+          id?: string
+          metadata?: Json
+          room_name: string
+          started_at?: string | null
+          started_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string
+          ended_at?: string | null
+          ended_by?: string | null
+          id?: string
+          metadata?: Json
+          room_name?: string
+          started_at?: string | null
+          started_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "live_sessions_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "live_sessions_ended_by_fkey"
+            columns: ["ended_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "live_sessions_started_by_fkey"
+            columns: ["started_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           action_label: string | null
@@ -3793,6 +3899,10 @@ export type Database = {
       }
       can_access_assignment: {
         Args: { _assignment: string; _user: string }
+        Returns: boolean
+      }
+      can_access_booking: {
+        Args: { _booking: string; _user: string }
         Returns: boolean
       }
       delete_email: {
