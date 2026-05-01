@@ -29,14 +29,16 @@ export type FeatureFlag =
   | "parentChildren";
 
 export const FEATURES: Record<FeatureFlag, boolean> = {
+  // Live pilot v2 — marketplace + booking + calendar enabled
+  tutorMarketplace: true,
+  booking: true,
+  calendar: true,
+
   // Hidden / future modules
   discover: false,
   circles: false,
   peerHelp: false,
-  calendar: false,
   secondBrain: false,
-  tutorMarketplace: false,
-  booking: false,
   homework: false,
 
   // Live pilot v1 — enabled
