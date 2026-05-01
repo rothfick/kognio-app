@@ -7,7 +7,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar as CalIcon, Video, Check, X, CreditCard } from "lucide-react";
+import { Calendar as CalIcon, Video, Check, X, CreditCard, Search } from "lucide-react";
 import { toast } from "sonner";
 
 type Booking = { id: string; starts_at: string; ends_at: string; status: string; price_cents: number; currency: string; tutor_id: string; student_id: string };
