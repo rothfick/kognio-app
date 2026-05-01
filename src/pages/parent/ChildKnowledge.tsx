@@ -187,8 +187,25 @@ const ChildKnowledge = () => {
 
         {loading ? (
           <p className="text-sm text-muted-foreground">{t("knowledge.loadingMap")}</p>
-        ) : groups.length === 0 ? (
+        ) : groups.length === 0 && fallbackRows.length === 0 ? (
           <EmptyState icon={BookOpen} title={t("knowledge.noProgramTitle")} description={t("knowledge.noProgramDesc")} />
+        ) : fallbackRows.length > 0 ? (
+          <div className="space-y-5 mb-8">
+            <Surface className="p-5">
+              <h2 className="font-semibold mb-3 text-base">{t("knowledge.aiDiagnosisAreas")}</h2>
+              <ul className="grid gap-2 sm:grid-cols-2">
+                {fallbackRows.map((row) => (
+                  <li key={row.label} className="flex items-center justify-between gap-3 rounded-md border bg-card-soft px-3 py-2">
+                    <div className="min-w-0">
+                      <p className="text-sm truncate">{row.label}</p>
+                      <p className="text-[10px] text-muted-foreground">{t("knowledge.sourceAiDiagnosis")}</p>
+                    </div>
+                    <MasteryBadge level={masteryLevel(row.mastery)} />
+                  </li>
+                ))}
+              </ul>
+            </Surface>
+          </div>
         ) : (
           <div className="space-y-5 mb-8">
             {groups.map((g) => {
