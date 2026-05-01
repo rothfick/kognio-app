@@ -60,6 +60,7 @@ function actionUrlCategory(url?: string): string {
   if (url.startsWith("/discover")) return "discover";
   if (url.startsWith("/dashboard")) return "dashboard";
   if (url.startsWith("/homework")) return "homework";
+  if (url.startsWith("/session")) return "session";
   return "other";
 }
 
