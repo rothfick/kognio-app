@@ -49,6 +49,8 @@ const App = () => (
             <Route path="/dashboard/parent" element={<ProtectedRoute><ParentDashboard /></ProtectedRoute>} />
             <Route path="/parent/children/:childId/knowledge" element={<ProtectedRoute><ChildKnowledge /></ProtectedRoute>} />
             <Route path="/parent/children/:childId/diagnostic" element={<ProtectedRoute><ChildDiagnostic /></ProtectedRoute>} />
+            <Route path="/diagnose" element={<ProtectedRoute><Diagnose /></ProtectedRoute>} />
+            <Route path="/parent/children/:childId/diagnose" element={<ProtectedRoute><Diagnose /></ProtectedRoute>} />
             <Route path="/dashboard/tutor" element={<ProtectedRoute><TutorDashboard /></ProtectedRoute>} />
             <Route path="/dashboard/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
             <Route path="/dashboard/school" element={<ProtectedRoute><SchoolDashboard /></ProtectedRoute>} />
