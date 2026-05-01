@@ -13,6 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Loader2, Sparkles, CheckCircle2, AlertCircle, Brain, Target, ArrowRight, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 import { CurriculumPicker, type CurriculumSelection } from "@/components/diagnose/CurriculumPicker";
+import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
 
 type Choice = { id: string; text: string };
 type Item = { id: string; question: string; choices: Choice[]; kc_label: string; difficulty: number };
@@ -407,6 +408,8 @@ export default function Diagnose() {
         {phase === "done" && summary && score && !checkpointId && (
           <>
             <DashboardHeader title={t("diagnose.resultTitle")} subtitle={`${domain} • ${levelLabel}`} />
+
+            <ExpertReviewBadge reviewType="diagnostic" sourceId={attemptId} />
 
             <div className="grid gap-4 md:grid-cols-3 mb-4">
               <Surface className="p-5 md:col-span-1">

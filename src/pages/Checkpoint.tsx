@@ -10,6 +10,7 @@ import { StatCard } from "@/components/ui/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Sparkles, TrendingUp, TrendingDown, Activity, ListChecks, Telescope, BookOpen } from "lucide-react";
+import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
 
 type MasteryDeltaRow = {
   skill_area_label: string;
@@ -148,6 +149,8 @@ export default function Checkpoint() {
           <span>{t("checkpoint.createdAt", { date: new Date(cp.created_at).toLocaleString(lang) })}</span>
           {cp.completed_at && <span>· {t("checkpoint.completedAt", { date: new Date(cp.completed_at).toLocaleString(lang) })}</span>}
         </div>
+
+        <ExpertReviewBadge reviewType="checkpoint" sourceId={cp.id} />
 
         <div className="grid gap-4 sm:grid-cols-5 mb-6">
           <StatCard icon={BookOpen} label={t("checkpoint.baselineScore")} value={pct(cp.baseline_score)} />
