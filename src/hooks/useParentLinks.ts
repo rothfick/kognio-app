@@ -53,7 +53,7 @@ export function useStudentParentLinks() {
       .eq("student_id", user.id)
       .neq("status", "revoked")
       .order("created_at", { ascending: false });
-    const rows = (data || []) as ParentLinkRow[];
+    const rows = (data || []) as unknown as ParentLinkRow[];
     // Hydrate parent display names if linked
     const parentIds = Array.from(new Set(rows.map((r) => r.parent_id).filter(Boolean) as string[]));
     if (parentIds.length) {
@@ -88,7 +88,7 @@ export function useStudentParentLinks() {
       .single();
     if (error) throw error;
     await load();
-    return data as ParentLinkRow;
+    return data as unknown as ParentLinkRow;
   }, [user, load]);
 
   const generateCode = useCallback(async (scopes: Partial<ParentLinkScopes> = {}) => {
@@ -106,7 +106,7 @@ export function useStudentParentLinks() {
       .single();
     if (error) throw error;
     await load();
-    return data as ParentLinkRow;
+    return data as unknown as ParentLinkRow;
   }, [user, load]);
 
   const revoke = useCallback(async (id: string) => {
@@ -151,7 +151,7 @@ export function useLinkedStudents() {
       .or(`parent_id.eq.${user.id},invited_email.eq.${(user.email || "").toLowerCase()}`)
       .in("status", ["active", "pending"])
       .order("created_at", { ascending: false });
-    const rows = (data || []) as ParentLinkRow[];
+    const rows = (data || []) as unknown as ParentLinkRow[];
     const studentIds = Array.from(new Set(rows.map((r) => r.student_id)));
     if (studentIds.length) {
       const { data: profs } = await supabase
