@@ -238,6 +238,10 @@ const ChildKnowledge = () => {
           </div>
         )}
 
+        {latestAttempt && (
+          <ChildPlanCard childId={childId!} attemptId={latestAttempt.id} />
+        )}
+
         <GoalsSection
           childId={childId!}
           subjectId={subjectId}
