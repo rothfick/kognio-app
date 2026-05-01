@@ -685,7 +685,9 @@
     "emptyDash": "—",
     "optional": "opcional",
     "pageNotFound": "Página no encontrada",
-    "returnHome": "Volver al inicio"
+    "returnHome": "Volver al inicio",
+    "language": "Idioma",
+    "me": "Yo"
   },
   "errors": {
     "generic": "Algo salió mal. Inténtalo de nuevo."

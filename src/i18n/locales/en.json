@@ -685,7 +685,9 @@
     "emptyDash": "—",
     "optional": "optional",
     "pageNotFound": "Page not found",
-    "returnHome": "Return home"
+    "returnHome": "Return home",
+    "language": "Language",
+    "me": "Me"
   },
   "errors": {
     "generic": "Something went wrong. Please try again."
