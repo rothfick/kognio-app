@@ -242,7 +242,53 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
           </Button>
         )}
       </div>
+
+      {isFeatureEnabled("homework") && hasDiagnostic && (
+        <ChildHomeworkBlock childId={child.id} childName={child.display_name} />
+      )}
     </Surface>
+  );
+};
+
+const ChildHomeworkBlock = ({ childId, childName }: { childId: string; childName: string }) => {
+  const { t, i18n } = useTranslation();
+  const [generating, setGenerating] = useState(false);
+  const onGenerate = async () => {
+    setGenerating(true);
+    // Find latest diagnosis for child to seed
+    const { data: latest } = await supabase
+      .from("diagnostic_attempts")
+      .select("id, learning_domain_id, education_level_id")
+      .eq("child_id", childId).eq("status", "completed")
+      .order("completed_at", { ascending: false }).limit(1).maybeSingle();
+    if (!latest) {
+      setGenerating(false);
+      toast.error(t("homeworkToast.noContext"));
+      return;
+    }
+    const res = await generateHomework({
+      source_type: "diagnosis",
+      source_id: (latest as { id: string }).id,
+      owner_type: "child",
+      child_id: childId,
+      diagnostic_attempt_id: (latest as { id: string }).id,
+      learning_domain_id: (latest as { learning_domain_id: string | null }).learning_domain_id,
+      education_level_id: (latest as { education_level_id: string | null }).education_level_id,
+      language: langCode(i18n.language),
+      title_hint: t("homework.generateForChild", { name: childName }),
+    });
+    setGenerating(false);
+    if (res.ok) toast.success(t("homeworkToast.generated"));
+    else toast.error(t("homeworkToast.generateFailed"));
+  };
+  return (
+    <HomeworkWidget
+      childId={childId}
+      title={t("homework.generateForChild", { name: childName })}
+      showGenerate
+      onGenerate={onGenerate}
+      generating={generating}
+    />
   );
 };
 
