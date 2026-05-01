@@ -35,6 +35,33 @@ const AdminDashboard = () => {
   const [domainCounts, setDomainCounts] = useState<Array<{ domain: DomainRow; count: number }>>([]);
   const [levelCounts, setLevelCounts] = useState<Array<{ level: LevelRow; count: number }>>([]);
 
+  // Traceability stats
+  type TraceStats = {
+    withTaxonomy: number;
+    withCustomDomain: number;
+    mappedMastery: number;
+    unmappedMastery: number;
+    matchRate: number | null;
+    selfMastery: number;
+    parentChildMastery: number;
+    withAlgorithm: number;
+  };
+  const [trace, setTrace] = useState<TraceStats | null>(null);
+  type RecentRow = {
+    id: string;
+    created_at: string;
+    owner_type: "self" | "child";
+    domain: string | null;
+    level: string | null;
+    score: number | null;
+    mapped: number;
+    unmapped: number;
+    algorithm_version: string | null;
+    prompt_version: string | null;
+    source: string | null;
+  };
+  const [recent, setRecent] = useState<RecentRow[] | null>(null);
+
   useEffect(() => {
     (async () => {
       const [s, k, e, di, da, scoresRes, lp, see, lpiDone] = await Promise.all([
