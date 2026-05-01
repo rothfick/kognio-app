@@ -244,6 +244,12 @@ const TutorDashboard = () => {
               )}
             </Surface>
           </div>
+
+          {isFeatureEnabled("homework") && (
+            <div className="mt-6">
+              <HomeworkWidget tutorView title={t("homework.tutorTitle")} />
+            </div>
+          )}
         </DashboardShell>
       </AppShell>
     </RoleGate>
