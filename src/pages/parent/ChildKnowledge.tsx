@@ -23,9 +23,9 @@ import { toast } from "sonner";
 
 type Child = { id: string; display_name: string; grade_level: string | null; primary_subject: string | null };
 type KC = { id: string; code: string; name_pl: string; parent_kc_id: string | null; order_index: number };
-type Mastery = { kc_id: string; mastery_prob: number; source: string | null; last_updated: string | null };
+type Mastery = { kc_id: string; mastery_prob: number; source: string | null; last_updated: string | null; evidence?: { kc_label?: string; status?: string } | null };
 type Goal = { id: string; title: string; description: string | null; target_date: string | null; status: string; created_at: string };
-type LatestAttempt = { id: string; status: string; score: number | null; correct_items: number; total_items: number; completed_at: string | null };
+type LatestAttempt = { id: string; status: string; score: number | null; correct_items: number; total_items: number; completed_at: string | null; summary?: { kc_breakdown?: { kc_label: string; mastery_pct: number; status: string }[] } | null };
 
 const SUBJECT_CODE = "math_7_9";
 
@@ -88,7 +88,7 @@ const ChildKnowledge = () => {
     // Mastery
     const { data: m } = await supabase
       .from("child_kc_mastery")
-      .select("kc_id, mastery_prob, source, last_updated")
+      .select("kc_id, mastery_prob, source, last_updated, evidence")
       .eq("child_id", childId);
     const map: Record<string, Mastery> = {};
     (m as Mastery[] | null)?.forEach((r) => { map[r.kc_id] = r; });
@@ -97,7 +97,7 @@ const ChildKnowledge = () => {
     // Latest completed attempt
     const { data: la } = await supabase
       .from("diagnostic_attempts")
-      .select("id, status, score, correct_items, total_items, completed_at")
+      .select("id, status, score, correct_items, total_items, completed_at, summary")
       .eq("child_id", childId)
       .eq("status", "completed")
       .order("completed_at", { ascending: false })
@@ -125,6 +125,15 @@ const ChildKnowledge = () => {
   if (denied) return <Navigate to="/dashboard/parent" replace />;
 
   const trackedCount = Object.keys(mastery).length;
+  const dynamicRows = (latestAttempt?.summary?.kc_breakdown || []).map((row) => ({
+    label: row.kc_label,
+    mastery: Math.max(0, Math.min(1, Number(row.mastery_pct || 0) / 100)),
+    source: "diagnostic_ai_adaptive",
+  }));
+  const syntheticRows = Object.values(mastery)
+    .filter((m) => !kcs.some((kc) => kc.id === m.kc_id) && m.evidence?.kc_label)
+    .map((m) => ({ label: m.evidence!.kc_label!, mastery: Number(m.mastery_prob), source: m.source || "diagnostic_ai_adaptive" }));
+  const fallbackRows = dynamicRows.length ? dynamicRows : syntheticRows;
   const avgMastery = trackedCount === 0
     ? 0
     : Object.values(mastery).reduce((a, b) => a + Number(b.mastery_prob), 0) / trackedCount;
