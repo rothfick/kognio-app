@@ -791,6 +791,166 @@ export type Database = {
           },
         ]
       }
+      learning_plan_items: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          description: string | null
+          difficulty_level: number | null
+          estimated_minutes: number | null
+          evidence_ref: Json
+          id: string
+          kind: string
+          order_index: number
+          plan_id: string
+          rationale: string | null
+          skill_area: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          difficulty_level?: number | null
+          estimated_minutes?: number | null
+          evidence_ref?: Json
+          id?: string
+          kind?: string
+          order_index: number
+          plan_id: string
+          rationale?: string | null
+          skill_area?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          difficulty_level?: number | null
+          estimated_minutes?: number | null
+          evidence_ref?: Json
+          id?: string
+          kind?: string
+          order_index?: number
+          plan_id?: string
+          rationale?: string | null
+          skill_area?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "learning_plan_items_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "learning_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      learning_plans: {
+        Row: {
+          algorithm_version: string
+          approved_at: string | null
+          archived_at: string | null
+          child_id: string | null
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          diagnostic_attempt_id: string | null
+          domain: string | null
+          evidence: Json
+          generated_at: string | null
+          generated_by: string
+          id: string
+          level: string | null
+          owner_type: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          algorithm_version?: string
+          approved_at?: string | null
+          archived_at?: string | null
+          child_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          diagnostic_attempt_id?: string | null
+          domain?: string | null
+          evidence?: Json
+          generated_at?: string | null
+          generated_by?: string
+          id?: string
+          level?: string | null
+          owner_type: string
+          status?: string
+          title: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          algorithm_version?: string
+          approved_at?: string | null
+          archived_at?: string | null
+          child_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          diagnostic_attempt_id?: string | null
+          domain?: string | null
+          evidence?: Json
+          generated_at?: string | null
+          generated_by?: string
+          id?: string
+          level?: string | null
+          owner_type?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "learning_plans_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_plans_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_plans_diagnostic_attempt_id_fkey"
+            columns: ["diagnostic_attempt_id"]
+            isOneToOne: false
+            referencedRelation: "diagnostic_attempts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_plans_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organization_invites: {
         Row: {
           accepted_at: string | null
@@ -1381,6 +1541,90 @@ export type Database = {
             columns: ["booking_id"]
             isOneToOne: true
             referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      smart_evidence_events: {
+        Row: {
+          algorithm_version: string | null
+          child_id: string | null
+          created_at: string
+          created_by: string | null
+          diagnostic_attempt_id: string | null
+          event_type: string
+          id: string
+          input_summary: Json
+          learning_plan_id: string | null
+          metrics: Json
+          output_summary: Json
+          owner_type: string | null
+          user_id: string | null
+        }
+        Insert: {
+          algorithm_version?: string | null
+          child_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          diagnostic_attempt_id?: string | null
+          event_type: string
+          id?: string
+          input_summary?: Json
+          learning_plan_id?: string | null
+          metrics?: Json
+          output_summary?: Json
+          owner_type?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          algorithm_version?: string | null
+          child_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          diagnostic_attempt_id?: string | null
+          event_type?: string
+          id?: string
+          input_summary?: Json
+          learning_plan_id?: string | null
+          metrics?: Json
+          output_summary?: Json
+          owner_type?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "smart_evidence_events_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "smart_evidence_events_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "smart_evidence_events_diagnostic_attempt_id_fkey"
+            columns: ["diagnostic_attempt_id"]
+            isOneToOne: false
+            referencedRelation: "diagnostic_attempts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "smart_evidence_events_learning_plan_id_fkey"
+            columns: ["learning_plan_id"]
+            isOneToOne: false
+            referencedRelation: "learning_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "smart_evidence_events_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
