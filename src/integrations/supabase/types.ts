@@ -671,6 +671,142 @@ export type Database = {
           },
         ]
       }
+      organization_invites: {
+        Row: {
+          accepted_at: string | null
+          accepted_by: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string
+          member_role: Database["public"]["Enums"]["org_member_role"]
+          organization_id: string
+          status: Database["public"]["Enums"]["org_invite_status"]
+          token: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          created_at?: string
+          email: string
+          expires_at?: string
+          id?: string
+          invited_by: string
+          member_role?: Database["public"]["Enums"]["org_member_role"]
+          organization_id: string
+          status?: Database["public"]["Enums"]["org_invite_status"]
+          token?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string
+          member_role?: Database["public"]["Enums"]["org_member_role"]
+          organization_id?: string
+          status?: Database["public"]["Enums"]["org_invite_status"]
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_invites_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organization_members: {
+        Row: {
+          id: string
+          invited_by: string | null
+          joined_at: string
+          member_role: Database["public"]["Enums"]["org_member_role"]
+          organization_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          invited_by?: string | null
+          joined_at?: string
+          member_role?: Database["public"]["Enums"]["org_member_role"]
+          organization_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          invited_by?: string | null
+          joined_at?: string
+          member_role?: Database["public"]["Enums"]["org_member_role"]
+          organization_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_members_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          city: string | null
+          country: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_verified: boolean
+          logo_url: string | null
+          name: string
+          org_type: Database["public"]["Enums"]["org_type"]
+          owner_id: string
+          slug: string
+          tax_id: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_verified?: boolean
+          logo_url?: string | null
+          name: string
+          org_type: Database["public"]["Enums"]["org_type"]
+          owner_id: string
+          slug: string
+          tax_id?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_verified?: boolean
+          logo_url?: string | null
+          name?: string
+          org_type?: Database["public"]["Enums"]["org_type"]
+          owner_id?: string
+          slug?: string
+          tax_id?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       parent_children: {
         Row: {
           consent_signed_at: string
@@ -1357,6 +1493,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_org_invite: { Args: { _token: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1370,6 +1507,14 @@ export type Database = {
       }
       is_circle_member: {
         Args: { _circle: string; _user: string }
+        Returns: boolean
+      }
+      is_org_admin: {
+        Args: { _org_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_org_member: {
+        Args: { _org_id: string; _user_id: string }
         Returns: boolean
       }
       is_parent_of: {
@@ -1386,7 +1531,13 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "student" | "tutor" | "admin" | "parent"
+      app_role:
+        | "student"
+        | "tutor"
+        | "admin"
+        | "parent"
+        | "school"
+        | "training_company"
       booking_status:
         | "pending"
         | "confirmed"
@@ -1394,6 +1545,9 @@ export type Database = {
         | "completed"
         | "no_show"
       circle_role: "owner" | "mentor" | "member"
+      org_invite_status: "pending" | "accepted" | "revoked" | "expired"
+      org_member_role: "owner" | "admin" | "teacher" | "student" | "observer"
+      org_type: "school" | "training_company"
       payment_method_type: "blik" | "iban" | "revolut" | "paypal" | "other"
       payment_status: "pending" | "marked_paid" | "confirmed" | "disputed"
       peer_request_status: "open" | "matched" | "resolved" | "cancelled"
@@ -1524,7 +1678,14 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["student", "tutor", "admin", "parent"],
+      app_role: [
+        "student",
+        "tutor",
+        "admin",
+        "parent",
+        "school",
+        "training_company",
+      ],
       booking_status: [
         "pending",
         "confirmed",
@@ -1533,6 +1694,9 @@ export const Constants = {
         "no_show",
       ],
       circle_role: ["owner", "mentor", "member"],
+      org_invite_status: ["pending", "accepted", "revoked", "expired"],
+      org_member_role: ["owner", "admin", "teacher", "student", "observer"],
+      org_type: ["school", "training_company"],
       payment_method_type: ["blik", "iban", "revolut", "paypal", "other"],
       payment_status: ["pending", "marked_paid", "confirmed", "disputed"],
       peer_request_status: ["open", "matched", "resolved", "cancelled"],

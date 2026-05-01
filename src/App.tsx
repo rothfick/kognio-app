@@ -27,6 +27,8 @@ import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import Profile from "./pages/Profile";
 import ChildKnowledge from "./pages/parent/ChildKnowledge";
 import ChildDiagnostic from "./pages/parent/ChildDiagnostic";
+import { SchoolDashboard, CompanyDashboard } from "./pages/dashboard/OrgDashboard";
+import OrgInviteAccept from "./pages/OrgInviteAccept";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +50,9 @@ const App = () => (
             <Route path="/parent/children/:childId/diagnostic" element={<ProtectedRoute><ChildDiagnostic /></ProtectedRoute>} />
             <Route path="/dashboard/tutor" element={<ProtectedRoute><TutorDashboard /></ProtectedRoute>} />
             <Route path="/dashboard/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/dashboard/school" element={<ProtectedRoute><SchoolDashboard /></ProtectedRoute>} />
+            <Route path="/dashboard/company" element={<ProtectedRoute><CompanyDashboard /></ProtectedRoute>} />
+            <Route path="/org/invite/:token" element={<ProtectedRoute><OrgInviteAccept /></ProtectedRoute>} />
             <Route path="/dashboard/legacy" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/discover" element={<ProtectedRoute><Discover /></ProtectedRoute>} />

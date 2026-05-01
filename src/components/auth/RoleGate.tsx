@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { useUserRoles } from "@/hooks/useUserRoles";
+import { useUserRoles, AppRole } from "@/hooks/useUserRoles";
 import { Navigate } from "react-router-dom";
 import { AppShell } from "@/components/layout/AppShell";
 
@@ -9,11 +9,11 @@ export function RoleGate({
   children,
   fallback = "/dashboard",
 }: {
-  allow: Array<"student" | "tutor" | "admin" | "parent">;
+  allow: AppRole[];
   children: ReactNode;
   fallback?: string;
 }) {
-  const { loading, isStudent, isTutor, isAdmin, isParent } = useUserRoles();
+  const { loading, roles } = useUserRoles();
 
   if (loading) {
     return (
@@ -23,12 +23,7 @@ export function RoleGate({
     );
   }
 
-  const ok =
-    (allow.includes("student") && isStudent) ||
-    (allow.includes("tutor") && isTutor) ||
-    (allow.includes("admin") && isAdmin) ||
-    (allow.includes("parent") && isParent);
-
+  const ok = allow.some((r) => roles.includes(r));
   if (!ok) return <Navigate to={fallback} replace />;
   return <>{children}</>;
 }
