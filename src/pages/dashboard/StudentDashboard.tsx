@@ -19,6 +19,8 @@ import {
   Brain, Calendar as CalIcon, ClipboardList, Sparkles, BookOpen, ArrowRight, Search, TrendingUp,
 } from "lucide-react";
 import { isFeatureEnabled } from "@/config/features";
+import { UpcomingBookingCard } from "@/components/booking/UpcomingBookingCard";
+import { useUpcomingBookings } from "@/hooks/useUpcomingBookings";
 
 type KcRow = { kc_label: string; mastery_pct: number; status: string };
 type LatestPlan = { id: string; status: string; title: string };
@@ -218,16 +220,7 @@ const StudentDashboard = () => {
           {(isFeatureEnabled("booking") || isFeatureEnabled("homework")) && (
             <div className="grid gap-5 md:grid-cols-2">
               {isFeatureEnabled("booking") && (
-                <Surface className="p-5">
-                  <h2 className="font-semibold mb-3 flex items-center gap-2"><CalIcon className="h-4 w-4 text-accent" /> {t("student.upcomingLessons")}</h2>
-                  <EmptyState
-                    icon={Search}
-                    title={t("student.noLessonsTitle")}
-                    description={t("student.noLessonsDesc")}
-                    ctaLabel={isFeatureEnabled("tutorMarketplace") ? t("student.findTutorCta") : undefined}
-                    ctaTo={isFeatureEnabled("tutorMarketplace") ? "/discover" : undefined}
-                  />
-                </Surface>
+                <StudentUpcomingBookings hasWeakAreas={kcAreas.some((k) => Number(k.mastery_pct || 0) < 50)} />
               )}
               {isFeatureEnabled("homework") && (
                 <Surface className="p-5">
@@ -251,6 +244,19 @@ const NextBestStepBlock = () => {
   const nb = useNextBestAction();
   if (nb.loading || nb.mode !== "self") return null;
   return <div className="mb-6"><NextBestActionCard action={nb.action} /></div>;
+};
+
+const StudentUpcomingBookings = ({ hasWeakAreas }: { hasWeakAreas: boolean }) => {
+  const { t } = useTranslation();
+  const { items, loading } = useUpcomingBookings("student_self");
+  return (
+    <UpcomingBookingCard
+      loading={loading}
+      items={items}
+      emptyShowFindTutor={isFeatureEnabled("tutorMarketplace")}
+      emptyHint={items.length === 0 && hasWeakAreas ? t("dashboardBooking.weakAreasHint") : undefined}
+    />
+  );
 };
 
 export default StudentDashboard;
