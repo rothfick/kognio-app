@@ -1133,6 +1133,115 @@ export type Database = {
           },
         ]
       }
+      learning_checkpoints: {
+        Row: {
+          algorithm_version: string
+          baseline_diagnostic_attempt_id: string | null
+          baseline_score: number | null
+          checkpoint_diagnostic_attempt_id: string | null
+          checkpoint_score: number | null
+          child_id: string | null
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          learning_plan_id: string | null
+          mastery_delta: Json
+          owner_type: string
+          score_delta: number | null
+          status: string
+          summary: Json
+          trigger_reason: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          algorithm_version?: string
+          baseline_diagnostic_attempt_id?: string | null
+          baseline_score?: number | null
+          checkpoint_diagnostic_attempt_id?: string | null
+          checkpoint_score?: number | null
+          child_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          learning_plan_id?: string | null
+          mastery_delta?: Json
+          owner_type: string
+          score_delta?: number | null
+          status?: string
+          summary?: Json
+          trigger_reason?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          algorithm_version?: string
+          baseline_diagnostic_attempt_id?: string | null
+          baseline_score?: number | null
+          checkpoint_diagnostic_attempt_id?: string | null
+          checkpoint_score?: number | null
+          child_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          learning_plan_id?: string | null
+          mastery_delta?: Json
+          owner_type?: string
+          score_delta?: number | null
+          status?: string
+          summary?: Json
+          trigger_reason?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "learning_checkpoints_baseline_diagnostic_attempt_id_fkey"
+            columns: ["baseline_diagnostic_attempt_id"]
+            isOneToOne: false
+            referencedRelation: "diagnostic_attempts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_checkpoints_checkpoint_diagnostic_attempt_id_fkey"
+            columns: ["checkpoint_diagnostic_attempt_id"]
+            isOneToOne: false
+            referencedRelation: "diagnostic_attempts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_checkpoints_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_checkpoints_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_checkpoints_learning_plan_id_fkey"
+            columns: ["learning_plan_id"]
+            isOneToOne: false
+            referencedRelation: "learning_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_checkpoints_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       learning_domains: {
         Row: {
           code: string

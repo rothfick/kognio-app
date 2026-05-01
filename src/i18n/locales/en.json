@@ -1003,5 +1003,63 @@
     "anonymous": "—",
     "infoTitle": "Why it matters (FENG / SMART)",
     "infoBody": "This panel shows whether Kogni diagnostics are structurally linked to the competency graph. This makes it possible to document which knowledge areas were detected, how they were mapped to competencies, and which algorithm version produced the result."
+  },
+  "checkpoint": {
+    "checkProgress": "Check progress",
+    "checkProgressHelper": "Kogni will run a short follow-up diagnosis and compare it with your baseline.",
+    "notEligible": "Complete at least 3 plan steps to check progress.",
+    "starting": "Preparing checkpoint diagnosis…",
+    "modeBadge": "Checkpoint diagnosis",
+    "modeNote": "This is a checkpoint diagnosis tied to your learning plan.",
+    "reportTitle": "Progress report",
+    "reportSubtitle": "Comparison between baseline and checkpoint diagnoses",
+    "baselineScore": "Baseline score",
+    "checkpointScore": "Checkpoint score",
+    "scoreDelta": "Score change",
+    "completedItems": "Completed plan steps",
+    "averageDelta": "Average mastery change",
+    "interpretationTitle": "What this means",
+    "interpretation": {
+      "strong_improvement": "Clear improvement compared to the baseline. The plan is working.",
+      "modest_improvement": "Small but measurable improvement. Worth continuing.",
+      "stable": "Result stayed at a similar level. This is normal early in learning.",
+      "slight_regression": "Result dropped slightly. Review the weaker areas.",
+      "regression": "Result dropped noticeably. Consider revisiting basics before moving on.",
+      "neutral_no_baseline": "No baseline diagnosis available for comparison."
+    },
+    "areasTable": "Area comparison",
+    "colArea": "Area / competency",
+    "colBefore": "Before",
+    "colAfter": "After",
+    "colDelta": "Change",
+    "colStatus": "Status",
+    "noBefore": "—",
+    "evidenceTitle": "Evidence (SMART)",
+    "evidenceBaseline": "Baseline diagnosis",
+    "evidenceCheckpoint": "Checkpoint diagnosis",
+    "evidencePlan": "Learning plan",
+    "evidenceAlgorithm": "Algorithm version",
+    "actions": {
+      "backToPlan": "Back to plan",
+      "continueLearning": "Continue learning",
+      "generateNextPlan": "Next plan (coming soon)",
+      "back": "Back"
+    },
+    "status": {
+      "pending": "pending",
+      "in_progress": "in progress",
+      "completed": "completed",
+      "cancelled": "cancelled"
+    },
+    "latestTitle": "Latest progress report",
+    "latestSubtitle": "Result {{delta}} vs baseline",
+    "viewReport": "View progress report",
+    "denied": "You don't have access to this report.",
+    "improvedAreas": "Improved areas",
+    "regressedAreas": "Regressed areas",
+    "unchangedAreas": "Unchanged",
+    "areaOnlyBefore": "Only in baseline",
+    "noAreas": "No comparison data.",
+    "credibility": "This report is based on structured diagnostic data, without subjective judgment."
   }
 }
