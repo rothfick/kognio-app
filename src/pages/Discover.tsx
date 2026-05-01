@@ -42,18 +42,27 @@ const localizedName = (
   return row.name_pl;
 };
 
+const DEFAULTS = { q: "", domain: "all", level: "all", language: "all", maxPrice: "", minRating: "any" };
+
 const Marketplace = () => {
   const { t, i18n } = useTranslation();
-  const [q, setQ] = useState("");
-  const [domain, setDomain] = useState<string>("all");
-  const [level, setLevel] = useState<string>("all");
-  const [language, setLanguage] = useState<string>("all");
-  const [maxPrice, setMaxPrice] = useState<string>("");
-  const [minRating, setMinRating] = useState<string>("any");
+  const [q, setQ] = useState(DEFAULTS.q);
+  const [domain, setDomain] = useState<string>(DEFAULTS.domain);
+  const [level, setLevel] = useState<string>(DEFAULTS.level);
+  const [language, setLanguage] = useState<string>(DEFAULTS.language);
+  const [maxPrice, setMaxPrice] = useState<string>(DEFAULTS.maxPrice);
+  const [minRating, setMinRating] = useState<string>(DEFAULTS.minRating);
   const [tutors, setTutors] = useState<TutorRow[]>([]);
   const [domains, setDomains] = useState<DomainOpt[]>([]);
   const [levels, setLevels] = useState<LevelOpt[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const resetFilters = () => {
+    setQ(DEFAULTS.q); setDomain(DEFAULTS.domain); setLevel(DEFAULTS.level);
+    setLanguage(DEFAULTS.language); setMaxPrice(DEFAULTS.maxPrice); setMinRating(DEFAULTS.minRating);
+  };
+  const filtersDirty = q !== DEFAULTS.q || domain !== DEFAULTS.domain || level !== DEFAULTS.level
+    || language !== DEFAULTS.language || maxPrice !== DEFAULTS.maxPrice || minRating !== DEFAULTS.minRating;
 
   useEffect(() => {
     (async () => {
