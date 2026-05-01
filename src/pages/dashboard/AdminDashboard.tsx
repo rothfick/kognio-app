@@ -8,6 +8,7 @@ import { StatCard } from "@/components/ui/stat-card";
 import { EmptyState } from "@/components/EmptyState";
 import { ShieldCheck, AlertTriangle, Sparkles, Activity, ClipboardList, GraduationCap, Network, BookOpen, ListChecks, ClipboardCheck, Globe2, Layers, Library, BadgeCheck, Telescope, Link2, Unlink, Percent, User, Users, Cpu, TrendingUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { ExpertReviewAdminPanel } from "@/components/expert-review/ExpertReviewAdminPanel";
 
 type DomainRow = { id: string; name_pl: string; name_en: string | null; name_es: string | null };
 type LevelRow = { id: string; name_pl: string; name_en: string | null; name_es: string | null; order_index: number };
@@ -381,6 +382,8 @@ const AdminDashboard = () => {
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed">{t("traceability.infoBody")}</p>
           </Surface>
+
+          <ExpertReviewAdminPanel />
 
           <Surface className="p-5 mb-6 border-accent/40">
             <h2 className="font-semibold mb-2 flex items-center gap-2">
