@@ -585,7 +585,21 @@
     "setAvailability": "Configurar disponibilidad",
     "afterLessonNotes": "Notas tras la clase",
     "noNotesTitle": "Sin notas por completar",
-    "noNotesDesc": "Tras cada clase rellenarás un breve formulario — la IA preparará un borrador inicial del informe."
+    "noNotesDesc": "Tras cada clase rellenarás un breve formulario — la IA preparará un borrador inicial del informe.",
+    "onboardingTitle": "Configura tu perfil de tutor",
+    "onboardingBody": "Envía tu perfil para que el equipo de Kogni lo verifique.",
+    "onboardingCta": "Iniciar onboarding",
+    "rejectedTitle": "El perfil necesita cambios",
+    "rejectedBody": "Revisa las notas del revisor y reenvía tu perfil.",
+    "editProfileCta": "Editar perfil",
+    "paymentPendingTitle": "{{count}} pago(s) pendientes de confirmación",
+    "paymentPendingBody": "Revisa el comprobante y confirma en el calendario.",
+    "reviewPayments": "Revisar pagos",
+    "notesPending": "Sesiones esperando nota",
+    "notesPendingTitle": "{{count}} nota(s) por escribir",
+    "notesPendingBody": "Añade un breve resumen para que tus estudiantes vean los próximos pasos.",
+    "openCalendar": "Abrir calendario",
+    "viewPublic": "Ver perfil público"
   },
   "admin": {
     "verifications": "Verificaciones de tutores",
@@ -2190,5 +2204,37 @@
       "title": "Reserva cancelada",
       "body": "La sesión ha sido cancelada."
     }
+  },
+  "dashboardBooking": {
+    "upcomingTitle": "Próximas sesiones",
+    "openCalendar": "Abrir calendario",
+    "with": "Con",
+    "emptyTitle": "Sin sesiones próximas",
+    "emptyDesc": "Cuando reserves una sesión aparecerá aquí.",
+    "findTutorCta": "Buscar tutor",
+    "weakAreasHint": "Un tutor puede ayudarte con las áreas débiles de tu plan de aprendizaje.",
+    "paymentAttentionTitle": "Acción de pago requerida",
+    "paymentAttentionBody": "{{count}} sesión(es) esperando comprobante de pago.",
+    "uploadProofCta": "Subir comprobante"
+  },
+  "adminBooking": {
+    "section": "Marketplace y reservas",
+    "verifiedTutors": "Tutores verificados",
+    "pendingTutors": "Tutores pendientes",
+    "pendingTutorsHint": "Esperando verificación",
+    "rejectedTutors": "Tutores rechazados",
+    "totalBookings": "Reservas totales",
+    "upcomingBookings": "Reservas próximas",
+    "completedBookings": "Sesiones completadas",
+    "cancelledBookings": "Reservas canceladas",
+    "pendingPayments": "Pagos pendientes",
+    "pendingPaymentsHint": "No pagados o esperando confirmación",
+    "confirmedPayments": "Pagos confirmados",
+    "disputedPayments": "Pagos en disputa",
+    "evBookingCreated": "Reservas creadas",
+    "evPaymentConfirmed": "Pagos confirmados",
+    "evSessionCompleted": "Sesiones completadas",
+    "evTutorNote": "Notas de tutor enviadas",
+    "note": "Los contadores del marketplace usan el mismo pipeline SMART evidence que el diagnóstico y los planes."
   }
 }
