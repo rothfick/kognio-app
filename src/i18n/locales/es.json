@@ -1171,5 +1171,91 @@
       "tutor": "Tutor",
       "admin": "Administrador"
     }
+  },
+  "research": {
+    "title": "Panel de investigación y validación",
+    "subtitle": "Datos para validar la eficacia de Kogni, documentación I+D e informes SMART/FENG.",
+    "adminLink": {
+      "eyebrow": "I+D / SMART",
+      "hint": "Abre el panel de investigación y exporta el informe SMART."
+    },
+    "sections": {
+      "keyMetrics": "Métricas clave",
+      "outcome": "Resultados de aprendizaje",
+      "expert": "Validación experta",
+      "traceability": "Trazabilidad de competencias"
+    },
+    "metrics": {
+      "totalDiagnostics": "Diagnósticos totales",
+      "diagWithTaxonomy": "Diagnósticos con taxonomía",
+      "mappedMastery": "Filas de dominio mapeadas",
+      "unmappedSkillAreas": "Áreas IA sin mapear",
+      "plansGenerated": "Planes de aprendizaje",
+      "planItemsDone": "Pasos del plan completados",
+      "checkpointsCompleted": "Checkpoints completados",
+      "avgScoreDelta": "Diferencia media de puntuación",
+      "avgMasteryDelta": "Diferencia media de dominio",
+      "expertReviewsSubmitted": "Revisiones expertas",
+      "avgAgreement": "Acuerdo medio IA–experto",
+      "correctionRate": "Tasa de corrección",
+      "smartEventsCount": "Eventos SMART",
+      "algoVersionsCount": "Versiones de algoritmos"
+    },
+    "outcome": {
+      "avgBaseline": "Puntuación base media",
+      "avgCheckpoint": "Puntuación checkpoint media",
+      "avgScoreDelta": "Diferencia media de puntuación",
+      "avgPlanCompletion": "Finalización media del plan",
+      "improvedPct": "Mejoró",
+      "unchangedPct": "Sin cambios",
+      "regressedPct": "Retrocedió",
+      "avgMasteryDelta": "Diferencia media de dominio"
+    },
+    "expert": {
+      "verdicts": "Veredictos de ítems",
+      "byType": "Revisiones por tipo",
+      "recent": "Recientes enviadas"
+    },
+    "traceability": {
+      "mapping": "Cobertura de mapeo",
+      "mapped": "Mapeado",
+      "unmapped": "Sin mapear",
+      "topDomains": "Top dominios (diagnósticos)",
+      "topLevels": "Top niveles educativos",
+      "topSkillLabels": "Top etiquetas IA",
+      "topWeak": "Top competencias débiles"
+    },
+    "empty": {
+      "outcome": "Sin checkpoints completados: las métricas aparecerán tras la primera medición de progreso.",
+      "expert": "Aún no hay revisiones expertas enviadas."
+    },
+    "readiness": {
+      "title": "Preparación de evidencia SMART",
+      "disclaimer": "Es una heurística interna, no una puntuación oficial de subvención."
+    }
+  },
+  "validation": {
+    "stage": "Etapa"
+  },
+  "funnel": {
+    "title": "Embudo de validación",
+    "conversion": "conversión",
+    "stages": {
+      "diagnosis_completed": "Diagnóstico completado",
+      "plan_generated": "Plan generado",
+      "plan_item_completed": "Paso del plan completado",
+      "checkpoint_completed": "Checkpoint completado",
+      "expert_review_submitted": "Revisión experta enviada"
+    }
+  },
+  "export": {
+    "smartReport": "Exportar informe SMART"
+  },
+  "algorithm": {
+    "registry": "Registro de versiones de algoritmos",
+    "version": "Versión",
+    "source": "Fuente",
+    "count": "Ocurrencias",
+    "latest": "Último uso"
   }
 }
