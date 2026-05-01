@@ -1,7 +1,7 @@
 import {
   LayoutDashboard, Search, Users, HandHelping, Calendar, Brain,
   Sparkles, FileText, FlaskConical, ShieldCheck,
-  Bell, Clock, BookOpen, GraduationCap, UserCheck,
+  Bell, Clock, BookOpen, GraduationCap, UserCheck, Pencil,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { AppRole } from "@/hooks/useUserRoles";
