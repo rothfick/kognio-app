@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Loader2, Sparkles, CheckCircle2, AlertCircle, Brain, Target, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
+import { CurriculumPicker, type CurriculumSelection } from "@/components/diagnose/CurriculumPicker";
 
 type Choice = { id: string; text: string };
 type Item = { id: string; question: string; choices: Choice[]; kc_label: string; difficulty: number };
