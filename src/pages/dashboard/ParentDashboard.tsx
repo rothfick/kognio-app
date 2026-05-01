@@ -20,6 +20,9 @@ import { useNextBestAction } from "@/hooks/useJourneyState";
 import { isFeatureEnabled } from "@/config/features";
 import { UpcomingBookingCard } from "@/components/booking/UpcomingBookingCard";
 import { useUpcomingBookings } from "@/hooks/useUpcomingBookings";
+import { HomeworkWidget } from "@/components/homework/HomeworkWidget";
+import { generateHomework, langCode } from "@/lib/homeworkClient";
+import { toast } from "sonner";
 
 type ChildRow = {
   id: string;
