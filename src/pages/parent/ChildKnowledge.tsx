@@ -245,6 +245,8 @@ const ChildKnowledge = () => {
           <ChildPlanCard childId={childId!} attemptId={latestAttempt.id} />
         )}
 
+        <ChildCheckpointCard childId={childId!} />
+
         <GoalsSection
           childId={childId!}
           subjectId={subjectId}
