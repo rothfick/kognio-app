@@ -42,8 +42,24 @@ const StudentDashboard = () => {
         .maybeSingle();
       setLatestScore(data?.score === null || data?.score === undefined ? null : Number(data.score));
       setLatestAttemptId((data as { id?: string } | null)?.id ?? null);
-      const summary = (data as { summary?: { kc_breakdown?: KcRow[] } } | null)?.summary;
-      setKcAreas(Array.isArray(summary?.kc_breakdown) ? (summary!.kc_breakdown as KcRow[]) : []);
+
+      // Prefer structured user_competency_mastery if available
+      const { data: ucm } = await supabase
+        .from("user_competency_mastery")
+        .select("skill_area_label, mastery_prob")
+        .eq("user_id", user.id)
+        .order("last_updated", { ascending: false });
+      const ucmRows = (ucm || []) as { skill_area_label: string | null; mastery_prob: number }[];
+      if (ucmRows.length > 0) {
+        setKcAreas(ucmRows.filter((r) => r.skill_area_label).map((r) => ({
+          kc_label: r.skill_area_label!,
+          mastery_pct: Math.round(Number(r.mastery_prob || 0) * 100),
+          status: "",
+        })));
+      } else {
+        const summary = (data as { summary?: { kc_breakdown?: KcRow[] } } | null)?.summary;
+        setKcAreas(Array.isArray(summary?.kc_breakdown) ? (summary!.kc_breakdown as KcRow[]) : []);
+      }
 
       const { data: p } = await supabase
         .from("learning_plans")
