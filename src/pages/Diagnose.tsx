@@ -114,6 +114,18 @@ export default function Diagnose() {
       });
       if (error) throw error;
       if ((data as any)?.error) throw new Error((data as any).error);
+      if (user) {
+        await createNotification({
+          userId: user.id,
+          type: "checkpoint_completed",
+          severity: "success",
+          title: t("notifications.checkpoint_completed.title"),
+          body: t("notifications.checkpoint_completed.body"),
+          actionLabel: t("notifications.checkpoint_completed.action"),
+          actionUrl: `/checkpoints/${cpId}`,
+          metadata: { checkpoint_id: cpId },
+        });
+      }
       navigate(`/checkpoints/${cpId}`);
     } catch (e: any) {
       setFinalizeError(true);
@@ -121,7 +133,7 @@ export default function Diagnose() {
     } finally {
       setFinalizing(false);
     }
-  }, [navigate, t]);
+  }, [navigate, t, user]);
 
   const aiConsentType: "parent_child_data_processing" | "ai_diagnosis_notice" = childId ? "parent_child_data_processing" : "ai_diagnosis_notice";
   const { hasConsent: hasAiConsent, refresh: refreshConsent } = useConsent(aiConsentType, childId);
