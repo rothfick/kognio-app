@@ -27,6 +27,8 @@ import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import Profile from "./pages/Profile";
 import ChildKnowledge from "./pages/parent/ChildKnowledge";
 import ChildDiagnostic from "./pages/parent/ChildDiagnostic";
+import { SchoolDashboard, CompanyDashboard } from "./pages/dashboard/OrgDashboard";
+import OrgInviteAccept from "./pages/OrgInviteAccept";
 
 const queryClient = new QueryClient();
 
