@@ -8,8 +8,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Loader2, Upload, User as UserIcon } from "lucide-react";
+import { Loader2, Upload, User as UserIcon, GraduationCap, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
+import { useUserRoles } from "@/hooks/useUserRoles";
 
 const TZ_OPTIONS = [
   "Europe/Warsaw", "Europe/London", "Europe/Berlin", "Europe/Paris",
@@ -18,6 +20,7 @@ const TZ_OPTIONS = [
 
 const Profile = () => {
   const { user } = useAuth();
+  const { isTutor } = useUserRoles();
   const [displayName, setDisplayName] = useState("");
   const [fullName, setFullName] = useState("");
   const [bio, setBio] = useState("");
@@ -26,6 +29,21 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [becoming, setBecoming] = useState(false);
+
+  const becomeTutor = async () => {
+    if (!user) return;
+    setBecoming(true);
+    const { error: roleErr } = await supabase.from("user_roles").insert({ user_id: user.id, role: "tutor" });
+    if (roleErr && !roleErr.message.includes("duplicate")) { toast.error(roleErr.message); setBecoming(false); return; }
+    const { data: existing } = await supabase.from("tutor_profiles").select("user_id").eq("user_id", user.id).maybeSingle();
+    if (!existing) {
+      await supabase.from("tutor_profiles").insert({ user_id: user.id, hourly_rate_cents: 0, is_published: false });
+    }
+    toast.success("Witaj w gronie tutorów! Uzupełnij profil, by zostać opublikowanym.");
+    setBecoming(false);
+    window.location.href = "/settings";
+  };
 
   useEffect(() => {
     if (!user) return;
@@ -134,6 +152,32 @@ const Profile = () => {
           <Button onClick={save} disabled={saving} className="w-full bg-accent-gradient text-accent-foreground">
             {saving ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}Zapisz profil
           </Button>
+        </Card>
+
+        <Card className="p-6 mt-6 bg-gradient-to-br from-accent/5 to-primary/5 border-accent/20">
+          <div className="flex items-start gap-4">
+            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-accent/15 text-accent">
+              <GraduationCap className="h-6 w-6" />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-lg font-semibold mb-1">{isTutor ? "Twój profil tutora" : "Zostań tutorem"}</h2>
+              <p className="text-sm text-muted-foreground mb-4">
+                {isTutor
+                  ? "Edytuj headline, opis, stawkę i przedmioty, by uczniowie mogli Cię znaleźć."
+                  : "Ucz innych, dziel się wiedzą i zarabiaj na własnych warunkach. Platforma nie pobiera prowizji."}
+              </p>
+              {isTutor ? (
+                <Button asChild variant="outline">
+                  <Link to="/settings">Edytuj profil tutora <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                </Button>
+              ) : (
+                <Button onClick={becomeTutor} disabled={becoming} className="bg-accent-gradient text-accent-foreground">
+                  {becoming ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <GraduationCap className="h-4 w-4 mr-2" />}
+                  Zostań tutorem
+                </Button>
+              )}
+            </div>
+          </div>
         </Card>
       </div>
     </AppShell>
