@@ -117,26 +117,29 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
   const [avg, setAvg] = useState<number | null>(null);
   const [latestScore, setLatestScore] = useState<number | null>(null);
   const [hasDiagnostic, setHasDiagnostic] = useState<boolean>(false);
+  const [planId, setPlanId] = useState<string | null>(null);
+  const [planStatus, setPlanStatus] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const [{ data: m }, { data: la }] = await Promise.all([
+      const [{ data: m }, { data: la }, { data: pl }] = await Promise.all([
         supabase.from("child_kc_mastery").select("mastery_prob").eq("child_id", child.id),
         supabase.from("diagnostic_attempts")
-          .select("score")
-          .eq("child_id", child.id)
-          .eq("status", "completed")
-          .order("completed_at", { ascending: false })
-          .limit(1)
-          .maybeSingle(),
+          .select("score").eq("child_id", child.id).eq("status", "completed")
+          .order("completed_at", { ascending: false }).limit(1).maybeSingle(),
+        supabase.from("learning_plans")
+          .select("id, status").eq("child_id", child.id).neq("status", "archived")
+          .order("created_at", { ascending: false }).limit(1).maybeSingle(),
       ]);
       if (cancelled) return;
       const rows = (m || []) as { mastery_prob: number }[];
       setTrackedKcs(rows.length);
       setAvg(rows.length ? rows.reduce((a, r) => a + Number(r.mastery_prob), 0) / rows.length : null);
       setHasDiagnostic(!!la);
-      setLatestScore(la ? Number((la as any).score ?? 0) : null);
+      setLatestScore(la ? Number((la as { score?: number }).score ?? 0) : null);
+      setPlanId((pl as { id?: string } | null)?.id ?? null);
+      setPlanStatus((pl as { status?: string } | null)?.status ?? null);
     })();
     return () => { cancelled = true; };
   }, [child.id]);
