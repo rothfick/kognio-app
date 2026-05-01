@@ -211,7 +211,7 @@ const Dashboard = () => {
         <div className="grid gap-4 sm:grid-cols-3">
           <Stat icon={CalIcon} label={t("dashboardLegacy.upcomingSessions")} value={studentUpcoming.length} />
           <Stat icon={CreditCard} label={t("dashboardLegacy.unpaid")} value={studentUnpaid.length} hint={studentUnpaid.length ? t("dashboardLegacy.needsAction") : t("dashboardLegacy.allGood")} />
-          <Stat icon={Star} label="Karma" value={karma} hint={t("dashboardLegacy.karmaHint")} />
+          <Stat icon={Star} label={t("dashboardLegacy.karma")} value={karma} hint={t("dashboardLegacy.karmaHint")} />
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -332,7 +332,7 @@ const Dashboard = () => {
 
         <div className="grid gap-4 sm:grid-cols-4">
           <Stat icon={CalIcon} label={t("dashboardLegacy.upcomingSessions")} value={tutorUpcoming.length} />
-          <Stat icon={AlertCircle} label={t("dashboardLegacy.toConfirm")} value={tutorPending.length} hint={tutorPending.length ? t("dashboardLegacy.waitingApproval") : "Wszystko ogarnięte"} />
+          <Stat icon={AlertCircle} label={t("dashboardLegacy.toConfirm")} value={tutorPending.length} hint={tutorPending.length ? t("dashboardLegacy.waitingApproval") : t("dashboardLegacy.allCaughtUp")} />
           <Stat icon={Star} label={t("dashboardLegacy.rating")} value={tutorProfile?.rating?.toFixed(1) || "—"} hint={t("dashboardLegacy.sessionsCount", { count: tutorProfile?.sessions_completed || 0 })} />
           <Stat icon={Wallet} label={t("dashboardLegacy.confirmedEarnings")} value={`${(earnings / 100).toFixed(0)} zł`} />
         </div>
