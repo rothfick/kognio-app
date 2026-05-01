@@ -34,9 +34,14 @@ const SessionRoom = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.from("sessions").select("id, room_name, booking_id").eq("id", id as string).maybeSingle();
+      const { data } = await supabase.from("sessions").select("id, room_name, booking_id, started_at").eq("id", id as string).maybeSingle();
       setSession(data as any);
       if (!data) return;
+
+      // Oznacz start sesji przy pierwszym wejściu
+      if (!data.started_at) {
+        await supabase.from("sessions").update({ started_at: new Date().toISOString() }).eq("id", data.id);
+      }
 
       const [{ data: c }, { data: t }] = await Promise.all([
         supabase.from("session_chat").select("*").eq("session_id", data.id).order("created_at"),
