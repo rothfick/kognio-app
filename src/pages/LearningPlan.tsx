@@ -13,6 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Brain, CheckCircle2, Clock, ListChecks, Sparkles, SkipForward, Archive, Play, TrendingUp, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
+import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
 
 type Plan = {
   id: string;
