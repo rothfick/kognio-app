@@ -457,7 +457,16 @@
       "missingName": "Please enter the child's name.",
       "missingConsent": "Parent/guardian consent is required.",
       "created": "Child profile added.",
-      "createFailed": "Could not add child profile."
+      "createFailed": "Could not add child profile.",
+      "subjectOptions": [
+        "Math",
+        "Physics",
+        "Chemistry",
+        "Biology",
+        "Polish",
+        "English",
+        "Computer science"
+      ]
     }
   },
   "knowledge": {
@@ -674,7 +683,9 @@
     "start": "Start",
     "stop": "Stop",
     "emptyDash": "—",
-    "optional": "optional"
+    "optional": "optional",
+    "pageNotFound": "Page not found",
+    "returnHome": "Return home"
   },
   "errors": {
     "generic": "Something went wrong. Please try again."
@@ -827,6 +838,8 @@
     "tutorShortcuts": "Tutor shortcuts",
     "editProfileRates": "Edit profile and rates",
     "viewPublicProfile": "View your public profile",
-    "confirmedToast": "Booking confirmed — you can enter the session!"
+    "confirmedToast": "Booking confirmed — you can enter the session!",
+    "karma": "Karma",
+    "allCaughtUp": "All caught up"
   }
 }
