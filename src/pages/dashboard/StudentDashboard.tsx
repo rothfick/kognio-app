@@ -17,23 +17,28 @@ import {
   Brain, Calendar as CalIcon, ClipboardList, Sparkles, BookOpen, ArrowRight, Search,
 } from "lucide-react";
 
+type KcRow = { kc_label: string; mastery_pct: number; status: string };
+
 const StudentDashboard = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [latestScore, setLatestScore] = useState<number | null>(null);
+  const [kcAreas, setKcAreas] = useState<KcRow[]>([]);
 
   useEffect(() => {
     if (!user) return;
     (async () => {
       const { data } = await supabase
         .from("diagnostic_attempts")
-        .select("score")
+        .select("score, summary")
         .eq("user_id", user.id)
         .eq("status", "completed")
         .order("completed_at", { ascending: false })
         .limit(1)
         .maybeSingle();
       setLatestScore(data?.score === null || data?.score === undefined ? null : Number(data.score));
+      const summary = (data as { summary?: { kc_breakdown?: KcRow[] } } | null)?.summary;
+      setKcAreas(Array.isArray(summary?.kc_breakdown) ? (summary!.kc_breakdown as KcRow[]) : []);
     })();
   }, [user]);
 
@@ -89,6 +94,29 @@ const StudentDashboard = () => {
               <p className="text-xs text-muted-foreground mt-3">{latestScore === null ? t("student.mapAfterDiag") : t("student.mapBuiltAfterDiag")}</p>
             </Surface>
           </div>
+
+          {kcAreas.length > 0 && (
+            <Surface className="p-5 mb-6">
+              <h2 className="font-semibold mb-3 flex items-center gap-2 text-base">
+                <Sparkles className="h-4 w-4 text-accent" /> {t("knowledge.aiDiagnosisAreas")}
+              </h2>
+              <ul className="grid gap-2 sm:grid-cols-2">
+                {kcAreas.map((row, i) => {
+                  const pct = Math.max(0, Math.min(100, Math.round(Number(row.mastery_pct || 0))));
+                  const lvl = pct < 25 ? "novice" : pct < 50 ? "developing" : pct < 80 ? "proficient" : "mastered";
+                  return (
+                    <li key={`${row.kc_label}-${i}`} className="flex items-center justify-between gap-3 rounded-md border bg-card-soft px-3 py-2">
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium truncate">{row.kc_label}</p>
+                        <p className="text-[11px] text-muted-foreground">{pct}%</p>
+                      </div>
+                      <MasteryBadge level={lvl as "novice" | "developing" | "proficient" | "mastered"} />
+                    </li>
+                  );
+                })}
+              </ul>
+            </Surface>
+          )}
 
           <div className="grid gap-5 md:grid-cols-2">
             <Surface className="p-5">
