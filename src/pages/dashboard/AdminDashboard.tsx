@@ -45,47 +45,47 @@ const AdminDashboard = () => {
           <DashboardHeader title={t("dashboard.adminTitle")} subtitle={t("dashboard.adminSubtitle")} />
 
           <div className="grid gap-4 sm:grid-cols-4 mb-6">
-            <StatCard icon={ShieldCheck} label="Weryfikacje tutorów" value="0" hint="W kolejce" />
-            <StatCard icon={AlertTriangle} label="Spory płatnicze" value="0" />
-            <StatCard icon={Sparkles} label="Flagi AI" value="0" hint="Wymagające przeglądu" />
-            <StatCard icon={Activity} label="Health" value="OK" hint="Wszystkie usługi działają" />
+            <StatCard icon={ShieldCheck} label={t("admin.verifications")} value="0" hint={t("admin.verificationsHint")} />
+            <StatCard icon={AlertTriangle} label={t("admin.disputes")} value="0" />
+            <StatCard icon={Sparkles} label={t("admin.aiFlags")} value="0" hint={t("admin.aiFlagsHint")} />
+            <StatCard icon={Activity} label="Health" value="OK" hint={t("admin.healthHint")} />
           </div>
 
           <Surface className="p-5 mb-6">
             <h2 className="font-semibold mb-3 flex items-center gap-2">
-              <GraduationCap className="h-4 w-4 text-accent" /> Curriculum / KC ontology
+              <GraduationCap className="h-4 w-4 text-accent" /> {t("admin.ontology")}
             </h2>
             <div className="grid gap-4 sm:grid-cols-3 mb-4">
-              <StatCard icon={BookOpen} label="Aktywne przedmioty" value={subjectsCount === null ? "…" : String(subjectsCount)} />
-              <StatCard icon={GraduationCap} label="Aktywne KC" value={kcCount === null ? "…" : String(kcCount)} />
-              <StatCard icon={Network} label="Powiązania prerekwizycji" value={edgeCount === null ? "…" : String(edgeCount)} />
+              <StatCard icon={BookOpen} label={t("admin.activeSubjects")} value={subjectsCount === null ? "…" : String(subjectsCount)} />
+              <StatCard icon={GraduationCap} label={t("admin.activeKc")} value={kcCount === null ? "…" : String(kcCount)} />
+              <StatCard icon={Network} label={t("admin.prereqs")} value={edgeCount === null ? "…" : String(edgeCount)} />
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
-              <StatCard icon={ListChecks} label="Pytania diagnostyczne" value={diagItems === null ? "…" : String(diagItems)} hint="Aktywne i zatwierdzone" />
-              <StatCard icon={ClipboardCheck} label="Ukończone diagnozy" value={diagAttempts === null ? "…" : String(diagAttempts)} />
-              <StatCard icon={Sparkles} label="Średni wynik diagnozy" value={diagAvgScore === null ? "—" : `${Math.round(diagAvgScore * 100)}%`} hint="Diagnoza v1" />
+              <StatCard icon={ListChecks} label={t("admin.diagItems")} value={diagItems === null ? "…" : String(diagItems)} hint={t("admin.diagItemsHint")} />
+              <StatCard icon={ClipboardCheck} label={t("admin.diagAttempts")} value={diagAttempts === null ? "…" : String(diagAttempts)} />
+              <StatCard icon={Sparkles} label={t("admin.diagAvg")} value={diagAvgScore === null ? "—" : `${Math.round(diagAvgScore * 100)}%`} hint={t("admin.diagAvgHint")} />
             </div>
             <p className="mt-3 text-[11px] text-muted-foreground">
-              Pełny edytor ontologii i bank pytań pojawi się w kolejnych iteracjach. Na razie dane seedowane przez migracje.
+              {t("admin.ontologyNote")}
             </p>
           </Surface>
 
           <div className="grid gap-5 md:grid-cols-2">
             <Surface className="p-5">
-              <h2 className="font-semibold mb-3 flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-accent" /> Weryfikacje tutorów</h2>
-              <EmptyState icon={ShieldCheck} title="Brak nowych zgłoszeń" description="Tutorzy oczekujący na ręczną weryfikację pojawią się tutaj." />
+              <h2 className="font-semibold mb-3 flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-accent" />{t("admin.verifications")}</h2>
+              <EmptyState icon={ShieldCheck} title={t("admin.verifNoneTitle")} description={t("admin.verifNoneDesc")} />
             </Surface>
             <Surface className="p-5">
-              <h2 className="font-semibold mb-3 flex items-center gap-2"><AlertTriangle className="h-4 w-4 text-accent" /> Spory płatnicze</h2>
-              <EmptyState icon={AlertTriangle} title="Brak otwartych sporów" description="Po wdrożeniu auto-dispute (D+7) niezatwierdzone wpłaty trafią tutaj." />
+              <h2 className="font-semibold mb-3 flex items-center gap-2"><AlertTriangle className="h-4 w-4 text-accent" />{t("admin.disputes")}</h2>
+              <EmptyState icon={AlertTriangle} title={t("admin.dispNoneTitle")} description={t("admin.dispNoneDesc")} />
             </Surface>
             <Surface className="p-5">
-              <h2 className="font-semibold mb-3 flex items-center gap-2"><Sparkles className="h-4 w-4 text-accent" /> Flagi AI</h2>
-              <EmptyState icon={Sparkles} title="Brak flag AI" description="System filtruje treści wymagające przeglądu (np. tematy banowane)." />
+              <h2 className="font-semibold mb-3 flex items-center gap-2"><Sparkles className="h-4 w-4 text-accent" />{t("admin.aiFlags")}</h2>
+              <EmptyState icon={Sparkles} title={t("admin.flagNoneTitle")} description={t("admin.flagNoneDesc")} />
             </Surface>
             <Surface className="p-5">
-              <h2 className="font-semibold mb-3 flex items-center gap-2"><ClipboardList className="h-4 w-4 text-accent" /> Audit log</h2>
-              <EmptyState icon={ClipboardList} title="Brak wpisów audytu" description="Wrażliwe akcje (zmiany ról, weryfikacje, edycje raportów) będą logowane tutaj." />
+              <h2 className="font-semibold mb-3 flex items-center gap-2"><ClipboardList className="h-4 w-4 text-accent" />{t("admin.auditTitle")}</h2>
+              <EmptyState icon={ClipboardList} title={t("admin.auditNoneTitle")} description={t("admin.auditNoneDesc")} />
             </Surface>
           </div>
         </DashboardShell>

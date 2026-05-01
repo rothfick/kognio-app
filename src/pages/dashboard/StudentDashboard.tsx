@@ -27,32 +27,32 @@ const StudentDashboard = () => {
           />
 
           <div className="grid gap-4 sm:grid-cols-3 mb-6">
-            <StatCard icon={Brain} label="Średnie opanowanie" value="—" hint="Pojawi się po pierwszej diagnozie" />
-            <StatCard icon={CalIcon} label="Najbliższa lekcja" value="—" hint="Brak zaplanowanych" />
-            <StatCard icon={ClipboardList} label="Zadania domowe" value="0" hint="Wszystko ogarnięte" />
+            <StatCard icon={Brain} label={t("student.avgMastery")} value="—" hint={t("student.avgMasteryHint")} />
+            <StatCard icon={CalIcon} label={t("student.nextLesson")} value="—" hint={t("student.noScheduled")} />
+            <StatCard icon={ClipboardList} label={t("student.homework")} value="0" hint={t("student.homeworkHint")} />
           </div>
 
           <div className="grid gap-5 md:grid-cols-3 mb-6">
-            <AIInsightCard title="Następny krok" className="md:col-span-2">
+            <AIInsightCard title={t("dashboard.nextStep")} className="md:col-span-2">
               <p>
-                Zrób adaptacyjną diagnozę AI z dowolnego przedmiotu — od szkoły podstawowej po studia. AI wygeneruje pytania w locie i pokaże mapę Twoich kompetencji oraz konkretne rekomendacje nauki.
+                {t("student.nextStepBody")}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
                   <Link to="/diagnose">
-                    Zrób diagnozę AI <ArrowRight className="ml-1 h-3.5 w-3.5" />
+                    {t("dashboard.diagnoseCta")} <ArrowRight className="ml-1 h-3.5 w-3.5" />
                   </Link>
                 </Button>
                 <Button asChild size="sm" variant="outline">
                   <Link to="/discover">
-                    Znajdź korepetytora <ArrowRight className="ml-1 h-3.5 w-3.5" />
+                    {t("student.findTutor")} <ArrowRight className="ml-1 h-3.5 w-3.5" />
                   </Link>
                 </Button>
               </div>
             </AIInsightCard>
             <Surface className="p-5">
               <div className="flex items-center justify-between mb-3">
-                <p className="text-[11px] uppercase tracking-wide text-muted-foreground font-medium">Twoje opanowanie</p>
+                <p className="text-[11px] uppercase tracking-wide text-muted-foreground font-medium">{t("student.yourMastery")}</p>
                 <Badge variant="secondary" className="text-[10px]">{t("dashboard.soonBadge")}</Badge>
               </div>
               <div className="flex flex-wrap gap-1.5">
@@ -60,27 +60,27 @@ const StudentDashboard = () => {
                 <MasteryBadge level="unknown" />
                 <MasteryBadge level="unknown" />
               </div>
-              <p className="text-xs text-muted-foreground mt-3">Mapa wiedzy zbuduje się po pierwszej diagnozie.</p>
+              <p className="text-xs text-muted-foreground mt-3">{t("student.mapAfterDiag")}</p>
             </Surface>
           </div>
 
           <div className="grid gap-5 md:grid-cols-2">
             <Surface className="p-5">
-              <h2 className="font-semibold mb-3 flex items-center gap-2"><CalIcon className="h-4 w-4 text-accent" /> Najbliższe lekcje</h2>
+              <h2 className="font-semibold mb-3 flex items-center gap-2"><CalIcon className="h-4 w-4 text-accent" /> {t("student.upcomingLessons")}</h2>
               <EmptyState
                 icon={Search}
-                title="Brak zaplanowanych lekcji"
-                description="Po diagnozie zaproponujemy Ci dopasowanego korepetytora."
-                ctaLabel="Znajdź tutora"
+                title={t("student.noLessonsTitle")}
+                description={t("student.noLessonsDesc")}
+                ctaLabel={t("student.findTutorCta")}
                 ctaTo="/discover"
               />
             </Surface>
             <Surface className="p-5">
-              <h2 className="font-semibold mb-3 flex items-center gap-2"><BookOpen className="h-4 w-4 text-accent" /> Zadania domowe</h2>
+              <h2 className="font-semibold mb-3 flex items-center gap-2"><BookOpen className="h-4 w-4 text-accent" /> {t("student.homeworkSection")}</h2>
               <EmptyState
                 icon={Sparkles}
-                title="Brak zadań"
-                description="Po pierwszej lekcji pojawią się tu spersonalizowane ćwiczenia."
+                title={t("student.noTasksTitle")}
+                description={t("student.noTasksDesc")}
               />
             </Surface>
           </div>
