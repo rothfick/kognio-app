@@ -142,12 +142,17 @@ const LiveLessonRoom = () => {
 
       // Optional context
       if (b.learning_plan_item_id) {
-        const { data: pi } = await supabase.from("learning_plan_items").select("skill_area_label").eq("id", b.learning_plan_item_id).maybeSingle();
-        setPlanItem((pi as { skill_area_label: string | null } | null) ?? null);
+        const { data: pi } = await supabase.from("learning_plan_items").select("skill_area").eq("id", b.learning_plan_item_id).maybeSingle();
+        if (pi) setPlanItem({ skill_area_label: (pi as { skill_area: string | null }).skill_area ?? null });
       }
       if (b.competency_id) {
-        const { data: c } = await supabase.from("competencies").select("name").eq("id", b.competency_id).maybeSingle();
-        setCompetency((c as { name: string } | null) ?? null);
+        const { data: c } = await supabase.from("competencies").select("name_pl, name_en, name_es").eq("id", b.competency_id).maybeSingle();
+        if (c) {
+          const cc = c as { name_pl: string | null; name_en: string | null; name_es: string | null };
+          const lang = (i18n.language || "pl").split("-")[0];
+          const nm = (lang === "en" ? cc.name_en : lang === "es" ? cc.name_es : cc.name_pl) || cc.name_pl || cc.name_en || "";
+          setCompetency({ name: nm });
+        }
       }
 
       // Load existing note
