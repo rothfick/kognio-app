@@ -172,7 +172,11 @@ const CalendarPage = () => {
   const uploadProof = async () => {
     if (!proofFile || !proofBookingId || !user) return;
     const payment = payments[proofBookingId];
-    if (!payment) return;
+    if (!payment) {
+      toast.error(t("payment.toast.noPaymentRecord"));
+      setProofBookingId(null);
+      return;
+    }
     setProofUploading(true);
     try {
       const ext = proofFile.name.split(".").pop() || "bin";
@@ -221,7 +225,10 @@ const CalendarPage = () => {
 
   const viewProof = async (paymentId: string) => {
     const payment = Object.values(payments).find((p) => p.id === paymentId);
-    if (!payment?.proof_url) return;
+    if (!payment?.proof_url) {
+      toast.error(t("payment.toast.noPaymentRecord"));
+      return;
+    }
     setSignedUrlFor(paymentId);
     setSignedUrlLoading(true);
     try {
@@ -238,7 +245,14 @@ const CalendarPage = () => {
   const confirmPayment = async (booking: Booking) => {
     if (!user) return;
     const payment = payments[booking.id];
-    if (!payment) return;
+    if (!payment) {
+      toast.error(t("payment.toast.noPaymentRecord"));
+      return;
+    }
+    if (payment.status === "confirmed") {
+      toast.info(t("payment.toast.alreadyConfirmed"));
+      return;
+    }
     if (user.id === payment.payer_user_id) {
       toast.error(t("payment.toast.payerCannotConfirm"));
       return;
@@ -283,6 +297,11 @@ const CalendarPage = () => {
 
   const markCompleted = async (booking: Booking) => {
     if (!user) return;
+    const payment = payments[booking.id];
+    if (!payment || payment.status !== "confirmed") {
+      toast.error(t("payment.toast.notConfirmedYet"));
+      return;
+    }
     try {
       const { error } = await supabase.from("bookings").update({ status: "completed" }).eq("id", booking.id);
       if (error) throw error;
@@ -346,6 +365,10 @@ const CalendarPage = () => {
     if (!noteBookingId || !user) return;
     const booking = bookings.find((b) => b.id === noteBookingId);
     if (!booking) return;
+    if (!noteText.trim()) {
+      toast.error(t("session.noteEmpty"));
+      return;
+    }
     setNoteSaving(true);
     try {
       const skills = noteSkills.split(",").map((s) => s.trim()).filter(Boolean);
@@ -457,7 +480,13 @@ const CalendarPage = () => {
               <Button size="sm" variant="outline" onClick={() => openMeetingUrl(b)}>
                 <Video className="mr-1 h-3.5 w-3.5" /> {b.meeting_url ? t("calendar.editMeetingUrl") : t("calendar.addMeetingUrl")}
               </Button>
-              <Button size="sm" variant="outline" onClick={() => markCompleted(b)}>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => markCompleted(b)}
+                disabled={!payment || payment.status !== "confirmed"}
+                title={!payment || payment.status !== "confirmed" ? t("payment.toast.notConfirmedYet") : undefined}
+              >
                 <Check className="mr-1 h-3.5 w-3.5" /> {t("calendar.markCompleted")}
               </Button>
             </>
@@ -579,7 +608,7 @@ const CalendarPage = () => {
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setNoteBookingId(null)} disabled={noteSaving}>{t("common.cancel")}</Button>
-            <Button onClick={saveNote} disabled={noteSaving}>
+            <Button onClick={saveNote} disabled={noteSaving || !noteText.trim()}>
               {noteSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
               {t("common.save")}
             </Button>
