@@ -420,6 +420,7 @@ Deno.serve(async (req) => {
             status: "completed",
             completed_at: new Date().toISOString(),
             summary,
+            language: effectiveLanguage,
           })
           .eq("id", attemptId);
 
