@@ -20,6 +20,7 @@ const TZ_OPTIONS = [
 
 const Profile = () => {
   const { user } = useAuth();
+  const { isTutor } = useUserRoles();
   const [displayName, setDisplayName] = useState("");
   const [fullName, setFullName] = useState("");
   const [bio, setBio] = useState("");
@@ -28,6 +29,21 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [becoming, setBecoming] = useState(false);
+
+  const becomeTutor = async () => {
+    if (!user) return;
+    setBecoming(true);
+    const { error: roleErr } = await supabase.from("user_roles").insert({ user_id: user.id, role: "tutor" });
+    if (roleErr && !roleErr.message.includes("duplicate")) { toast.error(roleErr.message); setBecoming(false); return; }
+    const { data: existing } = await supabase.from("tutor_profiles").select("user_id").eq("user_id", user.id).maybeSingle();
+    if (!existing) {
+      await supabase.from("tutor_profiles").insert({ user_id: user.id, hourly_rate_cents: 0, is_published: false });
+    }
+    toast.success("Witaj w gronie tutorów! Uzupełnij profil, by zostać opublikowanym.");
+    setBecoming(false);
+    window.location.href = "/settings";
+  };
 
   useEffect(() => {
     if (!user) return;
