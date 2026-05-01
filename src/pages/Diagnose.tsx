@@ -580,6 +580,9 @@ export default function Diagnose() {
               setPendingStart(false);
               // Re-trigger after consent
               setTimeout(() => start(), 50);
+            } else if (stepParam === "consent") {
+              toast.success(t("consent.alreadyConfirmed"));
+              navigate("/getting-started", { replace: true });
             }
           }}
           onDeclined={() => {
