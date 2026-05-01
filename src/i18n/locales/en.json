@@ -17,7 +17,12 @@
     "signup": "Sign up",
     "signout": "Sign out",
     "profile": "Profile",
-    "myProfile": "My profile"
+    "myProfile": "My profile",
+    "diagnose": "AI Diagnosis",
+    "parentDashboard": "Parent dashboard",
+    "adminDashboard": "Admin",
+    "research": "Research",
+    "grantPack": "Grant pack"
   },
   "landing": {
     "heroEyebrow": "Intelligent learning platform",
@@ -415,7 +420,13 @@
     "noTasksTitle": "No tasks",
     "noTasksDesc": "Personalized exercises will appear after your first lesson.",
     "latestDiagnosisHint": "Based on the latest diagnosis",
-    "mapBuiltAfterDiag": "The latest diagnosis result has been saved and will feed future recommendations."
+    "mapBuiltAfterDiag": "The latest diagnosis result has been saved and will feed future recommendations.",
+    "planProgressLabel": "Learning plan",
+    "planProgressHint": "Completed steps in your active plan",
+    "planProgressEmpty": "No active plan — start with the diagnosis",
+    "checkpointLabel": "Latest progress",
+    "checkpointHint": "Score change in the latest report",
+    "checkpointEmpty": "No progress report yet"
   },
   "parent": {
     "stats": {
@@ -1756,5 +1767,10 @@
     "noPlans": "No active plans.",
     "sessionsTitle": "Sessions",
     "noSessions": "No scheduled sessions."
+  },
+  "routeGuard": {
+    "notAvailableTitle": "Coming soon",
+    "notAvailableBody": "This module is not available in the Kogni pilot yet. We're working on it — stay tuned.",
+    "backToDashboard": "Back to dashboard"
   }
 }

@@ -17,7 +17,12 @@
     "signup": "Crear cuenta",
     "signout": "Cerrar sesión",
     "profile": "Perfil",
-    "myProfile": "Mi perfil"
+    "myProfile": "Mi perfil",
+    "diagnose": "Diagnóstico IA",
+    "parentDashboard": "Panel del padre",
+    "adminDashboard": "Admin",
+    "research": "Investigación",
+    "grantPack": "Paquete de subvención"
   },
   "landing": {
     "heroEyebrow": "Plataforma inteligente de aprendizaje",
@@ -415,7 +420,13 @@
     "noTasksTitle": "Sin tareas",
     "noTasksDesc": "Tras tu primera clase aparecerán ejercicios personalizados.",
     "latestDiagnosisHint": "Según el último diagnóstico",
-    "mapBuiltAfterDiag": "El resultado del último diagnóstico se ha guardado y alimentará futuras recomendaciones."
+    "mapBuiltAfterDiag": "El resultado del último diagnóstico se ha guardado y alimentará futuras recomendaciones.",
+    "planProgressLabel": "Plan de aprendizaje",
+    "planProgressHint": "Pasos completados en tu plan activo",
+    "planProgressEmpty": "Sin plan activo — empieza por el diagnóstico",
+    "checkpointLabel": "Último progreso",
+    "checkpointHint": "Cambio de puntuación en el último informe",
+    "checkpointEmpty": "Aún no hay informe de progreso"
   },
   "parent": {
     "stats": {
@@ -1756,5 +1767,10 @@
     "noPlans": "Sin planes activos.",
     "sessionsTitle": "Sesiones",
     "noSessions": "Sin sesiones programadas."
+  },
+  "routeGuard": {
+    "notAvailableTitle": "Próximamente",
+    "notAvailableBody": "Este módulo aún no está disponible en el piloto de Kogni. Estamos trabajando en él — vuelve pronto.",
+    "backToDashboard": "Volver al panel"
   }
 }
