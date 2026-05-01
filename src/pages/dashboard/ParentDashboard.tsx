@@ -112,6 +112,7 @@ const ParentDashboard = () => {
 };
 
 const ChildCard = ({ child }: { child: ChildRow }) => {
+  const { t } = useTranslation();
   const [trackedKcs, setTrackedKcs] = useState<number | null>(null);
   const [avg, setAvg] = useState<number | null>(null);
   const [latestScore, setLatestScore] = useState<number | null>(null);
