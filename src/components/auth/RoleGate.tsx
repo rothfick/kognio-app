@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { useUserRoles, AppRole } from "@/hooks/useUserRoles";
 import { Navigate } from "react-router-dom";
 import { AppShell } from "@/components/layout/AppShell";
@@ -13,12 +14,13 @@ export function RoleGate({
   children: ReactNode;
   fallback?: string;
 }) {
+  const { t } = useTranslation();
   const { loading, roles } = useUserRoles();
 
   if (loading) {
     return (
       <AppShell>
-        <div className="container py-12 text-muted-foreground text-sm">Ładowanie panelu…</div>
+        <div className="container py-12 text-muted-foreground text-sm">{t("common.loadingPanel")}</div>
       </AppShell>
     );
   }

@@ -68,7 +68,7 @@ const Landing = () => {
             {t("landing.pillarsTitle")}
           </p>
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-balance">
-            Diagnoza, dopasowanie, dowód postępu — w jednym systemie.
+            {t("landing.pillarsHeadline")}
           </h2>
         </div>
         <div className="grid gap-5 md:grid-cols-3">
@@ -106,7 +106,7 @@ const Landing = () => {
             {t("landing.howItWorks")}
           </p>
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-balance">
-            Pięć kroków od pierwszego logowania do mierzalnego raportu.
+            {t("landing.howHeadline")}
           </h2>
         </div>
         <div className="grid gap-3 md:grid-cols-5">
@@ -128,10 +128,10 @@ const Landing = () => {
             <GraduationCap className="h-6 w-6" />
           </div>
           <h2 className="text-2xl md:text-3xl font-semibold tracking-tight mb-3 text-balance">
-            Sprawdź, gdzie naprawdę jesteś — w 15 minut.
+            {t("landing.footerCtaTitle")}
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto mb-6">
-            Bezpłatna diagnoza AI z dowolnego przedmiotu — od szkoły podstawowej, przez liceum i technikum, aż po studia. Matematyka, języki, nauki ścisłe i humanistyczne, programowanie, przygotowanie do egzaminów. Bez zobowiązań.
+            {t("landing.footerCtaBody")}
           </p>
           <Button asChild size="lg" className="bg-accent-gradient text-accent-foreground shadow-glow">
             <Link to="/auth?mode=signup&next=/diagnose">

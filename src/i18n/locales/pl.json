@@ -44,7 +44,8 @@
     "step4": "Otrzymuj rekomendacje kolejnych kroków",
     "step5": "Ucz się świadomie — z planem opartym na danych",
     "footerCtaTitle": "Sprawdź, gdzie naprawdę jesteś — w 15 minut.",
-    "footerCtaBody": "Bezpłatna diagnoza AI z dowolnego przedmiotu — od szkoły podstawowej po studia. Matematyka, języki, nauki ścisłe i humanistyczne, programowanie. Bez zobowiązań."
+    "footerCtaBody": "Bezpłatna diagnoza AI z dowolnego przedmiotu — od szkoły podstawowej po studia. Matematyka, języki, nauki ścisłe i humanistyczne, programowanie. Bez zobowiązań.",
+    "pillarsHeadline": "Diagnoza, dopasowanie, dowód postępu — w jednym systemie."
   },
   "auth": {
     "signinTitle": "Witaj z powrotem",
@@ -60,7 +61,9 @@
     "signupHere": "Zarejestruj się",
     "signinHere": "Zaloguj się",
     "errorGeneric": "Coś poszło nie tak. Spróbuj jeszcze raz.",
-    "checkEmail": "Sprawdź skrzynkę e-mail i potwierdź adres."
+    "checkEmail": "Sprawdź skrzynkę e-mail i potwierdź adres.",
+    "invalidEmail": "Nieprawidłowy e-mail",
+    "passwordMin": "Min. 6 znaków"
   },
   "onboarding": {
     "loading": "Ładowanie…",
@@ -115,6 +118,13 @@
       "website": "Strona WWW",
       "description": "Krótki opis",
       "descriptionHint": "Dla kogo, czego uczycie, kontakt…"
+    },
+    "roleDescriptions": {
+      "student": "Uczę się, dołączam do kręgów, korzystam z AI.",
+      "studentB1": "Diagnoza wiedzy",
+      "studentB2": "Tutorzy",
+      "studentB3": "Drugi mózg",
+      "tutorDesc": "Lekcje 1:1 z AI Co-pilotem. (weryfikacja)"
     }
   },
   "diagnose": {
@@ -152,7 +162,49 @@
     "findTutor": "Znajdź dopasowanego korepetytora",
     "anotherDiagnosis": "Zrób kolejną diagnozę",
     "childKnowledgeMap": "Mapa wiedzy dziecka",
-    "safetyNote": "Wynik diagnozy pomaga wskazać obszary do nauki. Nie zastępuje formalnej oceny nauczyciela."
+    "safetyNote": "Wynik diagnozy pomaga wskazać obszary do nauki. Nie zastępuje formalnej oceny nauczyciela.",
+    "domainSuggestions": [
+      "Matematyka",
+      "Fizyka",
+      "Chemia",
+      "Biologia",
+      "Język angielski",
+      "Język niemiecki",
+      "Język hiszpański",
+      "Język francuski",
+      "Język polski",
+      "Historia",
+      "Geografia",
+      "WOS",
+      "Programowanie (Python)",
+      "Programowanie (JavaScript)",
+      "Algorytmy i struktury danych",
+      "Bazy danych SQL",
+      "Statystyka",
+      "Ekonomia",
+      "Rachunkowość",
+      "Filozofia",
+      "Sztuka i historia sztuki"
+    ],
+    "levels": {
+      "sp_4_6": "Szkoła podstawowa kl. 4-6",
+      "sp_7_8": "Szkoła podstawowa kl. 7-8",
+      "lo_1_2": "Liceum / Technikum kl. 1-2",
+      "lo_3_4": "Liceum / Technikum kl. 3-4",
+      "matura_podst": "Matura — poziom podstawowy",
+      "matura_rozsz": "Matura — poziom rozszerzony",
+      "studia_lic": "Studia licencjackie / inżynierskie",
+      "studia_mgr": "Studia magisterskie / doktoranckie",
+      "dorosly": "Dorosły / hobby / przekwalifikowanie"
+    },
+    "runningTitle": "Diagnoza: {{domain}}",
+    "runningSubtitle": "{{level}} • Pytanie {{current}} z {{total}}",
+    "status": {
+      "mocna": "mocna",
+      "stabilna": "stabilna",
+      "do_pracy": "do pracy",
+      "luka": "luka"
+    }
   },
   "discover": {
     "title": "Znajdź swojego korepetytora",
@@ -161,7 +213,21 @@
     "filters": "Filtry",
     "noTutors": "Nie ma jeszcze opublikowanych profili. Załóż swój i zarabiaj.",
     "becomeTutor": "Zostań korepetytorem",
-    "perHour": "/h"
+    "perHour": "/h",
+    "subject": "Przedmiot",
+    "allSubjects": "Wszystkie przedmioty",
+    "sortRating": "Najlepsza ocena",
+    "sortPriceAsc": "Cena rosnąco",
+    "sortPriceDesc": "Cena malejąco",
+    "sortExperience": "Najwięcej sesji",
+    "maxPrice": "Max zł/h",
+    "emptyFirstTitle": "Bądź pierwszym tutorem na platformie",
+    "emptyFilteredTitle": "Nic nie pasuje do filtrów",
+    "emptyFilteredDesc": "Spróbuj innego przedmiotu lub większego limitu ceny.",
+    "clearFilters": "Wyczyść filtry",
+    "tutorCount_one": "{{count}} tutor",
+    "tutorCount_other": "{{count}} tutorów",
+    "openProfile": "Otwórz profil"
   },
   "circles": {
     "title": "Kręgi nauki",
@@ -171,14 +237,43 @@
     "join": "Dołącz",
     "open": "Otwórz",
     "empty": "Nie ma jeszcze żadnych kręgów.",
-    "emptyDesc": "Załóż pierwszy i zaproś znajomych do wspólnej nauki."
+    "emptyDesc": "Załóż pierwszy i zaproś znajomych do wspólnej nauki.",
+    "created": "Krąg utworzony",
+    "joined": "Dołączono!",
+    "left": "Opuszczono krąg",
+    "namePlaceholder": "Nazwa kręgu",
+    "topicPlaceholder": "Temat (np. matura matematyka rozszerzona)",
+    "descriptionPlaceholder": "Opis",
+    "submitCreate": "Utwórz",
+    "emptyTitle": "Nie ma jeszcze żadnego kręgu",
+    "memberJoined": "Należysz",
+    "leave": "Opuść",
+    "full": "Pełny"
   },
   "peer": {
     "title": "Peer Help",
     "subtitle": "Szybka pomoc od innych uczniów. Pomagasz — zdobywasz Karmę.",
     "ask": "Poproś o pomoc",
     "open": "otwarte",
-    "empty": "Brak otwartych próśb. Bądź pierwszą osobą, która zapyta!"
+    "empty": "Brak otwartych próśb. Bądź pierwszą osobą, która zapyta!",
+    "published": "Prośba opublikowana",
+    "ownRequest": "To Twoja własna prośba",
+    "helpOffered": "Świetnie! Skontaktuj się z osobą proszącą.",
+    "resolvedToast": "Oznaczono jako rozwiązane",
+    "titlePlaceholder": "Krótko: z czym potrzebujesz pomocy?",
+    "descPlaceholder": "Opisz problem szczegółowo",
+    "publish": "Opublikuj",
+    "tabOpen": "Otwarte",
+    "tabMine": "Moje",
+    "emptyOpenTitle": "Nikt aktualnie nie potrzebuje pomocy",
+    "emptyMineTitle": "Nie masz jeszcze żadnych próśb",
+    "emptyOpenDesc": "Sprawdź ponownie później albo opublikuj własną prośbę.",
+    "emptyMineDesc": "Opublikuj prośbę, jeśli z czymś utknąłeś.",
+    "matched": "W trakcie",
+    "resolved": "Rozwiązane",
+    "yourRequest": "Twoja prośba",
+    "youHelp": "Pomagasz",
+    "help": "Pomogę"
   },
   "brain": {
     "title": "Drugi Mózg",
@@ -187,13 +282,47 @@
     "ask": "Zapytaj",
     "transcripts": "Transkrypty sesji",
     "flashcards": "Fiszki",
-    "noTranscripts": "Twoje transkrypty pojawią się tu po pierwszej sesji."
+    "noTranscripts": "Twoje transkrypty pojawią się tu po pierwszej sesji.",
+    "emptyTitle": "Twój Drugi Mózg jest pusty",
+    "emptyDesc": "Po pierwszej sesji pojawią się tu transkrypty, fiszki, raporty i graf wiedzy.",
+    "findTutor": "Znajdź tutora",
+    "graph": "Graf wiedzy",
+    "reports": "Raporty sesji",
+    "noReports": "Brak raportów. Wygeneruj jeden po sesji w pokoju.",
+    "strengthsLabel": "Mocne strony:",
+    "workLabel": "Do pracy:",
+    "noFlashcards": "Fiszki pojawią się po wygenerowaniu raportu.",
+    "errorStatus": "Błąd {{status}}"
   },
   "calendar": {
     "title": "Kalendarz",
     "upcoming": "Nadchodzące sesje",
     "past": "Minione sesje",
-    "empty": "Brak zaplanowanych sesji."
+    "empty": "Brak zaplanowanych sesji.",
+    "status": {
+      "pending": "Oczekuje na potwierdzenie",
+      "confirmed": "Potwierdzona",
+      "completed": "Zakończona",
+      "cancelled": "Anulowana"
+    },
+    "hint": {
+      "pending": "Tutor musi zaakceptować rezerwację, zanim wejdziesz na sesję.",
+      "confirmed": "Możesz wejść do pokoju sesji.",
+      "completed": "Sesja odbyła się — opłać lub potwierdź płatność.",
+      "cancelled": "Ta rezerwacja została anulowana."
+    },
+    "confirmedToast": "Rezerwacja potwierdzona — możesz już wejść na sesję!",
+    "confirmToast": "Potwierdzono rezerwację",
+    "cancelToast": "Rezerwacja anulowana",
+    "completedToast": "Oznaczono jako zakończoną",
+    "asTutor": "jako tutor",
+    "confirm": "Potwierdź",
+    "reject": "Odrzuć",
+    "waitingTutor": "Czekamy na potwierdzenie tutora — przyciski akcji pojawią się po akceptacji.",
+    "enter": "Wejdź",
+    "pay": "Zapłać",
+    "markCompleted": "Oznacz jako zakończoną",
+    "findTutor": "Znajdź tutora"
   },
   "settings": {
     "title": "Ustawienia",
@@ -222,7 +351,10 @@
     "addedMethodToast": "Dodano metodę",
     "roleGrantFailed": "Nie udało się nadać roli: {{msg}}",
     "tutorProfileCreateFailed": "Nie udało się utworzyć profilu korepetytora: {{msg}}",
-    "becameTutor": "Jesteś korepetytorem! Uzupełnij profil."
+    "becameTutor": "Jesteś korepetytorem! Uzupełnij profil.",
+    "otherMethod": "Inne",
+    "labelPlaceholder": "Etykieta (np. mBank)",
+    "detailsPlaceholder": "Numer / dane"
   },
   "dashboard": {
     "studentTitle": "Twoja nauka",
@@ -407,7 +539,8 @@
     "flagNoneDesc": "System filtruje treści wymagające przeglądu (np. tematy banowane).",
     "auditTitle": "Audit log",
     "auditNoneTitle": "Brak wpisów audytu",
-    "auditNoneDesc": "Wrażliwe akcje (zmiany ról, weryfikacje, edycje raportów) będą logowane tutaj."
+    "auditNoneDesc": "Wrażliwe akcje (zmiany ról, weryfikacje, edycje raportów) będą logowane tutaj.",
+    "ok": "OK"
   },
   "org": {
     "schoolTitle": "Pulpit szkoły",
@@ -489,7 +622,15 @@
     "joinFailed": "Nie udało się dołączyć",
     "backToDash": "Wróć do pulpitu",
     "sameEmailNote": "Zaproszenie musi być zaakceptowane z konta utworzonego pod tym samym adresem e-mail.",
-    "joinedToast": "Dołączono do organizacji."
+    "joinedToast": "Dołączono do organizacji.",
+    "activeHint": "aktywni",
+    "teachersHint": "dydaktycy",
+    "roleOwner": "Właściciel",
+    "roleTeacher": "Nauczyciel",
+    "roleTrainer": "Trener",
+    "roleStudent": "Uczeń",
+    "roleTrainee": "Kursant",
+    "roleObserver": "Obserwator"
   },
   "common": {
     "loading": "Ładowanie…",
@@ -499,9 +640,133 @@
     "soon": "Wkrótce",
     "comingSoon": "Funkcja w przygotowaniu",
     "footer": "© {{year}} Kogni · Inteligentna platforma nauki",
-    "accessChecking": "Ładowanie panelu…"
+    "accessChecking": "Ładowanie panelu…",
+    "loadingPanel": "Ładowanie panelu…",
+    "loadingDashboard": "Ładowanie pulpitu…",
+    "loadingRoom": "Ładowanie pokoju…",
+    "notFound": "Nie znaleziono.",
+    "all": "Wszystkie",
+    "details": "Szczegóły",
+    "copy": "Kopiuj",
+    "copied": "Skopiowano",
+    "user": "Użytkownik",
+    "tutor": "Tutor",
+    "new": "nowy",
+    "yes": "tak",
+    "no": "nie",
+    "start": "Start",
+    "stop": "Stop"
   },
   "errors": {
     "generic": "Coś poszło nie tak. Spróbuj jeszcze raz."
+  },
+  "knowledgeGraph": {
+    "empty": "Graf wiedzy jest pusty. Wygeneruj raporty po sesjach, a tematy pojawią się tutaj automatycznie.",
+    "strengths": "Mocne strony",
+    "work": "Do pracy",
+    "topics": "Tematy",
+    "counts": "{{nodes}} węzłów · {{edges}} powiązań",
+    "kindStrength": "Mocna strona",
+    "kindWeakness": "Do pracy",
+    "kindTopic": "Temat",
+    "occurs": "występuje {{count}}×"
+  },
+  "session": {
+    "noUserSession": "Brak sesji użytkownika",
+    "videoTokenError": "Nie udało się pobrać tokenu wideo",
+    "videoUnavailable": "Wideo niedostępne",
+    "ready": "Gotowi na sesję?",
+    "joinVideo": "Dołącz do pokoju wideo",
+    "cameraConsentRequired": "Zaznacz zgodę na analizę kamery.",
+    "cameraStartError": "Nie udało się uruchomić kamery",
+    "emotionEngine": "Silnik emocji",
+    "emotionConsent": "Wyrażam zgodę na lokalną analizę mimiki z mojej kamery. Wideo nie opuszcza mojego urządzenia — zapisywane są tylko zagregowane wskaźniki (zaangażowanie, radość, znudzenie, dezorientacja).",
+    "enableEmotion": "Włącz analizę emocji",
+    "engagement": "Zaangażowanie",
+    "joy": "Radość",
+    "confusion": "Dezorientacja",
+    "boredom": "Znudzenie",
+    "disable": "Wyłącz",
+    "me": "Ja",
+    "micDenied": "Brak dostępu do mikrofonu",
+    "transcriptionOn": "Transkrypcja włączona",
+    "transcriptionOffToast": "Transkrypcja zatrzymana",
+    "speechUnsupported": "Twoja przeglądarka nie obsługuje rozpoznawania mowy w przeglądarce. Użyj Chrome lub Edge, albo dodawaj notatki ręcznie poniżej.",
+    "listening": "Słucham…",
+    "autoOff": "Auto-transkrypcja wyłączona",
+    "autoHint": "Włącz, aby automatycznie zapisywać wypowiedzi do transkryptu.",
+    "aiError": "Błąd AI",
+    "genericError": "Błąd",
+    "summaryGenerated": "Raport sesji wygenerowany!",
+    "generateSummary": "Wygeneruj raport AI",
+    "goPayment": "Przejdź do płatności",
+    "board": "Tablica",
+    "chat": "Czat",
+    "transcript": "Transkrypt",
+    "copilot": "AI Co-pilot",
+    "chatEmpty": "Czat jest pusty.",
+    "messagePlaceholder": "Napisz wiadomość…",
+    "transcriptEmpty": "Transkrypt pusty. Włącz auto-transkrypcję powyżej lub dodaj notatkę ręcznie.",
+    "speaker": "Mówca",
+    "note": "Notatka",
+    "transcriptPlaceholder": "Dodaj fragment transkryptu / notatkę z lekcji…",
+    "copilotIntro": "Pytania trafiają do AI z kontekstem ostatnich wypowiedzi. Cała rozmowa zapisuje się w czacie sesji.",
+    "aiTyping": "AI pisze…",
+    "askAiPlaceholder": "Zapytaj AI o cokolwiek…"
+  },
+  "payment": {
+    "markedPaidToast": "Oznaczono jako zapłacone",
+    "confirmedToast": "Potwierdzono otrzymanie",
+    "notFound": "Nie znaleziono rezerwacji.",
+    "title": "Płatność",
+    "amountDue": "Kwota do zapłaty",
+    "directNote": "Płatność trafia bezpośrednio do tutora — platforma nie pośredniczy.",
+    "noMethods": "Tutor nie ustawił jeszcze metod płatności.",
+    "chooseMethod": "Wybierz metodę płatności tutora:",
+    "waitingStudent": "Oczekiwanie aż uczeń wybierze metodę płatności.",
+    "statusPending": "Do zapłaty",
+    "statusMarked": "Oznaczone przez ucznia",
+    "statusConfirmed": "Potwierdzone",
+    "method": "Metoda",
+    "transferDetails": "Dane do przelewu",
+    "transferTitle": "Tytuł przelewu",
+    "markPaid": "Oznaczam jako zapłacone",
+    "confirmReceived": "Potwierdzam otrzymanie",
+    "completed": "Płatność zakończona"
+  },
+  "profile": {
+    "title": "Twój profil",
+    "saved": "Profil zapisany",
+    "avatarUpdated": "Avatar zaktualizowany",
+    "maxFile": "Maks 4 MB",
+    "becomeTutorToast": "Witaj w gronie tutorów! Uzupełnij profil, by zostać opublikowanym.",
+    "unnamed": "Bez nazwy",
+    "changeAvatar": "Zmień avatar",
+    "displayName": "Nazwa wyświetlana",
+    "displayNamePlaceholder": "np. Anna K.",
+    "fullName": "Imię i nazwisko (prywatne)",
+    "fullNamePlaceholder": "Anna Kowalska",
+    "about": "O mnie",
+    "aboutPlaceholder": "Krótko o sobie…",
+    "timezone": "Strefa czasowa",
+    "saveProfile": "Zapisz profil",
+    "tutorProfile": "Twój profil tutora",
+    "becomeTutor": "Zostań tutorem",
+    "tutorProfileDesc": "Edytuj headline, opis, stawkę i przedmioty, by uczniowie mogli Cię znaleźć.",
+    "becomeTutorDesc": "Ucz innych, dziel się wiedzą i zarabiaj na własnych warunkach. Platforma nie pobiera prowizji.",
+    "editTutorProfile": "Edytuj profil tutora"
+  },
+  "tutorProfile": {
+    "chooseDate": "Wybierz datę",
+    "bookingCreated": "Rezerwacja utworzona",
+    "notFound": "Tutor nie znaleziony.",
+    "sessions": "{{count}} sesji",
+    "ownProfile": "To Twój publiczny profil tutora.",
+    "editProfile": "Edytuj profil",
+    "bookTitle": "Zarezerwuj sesję (1h)",
+    "date": "Data",
+    "time": "Godzina",
+    "book": "Zarezerwuj",
+    "loginToBook": "Zaloguj się aby zarezerwować"
   }
 }

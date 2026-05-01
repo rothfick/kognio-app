@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { AppShell } from "@/components/layout/AppShell";
 import { DashboardHeader, DashboardShell } from "@/components/layout/DashboardShell";
 import { RoleGate } from "@/components/auth/RoleGate";
@@ -25,6 +26,7 @@ type ChildRow = {
 };
 
 const ParentDashboard = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [children, setChildren] = useState<ChildRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,21 +50,21 @@ const ParentDashboard = () => {
       <AppShell>
         <DashboardShell>
           <DashboardHeader
-            title="Pulpit rodzica"
-            subtitle="Zarządzaj profilami dzieci i śledź ich postępy."
+            title={t("dashboard.parentTitle")}
+            subtitle={t("dashboard.parentSubtitle")}
             actions={children.length > 0 ? <AddChildDialog onCreated={load} /> : undefined}
           />
 
           <div className="grid gap-4 sm:grid-cols-3 mb-6">
-            <StatCard icon={Users} label="Dzieci" value={String(children.length)} hint="Powiązane z Twoim kontem" />
-            <StatCard icon={LineChart} label="Średni postęp" value="—" hint="Po pierwszej diagnozie" />
-            <StatCard icon={FileText} label="Najnowszy raport" value="—" hint="Po 4 lekcjach" />
+            <StatCard icon={Users} label={t("parent.stats.children")} value={String(children.length)} hint={t("parent.stats.childrenHint")} />
+            <StatCard icon={LineChart} label={t("parent.stats.avgProgress")} value="—" hint={t("parent.stats.avgProgressHint")} />
+            <StatCard icon={FileText} label={t("parent.stats.latestReport")} value="—" hint={t("parent.stats.latestReportHint")} />
           </div>
 
           <div className="grid gap-5 md:grid-cols-3 mb-6">
-            <AIInsightCard title="Co warto wiedzieć" className="md:col-span-2">
+            <AIInsightCard title={t("parent.infoTitle")} className="md:col-span-2">
               <p>
-                Po każdym tygodniu nauki Kogni wygeneruje krótki raport oparty na danych z lekcji, diagnozy i zadań domowych. Bez subiektywnych opinii.
+                {t("parent.infoBody")}
               </p>
             </AIInsightCard>
             <Surface className="p-5">
@@ -70,24 +72,24 @@ const ParentDashboard = () => {
                 <ShieldCheck className="h-4 w-4 text-accent" /> Bezpieczeństwo
               </h3>
               <p className="text-xs text-muted-foreground">
-                Konta dzieci poniżej 16 r.ż. wymagają zgody rodzica. Dane przechowujemy w UE.
+                {t("parent.safetyBody")}
               </p>
             </Surface>
           </div>
 
           <Surface className="p-5">
             <h2 className="font-semibold mb-4 flex items-center gap-2">
-              <BookOpen className="h-4 w-4 text-accent" /> Twoje dzieci
+              <BookOpen className="h-4 w-4 text-accent" /> {t("parent.yourChildren")}
             </h2>
 
             {loading ? (
-              <p className="text-sm text-muted-foreground">Ładowanie…</p>
+              <p className="text-sm text-muted-foreground">{t("common.loading")}</p>
             ) : children.length === 0 ? (
               <div className="space-y-4">
                 <EmptyState
                   icon={Plus}
-                  title="Brak dodanych dzieci"
-                  description="Dodaj profil dziecka, aby rozpocząć diagnozę i otrzymywać raporty postępów."
+                  title={t("parent.noChildrenTitle")}
+                  description={t("parent.noChildrenDesc")}
                 />
                 <div className="flex justify-center">
                   <AddChildDialog onCreated={load} />
@@ -101,7 +103,7 @@ const ParentDashboard = () => {
           </Surface>
 
           <p className="mt-6 text-[11px] text-muted-foreground text-center">
-            Polityka prywatności · Zgoda rodzica/opiekuna · <em>Dokumenty prawne wymagają weryfikacji przed publicznym uruchomieniem.</em>
+            {t("parent.footerNote")}
           </p>
         </DashboardShell>
       </AppShell>
@@ -144,27 +146,27 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
         <div>
           <h3 className="font-semibold text-base">{child.display_name}</h3>
           <p className="text-xs text-muted-foreground">
-            {child.grade_level || "—"} · {child.primary_subject || "Brak przedmiotu"}
+            {child.grade_level || "—"} · {child.primary_subject || "{t("parent.child.noSubject")}"}
           </p>
         </div>
         {child.consent_signed_at ? (
-          <Badge variant="secondary" className="text-[10px]">Zgoda {child.consent_version || "v1"}</Badge>
+          <Badge variant="secondary" className="text-[10px]">{t("parent.child.consent", { version: child.consent_version || "v1" })}</Badge>
         ) : (
-          <Badge variant="destructive" className="text-[10px]">Brak zgody</Badge>
+          <Badge variant="destructive" className="text-[10px]">{t("parent.child.noConsent")}</Badge>
         )}
       </div>
 
       <div className="rounded-md border bg-card-soft p-3 space-y-1">
         <div className="flex items-center gap-2 text-xs font-medium">
-          <Brain className="h-3.5 w-3.5 text-accent" /> Mapa wiedzy
+          <Brain className="h-3.5 w-3.5 text-accent" /> {t("parent.child.knowledgeMap")}
         </div>
         {trackedKcs === null ? (
-          <p className="text-xs text-muted-foreground">Ładowanie…</p>
+          <p className="text-xs text-muted-foreground">{t("common.loading")}</p>
         ) : !hasDiagnostic ? (
-          <p className="text-xs text-muted-foreground">Brak diagnozy — wykonaj pierwszy test, aby zbudować mapę wiedzy.</p>
+          <p className="text-xs text-muted-foreground">{t("parent.child.noDiagnosis")}</p>
         ) : (
           <p className="text-xs text-muted-foreground">
-            Wynik diagnozy v1: <span className="font-medium text-foreground">{Math.round((latestScore || 0) * 100)}%</span> · KC: <span className="font-medium text-foreground">{trackedKcs}</span> · Średni: <span className="font-medium text-foreground">{Math.round((avg || 0) * 100)}%</span>
+            {t("parent.child.diagSummary", { score: Math.round((latestScore || 0) * 100), kc: trackedKcs, avg: Math.round((avg || 0) * 100) })} <span className="font-medium text-foreground">{Math.round((latestScore || 0) * 100)}%</span> · KC: <span className="font-medium text-foreground">{trackedKcs}</span> · Średni: <span className="font-medium text-foreground">{Math.round((avg || 0) * 100)}%</span>
           </p>
         )}
       </div>
@@ -172,15 +174,15 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
       <div className="flex flex-wrap gap-2 mt-auto">
         {!hasDiagnostic ? (
           <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
-            <Link to={`/parent/children/${child.id}/diagnose`}>Zrób diagnozę AI</Link>
+            <Link to={`/parent/children/${child.id}/diagnose`}>{t("parent.child.doDiagnosis")}</Link>
           </Button>
         ) : (
           <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
-            <Link to={`/parent/children/${child.id}/knowledge`}>Zobacz mapę wiedzy</Link>
+            <Link to={`/parent/children/${child.id}/knowledge`}>{t("parent.child.viewMap")}</Link>
           </Button>
         )}
         <Button asChild size="sm" variant="outline">
-          <Link to={`/parent/children/${child.id}/knowledge`}>Mapa wiedzy</Link>
+          <Link to={`/parent/children/${child.id}/knowledge`}>{t("parent.child.knowledgeMap")}</Link>
         </Button>
       </div>
     </Surface>

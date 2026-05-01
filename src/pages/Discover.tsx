@@ -108,22 +108,22 @@ const Discover = () => {
               <Input className="pl-10" placeholder={t("discover.searchPlaceholder")} value={q} onChange={(e) => setQ(e.target.value)} />
             </div>
             <Select value={subjectId} onValueChange={setSubjectId}>
-              <SelectTrigger className="w-[200px]"><SelectValue placeholder="Przedmiot" /></SelectTrigger>
+              <SelectTrigger className="w-[200px]"><SelectValue placeholder={t("discover.subject")} /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Wszystkie przedmioty</SelectItem>
+                <SelectItem value="all">{t("discover.allSubjects")}</SelectItem>
                 {subjects.map((s) => <SelectItem key={s.id} value={s.id}>{subjectName(s)}</SelectItem>)}
               </SelectContent>
             </Select>
             <Select value={sort} onValueChange={(v) => setSort(v as SortKey)}>
               <SelectTrigger className="w-[180px]"><SlidersHorizontal className="h-4 w-4 mr-2" /><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="rating">Najlepsza ocena</SelectItem>
-                <SelectItem value="price_asc">Cena rosnąco</SelectItem>
-                <SelectItem value="price_desc">Cena malejąco</SelectItem>
-                <SelectItem value="experience">Najwięcej sesji</SelectItem>
+                <SelectItem value="rating">{t("discover.sortRating")}</SelectItem>
+                <SelectItem value="price_asc">{t("discover.sortPriceAsc")}</SelectItem>
+                <SelectItem value="price_desc">{t("discover.sortPriceDesc")}</SelectItem>
+                <SelectItem value="experience">{t("discover.sortExperience")}</SelectItem>
               </SelectContent>
             </Select>
-            <Input type="number" placeholder="Max zł/h" className="w-[120px]" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} />
+            <Input type="number" placeholder={t("discover.maxPrice")} className="w-[120px]" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} />
             <Button asChild variant="outline" className="ml-auto"><Link to="/settings">{t("discover.becomeTutor")}</Link></Button>
           </div>
         </Card>
@@ -136,20 +136,20 @@ const Discover = () => {
           <Card className="p-10 text-center bg-card-soft">
             <Sparkles className="h-10 w-10 mx-auto mb-3 text-accent" />
             <h3 className="font-semibold mb-2">
-              {tutors.length === 0 ? "Bądź pierwszym tutorem na platformie" : "Nic nie pasuje do filtrów"}
+              {tutors.length === 0 ? t("discover.emptyFirstTitle") : t("discover.emptyFilteredTitle")}
             </h3>
             <p className="text-muted-foreground mb-4">
               {tutors.length === 0
-                ? "Nie ma jeszcze opublikowanych profili. Załóż swój i zarabiaj."
-                : "Spróbuj innego przedmiotu lub większego limitu ceny."}
+                ? t("discover.noTutors")
+                : t("discover.emptyFilteredDesc")}
             </p>
             {tutors.length === 0
               ? <Button asChild className="bg-accent-gradient text-accent-foreground"><Link to="/settings">{t("discover.becomeTutor")}</Link></Button>
-              : <Button variant="outline" onClick={() => { setQ(""); setSubjectId("all"); setMaxPrice(""); }}>Wyczyść filtry</Button>}
+              : <Button variant="outline" onClick={() => { setQ(""); setSubjectId("all"); setMaxPrice(""); }}>{t("discover.clearFilters")}</Button>}
           </Card>
         ) : (
           <>
-            <p className="text-sm text-muted-foreground mb-3">{filtered.length} {filtered.length === 1 ? "tutor" : "tutorów"}</p>
+            <p className="text-sm text-muted-foreground mb-3">{t("discover.tutorCount", { count: filtered.length })}</p>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((tt) => (
                 <Card key={tt.user_id} className="p-5 hover:shadow-elegant transition-smooth bg-card-soft flex flex-col">
@@ -166,14 +166,14 @@ const Discover = () => {
                   </div>
                   <div className="flex items-center justify-between mb-4 text-sm mt-auto">
                     <Badge variant="secondary" className="gap-1">
-                      <Star className="h-3 w-3 fill-current" /> {tt.rating ? tt.rating.toFixed(1) : "nowy"}
+                      <Star className="h-3 w-3 fill-current" /> {tt.rating ? tt.rating.toFixed(1) : t("common.new")}
                     </Badge>
                     <span className="font-bold text-lg">
                       {(tt.hourly_rate_cents / 100).toFixed(0)} {tt.currency}<span className="text-sm font-normal text-muted-foreground">{t("discover.perHour")}</span>
                     </span>
                   </div>
                   <Button asChild className="w-full" variant="outline">
-                    <Link to={`/tutor/${tt.user_id}`}>{t("circles.open")} <ArrowRight className="ml-2 h-3 w-3" /></Link>
+                    <Link to={`/tutor/${tt.user_id}`}>{t("discover.openProfile")} <ArrowRight className="ml-2 h-3 w-3" /></Link>
                   </Button>
                 </Card>
               ))}

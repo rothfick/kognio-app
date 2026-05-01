@@ -42,7 +42,7 @@ const TutorDashboard = () => {
           <DashboardHeader
             title={t("dashboard.tutorTitle")}
             subtitle={t("dashboard.tutorSubtitle")}
-            primaryAction={{ label: "Ustawienia tutora", to: "/settings" }}
+            primaryAction={{ label: t("tutorDash.settingsCta"), to: "/settings" }}
           />
 
           {verified === false && (
@@ -51,50 +51,50 @@ const TutorDashboard = () => {
                 <AlertCircle className="h-4 w-4" />
               </span>
               <div className="flex-1">
-                <p className="text-sm font-medium mb-1">Profil oczekuje na weryfikację</p>
+                <p className="text-sm font-medium mb-1">{t("tutorDash.pendingTitle")}</p>
                 <p className="text-xs text-muted-foreground">
-                  Po weryfikacji przez zespół Kogni Twój profil będzie mógł być publikowany w wyszukiwarce.
+                  {t("tutorDash.pendingBody")}
                 </p>
               </div>
-              <Badge variant="secondary" className="text-[10px]">W toku</Badge>
+              <Badge variant="secondary" className="text-[10px]">{t("tutorDash.pendingBadge")}</Badge>
             </Surface>
           )}
 
           <div className="grid gap-4 sm:grid-cols-4 mb-6">
-            <StatCard icon={CalIcon} label="Dziś" value="0" hint="Brak zaplanowanych lekcji" />
-            <StatCard icon={FileText} label="Notatki do uzupełnienia" value="0" hint="Wszystko ogarnięte" />
-            <StatCard icon={Users} label="Aktywni uczniowie" value="0" />
-            <StatCard icon={Wallet} label="Zarobki (mies.)" value="0 zł" hint="Potwierdzone wpłaty" />
+            <StatCard icon={CalIcon} label={t("tutorDash.today")} value="0" hint={t("tutorDash.todayHint")} />
+            <StatCard icon={FileText} label={t("tutorDash.notesTodo")} value="0" hint={t("tutorDash.notesHint")} />
+            <StatCard icon={Users} label={t("tutorDash.activeStudents")} value="0" />
+            <StatCard icon={Wallet} label={t("tutorDash.monthEarn")} value="0 zł" hint={t("tutorDash.earnHint")} />
           </div>
 
           <div className="grid gap-5 md:grid-cols-3 mb-6">
-            <AIInsightCard title="Insight ucznia" className="md:col-span-2">
+            <AIInsightCard title={t("tutorDash.studentInsight")} className="md:col-span-2">
               <p>
-                Po pierwszych lekcjach pojawią się tu sugestie AI: na czym warto się skupić z każdym uczniem na podstawie jego mapy wiedzy.
+                {t("tutorDash.studentInsightBody")}
               </p>
             </AIInsightCard>
             <Surface className="p-5">
               <h3 className="font-semibold mb-2 text-sm flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-accent" /> Status profilu
+                <ShieldCheck className="h-4 w-4 text-accent" /> {t("tutorDash.profileStatus")}
               </h3>
               <ul className="text-xs space-y-1.5 text-muted-foreground">
-                <li>Weryfikacja: {verified ? "✓ tak" : "— oczekuje"}</li>
-                <li>Publikacja: {published ? "✓ widoczny" : "— ukryty"}</li>
+                <li>{t("tutorDash.verification")}: {verified ? t("tutorDash.yes") : t("tutorDash.pending")}</li>
+                <li>{t("tutorDash.publication")}: {published ? t("tutorDash.visible") : t("tutorDash.hidden")}</li>
               </ul>
               <Button asChild variant="outline" size="sm" className="w-full mt-4">
-                <Link to="/settings"><SettingsIcon className="h-3.5 w-3.5 mr-1.5" />Konfiguracja</Link>
+                <Link to="/settings"><SettingsIcon className="h-3.5 w-3.5 mr-1.5" />{t("tutorDash.config")}</Link>
               </Button>
             </Surface>
           </div>
 
           <div className="grid gap-5 md:grid-cols-2">
             <Surface className="p-5">
-              <h2 className="font-semibold mb-3 flex items-center gap-2"><CalIcon className="h-4 w-4 text-accent" /> Dzisiejsze lekcje</h2>
-              <EmptyState icon={CalIcon} title="Brak lekcji na dziś" description="Ustaw dostępność, aby uczniowie mogli rezerwować." ctaLabel="Ustaw dostępność" ctaTo="/settings" />
+              <h2 className="font-semibold mb-3 flex items-center gap-2"><CalIcon className="h-4 w-4 text-accent" /> {t("tutorDash.todayLessons")}</h2>
+              <EmptyState icon={CalIcon} title={t("tutorDash.noLessonsTitle")} description={t("tutorDash.noLessonsDesc")} ctaLabel={t("tutorDash.setAvailability")} ctaTo="/settings" />
             </Surface>
             <Surface className="p-5">
-              <h2 className="font-semibold mb-3 flex items-center gap-2"><FileText className="h-4 w-4 text-accent" /> Notatki po lekcjach</h2>
-              <EmptyState icon={FileText} title="Brak notatek do uzupełnienia" description="Po każdej lekcji wypełnisz krótki formularz — AI przygotuje wstępny szkic raportu." />
+              <h2 className="font-semibold mb-3 flex items-center gap-2"><FileText className="h-4 w-4 text-accent" /> {t("tutorDash.afterLessonNotes")}</h2>
+              <EmptyState icon={FileText} title={t("tutorDash.noNotesTitle")} description={t("tutorDash.noNotesDesc")} />
             </Surface>
           </div>
         </DashboardShell>

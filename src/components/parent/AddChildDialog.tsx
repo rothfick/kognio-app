@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
@@ -14,10 +15,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
-const CONSENT_COPY =
-  "Potwierdzam, że jestem rodzicem lub opiekunem prawnym dziecka i wyrażam zgodę na utworzenie profilu ucznia oraz przetwarzanie danych w celu prowadzenia nauki, diagnozy edukacyjnej i generowania raportów postępów.";
-
 export function AddChildDialog({ onCreated }: { onCreated?: () => void }) {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -38,8 +37,8 @@ export function AddChildDialog({ onCreated }: { onCreated?: () => void }) {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
-    if (!displayName.trim()) { toast.error("Podaj imię dziecka."); return; }
-    if (!consent) { toast.error("Zgoda rodzica/opiekuna jest wymagana."); return; }
+    if (!displayName.trim()) { toast.error(t("parent.addChild.missingName")); return; }
+    if (!consent) { toast.error(t("parent.addChild.missingConsent")); return; }
 
     setSubmitting(true);
     try {
@@ -56,13 +55,13 @@ export function AddChildDialog({ onCreated }: { onCreated?: () => void }) {
         consent_version: "v1",
       });
       if (error) throw error;
-      toast.success("Profil dziecka został dodany.");
+      toast.success(t("parent.addChild.created"));
       reset();
       setOpen(false);
       onCreated?.();
     } catch (err: any) {
       console.error(err);
-      toast.error(err.message || "Nie udało się dodać profilu dziecka.");
+      toast.error(err.message || t("parent.addChild.createFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -72,30 +71,30 @@ export function AddChildDialog({ onCreated }: { onCreated?: () => void }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="bg-accent-gradient text-accent-foreground">
-          <Plus className="h-4 w-4 mr-2" /> Dodaj dziecko
+          <Plus className="h-4 w-4 mr-2" /> {t("parent.addChild.trigger")}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Dodaj profil dziecka</DialogTitle>
+          <DialogTitle>{t("parent.addChild.title")}</DialogTitle>
           <DialogDescription>
-            Utworzysz profil ucznia powiązany z Twoim kontem rodzica.
+            {t("parent.addChild.desc")}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="name">Imię dziecka *</Label>
+            <Label htmlFor="name">{t("parent.addChild.name")}</Label>
             <Input id="name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} required />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label htmlFor="dob">Data urodzenia</Label>
+              <Label htmlFor="dob">{t("parent.addChild.dob")}</Label>
               <Input id="dob" type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="grade">Klasa</Label>
+              <Label htmlFor="grade">{t("parent.addChild.grade")}</Label>
               <Select value={gradeLevel} onValueChange={setGradeLevel}>
-                <SelectTrigger id="grade"><SelectValue placeholder="Wybierz" /></SelectTrigger>
+                <SelectTrigger id="grade"><SelectValue placeholder={t("parent.addChild.selectPlaceholder")} /></SelectTrigger>
                 <SelectContent>
                   {["SP4","SP5","SP6","SP7","SP8","LO1","LO2","LO3","LO4"].map((g) => (
                     <SelectItem key={g} value={g}>{g}</SelectItem>
@@ -105,9 +104,9 @@ export function AddChildDialog({ onCreated }: { onCreated?: () => void }) {
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="subject">Główny przedmiot</Label>
+            <Label htmlFor="subject">{t("parent.addChild.subject")}</Label>
             <Select value={primarySubject} onValueChange={setPrimarySubject}>
-              <SelectTrigger id="subject"><SelectValue placeholder="Wybierz przedmiot" /></SelectTrigger>
+              <SelectTrigger id="subject"><SelectValue placeholder={t("parent.addChild.subjectPlaceholder")} /></SelectTrigger>
               <SelectContent>
                 {["Matematyka","Fizyka","Chemia","Biologia","Język polski","Język angielski","Informatyka"].map((s) => (
                   <SelectItem key={s} value={s}>{s}</SelectItem>
@@ -116,32 +115,32 @@ export function AddChildDialog({ onCreated }: { onCreated?: () => void }) {
             </Select>
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="email">E-mail dziecka (opcjonalny)</Label>
-            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="np. anna@example.com" />
+            <Label htmlFor="email">{t("parent.addChild.email")}</Label>
+            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("parent.addChild.emailHint")} />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="relation">Relacja</Label>
+            <Label htmlFor="relation">{t("parent.addChild.relation")}</Label>
             <Select value={relation} onValueChange={(v) => setRelation(v as any)}>
               <SelectTrigger id="relation"><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="parent">Rodzic</SelectItem>
-                <SelectItem value="guardian">Opiekun prawny</SelectItem>
-                <SelectItem value="other">Inny</SelectItem>
+                <SelectItem value="parent">{t("parent.addChild.relParent")}</SelectItem>
+                <SelectItem value="guardian">{t("parent.addChild.relGuardian")}</SelectItem>
+                <SelectItem value="other">{t("parent.addChild.relOther")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <label className="flex items-start gap-2 rounded-md border p-3 bg-muted/30 text-xs leading-relaxed cursor-pointer">
             <Checkbox checked={consent} onCheckedChange={(v) => setConsent(!!v)} className="mt-0.5" />
-            <span>{CONSENT_COPY}</span>
+            <span>{t("parent.addChild.consent")}</span>
           </label>
           <p className="text-[10px] text-muted-foreground">
-            Wersja zgody: v1. Dokumenty prawne wymagają weryfikacji przed publicznym uruchomieniem.
+            {t("parent.addChild.consentVersion")}
           </p>
           <DialogFooter>
-            <Button type="button" variant="ghost" onClick={() => setOpen(false)}>Anuluj</Button>
+            <Button type="button" variant="ghost" onClick={() => setOpen(false)}>{t("parent.addChild.cancel")}</Button>
             <Button type="submit" disabled={submitting} className="bg-accent-gradient text-accent-foreground">
               {submitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-              Dodaj dziecko
+              {t("parent.addChild.submit")}
             </Button>
           </DialogFooter>
         </form>
