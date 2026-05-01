@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowLeft, Loader2, CheckCircle2, XCircle, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { EmptyState } from "@/components/EmptyState";
+import { createNotification } from "@/lib/notifications";
 
 type Assignment = {
   id: string; title: string; status: string; skill_area_label: string | null;
@@ -65,20 +66,47 @@ export default function HomeworkDetail() {
     })();
   }, [user, id]);
 
-  const submit = async () => {
+  const reload = async () => {
     if (!id) return;
-    if (Object.keys(answers).length === 0) { toast.error(t("homeworkToast.answerRequired")); return; }
+    const { data: a } = await supabase
+      .from("assignments")
+      .select("id, title, status, skill_area_label, source_type, owner_type, user_id, child_id")
+      .eq("id", id).maybeSingle();
+    if (a) setAssignment(a as Assignment);
+    const { data: sub } = await supabase
+      .from("assignment_submissions")
+      .select("id, answers, score, max_score, percentage, status, feedback")
+      .eq("assignment_id", id).order("created_at", { ascending: false }).limit(1).maybeSingle();
+    setSubmission((sub as Submission | null) || null);
+  };
+
+  const submit = async () => {
+    if (!id || !user) return;
+    if (submission) { toast.error(t("homeworkToast.submitFailed")); return; }
+    const answered = Object.values(answers).filter((v) => v !== undefined && v !== null && String(v).trim() !== "").length;
+    if (answered === 0) { toast.error(t("homeworkToast.answerRequired")); return; }
     setSubmitting(true);
     try {
       const { data, error } = await supabase.functions.invoke("homework-grade", {
         body: { assignment_id: id, answers },
       });
-      if (error || (data as { error?: string })?.error) {
+      const result = data as { status?: string; needs_review?: boolean; percentage?: number; error?: string } | null;
+      if (error || result?.error) {
         toast.error(t("homeworkToast.submitFailed"));
       } else {
         toast.success(t("homeworkToast.submitted"));
-        // Reload
-        navigate(0);
+        try {
+          await createNotification({
+            userId: user.id,
+            type: result?.needs_review ? "homework_needs_review" : "homework_graded",
+            severity: result?.needs_review ? "warning" : "success",
+            title: result?.needs_review ? t("grading.needsReview") : t("grading.autoGraded"),
+            body: typeof result?.percentage === "number" ? t("grading.percentage", { n: result.percentage }) : undefined,
+            actionLabel: t("homework.openCta"),
+            actionUrl: `/homework/${id}`,
+          });
+        } catch { /* non-blocking */ }
+        await reload();
       }
     } finally { setSubmitting(false); }
   };
