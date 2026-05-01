@@ -181,7 +181,21 @@ const ChildCard = ({ child }: { child: ChildRow }) => {
         )}
       </div>
 
-      <div className="flex flex-wrap gap-2 mt-auto">
+      {checkpoint && (
+        <div className="rounded-md border border-accent/30 bg-card-soft p-3 space-y-1">
+          <div className="flex items-center gap-2 text-xs font-medium">
+            <TrendingUp className="h-3.5 w-3.5 text-accent" /> {t("checkpoint.latestTitle")}
+          </div>
+          <p className="text-xs text-muted-foreground">
+            {t("checkpoint.latestSubtitle", { delta: checkpoint.score_delta == null ? "—" : `${(checkpoint.score_delta * 100) >= 0 ? "+" : ""}${Math.round(checkpoint.score_delta * 100)}%` })}
+            {checkpoint.completed_at ? ` · ${new Date(checkpoint.completed_at).toLocaleDateString(lang)}` : ""}
+          </p>
+          <Link to={`/checkpoints/${checkpoint.id}`} className="text-xs text-accent underline-offset-2 hover:underline">
+            {t("checkpoint.viewReport")}
+          </Link>
+        </div>
+      )}
+
         {!hasDiagnostic ? (
           <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
             <Link to={`/parent/children/${child.id}/diagnose`}>{t("parent.child.doDiagnosis")}</Link>
