@@ -134,7 +134,7 @@ const Landing = () => {
             Bezpłatna diagnoza AI z dowolnego przedmiotu — od szkoły podstawowej, przez liceum i technikum, aż po studia. Matematyka, języki, nauki ścisłe i humanistyczne, programowanie, przygotowanie do egzaminów. Bez zobowiązań.
           </p>
           <Button asChild size="lg" className="bg-accent-gradient text-accent-foreground shadow-glow">
-            <Link to="/auth?mode=signup">
+            <Link to="/auth?mode=signup&next=/diagnose">
               {t("landing.ctaPrimary")} <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
