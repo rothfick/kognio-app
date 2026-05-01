@@ -1343,12 +1343,16 @@ export type Database = {
           description: string | null
           diagnostic_attempt_id: string | null
           domain: string | null
+          education_level_id: string | null
+          education_system_id: string | null
           evidence: Json
           generated_at: string | null
           generated_by: string
           id: string
+          learning_domain_id: string | null
           level: string | null
           owner_type: string
+          prompt_version: string | null
           status: string
           title: string
           updated_at: string
@@ -1365,12 +1369,16 @@ export type Database = {
           description?: string | null
           diagnostic_attempt_id?: string | null
           domain?: string | null
+          education_level_id?: string | null
+          education_system_id?: string | null
           evidence?: Json
           generated_at?: string | null
           generated_by?: string
           id?: string
+          learning_domain_id?: string | null
           level?: string | null
           owner_type: string
+          prompt_version?: string | null
           status?: string
           title: string
           updated_at?: string
@@ -1387,12 +1395,16 @@ export type Database = {
           description?: string | null
           diagnostic_attempt_id?: string | null
           domain?: string | null
+          education_level_id?: string | null
+          education_system_id?: string | null
           evidence?: Json
           generated_at?: string | null
           generated_by?: string
           id?: string
+          learning_domain_id?: string | null
           level?: string | null
           owner_type?: string
+          prompt_version?: string | null
           status?: string
           title?: string
           updated_at?: string
@@ -1418,6 +1430,27 @@ export type Database = {
             columns: ["diagnostic_attempt_id"]
             isOneToOne: false
             referencedRelation: "diagnostic_attempts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_plans_education_level_id_fkey"
+            columns: ["education_level_id"]
+            isOneToOne: false
+            referencedRelation: "education_levels"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_plans_education_system_id_fkey"
+            columns: ["education_system_id"]
+            isOneToOne: false
+            referencedRelation: "education_systems"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_plans_learning_domain_id_fkey"
+            columns: ["learning_domain_id"]
+            isOneToOne: false
+            referencedRelation: "learning_domains"
             referencedColumns: ["id"]
           },
           {
