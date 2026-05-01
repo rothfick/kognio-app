@@ -6,7 +6,7 @@ import { RoleGate } from "@/components/auth/RoleGate";
 import { Surface } from "@/components/ui/surface";
 import { StatCard } from "@/components/ui/stat-card";
 import { EmptyState } from "@/components/EmptyState";
-import { ShieldCheck, AlertTriangle, Sparkles, Activity, ClipboardList, GraduationCap, Network, BookOpen, ListChecks, ClipboardCheck, Globe2, Layers, Library, BadgeCheck } from "lucide-react";
+import { ShieldCheck, AlertTriangle, Sparkles, Activity, ClipboardList, GraduationCap, Network, BookOpen, ListChecks, ClipboardCheck, Globe2, Layers, Library, BadgeCheck, Telescope, Link2, Unlink, Percent, User, Users, Cpu } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 type DomainRow = { id: string; name_pl: string; name_en: string | null; name_es: string | null };
