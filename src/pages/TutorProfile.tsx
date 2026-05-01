@@ -45,7 +45,7 @@ const TutorProfile = () => {
   }, [id]);
 
   const book = async () => {
-    if (!user || !tutor || !date) { toast.error("Wybierz datę"); return; }
+    if (!user || !tutor || !date) { toast.error(t("tutorProfile.chooseDate")); return; }
     const starts = new Date(`${date}T${time}:00`);
     const ends = new Date(starts.getTime() + 60 * 60 * 1000);
     const { data, error } = await supabase.from("bookings").insert({
@@ -58,12 +58,12 @@ const TutorProfile = () => {
       const room = `room-${data.id.slice(0, 8)}`;
       await supabase.from("sessions").insert({ booking_id: data.id, room_name: room });
     }
-    toast.success("Rezerwacja utworzona");
+    toast.success(t("tutorProfile.bookingCreated"));
     navigate("/calendar");
   };
 
   if (loading) return <AppShell><div className="container py-10">{t("common.loading")}</div></AppShell>;
-  if (!tutor) return <AppShell><div className="container py-10">Tutor nie znaleziony.</div></AppShell>;
+  if (!tutor) return <AppShell><div className="container py-10">{t("tutorProfile.notFound")}</div></AppShell>;
 
   return (
     <AppShell>
@@ -76,7 +76,7 @@ const TutorProfile = () => {
               <p className="text-lg text-muted-foreground">{tutor.headline}</p>
               <div className="flex items-center gap-4 mt-3 text-sm">
                 <span className="flex items-center gap-1"><Star className="h-4 w-4 fill-accent text-accent" /> {tutor.rating?.toFixed(1) || "—"}</span>
-                <span className="text-muted-foreground">{tutor.sessions_completed} sesji</span>
+                <span className="text-muted-foreground">{t("tutorProfile.sessions", { count: tutor.sessions_completed })}</span>
                 <span className="font-bold text-lg">{(tutor.hourly_rate_cents / 100).toFixed(0)} {tutor.currency}/h</span>
               </div>
             </div>
@@ -86,20 +86,20 @@ const TutorProfile = () => {
 
         {user?.id === tutor.user_id ? (
           <Card className="p-6 bg-card-soft text-center">
-            <p className="text-muted-foreground mb-4">To Twój publiczny profil tutora.</p>
+            <p className="text-muted-foreground mb-4">{t("tutorProfile.ownProfile")}</p>
             <Button asChild className="bg-accent-gradient text-accent-foreground">
-              <Link to="/settings"><SettingsIcon className="h-4 w-4 mr-2" />Edytuj profil</Link>
+              <Link to="/settings"><SettingsIcon className="h-4 w-4 mr-2" />{t("tutorProfile.editProfile")}</Link>
             </Button>
           </Card>
         ) : (
         <Card className="p-6 bg-card-soft">
-          <h2 className="text-xl font-semibold mb-4">Zarezerwuj sesję (1h)</h2>
+          <h2 className="text-xl font-semibold mb-4">{t("tutorProfile.bookTitle")}</h2>
           <div className="grid grid-cols-2 gap-3 mb-4">
-            <div><Label>Data</Label><Input type="date" value={date} onChange={(e) => setDate(e.target.value)} min={new Date().toISOString().slice(0, 10)} /></div>
-            <div><Label>Godzina</Label><Input type="time" value={time} onChange={(e) => setTime(e.target.value)} /></div>
+            <div><Label>{t("tutorProfile.date")}</Label><Input type="date" value={date} onChange={(e) => setDate(e.target.value)} min={new Date().toISOString().slice(0, 10)} /></div>
+            <div><Label>{t("tutorProfile.time")}</Label><Input type="time" value={time} onChange={(e) => setTime(e.target.value)} /></div>
           </div>
           <Button onClick={book} className="w-full bg-accent-gradient text-accent-foreground" disabled={!user}>
-            {user ? "Zarezerwuj" : "Zaloguj się aby zarezerwować"}
+            {user ? t("tutorProfile.book") : t("tutorProfile.loginToBook")}
           </Button>
         </Card>
         )}
