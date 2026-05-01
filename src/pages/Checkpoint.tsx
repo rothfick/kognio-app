@@ -9,9 +9,12 @@ import { Surface } from "@/components/ui/surface";
 import { StatCard } from "@/components/ui/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Sparkles, TrendingUp, TrendingDown, Activity, ListChecks, Telescope, BookOpen } from "lucide-react";
+import { ArrowLeft, Sparkles, TrendingUp, TrendingDown, Activity, ListChecks, Telescope, BookOpen, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
 import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
+import { generateHomework, langCode } from "@/lib/homeworkClient";
+import { isFeatureEnabled } from "@/config/features";
 
 type MasteryDeltaRow = {
   skill_area_label: string;
