@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AppShell } from "@/components/layout/AppShell";
 import { DashboardShell, DashboardHeader } from "@/components/layout/DashboardShell";
 import { RoleGate } from "@/components/auth/RoleGate";
@@ -52,6 +53,7 @@ interface InviteRow {
 }
 
 function OrgDashboardInner({ kind }: { kind: OrgType }) {
+  const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [org, setOrg] = useState<Organization | null>(null);
@@ -74,18 +76,18 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
 
   const labels = useMemo(
     () => ({
-      title: kind === "school" ? "Pulpit szkoły" : "Pulpit firmy szkoleniowej",
+      title: kind === "school" ? t("org.schoolTitle") : t("org.companyTitle"),
       subtitle:
         kind === "school"
-          ? "Zarządzaj uczniami, nauczycielami i klasami swojej szkoły."
-          : "Zarządzaj zespołami, trenerami i kursantami swojej firmy.",
+          ? t("org.schoolSubtitle")
+          : t("org.companySubtitle"),
       icon: kind === "school" ? <School className="h-5 w-5" /> : <Building2 className="h-5 w-5" />,
-      memberSingular: kind === "school" ? "uczeń" : "kursant",
-      memberPlural: kind === "school" ? "Uczniowie" : "Kursanci",
-      teachers: kind === "school" ? "Nauczyciele" : "Trenerzy",
+      memberPlural: kind === "school" ? t("org.studentsSchool") : t("org.studentsCompany"),
+      teachers: kind === "school" ? t("org.teachersSchool") : t("org.teachersCompany"),
     }),
-    [kind]
+    [kind, t]
   );
+  const dateLocale = i18n.language?.startsWith("es") ? "es-ES" : i18n.language?.startsWith("en") ? "en-US" : "pl-PL";
 
   const loadAll = async () => {
     if (!user) return;
