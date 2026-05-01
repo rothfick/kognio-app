@@ -122,7 +122,17 @@ export default function Diagnose() {
     }
   }, [navigate, t]);
 
+  const aiConsentType = childId ? "parent_child_data_processing" : "ai_diagnosis_notice";
+  const { hasConsent: hasAiConsent, refresh: refreshConsent } = useConsent(aiConsentType, childId);
+  const [consentOpen, setConsentOpen] = useState(false);
+  const [pendingStart, setPendingStart] = useState(false);
+
   const start = useCallback(async () => {
+    if (!hasAiConsent) {
+      setPendingStart(true);
+      setConsentOpen(true);
+      return;
+    }
     setSubmitting(true);
     try {
       const lang = i18n.language?.split("-")[0] || "pl";
