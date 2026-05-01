@@ -174,9 +174,7 @@ const SessionRoom = () => {
         <div className="grid lg:grid-cols-3 gap-4">
           {/* Left: video + emocje */}
           <div className="space-y-4 flex flex-col">
-            <Card className="aspect-video bg-hero text-primary-foreground grid place-items-center">
-              <div className="text-center"><Video className="h-10 w-10 mx-auto mb-2 opacity-70" /><p className="text-sm opacity-80">Wideo (LiveKit — placeholder)</p></div>
-            </Card>
+            <LiveKitVideo sessionId={session.id} />
             {user && <EmotionEngine sessionId={session.id} userId={user.id} />}
             <Button onClick={generateSummary} disabled={summarizing} className="bg-accent-gradient text-accent-foreground">
               {summarizing ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
