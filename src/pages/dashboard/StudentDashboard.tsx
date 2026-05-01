@@ -184,7 +184,28 @@ const StudentDashboard = () => {
             </Surface>
           )}
 
-          {kcAreas.length > 0 && (
+          {checkpoint && (
+            <Surface className="p-5 mb-6 border-accent/30">
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div className="min-w-0">
+                  <h2 className="font-semibold flex items-center gap-2 text-base mb-1">
+                    <TrendingUp className="h-4 w-4 text-accent" /> {t("checkpoint.latestTitle")}
+                  </h2>
+                  <p className="text-xs text-muted-foreground">
+                    {t("checkpoint.latestSubtitle", { delta: checkpoint.score_delta == null ? "—" : `${(checkpoint.score_delta * 100) >= 0 ? "+" : ""}${Math.round(checkpoint.score_delta * 100)}%` })}
+                  </p>
+                  {checkpoint.completed_at && (
+                    <p className="text-[11px] text-muted-foreground mt-1">{t("checkpoint.completedAt", { date: new Date(checkpoint.completed_at).toLocaleDateString(lang) })}</p>
+                  )}
+                </div>
+                <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+                  <Link to={`/checkpoints/${checkpoint.id}`}>{t("checkpoint.viewReport")}</Link>
+                </Button>
+              </div>
+            </Surface>
+          )}
+
+
             <Surface className="p-5 mb-6">
               <h2 className="font-semibold mb-3 flex items-center gap-2 text-base">
                 <Sparkles className="h-4 w-4 text-accent" /> {t("knowledge.aiDiagnosisAreas")}
