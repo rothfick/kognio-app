@@ -17,6 +17,7 @@ import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge"
 import { ResearchConsentDialog } from "@/components/pilot/ResearchConsentDialog";
 import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
 import { useConsent } from "@/hooks/useConsent";
+import { createNotification } from "@/lib/notifications";
 
 type Choice = { id: string; text: string };
 type Item = { id: string; question: string; choices: Choice[]; kc_label: string; difficulty: number };
@@ -194,6 +195,18 @@ export default function Diagnose() {
           setSummary(d.summary);
           setScore({ pct: d.score_pct, total: d.total, correct: d.correct });
           setPhase("done");
+          if (user && !checkpointId) {
+            createNotification({
+              userId: user.id,
+              type: "diagnosis_completed",
+              severity: "success",
+              title: t("notifications.diagnosis_completed.title"),
+              body: t("notifications.diagnosis_completed.body"),
+              actionLabel: t("notifications.diagnosis_completed.action"),
+              actionUrl: "/dashboard",
+              metadata: { attempt_id: attemptId, child_id: childId },
+            });
+          }
         } else {
           setItem(d.item);
           setQuestionIdx(d.question_index);
@@ -547,6 +560,18 @@ function PlanCta({ attemptId, childId, language }: { attemptId: string | null; c
       const id = (data as { plan_id?: string })?.plan_id;
       if (!id) throw new Error("no plan id");
       toast.success(t("plan.generated"));
+      if (user) {
+        await createNotification({
+          userId: user.id,
+          type: "plan_ready",
+          severity: "success",
+          title: t("notifications.plan_ready.title"),
+          body: t("notifications.plan_ready.body"),
+          actionLabel: t("notifications.plan_ready.action"),
+          actionUrl: `/plans/${id}`,
+          metadata: { plan_id: id, child_id: childId },
+        });
+      }
       navigate(`/plans/${id}`);
     } catch (e) {
       toast.error((e as Error).message || t("plan.generateFailed"));
