@@ -86,11 +86,27 @@ const SessionRoom = () => {
   };
 
   const askCopilot = async () => {
-    if (!aiInput.trim()) return;
+    if (!aiInput.trim() || !user || !session) return;
     setAiLoading(true); setAiStream("");
-    const question = aiInput;
+    const question = aiInput.trim();
     setAiInput("");
     try {
+      // Najpierw zapisz pytanie usera w czacie (pojawi się od razu via realtime)
+      await supabase.from("session_chat").insert({
+        session_id: session.id, user_id: user.id, role: "user", content: question,
+      });
+
+      // Zbuduj historię konwersacji (tylko user + ai), max 20 ostatnich
+      const history = chat
+        .filter((m) => m.role === "ai" || m.user_id === user.id)
+        .slice(-20)
+        .map((m) => ({
+          role: m.role === "ai" ? "assistant" : "user",
+          content: m.content.replace(/^🤖 Co-pilot:\s*/, ""),
+        }));
+
+      const contextSnippet = [...transcripts, ...chat].slice(-10).map((m: any) => m.text || m.content).join("\n");
+
       const { data: { session: s } } = await supabase.auth.getSession();
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-copilot`, {
         method: "POST",
@@ -98,7 +114,8 @@ const SessionRoom = () => {
         body: JSON.stringify({
           mode: "tutor",
           messages: [
-            { role: "system", content: `Kontekst sesji (ostatnie wypowiedzi):\n${[...transcripts, ...chat].slice(-15).map((m: any) => m.text || m.content).join("\n")}` },
+            { role: "system", content: `Kontekst sesji (ostatnie wypowiedzi):\n${contextSnippet}` },
+            ...history,
             { role: "user", content: question },
           ],
         }),
@@ -129,7 +146,7 @@ const SessionRoom = () => {
         }
       }
       // zapisz pełną odpowiedź AI do czatu sesji
-      if (full && session && user) {
+      if (full) {
         await supabase.from("session_chat").insert({
           session_id: session.id, user_id: user.id, role: "ai",
           content: `🤖 Co-pilot: ${full}`,
@@ -205,12 +222,26 @@ const SessionRoom = () => {
               <TabsContent value="chat" className="flex-1 flex flex-col px-4 pb-4 mt-0 data-[state=inactive]:hidden">
                 <div className="flex-1 overflow-y-auto space-y-2 pr-2">
                   {chat.length === 0 && <p className="text-sm text-muted-foreground italic">Czat jest pusty.</p>}
-                  {chat.map((m) => (
-                    <div key={m.id} className={`p-3 rounded-lg max-w-[85%] ${m.user_id === user?.id ? "ml-auto bg-accent/15" : "bg-background"} ${m.role === "ai" ? "border border-accent/40" : ""}`}>
-                      <p className="text-sm whitespace-pre-wrap">{m.content}</p>
-                      <p className="text-xs text-muted-foreground mt-1">{new Date(m.created_at).toLocaleTimeString()}</p>
-                    </div>
-                  ))}
+                  {chat.map((m) => {
+                    const isAi = m.role === "ai";
+                    const isMine = !isAi && m.user_id === user?.id;
+                    const align = isMine ? "ml-auto items-end" : "mr-auto items-start";
+                    const bubble = isAi
+                      ? "bg-accent/10 border border-accent/40 text-foreground rounded-bl-sm"
+                      : isMine
+                        ? "bg-primary text-primary-foreground rounded-br-sm"
+                        : "bg-muted text-foreground rounded-bl-sm";
+                    const cleanContent = isAi ? m.content.replace(/^🤖 Co-pilot:\s*/, "") : m.content;
+                    return (
+                      <div key={m.id} className={`flex flex-col max-w-[85%] ${align}`}>
+                        {isAi && <span className="text-[10px] font-semibold text-accent mb-0.5 ml-2">🤖 AI Co-pilot</span>}
+                        <div className={`p-3 rounded-2xl ${bubble}`}>
+                          <p className="text-sm whitespace-pre-wrap">{cleanContent}</p>
+                          <p className="text-[10px] mt-1 opacity-70">{new Date(m.created_at).toLocaleTimeString()}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
                   <div ref={chatEnd} />
                 </div>
                 <form onSubmit={(e) => { e.preventDefault(); sendChat(); }} className="flex gap-2 mt-3 pt-3 border-t">
@@ -241,21 +272,40 @@ const SessionRoom = () => {
                 </form>
               </TabsContent>
 
-              {/* CO-PILOT */}
+              {/* CO-PILOT — pełny chat z AI (multi-turn) */}
               <TabsContent value="copilot" className="flex-1 flex flex-col px-4 pb-4 mt-0 data-[state=inactive]:hidden">
                 <div className="flex-1 overflow-y-auto space-y-3 pr-2">
                   <Card className="p-3 bg-background">
-                    <p className="text-xs font-medium text-accent mb-1">AI Co-pilot</p>
-                    <p className="text-sm text-muted-foreground">Zadaj pytanie, a otrzymasz sugestię z kontekstem ostatnich wypowiedzi w sesji. Odpowiedź zostanie zapisana w czacie sesji.</p>
+                    <p className="text-xs font-medium text-accent mb-1">🤖 AI Co-pilot</p>
+                    <p className="text-sm text-muted-foreground">Pytania trafiają do AI z kontekstem ostatnich wypowiedzi. Cała rozmowa zapisuje się w czacie sesji.</p>
                   </Card>
+                  {chat.filter((m) => m.role === "ai" || m.user_id === user?.id).slice(-30).map((m) => {
+                    const isAi = m.role === "ai";
+                    const align = isAi ? "mr-auto items-start" : "ml-auto items-end";
+                    const bubble = isAi
+                      ? "bg-accent/10 border border-accent/40 rounded-bl-sm"
+                      : "bg-primary text-primary-foreground rounded-br-sm";
+                    const cleanContent = isAi ? m.content.replace(/^🤖 Co-pilot:\s*/, "") : m.content;
+                    return (
+                      <div key={m.id} className={`flex flex-col max-w-[85%] ${align}`}>
+                        {isAi && <span className="text-[10px] font-semibold text-accent mb-0.5 ml-2">🤖 AI</span>}
+                        <div className={`p-3 rounded-2xl ${bubble}`}>
+                          <p className="text-sm whitespace-pre-wrap">{cleanContent}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
                   {aiStream && (
-                    <Card className="p-3 bg-accent/5 border-accent/40">
-                      <p className="text-sm whitespace-pre-wrap">{aiStream}</p>
-                    </Card>
+                    <div className="flex flex-col max-w-[85%] mr-auto items-start">
+                      <span className="text-[10px] font-semibold text-accent mb-0.5 ml-2">🤖 AI pisze…</span>
+                      <div className="p-3 rounded-2xl rounded-bl-sm bg-accent/10 border border-accent/40">
+                        <p className="text-sm whitespace-pre-wrap">{aiStream}</p>
+                      </div>
+                    </div>
                   )}
                 </div>
                 <form onSubmit={(e) => { e.preventDefault(); askCopilot(); }} className="flex gap-2 mt-3 pt-3 border-t">
-                  <Input value={aiInput} onChange={(e) => setAiInput(e.target.value)} placeholder="np. Jak wytłumaczyć pochodne na przykładzie?" disabled={aiLoading} />
+                  <Input value={aiInput} onChange={(e) => setAiInput(e.target.value)} placeholder="Zapytaj AI o cokolwiek…" disabled={aiLoading} />
                   <Button type="submit" size="icon" disabled={aiLoading}>
                     {aiLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                   </Button>
