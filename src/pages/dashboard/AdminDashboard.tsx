@@ -116,6 +116,63 @@ const AdminDashboard = () => {
       }
       setDomainCounts(domainsArr.map((d) => ({ domain: d, count: domainMap.get(d.id) || 0 })).sort((a, b) => b.count - a.count));
       setLevelCounts(levelsArr.map((l) => ({ level: l, count: levelMap.get(l.id) || 0 })).sort((a, b) => b.count - a.count));
+
+      // Traceability stats
+      const [withTax, withCustom, mappedCkc, unmappedCkc, mappedUcm, unmappedUcm, ucmAll, ckcAll, withAlgo, recentAttempts] = await Promise.all([
+        supabase.from("diagnostic_attempts").select("id", { count: "exact", head: true }).not("learning_domain_id", "is", null),
+        supabase.from("diagnostic_attempts").select("id", { count: "exact", head: true }).is("learning_domain_id", null).not("domain", "is", null),
+        supabase.from("child_kc_mastery").select("id", { count: "exact", head: true }).not("competency_id", "is", null),
+        supabase.from("child_kc_mastery").select("id", { count: "exact", head: true }).is("competency_id", null),
+        supabase.from("user_competency_mastery").select("id", { count: "exact", head: true }).not("competency_id", "is", null),
+        supabase.from("user_competency_mastery").select("id", { count: "exact", head: true }).is("competency_id", null),
+        supabase.from("user_competency_mastery").select("id", { count: "exact", head: true }),
+        supabase.from("child_kc_mastery").select("id", { count: "exact", head: true }),
+        supabase.from("diagnostic_attempts").select("id", { count: "exact", head: true }).not("algorithm_version", "is", null),
+        supabase.from("diagnostic_attempts")
+          .select("id, created_at, user_id, child_id, domain, level, score, algorithm_version, prompt_version, mode, summary")
+          .eq("status", "completed")
+          .order("created_at", { ascending: false })
+          .limit(10),
+      ]);
+
+      const mappedTotal = (mappedCkc.count ?? 0) + (mappedUcm.count ?? 0);
+      const unmappedTotal = (unmappedCkc.count ?? 0) + (unmappedUcm.count ?? 0);
+      const denom = mappedTotal + unmappedTotal;
+      setTrace({
+        withTaxonomy: withTax.count ?? 0,
+        withCustomDomain: withCustom.count ?? 0,
+        mappedMastery: mappedTotal,
+        unmappedMastery: unmappedTotal,
+        matchRate: denom === 0 ? null : mappedTotal / denom,
+        selfMastery: ucmAll.count ?? 0,
+        parentChildMastery: ckcAll.count ?? 0,
+        withAlgorithm: withAlgo.count ?? 0,
+      });
+
+      const rows: RecentRow[] = ((recentAttempts.data || []) as Array<{
+        id: string; created_at: string; user_id: string | null; child_id: string | null;
+        domain: string | null; level: string | null; score: number | null;
+        algorithm_version: string | null; prompt_version: string | null; mode: string | null;
+        summary: { kc_breakdown?: Array<{ competency_id?: string | null }> } | null;
+      }>).map((a) => {
+        const breakdown = a.summary?.kc_breakdown ?? [];
+        const mapped = breakdown.filter((b) => !!b.competency_id).length;
+        const unmapped = breakdown.filter((b) => !b.competency_id).length;
+        return {
+          id: a.id,
+          created_at: a.created_at,
+          owner_type: a.child_id ? "child" : "self",
+          domain: a.domain,
+          level: a.level,
+          score: a.score,
+          mapped,
+          unmapped,
+          algorithm_version: a.algorithm_version,
+          prompt_version: a.prompt_version,
+          source: a.mode,
+        };
+      });
+      setRecent(rows);
     })();
   }, []);
 
