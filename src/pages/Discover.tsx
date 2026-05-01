@@ -188,6 +188,17 @@ const Marketplace = () => {
           </div>
         </Card>
 
+        {!loading && tutors.length > 0 ? (
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>{t("marketplace.resultsCount", { count: filtered.length })}</span>
+            {filtersDirty ? (
+              <Button variant="ghost" size="sm" onClick={resetFilters}>
+                {t("marketplace.resetFilters")}
+              </Button>
+            ) : null}
+          </div>
+        ) : null}
+
         {loading ? (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
@@ -201,9 +212,14 @@ const Marketplace = () => {
             </div>
             <h2 className="text-xl font-semibold">{t("marketplace.empty.title")}</h2>
             <p className="max-w-md text-sm text-muted-foreground">{t("marketplace.empty.body")}</p>
-            <Button asChild>
-              <Link to="/tutor/onboarding">{t("marketplace.empty.cta")}</Link>
-            </Button>
+            <div className="flex flex-wrap justify-center gap-2">
+              {filtersDirty ? (
+                <Button variant="outline" onClick={resetFilters}>{t("marketplace.resetFilters")}</Button>
+              ) : null}
+              <Button asChild>
+                <Link to="/tutor/onboarding">{t("marketplace.empty.cta")}</Link>
+              </Button>
+            </div>
           </Card>
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
