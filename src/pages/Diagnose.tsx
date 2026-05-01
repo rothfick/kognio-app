@@ -14,6 +14,9 @@ import { ArrowLeft, Loader2, Sparkles, CheckCircle2, AlertCircle, Brain, Target,
 import { toast } from "sonner";
 import { CurriculumPicker, type CurriculumSelection } from "@/components/diagnose/CurriculumPicker";
 import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
+import { ResearchConsentDialog } from "@/components/pilot/ResearchConsentDialog";
+import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
+import { useConsent } from "@/hooks/useConsent";
 
 type Choice = { id: string; text: string };
 type Item = { id: string; question: string; choices: Choice[]; kc_label: string; difficulty: number };
