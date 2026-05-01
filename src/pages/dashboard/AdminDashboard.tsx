@@ -209,18 +209,32 @@ const AdminDashboard = () => {
         <DashboardShell>
           <DashboardHeader title={t("dashboard.adminTitle")} subtitle={t("dashboard.adminSubtitle")} />
 
-          <a href="/admin/research" className="block mb-6">
-            <Surface variant="ai" className="p-5 hover:shadow-elegant transition-shadow">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-xs uppercase tracking-wide text-muted-foreground">{t("research.adminLink.eyebrow")}</p>
-                  <p className="text-lg font-semibold mt-1">{t("research.title")}</p>
-                  <p className="text-sm text-muted-foreground">{t("research.adminLink.hint")}</p>
+          <div className="grid gap-4 sm:grid-cols-2 mb-6">
+            <a href="/admin/research" className="block">
+              <Surface variant="ai" className="p-5 hover:shadow-elegant transition-shadow h-full">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground">{t("research.adminLink.eyebrow")}</p>
+                    <p className="text-lg font-semibold mt-1">{t("research.title")}</p>
+                    <p className="text-sm text-muted-foreground">{t("research.adminLink.hint")}</p>
+                  </div>
+                  <Telescope className="h-8 w-8 text-accent" />
                 </div>
-                <Telescope className="h-8 w-8 text-accent" />
-              </div>
-            </Surface>
-          </a>
+              </Surface>
+            </a>
+            <a href="/admin/grant-pack" className="block">
+              <Surface variant="ai" className="p-5 hover:shadow-elegant transition-shadow h-full">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground">{t("grantPack.adminLink.eyebrow")}</p>
+                    <p className="text-lg font-semibold mt-1">{t("grantPack.title")}</p>
+                    <p className="text-sm text-muted-foreground">{t("grantPack.adminLink.hint")}</p>
+                  </div>
+                  <BadgeCheck className="h-8 w-8 text-accent" />
+                </div>
+              </Surface>
+            </a>
+          </div>
 
           <div className="grid gap-4 sm:grid-cols-4 mb-6">
             <StatCard icon={ShieldCheck} label={t("admin.verifications")} value="0" hint={t("admin.verificationsHint")} />
