@@ -250,7 +250,9 @@ export default function LearningPlan() {
           }}
         />
 
-
+        <Surface className="p-5 mb-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="font-semibold flex items-center gap-2"><ListChecks className="h-4 w-4 text-accent" /> {t("plan.steps")}</h2>
             <span className="text-xs text-muted-foreground">{t("plan.progress", { done: stats.done, total: stats.total })}</span>
           </div>
           <Progress value={stats.total ? (stats.done / stats.total) * 100 : 0} className="mb-4" />
