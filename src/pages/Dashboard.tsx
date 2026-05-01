@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserRoles } from "@/hooks/useUserRoles";
@@ -8,10 +8,30 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { toast } from "sonner";
 import {
   Calendar as CalIcon, CreditCard, Search, Sparkles, Users, HandHelping,
   GraduationCap, Star, Wallet, ArrowRight, Settings as SettingsIcon, AlertCircle,
+  Clock, CheckCircle2, XCircle, Trophy, Video,
 } from "lucide-react";
+
+const STATUS_META: Record<string, { label: string; icon: any; cls: string }> = {
+  pending:   { label: "Oczekuje",     icon: Clock,        cls: "bg-muted text-muted-foreground border-muted-foreground/20" },
+  confirmed: { label: "Potwierdzona", icon: CheckCircle2, cls: "bg-accent/15 text-accent border-accent/40" },
+  completed: { label: "Zakończona",   icon: Trophy,       cls: "bg-primary/10 text-primary border-primary/30" },
+  cancelled: { label: "Anulowana",    icon: XCircle,      cls: "bg-destructive/10 text-destructive border-destructive/40" },
+};
+
+const StatusPill = ({ status }: { status: string }) => {
+  const m = STATUS_META[status] || STATUS_META.pending;
+  const Icon = m.icon;
+  return (
+    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium ${m.cls}`}>
+      <Icon className="h-3.5 w-3.5" />
+      {m.label}
+    </span>
+  );
+};
 
 type Booking = {
   id: string; starts_at: string; ends_at: string; status: string;
