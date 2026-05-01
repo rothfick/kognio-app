@@ -29,7 +29,9 @@
     "notifications": "Notificaciones",
     "availability": "Disponibilidad",
     "bookings": "Reservas",
-    "tutorDashboard": "Panel del tutor"
+    "tutorDashboard": "Panel del tutor",
+    "homework": "Tareas",
+    "assignments": "Tareas de alumnos"
   },
   "landing": {
     "heroEyebrow": "Plataforma inteligente de aprendizaje",

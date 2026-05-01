@@ -39,7 +39,7 @@ export const FEATURES: Record<FeatureFlag, boolean> = {
   circles: false,
   peerHelp: false,
   secondBrain: false,
-  homework: false,
+  homework: true,
 
   // Live pilot v1 — enabled
   operationsConsole: true,
