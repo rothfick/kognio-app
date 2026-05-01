@@ -305,6 +305,26 @@ const ResearchDashboardInner = () => {
               </div>
             </Surface>
 
+            {/* Demo checklist */}
+            <Surface className="p-6">
+              <div className="flex items-start justify-between gap-4 flex-wrap mb-3">
+                <div>
+                  <h2 className="text-lg font-semibold">{t("research.demo.title")}</h2>
+                  <p className="text-sm text-muted-foreground max-w-xl">{t("research.demo.subtitle")}</p>
+                </div>
+              </div>
+              <ol className="grid gap-2 sm:grid-cols-2 text-sm">
+                {[
+                  "diagnosis", "plan", "items", "checkpoint", "report", "expert", "research", "export",
+                ].map((k, i) => (
+                  <li key={k} className="flex items-center gap-3 rounded-lg border bg-card-soft px-3 py-2">
+                    <span className="grid h-6 w-6 place-items-center rounded-full bg-accent/15 text-accent text-xs font-semibold tabular-nums">{i + 1}</span>
+                    <span>{t(`research.demo.steps.${k}`)}</span>
+                  </li>
+                ))}
+              </ol>
+            </Surface>
+
             {/* Key metrics */}
             <section>
               <h2 className="text-lg font-semibold mb-3">{t("research.sections.keyMetrics")}</h2>

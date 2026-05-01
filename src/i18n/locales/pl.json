@@ -1232,6 +1232,20 @@
     "readiness": {
       "title": "Gotowość dowodowa SMART",
       "disclaimer": "To wewnętrzna heurystyka, nie oficjalny wynik grantowy."
+    },
+    "demo": {
+      "title": "Lista kontrolna demo",
+      "subtitle": "Krótka ścieżka end-to-end do prezentacji pętli badawczej Kogni.",
+      "steps": {
+        "diagnosis": "Uruchom diagnozę AI",
+        "plan": "Wygeneruj plan nauki",
+        "items": "Ukończ 3 kroki planu",
+        "checkpoint": "Uruchom checkpoint postępu",
+        "report": "Pokaż raport checkpointu",
+        "expert": "Utwórz recenzję ekspercką",
+        "research": "Pokaż panel badawczy",
+        "export": "Eksportuj raport SMART JSON"
+      }
     }
   },
   "validation": {

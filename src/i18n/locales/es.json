@@ -1232,6 +1232,20 @@
     "readiness": {
       "title": "Preparación de evidencia SMART",
       "disclaimer": "Es una heurística interna, no una puntuación oficial de subvención."
+    },
+    "demo": {
+      "title": "Lista de verificación demo",
+      "subtitle": "Recorrido corto end-to-end del bucle de investigación de Kogni.",
+      "steps": {
+        "diagnosis": "Ejecuta el diagnóstico de IA",
+        "plan": "Genera un plan de aprendizaje",
+        "items": "Completa 3 pasos del plan",
+        "checkpoint": "Lanza un checkpoint de progreso",
+        "report": "Muestra el informe del checkpoint",
+        "expert": "Crea una revisión experta",
+        "research": "Muestra el panel de investigación",
+        "export": "Exporta el informe SMART en JSON"
+      }
     }
   },
   "validation": {
