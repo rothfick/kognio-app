@@ -18,27 +18,53 @@ import {
 } from "lucide-react";
 
 type KcRow = { kc_label: string; mastery_pct: number; status: string };
+type LatestPlan = { id: string; status: string; title: string };
 
 const StudentDashboard = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [latestScore, setLatestScore] = useState<number | null>(null);
+  const [latestAttemptId, setLatestAttemptId] = useState<string | null>(null);
   const [kcAreas, setKcAreas] = useState<KcRow[]>([]);
+  const [plan, setPlan] = useState<LatestPlan | null>(null);
+  const [planProgress, setPlanProgress] = useState<{ done: number; total: number; nextTitle: string | null }>({ done: 0, total: 0, nextTitle: null });
 
   useEffect(() => {
     if (!user) return;
     (async () => {
       const { data } = await supabase
         .from("diagnostic_attempts")
-        .select("score, summary")
+        .select("id, score, summary")
         .eq("user_id", user.id)
         .eq("status", "completed")
         .order("completed_at", { ascending: false })
         .limit(1)
         .maybeSingle();
       setLatestScore(data?.score === null || data?.score === undefined ? null : Number(data.score));
+      setLatestAttemptId((data as { id?: string } | null)?.id ?? null);
       const summary = (data as { summary?: { kc_breakdown?: KcRow[] } } | null)?.summary;
       setKcAreas(Array.isArray(summary?.kc_breakdown) ? (summary!.kc_breakdown as KcRow[]) : []);
+
+      const { data: p } = await supabase
+        .from("learning_plans")
+        .select("id, status, title")
+        .eq("user_id", user.id)
+        .neq("status", "archived")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      setPlan((p as LatestPlan | null) || null);
+      if (p?.id) {
+        const { data: items } = await supabase
+          .from("learning_plan_items")
+          .select("status, title, order_index")
+          .eq("plan_id", p.id)
+          .order("order_index");
+        const list = (items || []) as { status: string; title: string; order_index: number }[];
+        const done = list.filter((i) => i.status === "done").length;
+        const next = list.find((i) => i.status === "pending" || i.status === "in_progress");
+        setPlanProgress({ done, total: list.length, nextTitle: next?.title ?? null });
+      }
     })();
   }, [user]);
 
@@ -94,6 +120,40 @@ const StudentDashboard = () => {
               <p className="text-xs text-muted-foreground mt-3">{latestScore === null ? t("student.mapAfterDiag") : t("student.mapBuiltAfterDiag")}</p>
             </Surface>
           </div>
+
+          {(plan || latestAttemptId) && (
+            <Surface className="p-5 mb-6">
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div className="min-w-0">
+                  <h2 className="font-semibold flex items-center gap-2 text-base mb-1">
+                    <Sparkles className="h-4 w-4 text-accent" /> {plan ? plan.title : t("plan.title")}
+                  </h2>
+                  {plan ? (
+                    <>
+                      <p className="text-xs text-muted-foreground">
+                        <Badge variant="secondary" className="text-[10px] mr-1.5">{t(`plan.status.${plan.status}`)}</Badge>
+                        {t("plan.progress", { done: planProgress.done, total: planProgress.total })}
+                      </p>
+                      {planProgress.nextTitle && (
+                        <p className="text-xs mt-2"><span className="text-muted-foreground">{t("plan.nextStep")}: </span>{planProgress.nextTitle}</p>
+                      )}
+                    </>
+                  ) : (
+                    <p className="text-xs text-muted-foreground max-w-xl">{t("plan.generateHelper")}</p>
+                  )}
+                </div>
+                {plan ? (
+                  <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+                    <Link to={`/plans/${plan.id}`}>{t("plan.continueCta")}</Link>
+                  </Button>
+                ) : (
+                  <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+                    <Link to="/diagnose">{t("plan.generateCta")}</Link>
+                  </Button>
+                )}
+              </div>
+            </Surface>
+          )}
 
           {kcAreas.length > 0 && (
             <Surface className="p-5 mb-6">

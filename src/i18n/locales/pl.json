@@ -854,5 +854,78 @@
     "developing": "Rozwija się",
     "proficient": "Sprawnie",
     "mastered": "Opanowane"
+  },
+  "plan": {
+    "title": "Plan nauki",
+    "subtitle": "Plan oparty na diagnozie",
+    "steps": "Kroki nauki",
+    "areasToImprove": "Obszary do poprawy",
+    "rationale": "Uzasadnienie rekomendacji",
+    "evidence": "Dowody z diagnozy",
+    "generateCta": "Ułóż plan nauki",
+    "viewCta": "Zobacz plan nauki",
+    "continueCta": "Kontynuuj plan",
+    "generateHelper": "Na podstawie diagnozy Kogni przygotuje pierwszy plan nauki z krokami i uzasadnieniem.",
+    "whyTitle": "Dlaczego taki plan?",
+    "whyGenerated": "Plan został wygenerowany na podstawie wyniku diagnozy.",
+    "credibility": "Plan został wygenerowany na podstawie wyniku diagnozy. Możesz go później omówić z korepetytorem lub nauczycielem.",
+    "stepsCount": "Liczba kroków",
+    "totalTime": "Łączny szacowany czas",
+    "weakAreasCovered": "Obszary słabe objęte planem",
+    "diagnosticScore": "Wynik diagnozy",
+    "stepNumber": "Krok {{n}}",
+    "estMinutes": "{{n}} min",
+    "difficulty": "Trudność {{n}}/5",
+    "noPlan": "Brak planu nauki",
+    "noPlanDesc": "Wygeneruj plan po zakończonej diagnozie.",
+    "generating": "Tworzenie planu…",
+    "loadFailed": "Nie udało się załadować planu.",
+    "generateFailed": "Nie udało się utworzyć planu.",
+    "generated": "Plan utworzony.",
+    "activated": "Plan aktywny.",
+    "archived": "Plan zarchiwizowany.",
+    "itemDone": "Krok zaliczony.",
+    "itemSkipped": "Krok pominięty.",
+    "algoNote": "Algorytm: {{ver}}",
+    "nextStep": "Następny krok",
+    "progress": "{{done}} / {{total}} kroków",
+    "kinds": {
+      "review": "Powtórka",
+      "practice": "Ćwiczenia",
+      "lesson": "Lekcja",
+      "quiz": "Quiz",
+      "project": "Projekt"
+    },
+    "status": {
+      "draft": "Szkic",
+      "active": "Aktywny",
+      "completed": "Ukończony",
+      "archived": "Zarchiwizowany",
+      "pending": "Oczekuje",
+      "in_progress": "W trakcie",
+      "done": "Wykonane",
+      "skipped": "Pominięte"
+    },
+    "actions": {
+      "activate": "Aktywuj plan",
+      "archive": "Zarchiwizuj plan",
+      "markDone": "Oznacz jako zrobione",
+      "skip": "Pomiń",
+      "back": "Wróć do panelu"
+    },
+    "denied": "Brak dostępu do tego planu."
+  },
+  "evidence": {
+    "title": "Dowody z diagnozy",
+    "fromDiagnosis": "Wygenerowano z diagnozy",
+    "weakAreas": "Główne obszary do poprawy",
+    "rationale": "Uzasadnienie rekomendacji"
+  },
+  "smart": {
+    "section": "Statystyki R&D / SMART",
+    "plansGenerated": "Wygenerowane plany nauki",
+    "evidenceEvents": "Zdarzenia dowodowe",
+    "avgDiagScore": "Średni wynik diagnozy (z planami)",
+    "itemsCompleted": "Ukończone kroki planu"
   }
 }

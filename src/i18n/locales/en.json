@@ -854,5 +854,78 @@
     "developing": "Developing",
     "proficient": "Proficient",
     "mastered": "Mastered"
+  },
+  "plan": {
+    "title": "Learning Plan",
+    "subtitle": "Diagnosis-based plan",
+    "steps": "Learning steps",
+    "areasToImprove": "Areas to improve",
+    "rationale": "Recommendation rationale",
+    "evidence": "Diagnostic evidence",
+    "generateCta": "Generate learning plan",
+    "viewCta": "View learning plan",
+    "continueCta": "Continue plan",
+    "generateHelper": "Based on the diagnosis, Kogni will prepare a first learning plan with steps and rationale.",
+    "whyTitle": "Why this plan?",
+    "whyGenerated": "The plan was generated from the diagnosis result.",
+    "credibility": "The plan was generated from the diagnosis result. You can later review it with a tutor or teacher.",
+    "stepsCount": "Number of steps",
+    "totalTime": "Total estimated time",
+    "weakAreasCovered": "Weak areas covered",
+    "diagnosticScore": "Diagnostic score",
+    "stepNumber": "Step {{n}}",
+    "estMinutes": "{{n}} min",
+    "difficulty": "Difficulty {{n}}/5",
+    "noPlan": "No learning plan yet",
+    "noPlanDesc": "Generate a plan after completing a diagnosis.",
+    "generating": "Generating plan…",
+    "loadFailed": "Failed to load plan.",
+    "generateFailed": "Failed to create plan.",
+    "generated": "Plan created.",
+    "activated": "Plan activated.",
+    "archived": "Plan archived.",
+    "itemDone": "Step completed.",
+    "itemSkipped": "Step skipped.",
+    "algoNote": "Algorithm: {{ver}}",
+    "nextStep": "Next step",
+    "progress": "{{done}} / {{total}} steps",
+    "kinds": {
+      "review": "Review",
+      "practice": "Practice",
+      "lesson": "Lesson",
+      "quiz": "Quiz",
+      "project": "Project"
+    },
+    "status": {
+      "draft": "Draft",
+      "active": "Active",
+      "completed": "Completed",
+      "archived": "Archived",
+      "pending": "Pending",
+      "in_progress": "In progress",
+      "done": "Done",
+      "skipped": "Skipped"
+    },
+    "actions": {
+      "activate": "Activate plan",
+      "archive": "Archive plan",
+      "markDone": "Mark as done",
+      "skip": "Skip",
+      "back": "Back to dashboard"
+    },
+    "denied": "You don't have access to this plan."
+  },
+  "evidence": {
+    "title": "Diagnostic evidence",
+    "fromDiagnosis": "Generated from diagnosis",
+    "weakAreas": "Main weak areas",
+    "rationale": "Recommendation rationale"
+  },
+  "smart": {
+    "section": "R&D / SMART stats",
+    "plansGenerated": "Learning plans generated",
+    "evidenceEvents": "Evidence events",
+    "avgDiagScore": "Average diagnostic score (with plans)",
+    "itemsCompleted": "Plan steps completed"
   }
 }

@@ -17,16 +17,22 @@ const AdminDashboard = () => {
   const [diagItems, setDiagItems] = useState<number | null>(null);
   const [diagAttempts, setDiagAttempts] = useState<number | null>(null);
   const [diagAvgScore, setDiagAvgScore] = useState<number | null>(null);
+  const [plansCount, setPlansCount] = useState<number | null>(null);
+  const [evidenceCount, setEvidenceCount] = useState<number | null>(null);
+  const [planItemsDone, setPlanItemsDone] = useState<number | null>(null);
 
   useEffect(() => {
     (async () => {
-      const [s, k, e, di, da, scoresRes] = await Promise.all([
+      const [s, k, e, di, da, scoresRes, lp, see, lpiDone] = await Promise.all([
         supabase.from("subjects").select("id", { count: "exact", head: true }).eq("is_active", true),
         supabase.from("knowledge_components").select("id", { count: "exact", head: true }).eq("is_active", true),
         supabase.from("kc_prerequisites").select("id", { count: "exact", head: true }),
         supabase.from("diagnostic_items").select("id", { count: "exact", head: true }).eq("is_active", true).eq("approved_by_admin", true),
         supabase.from("diagnostic_attempts").select("id", { count: "exact", head: true }).eq("status", "completed"),
         supabase.from("diagnostic_attempts").select("score").eq("status", "completed"),
+        supabase.from("learning_plans").select("id", { count: "exact", head: true }),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }),
+        supabase.from("learning_plan_items").select("id", { count: "exact", head: true }).eq("status", "done"),
       ]);
       setSubjectsCount(s.count ?? 0);
       setKcCount(k.count ?? 0);
@@ -35,6 +41,9 @@ const AdminDashboard = () => {
       setDiagAttempts(da.count ?? 0);
       const scores = ((scoresRes.data || []) as { score: number | null }[]).map((r) => Number(r.score ?? 0));
       setDiagAvgScore(scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null);
+      setPlansCount(lp.count ?? 0);
+      setEvidenceCount(see.count ?? 0);
+      setPlanItemsDone(lpiDone.count ?? 0);
     })();
   }, []);
 
@@ -68,6 +77,18 @@ const AdminDashboard = () => {
             <p className="mt-3 text-[11px] text-muted-foreground">
               {t("admin.ontologyNote")}
             </p>
+          </Surface>
+
+          <Surface className="p-5 mb-6">
+            <h2 className="font-semibold mb-3 flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-accent" /> {t("smart.section")}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-4">
+              <StatCard icon={ListChecks} label={t("smart.plansGenerated")} value={plansCount === null ? "…" : String(plansCount)} />
+              <StatCard icon={ClipboardCheck} label={t("smart.itemsCompleted")} value={planItemsDone === null ? "…" : String(planItemsDone)} />
+              <StatCard icon={Activity} label={t("smart.evidenceEvents")} value={evidenceCount === null ? "…" : String(evidenceCount)} />
+              <StatCard icon={Sparkles} label={t("smart.avgDiagScore")} value={diagAvgScore === null ? "—" : `${Math.round(diagAvgScore * 100)}%`} />
+            </div>
           </Surface>
 
           <div className="grid gap-5 md:grid-cols-2">
