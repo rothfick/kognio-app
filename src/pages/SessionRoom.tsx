@@ -86,11 +86,27 @@ const SessionRoom = () => {
   };
 
   const askCopilot = async () => {
-    if (!aiInput.trim()) return;
+    if (!aiInput.trim() || !user || !session) return;
     setAiLoading(true); setAiStream("");
-    const question = aiInput;
+    const question = aiInput.trim();
     setAiInput("");
     try {
+      // Najpierw zapisz pytanie usera w czacie (pojawi się od razu via realtime)
+      await supabase.from("session_chat").insert({
+        session_id: session.id, user_id: user.id, role: "user", content: question,
+      });
+
+      // Zbuduj historię konwersacji (tylko user + ai), max 20 ostatnich
+      const history = chat
+        .filter((m) => m.role === "ai" || m.user_id === user.id)
+        .slice(-20)
+        .map((m) => ({
+          role: m.role === "ai" ? "assistant" : "user",
+          content: m.content.replace(/^🤖 Co-pilot:\s*/, ""),
+        }));
+
+      const contextSnippet = [...transcripts, ...chat].slice(-10).map((m: any) => m.text || m.content).join("\n");
+
       const { data: { session: s } } = await supabase.auth.getSession();
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-copilot`, {
         method: "POST",
@@ -98,7 +114,8 @@ const SessionRoom = () => {
         body: JSON.stringify({
           mode: "tutor",
           messages: [
-            { role: "system", content: `Kontekst sesji (ostatnie wypowiedzi):\n${[...transcripts, ...chat].slice(-15).map((m: any) => m.text || m.content).join("\n")}` },
+            { role: "system", content: `Kontekst sesji (ostatnie wypowiedzi):\n${contextSnippet}` },
+            ...history,
             { role: "user", content: question },
           ],
         }),
@@ -129,7 +146,7 @@ const SessionRoom = () => {
         }
       }
       // zapisz pełną odpowiedź AI do czatu sesji
-      if (full && session && user) {
+      if (full) {
         await supabase.from("session_chat").insert({
           session_id: session.id, user_id: user.id, role: "ai",
           content: `🤖 Co-pilot: ${full}`,
