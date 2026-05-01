@@ -23,11 +23,12 @@ Deno.serve(async (req) => {
       { global: { headers: { Authorization: authHeader } } }
     );
 
-    const { data: claims, error: cerr } = await supabase.auth.getClaims(authHeader.replace("Bearer ", ""));
-    if (cerr || !claims?.claims?.sub) {
+    const jwt = authHeader.replace("Bearer ", "");
+    const { data: userData, error: cerr } = await supabase.auth.getUser(jwt);
+    if (cerr || !userData?.user?.id) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
-    const userId = claims.claims.sub as string;
+    const userId = userData.user.id;
 
     const body = await req.json().catch(() => ({}));
     const sessionId = body?.sessionId;
