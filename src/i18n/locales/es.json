@@ -1003,5 +1003,63 @@
     "anonymous": "—",
     "infoTitle": "Por qué importa (FENG / SMART)",
     "infoBody": "Este panel muestra si los diagnósticos de Kogni están vinculados estructuralmente al grafo de competencias. Esto permite documentar qué áreas de conocimiento se detectaron, cómo se asignaron a competencias y qué versión del algoritmo produjo el resultado."
+  },
+  "checkpoint": {
+    "checkProgress": "Comprobar progreso",
+    "checkProgressHelper": "Kogni hará un breve diagnóstico de control y lo comparará con el punto de partida.",
+    "notEligible": "Completa al menos 3 pasos del plan para comprobar el progreso.",
+    "starting": "Preparando el diagnóstico de control…",
+    "modeBadge": "Diagnóstico de control",
+    "modeNote": "Este es un diagnóstico de control vinculado a tu plan de estudio.",
+    "reportTitle": "Informe de progreso",
+    "reportSubtitle": "Comparación entre el diagnóstico inicial y el de control",
+    "baselineScore": "Puntuación inicial",
+    "checkpointScore": "Puntuación de control",
+    "scoreDelta": "Cambio de puntuación",
+    "completedItems": "Pasos del plan completados",
+    "averageDelta": "Cambio medio de dominio",
+    "interpretationTitle": "Qué significa esto",
+    "interpretation": {
+      "strong_improvement": "Mejora clara respecto al inicio. El plan está funcionando.",
+      "modest_improvement": "Mejora pequeña pero medible. Vale la pena continuar.",
+      "stable": "El resultado se mantiene en un nivel similar. Es normal al inicio del aprendizaje.",
+      "slight_regression": "El resultado bajó ligeramente. Repasa las áreas más débiles.",
+      "regression": "El resultado bajó de forma notable. Conviene volver a las bases antes de avanzar.",
+      "neutral_no_baseline": "No hay diagnóstico inicial para comparar."
+    },
+    "areasTable": "Comparación de áreas",
+    "colArea": "Área / competencia",
+    "colBefore": "Antes",
+    "colAfter": "Después",
+    "colDelta": "Cambio",
+    "colStatus": "Estado",
+    "noBefore": "—",
+    "evidenceTitle": "Evidencia (SMART)",
+    "evidenceBaseline": "Diagnóstico inicial",
+    "evidenceCheckpoint": "Diagnóstico de control",
+    "evidencePlan": "Plan de estudio",
+    "evidenceAlgorithm": "Versión del algoritmo",
+    "actions": {
+      "backToPlan": "Volver al plan",
+      "continueLearning": "Continuar aprendiendo",
+      "generateNextPlan": "Próximo plan (pronto)",
+      "back": "Atrás"
+    },
+    "status": {
+      "pending": "pendiente",
+      "in_progress": "en curso",
+      "completed": "completado",
+      "cancelled": "cancelado"
+    },
+    "latestTitle": "Último informe de progreso",
+    "latestSubtitle": "Resultado {{delta}} respecto al inicio",
+    "viewReport": "Ver informe de progreso",
+    "denied": "No tienes acceso a este informe.",
+    "improvedAreas": "Áreas con mejora",
+    "regressedAreas": "Áreas con retroceso",
+    "unchangedAreas": "Sin cambio",
+    "areaOnlyBefore": "Solo en el diagnóstico inicial",
+    "noAreas": "Sin datos para comparar.",
+    "credibility": "El informe se basa en datos estructurados de los diagnósticos, sin juicio subjetivo."
   }
 }
