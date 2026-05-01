@@ -1,9 +1,10 @@
 {
   "brand": {
-    "name": "Mądrzej",
-    "tagline": "Tutoring that truly understands you."
+    "name": "TutorOS AI",
+    "tagline": "Tutoring driven by data, not guesswork."
   },
   "nav": {
+    "dashboard": "Dashboard",
     "discover": "Discover",
     "circles": "Learning Circles",
     "peer": "Peer Help",
@@ -18,26 +19,30 @@
     "myProfile": "My profile"
   },
   "landing": {
-    "heroTitle": "Next-generation tutoring.",
-    "heroSubtitle": "Video + whiteboard + AI co-pilot + engagement analytics. All in one room. Payments go straight from student to tutor — zero platform fees.",
-    "ctaPrimary": "Get started free",
+    "heroEyebrow": "AI Learning Intelligence Platform",
+    "heroTitle": "Tutoring that knows what your child doesn't know yet.",
+    "heroSubtitle": "TutorOS AI diagnoses knowledge gaps, picks the right learning path and helps your tutor teach from data — not guesswork.",
+    "ctaPrimary": "Take the AI diagnosis",
     "ctaSecondary": "See how it works",
-    "feature1Title": "Three layers of AI",
-    "feature1Desc": "Live co-pilot during sessions, emotion & engagement analytics, and your personal Second Brain.",
-    "feature2Title": "Hybrid community",
-    "feature2Desc": "1:1 tutors, learning circles of 3-6, peer help and a karma system. For everyone, globally.",
-    "feature3Title": "Zero commission",
-    "feature3Desc": "BLIK / bank transfer / Revolut go directly to the tutor. The platform never touches the money.",
+    "pillarsTitle": "Three pillars of TutorOS AI",
+    "pillar1Title": "AI diagnosis",
+    "pillar1Desc": "A short adaptive test reveals what your child actually knows and where the gaps are — before you spend on tutoring.",
+    "pillar2Title": "Matched tutor",
+    "pillar2Desc": "Our algorithm matches a tutor to the specific gaps from the diagnosis, not to star ratings.",
+    "pillar3Title": "Measurable progress report",
+    "pillar3Desc": "After each lesson you see what your child mastered and what to work on next. No subjective impressions.",
+    "promiseTitle": "Our promise",
+    "promiseBody": "After 4 lessons you receive a measurable progress report and a recommendation for the next learning path.",
     "howItWorks": "How it works",
-    "step1": "Find a tutor or a learning circle",
-    "step2": "Book a session — the calendar handles the rest",
-    "step3": "Meet in the session room with AI co-pilot",
-    "step4": "Get a report, flashcards and homework",
-    "step5": "Pay the tutor directly and rate the session"
+    "step1": "Create an account and pick a subject",
+    "step2": "Take the 15-minute AI diagnosis",
+    "step3": "Pick a matched tutor",
+    "step4": "Learn — the system collects data from every lesson",
+    "step5": "Receive a report and a next-step recommendation"
   },
   "auth": {
     "signinTitle": "Welcome back",
-    "signupTitle": "Create account",
+    "signupTitle": "Create your TutorOS AI account",
     "email": "Email",
     "password": "Password",
     "submitSignin": "Sign in",
@@ -53,7 +58,7 @@
   },
   "discover": {
     "title": "Find your tutor",
-    "subtitle": "Browse verified tutors and join learning circles.",
+    "subtitle": "Browse verified tutors matched to your learning goals.",
     "searchPlaceholder": "Search subjects, tutors, topics…",
     "filters": "Filters",
     "noTutors": "No published tutors yet — be the first!",
@@ -103,11 +108,25 @@
     "addMethod": "Add method",
     "becomeTutor": "Become a tutor"
   },
+  "dashboard": {
+    "studentTitle": "Your learning",
+    "studentSubtitle": "Learn deliberately. The system collects data from every lesson so you know what's next.",
+    "parentTitle": "Your child's progress",
+    "parentSubtitle": "Measurable learning outcomes, based on lesson and diagnosis data.",
+    "tutorTitle": "Your lessons",
+    "tutorSubtitle": "Focus on teaching — TutorOS AI handles reports and progress analysis.",
+    "adminTitle": "Admin panel",
+    "adminSubtitle": "Verifications, payment disputes, AI quality, platform audit.",
+    "nextStep": "Next step",
+    "diagnoseCta": "Take the AI diagnosis",
+    "soonBadge": "Soon"
+  },
   "common": {
     "loading": "Loading…",
     "save": "Save",
     "cancel": "Cancel",
     "back": "Back",
-    "soon": "Coming soon"
+    "soon": "Coming soon",
+    "comingSoon": "Feature coming soon"
   }
 }

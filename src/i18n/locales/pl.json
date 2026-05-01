@@ -1,9 +1,10 @@
 {
   "brand": {
-    "name": "Mądrzej",
-    "tagline": "Korepetycje, które rozumieją Cię lepiej."
+    "name": "TutorOS AI",
+    "tagline": "Korepetycje oparte na danych, nie zgadywaniu."
   },
   "nav": {
+    "dashboard": "Pulpit",
     "discover": "Odkrywaj",
     "circles": "Kręgi nauki",
     "peer": "Peer Help",
@@ -18,26 +19,30 @@
     "myProfile": "Mój profil"
   },
   "landing": {
-    "heroTitle": "Korepetycje nowej generacji.",
-    "heroSubtitle": "Wideo + tablica + AI co-pilot + analiza zaangażowania. Wszystko w jednym oknie. Płatności bezpośrednio między Tobą a tutorem — bez prowizji.",
-    "ctaPrimary": "Zacznij za darmo",
-    "ctaSecondary": "Zobacz jak to działa",
-    "feature1Title": "Trzy warstwy AI",
-    "feature1Desc": "Live co-pilot w trakcie sesji, analiza emocji i zaangażowania, oraz Twój osobisty Drugi Mózg z całą wiedzą.",
-    "feature2Title": "Hybrydowa społeczność",
-    "feature2Desc": "Tutorzy 1:1, kręgi nauki 3-6 osób, peer help i system karmy. Dla każdego, globalnie.",
-    "feature3Title": "Bez prowizji",
-    "feature3Desc": "Płatności BLIK / przelew / Revolut bezpośrednio do tutora. Platforma nie pośredniczy.",
+    "heroEyebrow": "AI Learning Intelligence Platform",
+    "heroTitle": "Korepetycje, które wiedzą, czego nie wie Twoje dziecko.",
+    "heroSubtitle": "TutorOS AI diagnozuje luki w wiedzy, dobiera właściwą ścieżkę nauki i pomaga korepetytorowi prowadzić lekcje na podstawie danych — a nie zgadywania.",
+    "ctaPrimary": "Zrób diagnozę AI",
+    "ctaSecondary": "Zobacz, jak to działa",
+    "pillarsTitle": "Trzy filary TutorOS AI",
+    "pillar1Title": "Diagnoza AI",
+    "pillar1Desc": "Krótki, adaptacyjny test wykrywa, co uczeń naprawdę umie, a gdzie ma luki — zanim zaczniesz wydawać na korepetycje.",
+    "pillar2Title": "Dopasowany tutor",
+    "pillar2Desc": "Algorytm dobiera korepetytora pod konkretne braki z diagnozy, a nie pod gwiazdki w recenzjach.",
+    "pillar3Title": "Mierzalny raport postępów",
+    "pillar3Desc": "Po każdej lekcji widzisz, co dziecko opanowało i nad czym warto pracować dalej. Bez subiektywnych wrażeń.",
+    "promiseTitle": "Konkretna obietnica",
+    "promiseBody": "Po 4 lekcjach otrzymujesz mierzalny raport postępów dziecka i rekomendację dalszej ścieżki nauki.",
     "howItWorks": "Jak to działa",
-    "step1": "Znajdź tutora lub krąg nauki",
-    "step2": "Zarezerwuj sesję — kalendarz dba o resztę",
-    "step3": "Spotkaj się w pokoju z AI co-pilotem",
-    "step4": "Otrzymaj raport, fiszki i zadania",
-    "step5": "Zapłać tutorowi bezpośrednio i oceń sesję"
+    "step1": "Załóż konto i wybierz przedmiot",
+    "step2": "Zrób 15-minutową diagnozę AI",
+    "step3": "Wybierz dopasowanego korepetytora",
+    "step4": "Ucz się — system zbiera dane z każdej lekcji",
+    "step5": "Otrzymujesz raport i rekomendację dalszej ścieżki"
   },
   "auth": {
     "signinTitle": "Witaj z powrotem",
-    "signupTitle": "Załóż konto",
+    "signupTitle": "Załóż konto w TutorOS AI",
     "email": "E-mail",
     "password": "Hasło",
     "submitSignin": "Zaloguj się",
@@ -53,7 +58,7 @@
   },
   "discover": {
     "title": "Znajdź swojego tutora",
-    "subtitle": "Przeglądaj zweryfikowanych tutorów i dołączaj do kręgów nauki.",
+    "subtitle": "Przeglądaj zweryfikowanych korepetytorów dopasowanych do Twoich celów nauki.",
     "searchPlaceholder": "Szukaj przedmiotu, tutora, tematu…",
     "filters": "Filtry",
     "noTutors": "Jeszcze nikt nie opublikował profilu — bądź pierwszy!",
@@ -103,11 +108,25 @@
     "addMethod": "Dodaj metodę",
     "becomeTutor": "Zostań tutorem"
   },
+  "dashboard": {
+    "studentTitle": "Twoja nauka",
+    "studentSubtitle": "Ucz się świadomie. System zbiera dane z każdej lekcji, żebyś wiedział, co dalej.",
+    "parentTitle": "Postęp Twojego dziecka",
+    "parentSubtitle": "Mierzalne wyniki nauki, oparte na danych z lekcji i diagnoz.",
+    "tutorTitle": "Twoje lekcje",
+    "tutorSubtitle": "Skup się na nauczaniu — TutorOS AI bierze na siebie raporty i analizę postępu.",
+    "adminTitle": "Panel administratora",
+    "adminSubtitle": "Weryfikacje, spory płatnicze, jakość AI, audyt platformy.",
+    "nextStep": "Kolejny krok",
+    "diagnoseCta": "Zrób diagnozę AI",
+    "soonBadge": "Wkrótce"
+  },
   "common": {
     "loading": "Ładowanie…",
     "save": "Zapisz",
     "cancel": "Anuluj",
     "back": "Wstecz",
-    "soon": "Wkrótce"
+    "soon": "Wkrótce",
+    "comingSoon": "Funkcja w przygotowaniu"
   }
 }
