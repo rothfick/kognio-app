@@ -269,6 +269,116 @@ export type Database = {
           },
         ]
       }
+      parent_children: {
+        Row: {
+          consent_signed_at: string
+          consent_version: string
+          created_at: string
+          display_name: string
+          dob: string | null
+          email: string | null
+          grade_level: string | null
+          id: string
+          parent_id: string
+          primary_subject: string | null
+          relation: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          consent_signed_at?: string
+          consent_version?: string
+          created_at?: string
+          display_name: string
+          dob?: string | null
+          email?: string | null
+          grade_level?: string | null
+          id?: string
+          parent_id: string
+          primary_subject?: string | null
+          relation?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          consent_signed_at?: string
+          consent_version?: string
+          created_at?: string
+          display_name?: string
+          dob?: string | null
+          email?: string | null
+          grade_level?: string | null
+          id?: string
+          parent_id?: string
+          primary_subject?: string | null
+          relation?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "parent_children_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      parent_links: {
+        Row: {
+          consent_doc_url: string | null
+          consent_signed_at: string | null
+          consent_version: string | null
+          created_at: string
+          id: string
+          parent_id: string
+          relation: string
+          status: string
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          consent_doc_url?: string | null
+          consent_signed_at?: string | null
+          consent_version?: string | null
+          created_at?: string
+          id?: string
+          parent_id: string
+          relation?: string
+          status?: string
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          consent_doc_url?: string | null
+          consent_signed_at?: string | null
+          consent_version?: string | null
+          created_at?: string
+          id?: string
+          parent_id?: string
+          relation?: string
+          status?: string
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "parent_links_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "parent_links_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payments: {
         Row: {
           amount_cents: number
@@ -842,13 +952,17 @@ export type Database = {
         Args: { _circle: string; _user: string }
         Returns: boolean
       }
+      is_parent_of: {
+        Args: { _parent_id: string; _student_id: string }
+        Returns: boolean
+      }
       is_session_participant: {
         Args: { _session: string; _user: string }
         Returns: boolean
       }
     }
     Enums: {
-      app_role: "student" | "tutor" | "admin"
+      app_role: "student" | "tutor" | "admin" | "parent"
       booking_status:
         | "pending"
         | "confirmed"
@@ -986,7 +1100,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["student", "tutor", "admin"],
+      app_role: ["student", "tutor", "admin", "parent"],
       booking_status: [
         "pending",
         "confirmed",

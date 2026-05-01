@@ -7,10 +7,12 @@ export function DashboardHeader({
   title,
   subtitle,
   primaryAction,
+  actions,
 }: {
   title: string;
   subtitle: string;
   primaryAction?: { label: string; to: string };
+  actions?: ReactNode;
 }) {
   return (
     <div className="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
@@ -18,13 +20,15 @@ export function DashboardHeader({
         <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">{title}</h1>
         <p className="text-muted-foreground mt-2 max-w-2xl">{subtitle}</p>
       </div>
-      {primaryAction && (
+      {actions ? (
+        <div className="self-start md:self-auto">{actions}</div>
+      ) : primaryAction ? (
         <Button asChild className="bg-accent-gradient text-accent-foreground shadow-glow self-start md:self-auto">
           <Link to={primaryAction.to}>
             {primaryAction.label} <ChevronRight className="ml-1 h-4 w-4" />
           </Link>
         </Button>
-      )}
+      ) : null}
     </div>
   );
 }

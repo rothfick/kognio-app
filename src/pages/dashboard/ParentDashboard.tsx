@@ -1,85 +1,133 @@
+import { useEffect, useState, useCallback } from "react";
 import { AppShell } from "@/components/layout/AppShell";
 import { DashboardHeader, DashboardShell } from "@/components/layout/DashboardShell";
+import { RoleGate } from "@/components/auth/RoleGate";
 import { Surface } from "@/components/ui/surface";
 import { StatCard } from "@/components/ui/stat-card";
 import { AIInsightCard } from "@/components/ui/ai-insight-card";
 import { EmptyState } from "@/components/EmptyState";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, LineChart, FileText, CreditCard, Plus, BookOpen } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { Users, LineChart, FileText, Plus, BookOpen, ShieldCheck } from "lucide-react";
+import { AddChildDialog } from "@/components/parent/AddChildDialog";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
-/**
- * Parent dashboard shell. The `parent` role is not yet in the DB enum
- * (planned for Phase 2 of TutorOS AI roadmap). Until then this page is
- * accessible only as a preview — RoleGate intentionally not applied.
- */
+type ChildRow = {
+  id: string;
+  display_name: string;
+  grade_level: string | null;
+  primary_subject: string | null;
+  consent_signed_at: string | null;
+  consent_version: string | null;
+  status: string;
+};
+
 const ParentDashboard = () => {
-  const { t } = useTranslation();
+  const { user } = useAuth();
+  const [children, setChildren] = useState<ChildRow[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const load = useCallback(async () => {
+    if (!user) return;
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("parent_children")
+      .select("id, display_name, grade_level, primary_subject, consent_signed_at, consent_version, status")
+      .eq("parent_id", user.id)
+      .order("created_at", { ascending: false });
+    if (!error) setChildren((data || []) as ChildRow[]);
+    setLoading(false);
+  }, [user]);
+
+  useEffect(() => { load(); }, [load]);
+
   return (
-    <AppShell>
-      <DashboardShell>
-        <DashboardHeader title={t("dashboard.parentTitle")} subtitle={t("dashboard.parentSubtitle")} />
+    <RoleGate allow={["parent", "admin"]}>
+      <AppShell>
+        <DashboardShell>
+          <DashboardHeader
+            title="Pulpit rodzica"
+            subtitle="Zarządzaj profilami dzieci i śledź ich postępy."
+            actions={children.length > 0 ? <AddChildDialog onCreated={load} /> : undefined}
+          />
 
-        <Surface variant="ai" className="p-5 mb-6 flex items-start gap-3">
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-accent/15 text-accent">
-            <Users className="h-4 w-4" />
-          </span>
-          <div className="flex-1">
-            <p className="text-sm font-medium mb-1">Konto rodzica — wkrótce</p>
-            <p className="text-xs text-muted-foreground">
-              Wprowadzamy formalną rolę rodzica wraz z zarządzaniem kontami dzieci, zgodą RODO i podsumowaniami postępów. Ten panel pokazuje docelowy układ.
-            </p>
+          <div className="grid gap-4 sm:grid-cols-3 mb-6">
+            <StatCard icon={Users} label="Dzieci" value={String(children.length)} hint="Powiązane z Twoim kontem" />
+            <StatCard icon={LineChart} label="Średni postęp" value="—" hint="Po pierwszej diagnozie" />
+            <StatCard icon={FileText} label="Najnowszy raport" value="—" hint="Po 4 lekcjach" />
           </div>
-          <Badge variant="secondary" className="text-[10px]">{t("dashboard.soonBadge")}</Badge>
-        </Surface>
 
-        <div className="grid gap-4 sm:grid-cols-3 mb-6">
-          <StatCard icon={Users} label="Dzieci" value="0" hint="Dodaj profil dziecka" />
-          <StatCard icon={LineChart} label="Średni postęp" value="—" hint="Po pierwszym tygodniu nauki" />
-          <StatCard icon={FileText} label="Najnowszy raport" value="—" hint="Pojawi się po 4 lekcjach" />
-        </div>
+          <div className="grid gap-5 md:grid-cols-3 mb-6">
+            <AIInsightCard title="Co warto wiedzieć" className="md:col-span-2">
+              <p>
+                Po każdym tygodniu nauki TutorOS AI wygeneruje krótki raport oparty na danych z lekcji, diagnozy i zadań domowych. Bez subiektywnych opinii.
+              </p>
+            </AIInsightCard>
+            <Surface className="p-5">
+              <h3 className="font-semibold mb-1 text-sm flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-accent" /> Bezpieczeństwo
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Konta dzieci poniżej 16 r.ż. wymagają zgody rodzica. Dane przechowujemy w UE.
+              </p>
+            </Surface>
+          </div>
 
-        <div className="grid gap-5 md:grid-cols-3 mb-6">
-          <AIInsightCard title="Co warto wiedzieć" className="md:col-span-2">
-            <p>
-              Po każdym tygodniu nauki TutorOS AI wygeneruje krótki raport oparty na danych z lekcji, diagnozy i zadań domowych. Bez subiektywnych opinii.
-            </p>
-          </AIInsightCard>
           <Surface className="p-5">
-            <h3 className="font-semibold mb-1 text-sm">Bezpieczeństwo</h3>
-            <p className="text-xs text-muted-foreground">
-              Konta dzieci poniżej 16 r.ż. wymagają zgody rodzica. Dane w UE.
-            </p>
-          </Surface>
-        </div>
+            <h2 className="font-semibold mb-4 flex items-center gap-2">
+              <BookOpen className="h-4 w-4 text-accent" /> Twoje dzieci
+            </h2>
 
-        <div className="grid gap-5 md:grid-cols-2">
-          <Surface className="p-5">
-            <h2 className="font-semibold mb-3 flex items-center gap-2"><BookOpen className="h-4 w-4 text-accent" /> Twoje dzieci</h2>
-            <EmptyState
-              icon={Plus}
-              title="Brak dodanych dzieci"
-              description="Po włączeniu roli rodzica będziesz mógł dodać profile dzieci i wyrazić zgodę RODO."
-              ctaLabel="Dodaj dziecko"
-              onCta={() => {}}
-            />
-            <p className="mt-3 text-xs text-muted-foreground text-center">
-              <Button variant="ghost" size="sm" disabled>Dodaj dziecko ({t("dashboard.soonBadge").toLowerCase()})</Button>
-            </p>
+            {loading ? (
+              <p className="text-sm text-muted-foreground">Ładowanie…</p>
+            ) : children.length === 0 ? (
+              <div className="space-y-4">
+                <EmptyState
+                  icon={Plus}
+                  title="Brak dodanych dzieci"
+                  description="Dodaj profil dziecka, aby rozpocząć diagnozę i otrzymywać raporty postępów."
+                />
+                <div className="flex justify-center">
+                  <AddChildDialog onCreated={load} />
+                </div>
+              </div>
+            ) : (
+              <div className="grid gap-4 sm:grid-cols-2">
+                {children.map((c) => <ChildCard key={c.id} child={c} />)}
+              </div>
+            )}
           </Surface>
-          <Surface className="p-5">
-            <h2 className="font-semibold mb-3 flex items-center gap-2"><CreditCard className="h-4 w-4 text-accent" /> Płatności</h2>
-            <EmptyState
-              icon={CreditCard}
-              title="Brak płatności"
-              description="Po zarezerwowaniu pierwszej lekcji zobaczysz tu metody płatności i statusy."
-            />
-          </Surface>
-        </div>
-      </DashboardShell>
-    </AppShell>
+
+          <p className="mt-6 text-[11px] text-muted-foreground text-center">
+            Polityka prywatności · Zgoda rodzica/opiekuna · <em>Dokumenty prawne wymagają weryfikacji przed publicznym uruchomieniem.</em>
+          </p>
+        </DashboardShell>
+      </AppShell>
+    </RoleGate>
   );
 };
+
+const ChildCard = ({ child }: { child: ChildRow }) => (
+  <Surface className="p-5 flex flex-col gap-3">
+    <div className="flex items-start justify-between gap-3">
+      <div>
+        <h3 className="font-semibold text-base">{child.display_name}</h3>
+        <p className="text-xs text-muted-foreground">
+          {child.grade_level || "—"} · {child.primary_subject || "Brak przedmiotu"}
+        </p>
+      </div>
+      {child.consent_signed_at ? (
+        <Badge variant="secondary" className="text-[10px]">Zgoda {child.consent_version || "v1"}</Badge>
+      ) : (
+        <Badge variant="destructive" className="text-[10px]">Brak zgody</Badge>
+      )}
+    </div>
+    <div className="flex flex-wrap gap-2 mt-auto">
+      <Button size="sm" variant="outline" disabled>Przejdź do diagnozy (wkrótce)</Button>
+      <Button size="sm" variant="ghost" disabled>Raport (wkrótce)</Button>
+    </div>
+  </Surface>
+);
 
 export default ParentDashboard;

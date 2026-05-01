@@ -13,7 +13,7 @@ export function RoleGate({
   children: ReactNode;
   fallback?: string;
 }) {
-  const { roles, loading, isStudent, isTutor, isAdmin } = useUserRoles();
+  const { loading, isStudent, isTutor, isAdmin, isParent } = useUserRoles();
 
   if (loading) {
     return (
@@ -27,7 +27,7 @@ export function RoleGate({
     (allow.includes("student") && isStudent) ||
     (allow.includes("tutor") && isTutor) ||
     (allow.includes("admin") && isAdmin) ||
-    (allow.includes("parent") && roles.includes("parent" as any));
+    (allow.includes("parent") && isParent);
 
   if (!ok) return <Navigate to={fallback} replace />;
   return <>{children}</>;
