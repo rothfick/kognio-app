@@ -585,7 +585,21 @@
     "setAvailability": "Set availability",
     "afterLessonNotes": "Post-lesson notes",
     "noNotesTitle": "No notes to complete",
-    "noNotesDesc": "After each lesson you'll fill out a short form — AI will draft an initial report."
+    "noNotesDesc": "After each lesson you'll fill out a short form — AI will draft an initial report.",
+    "onboardingTitle": "Set up your tutor profile",
+    "onboardingBody": "Submit your tutor profile so the Kogni team can verify it.",
+    "onboardingCta": "Start onboarding",
+    "rejectedTitle": "Profile needs changes",
+    "rejectedBody": "Please review the reviewer notes and resubmit your profile.",
+    "editProfileCta": "Edit profile",
+    "paymentPendingTitle": "{{count}} payment(s) awaiting confirmation",
+    "paymentPendingBody": "Review the proof of payment and confirm in the calendar.",
+    "reviewPayments": "Review payments",
+    "notesPending": "Sessions waiting for a note",
+    "notesPendingTitle": "{{count}} note(s) to write",
+    "notesPendingBody": "Add a short summary so your students see clear next steps.",
+    "openCalendar": "Open calendar",
+    "viewPublic": "View public profile"
   },
   "admin": {
     "verifications": "Tutor verifications",
@@ -2190,5 +2204,37 @@
       "title": "Booking cancelled",
       "body": "The session has been cancelled."
     }
+  },
+  "dashboardBooking": {
+    "upcomingTitle": "Upcoming sessions",
+    "openCalendar": "Open calendar",
+    "with": "With",
+    "emptyTitle": "No upcoming sessions",
+    "emptyDesc": "Once you book a session it will appear here.",
+    "findTutorCta": "Find a tutor",
+    "weakAreasHint": "A tutor can help you with the weak areas in your current learning plan.",
+    "paymentAttentionTitle": "Payment action needed",
+    "paymentAttentionBody": "{{count}} session(s) waiting for payment proof.",
+    "uploadProofCta": "Upload proof"
+  },
+  "adminBooking": {
+    "section": "Marketplace & bookings",
+    "verifiedTutors": "Verified tutors",
+    "pendingTutors": "Pending tutors",
+    "pendingTutorsHint": "Awaiting verification",
+    "rejectedTutors": "Rejected tutors",
+    "totalBookings": "Total bookings",
+    "upcomingBookings": "Upcoming bookings",
+    "completedBookings": "Completed bookings",
+    "cancelledBookings": "Cancelled bookings",
+    "pendingPayments": "Pending payments",
+    "pendingPaymentsHint": "Unpaid or awaiting confirmation",
+    "confirmedPayments": "Confirmed payments",
+    "disputedPayments": "Disputed payments",
+    "evBookingCreated": "Bookings created",
+    "evPaymentConfirmed": "Payments confirmed",
+    "evSessionCompleted": "Sessions completed",
+    "evTutorNote": "Tutor notes submitted",
+    "note": "Marketplace counters use the same SMART evidence pipeline as diagnosis and plans."
   }
 }

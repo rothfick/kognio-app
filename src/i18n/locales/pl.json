@@ -585,7 +585,21 @@
     "setAvailability": "Ustaw dostępność",
     "afterLessonNotes": "Notatki po lekcjach",
     "noNotesTitle": "Brak notatek do uzupełnienia",
-    "noNotesDesc": "Po każdej lekcji wypełnisz krótki formularz — AI przygotuje wstępny szkic raportu."
+    "noNotesDesc": "Po każdej lekcji wypełnisz krótki formularz — AI przygotuje wstępny szkic raportu.",
+    "onboardingTitle": "Skonfiguruj profil korepetytora",
+    "onboardingBody": "Złóż profil korepetytora, aby zespół Kogni mógł go zweryfikować.",
+    "onboardingCta": "Rozpocznij onboarding",
+    "rejectedTitle": "Profil wymaga poprawek",
+    "rejectedBody": "Sprawdź uwagi recenzenta i ponownie wyślij profil.",
+    "editProfileCta": "Edytuj profil",
+    "paymentPendingTitle": "{{count}} płatność/płatności oczekuje potwierdzenia",
+    "paymentPendingBody": "Sprawdź dowód wpłaty i potwierdź w kalendarzu.",
+    "reviewPayments": "Sprawdź płatności",
+    "notesPending": "Sesje czekające na notatkę",
+    "notesPendingTitle": "{{count}} notatka/notatki do napisania",
+    "notesPendingBody": "Dodaj krótkie podsumowanie, aby uczniowie widzieli kolejne kroki.",
+    "openCalendar": "Otwórz kalendarz",
+    "viewPublic": "Zobacz profil publiczny"
   },
   "admin": {
     "verifications": "Weryfikacje korepetytorów",
@@ -2190,5 +2204,37 @@
       "title": "Rezerwacja anulowana",
       "body": "Sesja została anulowana."
     }
+  },
+  "dashboardBooking": {
+    "upcomingTitle": "Nadchodzące sesje",
+    "openCalendar": "Otwórz kalendarz",
+    "with": "Z",
+    "emptyTitle": "Brak nadchodzących sesji",
+    "emptyDesc": "Po zarezerwowaniu sesji pojawi się ona tutaj.",
+    "findTutorCta": "Znajdź korepetytora",
+    "weakAreasHint": "Korepetytor może pomóc w słabszych obszarach z Twojego planu nauki.",
+    "paymentAttentionTitle": "Wymagane działanie po stronie płatności",
+    "paymentAttentionBody": "{{count}} sesja/sesje czekają na dowód wpłaty.",
+    "uploadProofCta": "Prześlij dowód"
+  },
+  "adminBooking": {
+    "section": "Marketplace i rezerwacje",
+    "verifiedTutors": "Zweryfikowani korepetytorzy",
+    "pendingTutors": "Oczekujący korepetytorzy",
+    "pendingTutorsHint": "Oczekują weryfikacji",
+    "rejectedTutors": "Odrzuceni korepetytorzy",
+    "totalBookings": "Łączna liczba rezerwacji",
+    "upcomingBookings": "Nadchodzące rezerwacje",
+    "completedBookings": "Zakończone sesje",
+    "cancelledBookings": "Anulowane rezerwacje",
+    "pendingPayments": "Oczekujące płatności",
+    "pendingPaymentsHint": "Nieopłacone lub oczekują potwierdzenia",
+    "confirmedPayments": "Potwierdzone płatności",
+    "disputedPayments": "Spory dot. płatności",
+    "evBookingCreated": "Utworzone rezerwacje",
+    "evPaymentConfirmed": "Potwierdzone płatności",
+    "evSessionCompleted": "Zakończone sesje",
+    "evTutorNote": "Notatki korepetytorów",
+    "note": "Liczniki marketplace korzystają z tego samego potoku SMART evidence co diagnoza i plany."
   }
 }

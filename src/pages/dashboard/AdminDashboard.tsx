@@ -6,7 +6,7 @@ import { RoleGate } from "@/components/auth/RoleGate";
 import { Surface } from "@/components/ui/surface";
 import { StatCard } from "@/components/ui/stat-card";
 import { EmptyState } from "@/components/EmptyState";
-import { ShieldCheck, AlertTriangle, Sparkles, Activity, ClipboardList, GraduationCap, Network, BookOpen, ListChecks, ClipboardCheck, Globe2, Layers, Library, BadgeCheck, Telescope, Link2, Unlink, Percent, User, Users, Cpu, TrendingUp } from "lucide-react";
+import { ShieldCheck, AlertTriangle, Sparkles, Activity, ClipboardList, GraduationCap, Network, BookOpen, ListChecks, ClipboardCheck, Globe2, Layers, Library, BadgeCheck, Telescope, Link2, Unlink, Percent, User, Users, Cpu, TrendingUp, CalendarCheck2, Wallet, FileCheck2, ShoppingBag } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { ExpertReviewAdminPanel } from "@/components/expert-review/ExpertReviewAdminPanel";
 import { NotificationsAdminSection } from "@/components/notifications/NotificationsAdminSection";
@@ -64,6 +64,15 @@ const AdminDashboard = () => {
   };
   const [recent, setRecent] = useState<RecentRow[] | null>(null);
   const [cpStats, setCpStats] = useState<{ created: number; completed: number; avgDelta: number | null; avgPlanCompletion: number | null; avgMasteryDelta: number | null; evidenceEvents: number } | null>(null);
+
+  // Marketplace stats
+  type MarketplaceStats = {
+    verifiedTutors: number; pendingTutors: number; rejectedTutors: number;
+    totalBookings: number; upcomingBookings: number; completedBookings: number; cancelledBookings: number;
+    pendingPayments: number; confirmedPayments: number; disputedPayments: number;
+    bookingCreatedEvents: number; paymentConfirmedEvents: number; sessionCompletedEvents: number; tutorNoteEvents: number;
+  };
+  const [mkt, setMkt] = useState<MarketplaceStats | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -201,6 +210,46 @@ const AdminDashboard = () => {
         avgMasteryDelta: avg(masteryDeltas),
         evidenceEvents: cpEvidence.count ?? 0,
       });
+
+      // Marketplace stats
+      const nowIso = new Date().toISOString();
+      const [
+        verifiedT, pendingT, rejectedT,
+        totalBk, upcomingBk, completedBk, cancelledBk,
+        pendingPay, confirmedPay, disputedPay,
+        evBookingCreated, evPaymentConfirmed, evSessionCompleted, evTutorNote,
+      ] = await Promise.all([
+        supabase.from("tutor_profiles").select("user_id", { count: "exact", head: true }).eq("verification_status", "approved"),
+        supabase.from("tutor_profiles").select("user_id", { count: "exact", head: true }).eq("verification_status", "pending"),
+        supabase.from("tutor_profiles").select("user_id", { count: "exact", head: true }).eq("verification_status", "rejected"),
+        supabase.from("bookings").select("id", { count: "exact", head: true }),
+        supabase.from("bookings").select("id", { count: "exact", head: true }).gte("ends_at", nowIso).neq("status", "cancelled"),
+        supabase.from("bookings").select("id", { count: "exact", head: true }).eq("status", "completed"),
+        supabase.from("bookings").select("id", { count: "exact", head: true }).eq("status", "cancelled"),
+        supabase.from("payment_records").select("id", { count: "exact", head: true }).in("status", ["pending", "proof_uploaded"]),
+        supabase.from("payment_records").select("id", { count: "exact", head: true }).eq("status", "confirmed"),
+        supabase.from("payment_records").select("id", { count: "exact", head: true }).eq("status", "disputed"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "booking_created"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "payment_confirmed"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "session_completed"),
+        supabase.from("smart_evidence_events").select("id", { count: "exact", head: true }).eq("event_type", "tutor_note_submitted"),
+      ]);
+      setMkt({
+        verifiedTutors: verifiedT.count ?? 0,
+        pendingTutors: pendingT.count ?? 0,
+        rejectedTutors: rejectedT.count ?? 0,
+        totalBookings: totalBk.count ?? 0,
+        upcomingBookings: upcomingBk.count ?? 0,
+        completedBookings: completedBk.count ?? 0,
+        cancelledBookings: cancelledBk.count ?? 0,
+        pendingPayments: pendingPay.count ?? 0,
+        confirmedPayments: confirmedPay.count ?? 0,
+        disputedPayments: disputedPay.count ?? 0,
+        bookingCreatedEvents: evBookingCreated.count ?? 0,
+        paymentConfirmedEvents: evPaymentConfirmed.count ?? 0,
+        sessionCompletedEvents: evSessionCompleted.count ?? 0,
+        tutorNoteEvents: evTutorNote.count ?? 0,
+      });
     })();
   }, []);
 
@@ -285,6 +334,31 @@ const AdminDashboard = () => {
             <p className="mt-3 text-[11px] text-muted-foreground">
               {t("admin.ontologyNote")}
             </p>
+          </Surface>
+
+          <Surface className="p-5 mb-6">
+            <h2 className="font-semibold mb-3 flex items-center gap-2">
+              <ShoppingBag className="h-4 w-4 text-accent" /> {t("adminBooking.section")}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-4 mb-4">
+              <StatCard icon={ShieldCheck} label={t("adminBooking.verifiedTutors")} value={mkt === null ? "…" : String(mkt.verifiedTutors)} />
+              <StatCard icon={AlertTriangle} label={t("adminBooking.pendingTutors")} value={mkt === null ? "…" : String(mkt.pendingTutors)} hint={t("adminBooking.pendingTutorsHint")} />
+              <StatCard icon={CalendarCheck2} label={t("adminBooking.totalBookings")} value={mkt === null ? "…" : String(mkt.totalBookings)} />
+              <StatCard icon={CalendarCheck2} label={t("adminBooking.upcomingBookings")} value={mkt === null ? "…" : String(mkt.upcomingBookings)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-4 mb-4">
+              <StatCard icon={ClipboardCheck} label={t("adminBooking.completedBookings")} value={mkt === null ? "…" : String(mkt.completedBookings)} />
+              <StatCard icon={AlertTriangle} label={t("adminBooking.cancelledBookings")} value={mkt === null ? "…" : String(mkt.cancelledBookings)} />
+              <StatCard icon={Wallet} label={t("adminBooking.pendingPayments")} value={mkt === null ? "…" : String(mkt.pendingPayments)} hint={t("adminBooking.pendingPaymentsHint")} />
+              <StatCard icon={FileCheck2} label={t("adminBooking.confirmedPayments")} value={mkt === null ? "…" : String(mkt.confirmedPayments)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-4">
+              <StatCard icon={Activity} label={t("adminBooking.evBookingCreated")} value={mkt === null ? "…" : String(mkt.bookingCreatedEvents)} />
+              <StatCard icon={Activity} label={t("adminBooking.evPaymentConfirmed")} value={mkt === null ? "…" : String(mkt.paymentConfirmedEvents)} />
+              <StatCard icon={Activity} label={t("adminBooking.evSessionCompleted")} value={mkt === null ? "…" : String(mkt.sessionCompletedEvents)} />
+              <StatCard icon={Activity} label={t("adminBooking.evTutorNote")} value={mkt === null ? "…" : String(mkt.tutorNoteEvents)} />
+            </div>
+            <p className="mt-3 text-[11px] text-muted-foreground">{t("adminBooking.note")}</p>
           </Surface>
 
           <Surface className="p-5 mb-6">
