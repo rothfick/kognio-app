@@ -15,6 +15,8 @@ import { toast } from "sonner";
 import { ExpertReviewBadge } from "@/components/expert-review/ExpertReviewBadge";
 import { FeedbackWidget } from "@/components/pilot/FeedbackWidget";
 import { createNotification } from "@/lib/notifications";
+import { generateHomework, langCode } from "@/lib/homeworkClient";
+import { isFeatureEnabled } from "@/config/features";
 
 type Plan = {
   id: string;
