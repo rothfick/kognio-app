@@ -288,23 +288,22 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
                     <Select value={inviteRole} onValueChange={(v) => setInviteRole(v as MemberRole)}>
                       <SelectTrigger><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="student">{kind === "school" ? "Uczeń" : "Kursant"}</SelectItem>
-                        <SelectItem value="teacher">{kind === "school" ? "Nauczyciel" : "Trener"}</SelectItem>
-                        <SelectItem value="admin">Administrator</SelectItem>
-                        <SelectItem value="observer">Obserwator (np. rodzic)</SelectItem>
+                        <SelectItem value="student">{kind === "school" ? t("org.studentSchool") : t("org.studentCompany")}</SelectItem>
+                        <SelectItem value="teacher">{kind === "school" ? t("org.teacherSchool") : t("org.teacherCompany")}</SelectItem>
+                        <SelectItem value="admin">{t("org.admin")}</SelectItem>
+                        <SelectItem value="observer">{t("org.observer")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Po utworzeniu otrzymasz unikalny link zaproszenia, który możesz wysłać tej osobie.
-                    Zaproszenie wygasa po 14 dniach.
+                    {t("org.inviteIntro")}
                   </p>
                 </div>
                 <DialogFooter>
-                  <Button variant="ghost" onClick={() => setInviteOpen(false)}>Anuluj</Button>
+                  <Button variant="ghost" onClick={() => setInviteOpen(false)}>{t("org.cancel")}</Button>
                   <Button onClick={sendInvite} disabled={sendingInvite}>
                     {sendingInvite ? <Loader2 className="h-4 w-4 animate-spin mr-1.5" /> : <Mail className="h-4 w-4 mr-1.5" />}
-                    Utwórz zaproszenie
+                    {t("org.createInvite")}
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -313,10 +312,10 @@ function OrgDashboardInner({ kind }: { kind: OrgType }) {
         />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <StatCard label={labels.memberPlural} value={studentsCount} hint="aktywni" />
-          <StatCard label={labels.teachers} value={teachersCount} hint="dydaktycy" />
-          <StatCard label="Administratorzy" value={adminsCount} hint="zarząd organizacji" />
-          <StatCard label="Oczekujące zaproszenia" value={pendingInvites} hint="czekają na akceptację" />
+          <StatCard label={labels.memberPlural} value={studentsCount} hint={t("org.active")} />
+          <StatCard label={labels.teachers} value={teachersCount} hint={t("org.didactic")} />
+          <StatCard label={t("org.admins")} value={adminsCount} hint={t("org.adminsHint")} />
+          <StatCard label={t("org.pendingInvites")} value={pendingInvites} hint={t("org.pendingInvitesHint")} />
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
