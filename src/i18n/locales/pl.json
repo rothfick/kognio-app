@@ -1060,6 +1060,22 @@
     "unchangedAreas": "Bez zmiany",
     "areaOnlyBefore": "Tylko w punkcie wyjścia",
     "noAreas": "Brak danych do porównania.",
-    "credibility": "Raport bazuje na ustrukturyzowanych danych z diagnoz, bez subiektywnej oceny."
+    "credibility": "Raport bazuje na ustrukturyzowanych danych z diagnoz, bez subiektywnej oceny.",
+    "finalizeError": "Nie udało się zakończyć diagnozy kontrolnej. Spróbuj ponownie.",
+    "retryFinalize": "Spróbuj ponownie",
+    "loading": "Wczytywanie raportu postępu…",
+    "createdAt": "Utworzono {{date}}",
+    "completedAt": "Ukończono {{date}}",
+    "back": "Wstecz",
+    "backToDashboard": "Wróć do panelu",
+    "admin": {
+      "section": "Kontrolne punkty postępu",
+      "created": "Utworzone punkty kontrolne",
+      "completed": "Ukończone punkty kontrolne",
+      "avgScoreDelta": "Średnia zmiana wyniku",
+      "avgPlanCompletion": "Średnie ukończenie planu",
+      "avgMasteryDelta": "Średnia zmiana opanowania",
+      "evidenceEvents": "Zdarzenia dowodowe punktów kontrolnych"
+    }
   }
 }

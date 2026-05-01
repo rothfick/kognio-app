@@ -1060,6 +1060,22 @@
     "unchangedAreas": "Sin cambio",
     "areaOnlyBefore": "Solo en el diagnóstico inicial",
     "noAreas": "Sin datos para comparar.",
-    "credibility": "El informe se basa en datos estructurados de los diagnósticos, sin juicio subjetivo."
+    "credibility": "El informe se basa en datos estructurados de los diagnósticos, sin juicio subjetivo.",
+    "finalizeError": "No se pudo finalizar el diagnóstico de control. Inténtalo de nuevo.",
+    "retryFinalize": "Reintentar finalización",
+    "loading": "Cargando el informe de progreso…",
+    "createdAt": "Creado el {{date}}",
+    "completedAt": "Completado el {{date}}",
+    "back": "Atrás",
+    "backToDashboard": "Volver al panel",
+    "admin": {
+      "section": "Puntos de control de progreso",
+      "created": "Puntos de control creados",
+      "completed": "Puntos de control completados",
+      "avgScoreDelta": "Cambio medio de puntuación",
+      "avgPlanCompletion": "Finalización media del plan",
+      "avgMasteryDelta": "Cambio medio de dominio",
+      "evidenceEvents": "Eventos de evidencia de puntos de control"
+    }
   }
 }
