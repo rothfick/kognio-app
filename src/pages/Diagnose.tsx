@@ -156,6 +156,13 @@ export default function Diagnose() {
               subtitle={t("diagnose.subtitle")}
             />
             <Surface className="p-6 max-w-2xl space-y-5">
+              <div className="rounded-md border border-border/60 bg-muted/30 p-3 space-y-2">
+                <p className="text-xs font-medium text-muted-foreground">{t("diagnoseTaxonomy.useTaxonomy")}</p>
+                <CurriculumPicker onChange={setTaxonomy} />
+              </div>
+              <div>
+                <p className="text-xs font-medium text-muted-foreground mb-1.5">{t("diagnoseTaxonomy.useFreeText")}</p>
+              </div>
               <div>
                 <label className="text-sm font-medium mb-1.5 block">{t("diagnose.domainLabel")}</label>
                 <Input
