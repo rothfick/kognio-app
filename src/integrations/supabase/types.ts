@@ -99,36 +99,54 @@ export type Database = {
       }
       child_kc_mastery: {
         Row: {
+          algorithm_version: string | null
           child_id: string
+          competency_id: string | null
           confidence: number
+          confidence_reason: string | null
           created_at: string
+          education_level_id: string | null
           evidence: Json
           id: string
           kc_id: string
           last_updated: string
+          learning_domain_id: string | null
           mastery_prob: number
+          skill_area_label: string | null
           source: string
         }
         Insert: {
+          algorithm_version?: string | null
           child_id: string
+          competency_id?: string | null
           confidence?: number
+          confidence_reason?: string | null
           created_at?: string
+          education_level_id?: string | null
           evidence?: Json
           id?: string
           kc_id: string
           last_updated?: string
+          learning_domain_id?: string | null
           mastery_prob?: number
+          skill_area_label?: string | null
           source?: string
         }
         Update: {
+          algorithm_version?: string | null
           child_id?: string
+          competency_id?: string | null
           confidence?: number
+          confidence_reason?: string | null
           created_at?: string
+          education_level_id?: string | null
           evidence?: Json
           id?: string
           kc_id?: string
           last_updated?: string
+          learning_domain_id?: string | null
           mastery_prob?: number
+          skill_area_label?: string | null
           source?: string
         }
         Relationships: [
@@ -140,10 +158,31 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "child_kc_mastery_competency_id_fkey"
+            columns: ["competency_id"]
+            isOneToOne: false
+            referencedRelation: "competencies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "child_kc_mastery_education_level_id_fkey"
+            columns: ["education_level_id"]
+            isOneToOne: false
+            referencedRelation: "education_levels"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "child_kc_mastery_kc_id_fkey"
             columns: ["kc_id"]
             isOneToOne: false
             referencedRelation: "knowledge_components"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "child_kc_mastery_learning_domain_id_fkey"
+            columns: ["learning_domain_id"]
+            isOneToOne: false
+            referencedRelation: "learning_domains"
             referencedColumns: ["id"]
           },
         ]
@@ -423,59 +462,77 @@ export type Database = {
       }
       diagnostic_attempts: {
         Row: {
+          algorithm_version: string | null
           child_id: string | null
           completed_at: string | null
           correct_items: number
           created_at: string
           domain: string | null
+          education_level_id: string | null
+          education_system_id: string | null
           id: string
           language: string
+          learning_domain_id: string | null
           level: string | null
           mode: string
+          prompt_version: string | null
           score: number | null
           started_at: string
           started_by: string | null
           status: string
           subject_id: string | null
           summary: Json | null
+          taxonomy_payload: Json
           total_items: number
           user_id: string | null
         }
         Insert: {
+          algorithm_version?: string | null
           child_id?: string | null
           completed_at?: string | null
           correct_items?: number
           created_at?: string
           domain?: string | null
+          education_level_id?: string | null
+          education_system_id?: string | null
           id?: string
           language?: string
+          learning_domain_id?: string | null
           level?: string | null
           mode?: string
+          prompt_version?: string | null
           score?: number | null
           started_at?: string
           started_by?: string | null
           status?: string
           subject_id?: string | null
           summary?: Json | null
+          taxonomy_payload?: Json
           total_items?: number
           user_id?: string | null
         }
         Update: {
+          algorithm_version?: string | null
           child_id?: string | null
           completed_at?: string | null
           correct_items?: number
           created_at?: string
           domain?: string | null
+          education_level_id?: string | null
+          education_system_id?: string | null
           id?: string
           language?: string
+          learning_domain_id?: string | null
           level?: string | null
           mode?: string
+          prompt_version?: string | null
           score?: number | null
           started_at?: string
           started_by?: string | null
           status?: string
           subject_id?: string | null
           summary?: Json | null
+          taxonomy_payload?: Json
           total_items?: number
           user_id?: string | null
         }
@@ -485,6 +542,27 @@ export type Database = {
             columns: ["child_id"]
             isOneToOne: false
             referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "diagnostic_attempts_education_level_id_fkey"
+            columns: ["education_level_id"]
+            isOneToOne: false
+            referencedRelation: "education_levels"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "diagnostic_attempts_education_system_id_fkey"
+            columns: ["education_system_id"]
+            isOneToOne: false
+            referencedRelation: "education_systems"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "diagnostic_attempts_learning_domain_id_fkey"
+            columns: ["learning_domain_id"]
+            isOneToOne: false
+            referencedRelation: "learning_domains"
             referencedColumns: ["id"]
           },
           {
@@ -1160,14 +1238,18 @@ export type Database = {
       }
       learning_plan_items: {
         Row: {
+          algorithm_version: string | null
+          competency_id: string | null
           completed_at: string | null
           created_at: string
           description: string | null
           difficulty_level: number | null
+          education_level_id: string | null
           estimated_minutes: number | null
           evidence_ref: Json
           id: string
           kind: string
+          learning_domain_id: string | null
           order_index: number
           plan_id: string
           rationale: string | null
@@ -1177,14 +1259,18 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          algorithm_version?: string | null
+          competency_id?: string | null
           completed_at?: string | null
           created_at?: string
           description?: string | null
           difficulty_level?: number | null
+          education_level_id?: string | null
           estimated_minutes?: number | null
           evidence_ref?: Json
           id?: string
           kind?: string
+          learning_domain_id?: string | null
           order_index: number
           plan_id: string
           rationale?: string | null
@@ -1194,14 +1280,18 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          algorithm_version?: string | null
+          competency_id?: string | null
           completed_at?: string | null
           created_at?: string
           description?: string | null
           difficulty_level?: number | null
+          education_level_id?: string | null
           estimated_minutes?: number | null
           evidence_ref?: Json
           id?: string
           kind?: string
+          learning_domain_id?: string | null
           order_index?: number
           plan_id?: string
           rationale?: string | null
@@ -1211,6 +1301,27 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "learning_plan_items_competency_id_fkey"
+            columns: ["competency_id"]
+            isOneToOne: false
+            referencedRelation: "competencies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_plan_items_education_level_id_fkey"
+            columns: ["education_level_id"]
+            isOneToOne: false
+            referencedRelation: "education_levels"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "learning_plan_items_learning_domain_id_fkey"
+            columns: ["learning_domain_id"]
+            isOneToOne: false
+            referencedRelation: "learning_domains"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "learning_plan_items_plan_id_fkey"
             columns: ["plan_id"]
@@ -2237,6 +2348,83 @@ export type Database = {
           {
             foreignKeyName: "tutor_subjects_tutor_id_profiles_fkey"
             columns: ["tutor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_competency_mastery: {
+        Row: {
+          algorithm_version: string | null
+          competency_id: string | null
+          confidence: number
+          created_at: string
+          education_level_id: string | null
+          evidence: Json
+          id: string
+          last_updated: string
+          learning_domain_id: string | null
+          mastery_prob: number
+          skill_area_label: string | null
+          source: string
+          user_id: string
+        }
+        Insert: {
+          algorithm_version?: string | null
+          competency_id?: string | null
+          confidence?: number
+          created_at?: string
+          education_level_id?: string | null
+          evidence?: Json
+          id?: string
+          last_updated?: string
+          learning_domain_id?: string | null
+          mastery_prob?: number
+          skill_area_label?: string | null
+          source?: string
+          user_id: string
+        }
+        Update: {
+          algorithm_version?: string | null
+          competency_id?: string | null
+          confidence?: number
+          created_at?: string
+          education_level_id?: string | null
+          evidence?: Json
+          id?: string
+          last_updated?: string
+          learning_domain_id?: string | null
+          mastery_prob?: number
+          skill_area_label?: string | null
+          source?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_competency_mastery_competency_id_fkey"
+            columns: ["competency_id"]
+            isOneToOne: false
+            referencedRelation: "competencies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_competency_mastery_education_level_id_fkey"
+            columns: ["education_level_id"]
+            isOneToOne: false
+            referencedRelation: "education_levels"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_competency_mastery_learning_domain_id_fkey"
+            columns: ["learning_domain_id"]
+            isOneToOne: false
+            referencedRelation: "learning_domains"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_competency_mastery_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]

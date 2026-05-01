@@ -339,26 +339,7 @@ export default function Diagnose() {
 
             <Surface className="p-5 mb-4">
               <h3 className="font-semibold text-sm mb-3 flex items-center gap-2"><Brain className="h-4 w-4 text-accent" /> {t("diagnose.competenceMap")}</h3>
-              <div className="space-y-2">
-                {summary.kc_breakdown.map((k, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <span className="text-sm flex-1 truncate">{k.kc_label}</span>
-                    <div className="w-32"><Progress value={k.mastery_pct} /></div>
-                    <span className="text-xs text-muted-foreground w-10 text-right">{k.mastery_pct}%</span>
-                    <Badge
-                      variant="outline"
-                      className={`text-[10px] ${
-                        k.status === "mocna" ? "border-green-500 text-green-600"
-                        : k.status === "luka" ? "border-destructive text-destructive"
-                        : k.status === "do_pracy" ? "border-amber-500 text-amber-600"
-                        : ""
-                      }`}
-                    >
-                      {t(`diagnose.status.${k.status}`, { defaultValue: k.status.replace("_", " ") })}
-                    </Badge>
-                  </div>
-                ))}
-              </div>
+              <TraceabilityList attemptId={attemptId} childId={childId} kcBreakdown={summary.kc_breakdown} />
             </Surface>
 
             <PlanCta attemptId={attemptId} childId={childId} language={i18n.language} />
@@ -445,5 +426,94 @@ function PlanCta({ attemptId, childId, language }: { attemptId: string | null; c
         )}
       </div>
     </Surface>
+  );
+}
+
+type TraceRow = {
+  skill_area_label: string | null;
+  competency_id: string | null;
+  mastery_prob: number;
+  evidence?: { match_confidence?: number; match_reason?: string; status?: string } | null;
+};
+type CompLite = { id: string; name_pl: string; name_en: string | null; name_es: string | null };
+
+function TraceabilityList({
+  attemptId, childId, kcBreakdown,
+}: {
+  attemptId: string | null;
+  childId: string | null;
+  kcBreakdown: { kc_label: string; mastery_pct: number; status: string }[];
+}) {
+  const { t, i18n } = useTranslation();
+  const lang = (i18n.language || "pl").split("-")[0];
+  const [rows, setRows] = useState<TraceRow[]>([]);
+  const [comps, setComps] = useState<Record<string, CompLite>>({});
+
+  useEffect(() => {
+    if (!attemptId) return;
+    (async () => {
+      let trace: TraceRow[] = [];
+      if (childId) {
+        const { data } = await supabase
+          .from("child_kc_mastery")
+          .select("skill_area_label, competency_id, mastery_prob, evidence")
+          .eq("child_id", childId)
+          .order("last_updated", { ascending: false });
+        trace = (data || []) as TraceRow[];
+      } else {
+        const { data } = await supabase
+          .from("user_competency_mastery")
+          .select("skill_area_label, competency_id, mastery_prob, evidence")
+          .order("last_updated", { ascending: false });
+        trace = (data || []) as TraceRow[];
+      }
+      setRows(trace);
+      const ids = Array.from(new Set(trace.map((r) => r.competency_id).filter(Boolean))) as string[];
+      if (ids.length) {
+        const { data: cs } = await supabase.from("competencies").select("id, name_pl, name_en, name_es").in("id", ids);
+        const map: Record<string, CompLite> = {};
+        (cs || []).forEach((c: any) => { map[c.id] = c; });
+        setComps(map);
+      }
+    })();
+  }, [attemptId, childId]);
+
+  const byLabel = new Map<string, TraceRow>();
+  rows.forEach((r) => { if (r.skill_area_label) byLabel.set(r.skill_area_label.toLowerCase(), r); });
+  const compName = (c: CompLite) => (lang === "en" ? c.name_en : lang === "es" ? c.name_es : c.name_pl) || c.name_pl;
+
+  return (
+    <div className="space-y-2">
+      {kcBreakdown.map((k, i) => {
+        const tr = byLabel.get(k.kc_label.toLowerCase());
+        const comp = tr?.competency_id ? comps[tr.competency_id] : null;
+        return (
+          <div key={i} className="space-y-1">
+            <div className="flex items-center gap-3">
+              <span className="text-sm flex-1 truncate">{k.kc_label}</span>
+              <div className="w-32"><Progress value={k.mastery_pct} /></div>
+              <span className="text-xs text-muted-foreground w-10 text-right">{k.mastery_pct}%</span>
+              <Badge variant="outline" className={`text-[10px] ${
+                k.status === "mocna" ? "border-green-500 text-green-600"
+                : k.status === "luka" ? "border-destructive text-destructive"
+                : k.status === "do_pracy" ? "border-amber-500 text-amber-600" : ""
+              }`}>
+                {t(`diagnose.status.${k.status}`, { defaultValue: k.status.replace("_", " ") })}
+              </Badge>
+            </div>
+            <div className="pl-1 text-[10px] text-muted-foreground flex flex-wrap gap-x-2">
+              {comp ? (
+                <span><span className="font-medium">{t("traceability.mappedCompetency")}:</span> {compName(comp)}</span>
+              ) : (
+                <span>{t("traceability.aiSkillArea")}</span>
+              )}
+              {tr?.evidence?.match_reason && tr.evidence.match_reason !== "no_match" && tr.evidence.match_reason !== "no_candidates" && (
+                <span>· {t(tr.evidence.match_reason === "exact_match" ? "traceability.matchExact" : "traceability.matchContains")}</span>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
   );
 }

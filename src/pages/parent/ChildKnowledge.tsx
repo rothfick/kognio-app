@@ -190,30 +190,14 @@ const ChildKnowledge = () => {
           <p className="text-sm text-muted-foreground">{t("knowledge.loadingMap")}</p>
         ) : groups.length === 0 && fallbackRows.length === 0 ? (
           <EmptyState icon={BookOpen} title={t("knowledge.noProgramTitle")} description={t("knowledge.noProgramDesc")} />
-        ) : fallbackRows.length > 0 ? (
-          <div className="space-y-5 mb-8">
-            <Surface className="p-5">
-              <h2 className="font-semibold mb-3 text-base">{t("knowledge.aiDiagnosisAreas")}</h2>
-              <ul className="grid gap-2 sm:grid-cols-2">
-                {fallbackRows.map((row) => (
-                  <li key={row.label} className="flex items-center justify-between gap-3 rounded-md border bg-card-soft px-3 py-2">
-                    <div className="min-w-0">
-                      <p className="text-sm truncate">{row.label}</p>
-                      <p className="text-[10px] text-muted-foreground">{t("knowledge.sourceAiDiagnosis")}</p>
-                    </div>
-                    <MasteryBadge level={masteryLevel(row.mastery)} />
-                  </li>
-                ))}
-              </ul>
-            </Surface>
-          </div>
         ) : (
           <div className="space-y-5 mb-8">
-            {groups.map((g) => {
+            {/* Curriculum map: official KCs + mapped AI areas */}
+            {groups.length > 0 && groups.map((g) => {
               const childKcs = kcs.filter((k) => k.parent_kc_id === g.id);
               return (
                 <Surface key={g.id} className="p-5">
-                  <h2 className="font-semibold mb-3 text-base">{g.name_pl}</h2>
+                  <h2 className="font-semibold mb-3 text-base">{t("traceability.curriculumMap")} · {g.name_pl}</h2>
                   <ul className="grid gap-2 sm:grid-cols-2">
                     {childKcs.map((k) => {
                       const mr = mastery[k.id];
@@ -235,6 +219,25 @@ const ChildKnowledge = () => {
                 </Surface>
               );
             })}
+
+            {/* AI-detected areas (unmapped) */}
+            {fallbackRows.length > 0 && (
+              <Surface className="p-5">
+                <h2 className="font-semibold mb-1 text-base">{t("traceability.aiDetectedAreas")}</h2>
+                <p className="text-[11px] text-muted-foreground mb-3">{t("traceability.aiAreaNoteChild")}</p>
+                <ul className="grid gap-2 sm:grid-cols-2">
+                  {fallbackRows.map((row) => (
+                    <li key={row.label} className="flex items-center justify-between gap-3 rounded-md border bg-card-soft px-3 py-2">
+                      <div className="min-w-0">
+                        <p className="text-sm truncate">{row.label}</p>
+                        <p className="text-[10px] text-muted-foreground">{t("knowledge.sourceAiDiagnosis")}</p>
+                      </div>
+                      <MasteryBadge level={masteryLevel(row.mastery)} />
+                    </li>
+                  ))}
+                </ul>
+              </Surface>
+            )}
           </div>
         )}
 
