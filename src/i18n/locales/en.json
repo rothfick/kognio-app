@@ -821,7 +821,8 @@
     "noteSaved": "Note saved.",
     "noteFailed": "Could not save note.",
     "noteFromTutor": "Note from tutor",
-    "recommendedNext": "Next step"
+    "recommendedNext": "Next step",
+    "noteEmpty": "Note cannot be empty."
   },
   "payment": {
     "markedPaidToast": "Marked as paid",
@@ -853,7 +854,9 @@
     "adminConfirm": "Confirm (admin)",
     "status": {
       "unpaid": "Unpaid",
+      "pending": "Awaiting payment",
       "payment_sent": "Payment sent",
+      "proof_uploaded": "Proof uploaded",
       "confirmed": "Confirmed",
       "disputed": "Disputed",
       "refunded": "Refunded"
@@ -864,7 +867,10 @@
       "confirmed": "Payment confirmed.",
       "confirmFailed": "Could not confirm.",
       "payerCannotConfirm": "Only the tutor or admin can confirm payment.",
-      "signedUrlFailed": "Could not open file."
+      "signedUrlFailed": "Could not open file.",
+      "alreadyConfirmed": "Payment is already confirmed.",
+      "noPaymentRecord": "Payment record is not available yet.",
+      "notConfirmedYet": "Confirm the payment before marking the session as completed."
     }
   },
   "profile": {
@@ -2102,10 +2108,12 @@
       "allLanguages": "All languages"
     },
     "empty": {
-      "title": "No verified tutors yet.",
-      "body": "Be one of the first tutors on Kogni.",
+      "title": "No tutors match your filters.",
+      "body": "Try adjusting search, domain, level or price — or invite a tutor to join Kogni.",
       "cta": "Become a tutor"
-    }
+    },
+    "resetFilters": "Reset filters",
+    "resultsCount": "{{count}} tutors found"
   },
   "tutor": {
     "bookSession": "Book session",
