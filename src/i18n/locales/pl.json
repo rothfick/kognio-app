@@ -1003,5 +1003,63 @@
     "anonymous": "—",
     "infoTitle": "Dlaczego to ma znaczenie (FENG / SMART)",
     "infoBody": "Ten panel pokazuje, czy diagnozy Kogni są strukturalnie powiązane z grafem kompetencji. Dzięki temu można dokumentować, które obszary wiedzy zostały wykryte, jak zostały przypisane do kompetencji oraz jaką wersją algorytmu wygenerowano wynik."
+  },
+  "checkpoint": {
+    "checkProgress": "Sprawdź postęp",
+    "checkProgressHelper": "Kogni przeprowadzi krótką diagnozę kontrolną i porówna wynik z punktem wyjścia.",
+    "notEligible": "Ukończ co najmniej 3 kroki planu, aby sprawdzić postęp.",
+    "starting": "Przygotowuję diagnozę kontrolną…",
+    "modeBadge": "Diagnoza kontrolna",
+    "modeNote": "To jest diagnoza kontrolna powiązana z Twoim planem nauki.",
+    "reportTitle": "Raport postępu",
+    "reportSubtitle": "Porównanie diagnozy wyjściowej i diagnozy kontrolnej",
+    "baselineScore": "Wynik wyjściowy",
+    "checkpointScore": "Wynik kontrolny",
+    "scoreDelta": "Zmiana wyniku",
+    "completedItems": "Ukończone kroki planu",
+    "averageDelta": "Średnia zmiana opanowania",
+    "interpretationTitle": "Co to oznacza",
+    "interpretation": {
+      "strong_improvement": "Wyraźna poprawa względem punktu wyjścia. Plan przynosi efekty.",
+      "modest_improvement": "Niewielka, ale zauważalna poprawa. Warto kontynuować.",
+      "stable": "Wynik utrzymał się na podobnym poziomie. To naturalne na początku nauki.",
+      "slight_regression": "Wynik nieco spadł. Sprawdź obszary do powtórki.",
+      "regression": "Wynik wyraźnie spadł. Warto wrócić do podstaw przed kolejnym krokiem.",
+      "neutral_no_baseline": "Brak diagnozy wyjściowej do porównania."
+    },
+    "areasTable": "Porównanie obszarów",
+    "colArea": "Obszar / kompetencja",
+    "colBefore": "Przed",
+    "colAfter": "Po",
+    "colDelta": "Zmiana",
+    "colStatus": "Status",
+    "noBefore": "—",
+    "evidenceTitle": "Dowody (SMART)",
+    "evidenceBaseline": "Diagnoza wyjściowa",
+    "evidenceCheckpoint": "Diagnoza kontrolna",
+    "evidencePlan": "Plan nauki",
+    "evidenceAlgorithm": "Wersja algorytmu",
+    "actions": {
+      "backToPlan": "Wróć do planu",
+      "continueLearning": "Kontynuuj naukę",
+      "generateNextPlan": "Następny plan (wkrótce)",
+      "back": "Wstecz"
+    },
+    "status": {
+      "pending": "oczekuje",
+      "in_progress": "w trakcie",
+      "completed": "ukończona",
+      "cancelled": "anulowana"
+    },
+    "latestTitle": "Ostatni raport postępu",
+    "latestSubtitle": "Wynik {{delta}} względem punktu wyjścia",
+    "viewReport": "Zobacz raport postępu",
+    "denied": "Brak dostępu do tego raportu.",
+    "improvedAreas": "Obszary z poprawą",
+    "regressedAreas": "Obszary z regresją",
+    "unchangedAreas": "Bez zmiany",
+    "areaOnlyBefore": "Tylko w punkcie wyjścia",
+    "noAreas": "Brak danych do porównania.",
+    "credibility": "Raport bazuje na ustrukturyzowanych danych z diagnoz, bez subiektywnej oceny."
   }
 }
