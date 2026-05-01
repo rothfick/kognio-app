@@ -13,7 +13,10 @@ type DomainRow = { id: string; name_pl: string; name_en: string | null; name_es:
 type LevelRow = { id: string; name_pl: string; name_en: string | null; name_es: string | null; order_index: number };
 
 const AdminDashboard = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = (i18n.language || "pl").split("-")[0];
+  const localized = (row: { name_pl: string; name_en: string | null; name_es: string | null }) =>
+    (lang === "en" ? row.name_en : lang === "es" ? row.name_es : row.name_pl) || row.name_pl;
   const [subjectsCount, setSubjectsCount] = useState<number | null>(null);
   const [kcCount, setKcCount] = useState<number | null>(null);
   const [edgeCount, setEdgeCount] = useState<number | null>(null);
