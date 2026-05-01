@@ -56,7 +56,7 @@ const Peer = () => {
     if (r.requester_id === user.id) { toast.error("To Twoja własna prośba"); return; }
     const { error } = await supabase
       .from("peer_requests")
-      .update({ helper_id: user.id, status: "in_progress" })
+      .update({ helper_id: user.id, status: "matched" })
       .eq("id", r.id)
       .eq("status", "open");
     if (error) { toast.error(error.message); return; }
@@ -137,7 +137,7 @@ const Peer = () => {
                           className="text-xs"
                         >
                           {r.status === "open" && t("peer.open")}
-                          {r.status === "in_progress" && "W trakcie"}
+                          {r.status === "matched" && "W trakcie"}
                           {r.status === "resolved" && "Rozwiązane"}
                         </Badge>
                         {isMine && <Badge variant="outline" className="text-xs">Twoja prośba</Badge>}
@@ -149,7 +149,7 @@ const Peer = () => {
                       {r.status === "open" && !isMine && (
                         <Button variant="outline" size="sm" onClick={() => offerHelp(r)}>Pomogę</Button>
                       )}
-                      {r.status === "in_progress" && (isMine || isHelper) && (
+                      {r.status === "matched" && (isMine || isHelper) && (
                         <Button variant="default" size="sm" onClick={() => resolve(r)}>
                           <Check className="h-4 w-4 mr-1" /> Rozwiązane
                         </Button>
