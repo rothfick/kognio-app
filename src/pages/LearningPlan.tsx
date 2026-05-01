@@ -297,3 +297,37 @@ export default function LearningPlan() {
     </AppShell>
   );
 }
+
+function CheckpointCta({ plan, doneCount, starting, onStart }: {
+  plan: Plan;
+  doneCount: number;
+  starting: boolean;
+  onStart: () => void;
+}) {
+  const { t } = useTranslation();
+  const eligible = doneCount >= 3 || plan.status === "completed";
+  return (
+    <Surface className="p-5 mb-4 border-accent/30">
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div className="min-w-0">
+          <h3 className="font-semibold text-sm flex items-center gap-2 mb-1">
+            <TrendingUp className="h-4 w-4 text-accent" /> {t("checkpoint.checkProgress")}
+          </h3>
+          <p className="text-xs text-muted-foreground max-w-xl">
+            {eligible ? t("checkpoint.checkProgressHelper") : t("checkpoint.notEligible")}
+          </p>
+        </div>
+        <Button
+          onClick={onStart}
+          disabled={!eligible || starting}
+          size="sm"
+          className="bg-accent-gradient text-accent-foreground"
+        >
+          {starting ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <TrendingUp className="h-4 w-4 mr-1" />}
+          {starting ? t("checkpoint.starting") : t("checkpoint.checkProgress")}
+        </Button>
+      </div>
+    </Surface>
+  );
+}
+
