@@ -18,7 +18,15 @@ export type NotificationType =
   | "admin_reminder_plan"
   | "admin_reminder_checkpoint"
   | "admin_reminder_feedback"
-  | "admin_reminder_expert_review";
+  | "admin_reminder_expert_review"
+  // booking/marketplace
+  | "booking_created_payer"
+  | "booking_created_tutor"
+  | "payment_proof_uploaded"
+  | "payment_confirmed"
+  | "session_completed"
+  | "tutor_note_submitted"
+  | "booking_cancelled";
 
 export interface CreateNotificationInput {
   userId: string;
@@ -38,6 +46,8 @@ function actionUrlCategory(url?: string): string {
   if (url.startsWith("/checkpoints")) return "checkpoints";
   if (url.startsWith("/expert")) return "expert";
   if (url.startsWith("/getting-started")) return "getting_started";
+  if (url.startsWith("/calendar")) return "calendar";
+  if (url.startsWith("/discover")) return "discover";
   if (url.startsWith("/dashboard")) return "dashboard";
   return "other";
 }
@@ -68,7 +78,6 @@ export async function createNotification(input: CreateNotificationInput): Promis
     severity = "info", metadata = {},
   } = input;
 
-  // Dedup: same user_id + type + action_url + unread within last 24h
   const sinceIso = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
   let dupQ = supabase
     .from("notifications")

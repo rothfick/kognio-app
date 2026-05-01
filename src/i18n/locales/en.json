@@ -361,7 +361,20 @@
     "enter": "Enter",
     "pay": "Pay",
     "markCompleted": "Mark as completed",
-    "findTutor": "Find a tutor"
+    "findTutor": "Find a tutor",
+    "subtitle": "Your sessions, payments and notes in one place.",
+    "with": "With",
+    "tutor": "Tutor",
+    "studentLabel": "Student",
+    "emptyPast": "No past sessions.",
+    "joinMeeting": "Join meeting",
+    "addMeetingUrl": "Add link",
+    "editMeetingUrl": "Edit link",
+    "meetingUrlTitle": "Meeting link",
+    "meetingUrlHint": "Paste a Google Meet, Zoom, or other room URL.",
+    "meetingUrlSaved": "Link saved.",
+    "actionFailed": "Action failed.",
+    "cancel": "Cancel"
   },
   "settings": {
     "title": "Settings",
@@ -724,7 +737,8 @@
     "language": "Language",
     "me": "Me",
     "saving": "Saving…",
-    "error": "Something went wrong"
+    "error": "Something went wrong",
+    "next": "Next"
   },
   "errors": {
     "generic": "Something went wrong. Please try again."
@@ -781,7 +795,19 @@
     "transcriptPlaceholder": "Add a transcript fragment / lesson note…",
     "copilotIntro": "Questions go to AI with the context of recent messages. The whole conversation is saved in session chat.",
     "aiTyping": "AI is typing…",
-    "askAiPlaceholder": "Ask AI anything…"
+    "askAiPlaceholder": "Ask AI anything…",
+    "noteTitle": "Session note",
+    "noteHint": "A short summary of what you covered.",
+    "notesLabel": "Notes",
+    "skillsLabel": "Covered skill areas (comma separated)",
+    "skillsPlaceholder": "e.g. fractions, linear equations",
+    "nextLabel": "Recommended next step",
+    "addNote": "Add note",
+    "editNote": "Edit note",
+    "noteSaved": "Note saved.",
+    "noteFailed": "Could not save note.",
+    "noteFromTutor": "Note from tutor",
+    "recommendedNext": "Next step"
   },
   "payment": {
     "markedPaidToast": "Marked as paid",
@@ -802,7 +828,30 @@
     "markPaid": "I mark this as paid",
     "confirmReceived": "I confirm receipt",
     "completed": "Payment completed",
-    "copyToast": "Copied"
+    "copyToast": "Copied",
+    "uploadProof": "Upload payment proof",
+    "replaceProof": "Replace proof",
+    "viewProof": "View proof",
+    "upload": "Upload",
+    "uploadHint": "Attach a screenshot or PDF of the transfer.",
+    "privacyHint": "Only the tutor and admin can see this file.",
+    "confirm": "Confirm payment",
+    "adminConfirm": "Confirm (admin)",
+    "status": {
+      "unpaid": "Unpaid",
+      "payment_sent": "Payment sent",
+      "confirmed": "Confirmed",
+      "disputed": "Disputed",
+      "refunded": "Refunded"
+    },
+    "toast": {
+      "proofUploaded": "Proof uploaded.",
+      "proofFailed": "Could not upload proof.",
+      "confirmed": "Payment confirmed.",
+      "confirmFailed": "Could not confirm.",
+      "payerCannotConfirm": "Only the tutor or admin can confirm payment.",
+      "signedUrlFailed": "Could not open file."
+    }
   },
   "profile": {
     "title": "Your profile",
@@ -2005,6 +2054,141 @@
       "rejectedTitle": "Your tutor profile needs changes",
       "rejectedBody": "Please review the feedback and resubmit your profile.",
       "openProfile": "Open profile"
+    }
+  },
+  "weekday": {
+    "sun": "Sunday",
+    "mon": "Monday",
+    "tue": "Tuesday",
+    "wed": "Wednesday",
+    "thu": "Thursday",
+    "fri": "Friday",
+    "sat": "Saturday"
+  },
+  "marketplace": {
+    "eyebrow": "Tutor marketplace",
+    "title": "Find a tutor",
+    "subtitle": "Verified tutors ready to help you learn.",
+    "searchPlaceholder": "Search by name, headline, or subject",
+    "verified": "Verified",
+    "perHour": "per hour",
+    "openProfile": "Profile",
+    "book": "Book",
+    "reviews": "reviews",
+    "unnamed": "Tutor",
+    "filter": {
+      "domain": "Domain",
+      "level": "Level",
+      "language": "Language",
+      "maxPrice": "Max price",
+      "rating": "Rating",
+      "any": "Any",
+      "allDomains": "All domains",
+      "allLevels": "All levels",
+      "allLanguages": "All languages"
+    },
+    "empty": {
+      "title": "No verified tutors yet.",
+      "body": "Be one of the first tutors on Kogni.",
+      "cta": "Become a tutor"
+    }
+  },
+  "tutor": {
+    "bookSession": "Book session",
+    "about": "About",
+    "teaching": "What I teach",
+    "domains": "Domains",
+    "levels": "Levels",
+    "availability": "Availability",
+    "noAvailability": "This tutor hasn't set availability yet.",
+    "reviews": "Reviews",
+    "reviewsPlaceholder": "Reviews will appear after the first sessions.",
+    "notFound": {
+      "title": "Tutor not found",
+      "body": "This profile may have been removed.",
+      "cta": "Back to list"
+    },
+    "unavailable": {
+      "title": "Profile unavailable",
+      "body": "This tutor isn't verified yet.",
+      "cta": "See other tutors"
+    },
+    "statusBanner": {
+      "title": "Profile status",
+      "pending": "Pending review",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "suspended": "Suspended"
+    }
+  },
+  "booking": {
+    "title": "Book with {{tutor}}",
+    "step": {
+      "1": "Learner",
+      "2": "Topic",
+      "3": "Time",
+      "4": "Confirm"
+    },
+    "learner": {
+      "title": "Who is learning?",
+      "self": "Myself",
+      "child": "My child",
+      "selectChild": "Select child"
+    },
+    "context": {
+      "title": "What's the session about?",
+      "fromPlan": "From my learning plan",
+      "custom": "Custom topic",
+      "customPlaceholder": "Briefly describe what you want to learn"
+    },
+    "time": {
+      "title": "Pick a time",
+      "empty": "No available slots in the next 14 days."
+    },
+    "confirm": {
+      "title": "Confirm",
+      "tutor": "Tutor",
+      "learner": "Learner",
+      "topic": "Topic",
+      "time": "Time",
+      "price": "Price",
+      "cta": "Book",
+      "paymentInstructions": "After booking, pay the tutor directly (BLIK / bank transfer / Revolut), then upload proof of payment in the Calendar. Kogni does not process payments."
+    },
+    "toast": {
+      "created": "Booking created.",
+      "failed": "Could not create booking."
+    }
+  },
+  "notif": {
+    "viewCalendar": "Open calendar",
+    "bookingCreatedPayer": {
+      "title": "Booking created",
+      "body": "Your session with {{tutor}} is booked."
+    },
+    "bookingCreatedTutor": {
+      "title": "New booking",
+      "body": "You have a new session booking."
+    },
+    "paymentProofUploaded": {
+      "title": "Payment proof uploaded",
+      "body": "The student uploaded a payment proof — review and confirm."
+    },
+    "paymentConfirmed": {
+      "title": "Payment confirmed",
+      "body": "The tutor confirmed your payment."
+    },
+    "sessionCompleted": {
+      "title": "Session completed",
+      "body": "The session has been marked as completed."
+    },
+    "tutorNote": {
+      "title": "New session note",
+      "body": "The tutor added a note for your session."
+    },
+    "bookingCancelled": {
+      "title": "Booking cancelled",
+      "body": "The session has been cancelled."
     }
   }
 }

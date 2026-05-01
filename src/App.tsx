@@ -41,6 +41,8 @@ import GrantPack from "./pages/admin/GrantPack";
 import OperationalConsole from "./pages/admin/OperationalConsole";
 import TutorVerification from "./pages/admin/TutorVerification";
 import TutorOnboarding from "./pages/tutor/TutorOnboarding";
+import TutorPublicProfile from "./pages/tutor/TutorPublicProfile";
+import BookSession from "./pages/booking/BookSession";
 import GettingStarted from "./pages/GettingStarted";
 import Notifications from "./pages/Notifications";
 
@@ -82,13 +84,15 @@ const App = () => (
             <Route path="/org/invite/:token" element={<ProtectedRoute><OrgInviteAccept /></ProtectedRoute>} />
             <Route path="/dashboard/legacy" element={<ProtectedRoute><FeatureRouteGuard feature="booking" allowAdminPreview><Dashboard /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-            <Route path="/discover" element={<ProtectedRoute><FeatureRouteGuard feature="discover"><ParentRouteGuard><Discover /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/discover" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><ParentRouteGuard><Discover /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/circles" element={<ProtectedRoute><FeatureRouteGuard feature="circles"><ParentRouteGuard><Circles /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/peer" element={<ProtectedRoute><FeatureRouteGuard feature="peerHelp"><ParentRouteGuard><Peer /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/calendar" element={<ProtectedRoute><FeatureRouteGuard feature="calendar"><CalendarPage /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/brain" element={<ProtectedRoute><FeatureRouteGuard feature="secondBrain"><Brain /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
             <Route path="/tutor/:id" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><TutorProfile /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/tutors/:tutorId" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><TutorPublicProfile /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/book/:tutorId" element={<ProtectedRoute><FeatureRouteGuard feature="booking"><BookSession /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/session/:id" element={<ProtectedRoute><FeatureRouteGuard feature="booking"><SessionRoom /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/payment/:bookingId" element={<ProtectedRoute><ParentRouteGuard><PaymentPage /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
