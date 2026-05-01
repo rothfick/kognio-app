@@ -691,7 +691,9 @@
     "pageNotFound": "Page not found",
     "returnHome": "Return home",
     "language": "Language",
-    "me": "Me"
+    "me": "Me",
+    "saving": "Saving…",
+    "error": "Something went wrong"
   },
   "errors": {
     "generic": "Something went wrong. Please try again."
@@ -1325,5 +1327,91 @@
       "value": "Value"
     },
     "disclaimer": "This document is internal grant-preparation material. It does not guarantee funding, is not official legal advice, and the readiness score is an internal heuristic."
+  },
+  "researchConsent": {
+    "draftBadge": "Draft — requires legal review",
+    "accept": "Accept and continue",
+    "decline": "Decline",
+    "notNow": "Not now",
+    "viewDetails": "View details",
+    "hideDetails": "Hide details",
+    "toastAccepted": "Consent recorded",
+    "legalDisclaimer": "This text is a draft and does not constitute final legal documentation. Final terms will be reviewed by counsel before public launch.",
+    "types": {
+      "ai_diagnosis_notice": {
+        "title": "AI Diagnosis — data usage notice",
+        "body": "Kogni uses AI to estimate your knowledge level, identify gaps, and propose learning paths. Your answers are stored to build your skill map and improve your personal recommendations.",
+        "details": "What we store: your answers, AI-generated skill estimates, and the diagnosis result.\nWhy: to build your personal skill map and learning plan.\nWho can see it: only you, and admins for support purposes.\nYou can withdraw at any time from Settings."
+      },
+      "research_participation": {
+        "title": "Research participation (optional)",
+        "body": "I consent to the use of my educational data for diagnosis, learning plan generation, progress measurement, and anonymized analysis of Kogni's effectiveness. Data may be used in aggregated form for product validation and research and development work. This consent does not replace formal legal documentation and may be withdrawn.",
+        "details": "Anonymized aggregates may be used for: product validation, R&D reporting, and grant documentation. No personal identifiers are exported. Withdrawal stops future inclusion in aggregates."
+      },
+      "parent_child_data_processing": {
+        "title": "Parent/child data processing",
+        "body": "I consent to the processing of my child's educational data (diagnosis answers, mastery estimates, learning plan progress) on Kogni, as the legal guardian.",
+        "details": "What we store: child's diagnosis answers, AI estimates, learning plan, and progress.\nWho can see it: you as the parent, your child if linked, and admins for support.\nLegal basis: parental consent. You can withdraw at any time."
+      },
+      "expert_review_notice": {
+        "title": "Expert review notice",
+        "body": "I understand that an expert may review AI-generated assessments to validate the system. Reviews are stored as part of Kogni's quality and research process.",
+        "details": "Expert reviewers see assessment payloads tied to your diagnosis but receive no contact information."
+      },
+      "terms_of_service": {
+        "title": "Terms of Service (draft)",
+        "body": "I accept the draft Terms of Service of Kogni.",
+        "details": "Draft terms are available on request. Final terms will be published before public launch."
+      },
+      "privacy_policy": {
+        "title": "Privacy Policy (draft)",
+        "body": "I accept the draft Privacy Policy of Kogni.",
+        "details": "Draft policy describes data we collect, why, and how to withdraw. Final version will be reviewed by counsel."
+      }
+    }
+  },
+  "consent": {
+    "required": "Consent required",
+    "requiredAiDiagnosis": "To start an AI diagnosis you must accept the AI diagnosis notice.",
+    "declined": "You declined. You can revisit this later.",
+    "manage": "Manage consents",
+    "status": "Status",
+    "accepted": "Accepted",
+    "withdrawn": "Withdrawn",
+    "version": "Version",
+    "acceptedAt": "Accepted at"
+  },
+  "feedback": {
+    "prompt": "Was this result helpful?",
+    "placeholder": "Optional comment — what worked, what didn't?",
+    "send": "Send feedback",
+    "thanks": "Thanks for your feedback!",
+    "alreadySubmitted": "You already submitted feedback for this. Thank you!",
+    "rating": "Rating",
+    "context": "Context",
+    "anonymousOwner": "Anonymous user"
+  },
+  "pilot": {
+    "title": "Pilot Readiness",
+    "subtitle": "Cohorts, consents, and feedback signals from real users",
+    "activeCohorts": "Active cohorts",
+    "participants": "Pilot participants",
+    "consentsAccepted": "Consents accepted",
+    "consentsWithdrawn": "Consents withdrawn",
+    "feedbackEntries": "Feedback entries",
+    "averageRating": "Average rating",
+    "recentFeedback": "Recent feedback (anonymized)",
+    "noFeedback": "No feedback yet.",
+    "ownerSelf": "Self-user",
+    "ownerParentChild": "Parent–child",
+    "joinCohort": "Join internal alpha",
+    "joined": "You're in the internal alpha cohort",
+    "joinError": "Could not join cohort",
+    "purposeTitle": "What brings you to Kogni?",
+    "purposeSelfDiagnose": "I want to diagnose my own knowledge",
+    "purposeTesting": "I am testing Kogni",
+    "purposeExpert": "I am an expert / reviewer",
+    "skip": "Skip",
+    "continue": "Continue"
   }
 }
