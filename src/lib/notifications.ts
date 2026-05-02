@@ -22,6 +22,8 @@ export type NotificationType =
   // booking/marketplace
   | "booking_created_payer"
   | "booking_created_tutor"
+  | "booking_confirmed"
+  | "booking_rejected"
   | "payment_proof_uploaded"
   | "payment_confirmed"
   | "session_completed"
