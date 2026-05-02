@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard, Activity, ShieldCheck, Telescope, Network, BadgeCheck,
-  ShoppingBag, Building2, FileText,
+  ShoppingBag, Building2, FileText, FlaskConical,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,7 @@ const GROUPS: Group[] = [
       { to: "/dashboard/admin", labelKey: "adminNav.overview", icon: LayoutDashboard },
       { to: "/admin/operations", labelKey: "adminNav.operations", icon: Activity },
       { to: "/admin/launch-checklist", labelKey: "adminNav.launchChecklist", icon: ShieldCheck },
+      { to: "/admin/test-users", labelKey: "adminNav.testUsers", icon: FlaskConical },
     ],
   },
   {
