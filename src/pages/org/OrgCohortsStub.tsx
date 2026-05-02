@@ -12,7 +12,7 @@ export default function OrgCohortsStub() {
   return (
     <AppShell>
       <DashboardShell>
-        <DashboardHeader title={t("orgPage.viewCohorts")} icon={<Layers className="h-6 w-6" />} />
+        <DashboardHeader title={t("orgPage.viewCohorts")} subtitle="" />
         <Card className="p-6 space-y-3">
           <p className="text-sm text-muted-foreground">{t("orgPage.phaseBStub")}</p>
           <Button asChild variant="outline"><Link to={`/org/${orgId}`}>{t("common.back")}</Link></Button>

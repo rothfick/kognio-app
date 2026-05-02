@@ -100,7 +100,7 @@ export default function AdminOrganizations() {
         <DashboardHeader
           title={t("adminOrgs.title")}
           subtitle={t("adminOrgs.subtitle")}
-          icon={<Building2 className="h-6 w-6" />}
+         
           actions={
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>

@@ -68,7 +68,7 @@ export default function OrgPage() {
         <DashboardHeader
           title={org?.name || t("orgPage.title")}
           subtitle={org ? `${t(`adminOrgs.type.${org.org_type}`)} · ${t(`adminOrgs.status.${org.status}`)}${myRole ? ` · ${t("orgPage.yourRole")}: ${t(`orgRole.${myRole}`, myRole)}` : ""}` : t("common.loadingPanel")}
-          icon={<Building2 className="h-6 w-6" />}
+         
         />
 
         {loading ? (
