@@ -716,12 +716,92 @@ const LiveLessonRoom = () => {
                 </div>
                 {board.updated_at && <p className="text-[10px] text-muted-foreground">{t("whiteboard.updatedAt")}: {new Date(board.updated_at).toLocaleString()}</p>}
               </TabsContent>
+
+              {/* transcription */}
+              {transcriptionEnabled && (
+                <TabsContent value="transcription" className="mt-3 space-y-2">
+                  {hasTranscriptionConsent ? (
+                    <LessonTranscriptionPanel
+                      bookingId={booking.id}
+                      liveSessionId={liveSession?.id ?? null}
+                      userId={user!.id}
+                      speakerRole={participantRole ?? "unknown"}
+                      hasStudentConsent={hasTranscriptionConsent}
+                      isTutor={isTutor}
+                    />
+                  ) : (
+                    <ConsentGate label={t("lessonIntel.consentBanner")} onClick={() => setConsentDialog("lesson_transcription_notice")} />
+                  )}
+                </TabsContent>
+              )}
+
+              {/* engagement (tutor-only) */}
+              {isTutor && engagementEnabled && (
+                <TabsContent value="engagement" className="mt-3 space-y-2">
+                  {hasEngagementConsent ? (
+                    <EngagementSignalsPanel
+                      bookingId={booking.id}
+                      liveSessionId={liveSession?.id ?? null}
+                      userId={user!.id}
+                      targetUserId={booking.student_id}
+                    />
+                  ) : (
+                    <ConsentGate label={t("lessonIntel.consentBanner")} onClick={() => setConsentDialog("lesson_engagement_analysis_notice")} />
+                  )}
+                </TabsContent>
+              )}
+
+              {/* AI co-pilot (tutor-only) */}
+              {isTutor && copilotEnabled && (
+                <TabsContent value="copilot" className="mt-3 space-y-2">
+                  {hasCopilotConsent ? (
+                    <LessonCopilotPanel bookingId={booking.id} />
+                  ) : (
+                    <ConsentGate label={t("lessonIntel.consentBanner")} onClick={() => setConsentDialog("ai_copilot_notice")} />
+                  )}
+                </TabsContent>
+              )}
+
+              {/* summary */}
+              {summaryEnabled && (
+                <TabsContent value="summary" className="mt-3 space-y-2">
+                  <LessonSummaryPanel
+                    bookingId={booking.id}
+                    liveSessionId={liveSession?.id ?? null}
+                    isTutor={isTutor}
+                    studentUserId={booking.student_id}
+                    parentUserId={booking.parent_user_id}
+                    childId={booking.child_id}
+                    competencyId={booking.competency_id}
+                  />
+                </TabsContent>
+              )}
             </Tabs>
           </Card>
         </div>
       </div>
+
+      {consentDialog && (
+        <ResearchConsentDialog
+          open={!!consentDialog}
+          onOpenChange={(o) => !o && setConsentDialog(null)}
+          consentType={consentDialog}
+          childId={booking.child_id}
+          onAccepted={() => { setConsentDialog(null); refreshConsents(); }}
+          optional
+        />
+      )}
     </AppShell>
   );
 };
+
+function ConsentGate({ label, onClick }: { label: string; onClick: () => void }) {
+  return (
+    <div className="rounded-md border border-dashed p-4 text-sm space-y-2 text-center">
+      <p className="text-muted-foreground">{label}</p>
+      <Button size="sm" onClick={onClick}>OK</Button>
+    </div>
+  );
+}
 
 export default LiveLessonRoom;
