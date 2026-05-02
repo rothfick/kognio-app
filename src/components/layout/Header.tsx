@@ -108,6 +108,26 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           {user && <NotificationCenter />}
+          {user && hasMultiple && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-1.5 px-2" aria-label={t("roleSwitcher.label")}>
+                  <UserCog className="h-4 w-4" />
+                  <span className="hidden sm:inline text-xs">{t(`roleSwitcher.role.${activeRole}`, { defaultValue: activeRole ?? "" })}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-44">
+                <DropdownMenuLabel>{t("roleSwitcher.label")}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {availableRoles.map((r) => (
+                  <DropdownMenuItem key={r} onClick={() => { setActive(r); navigate("/dashboard"); }}>
+                    {t(`roleSwitcher.role.${r}`, { defaultValue: r })}
+                    {r === activeRole && <span className="ml-auto text-[10px] text-muted-foreground">●</span>}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" aria-label={t("common.language")}> 
