@@ -53,6 +53,9 @@ import HomeworkDetail from "./pages/HomeworkDetail";
 import Flashcards from "./pages/Flashcards";
 import AdminOrganizations from "./pages/admin/AdminOrganizations";
 import LaunchChecklist from "./pages/admin/LaunchChecklist";
+import AdminMarketplace from "./pages/admin/AdminMarketplace";
+import AdminCurriculum from "./pages/admin/AdminCurriculum";
+import AdminExpertReviews from "./pages/admin/AdminExpertReviews";
 import OrgPage from "./pages/org/OrgPage";
 import OrgMembers from "./pages/org/OrgMembers";
 import OrgCohorts from "./pages/org/OrgCohorts";
@@ -95,6 +98,9 @@ const App = () => (
             <Route path="/admin/operations" element={<ProtectedRoute><RoleGate allow={["admin"]}><OperationalConsole /></RoleGate></ProtectedRoute>} />
             <Route path="/admin/tutors" element={<ProtectedRoute><RoleGate allow={["admin"]}><FeatureRouteGuard feature="tutorMarketplace"><TutorVerification /></FeatureRouteGuard></RoleGate></ProtectedRoute>} />
             <Route path="/admin/launch-checklist" element={<ProtectedRoute><RoleGate allow={["admin"]}><LaunchChecklist /></RoleGate></ProtectedRoute>} />
+            <Route path="/admin/marketplace" element={<ProtectedRoute><RoleGate allow={["admin"]}><AdminMarketplace /></RoleGate></ProtectedRoute>} />
+            <Route path="/admin/curriculum" element={<ProtectedRoute><RoleGate allow={["admin"]}><AdminCurriculum /></RoleGate></ProtectedRoute>} />
+            <Route path="/admin/expert-reviews" element={<ProtectedRoute><RoleGate allow={["admin"]}><AdminExpertReviews /></RoleGate></ProtectedRoute>} />
             <Route path="/tutor/onboarding" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><ParentRouteGuard><TutorOnboarding /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/tutor/availability" element={<ProtectedRoute><RoleGate allow={["tutor"]}><FeatureRouteGuard feature="booking"><TutorAvailability /></FeatureRouteGuard></RoleGate></ProtectedRoute>} />
             <Route path="/dashboard/school" element={<ProtectedRoute><RoleGate allow={["school"]}><SchoolDashboard /></RoleGate></ProtectedRoute>} />
