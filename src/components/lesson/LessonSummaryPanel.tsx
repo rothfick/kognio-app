@@ -250,7 +250,15 @@ export function LessonSummaryPanel({
       )}
 
       {!isTutor && (
-        <p className="text-[10px] text-muted-foreground">{t("lessonIntel.disclaimerNotDiagnosis")}</p>
+        <div className="border-t pt-3 space-y-1.5">
+          <p className="text-[11px] font-medium text-muted-foreground">{t("postLesson.learnerActions")}</p>
+          <div className="flex flex-wrap gap-1.5">
+            <Button asChild size="sm" variant="outline">
+              <a href="/flashcards"><BookOpen className="h-4 w-4 mr-1" />{t("postLesson.viewFlashcards")}</a>
+            </Button>
+          </div>
+          <p className="text-[10px] text-muted-foreground">{t("lessonIntel.disclaimerNotDiagnosis")}</p>
+        </div>
       )}
     </div>
   );

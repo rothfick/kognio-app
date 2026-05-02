@@ -31,7 +31,8 @@
     "bookings": "Reservas",
     "tutorDashboard": "Panel del tutor",
     "homework": "Tareas",
-    "assignments": "Tareas de alumnos"
+    "assignments": "Tareas de alumnos",
+    "flashcards": "Tarjetas"
   },
   "landing": {
     "heroEyebrow": "Plataforma inteligente de aprendizaje",
@@ -2632,7 +2633,23 @@
     "back": "Reverso",
     "explanation": "Explicación",
     "readyToast": "Tarjetas listas.",
-    "generationError": "No se pudieron generar las tarjetas."
+    "generationError": "No se pudieron generar las tarjetas.",
+    "subtitle": "Repasa lo que aprendiste en tus lecciones.",
+    "filterDue": "Para repasar",
+    "filterActive": "Todas activas",
+    "filterArchived": "Archivadas",
+    "study": "Estudiar",
+    "reveal": "Mostrar respuesta",
+    "remembered": "Lo recordé",
+    "hard": "Difícil",
+    "skip": "Saltar",
+    "studyComplete": "No hay tarjetas pendientes.",
+    "noFiltered": "Ninguna tarjeta coincide con este filtro.",
+    "archive": "Archivar",
+    "restore": "Restaurar",
+    "loadingError": "No se pudieron cargar las tarjetas.",
+    "deck": "Mazo",
+    "due": "Fecha: {{when}}"
   },
   "postLesson": {
     "title": "Después de la lección",
