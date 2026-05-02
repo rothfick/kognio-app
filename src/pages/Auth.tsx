@@ -29,7 +29,8 @@ const Auth = () => {
   const safeNext = next.startsWith("/") ? next : "/dashboard";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [oauthLoading, setOauthLoading] = useState(false);
 
   useEffect(() => {
     if (user) navigate(safeNext);
@@ -43,7 +44,7 @@ const Auth = () => {
       toast.error(issue.path[0] === "email" ? t("auth.invalidEmail") : t("auth.passwordMin"));
       return;
     }
-    setLoading(true);
+    setEmailLoading(true);
     try {
       if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
@@ -62,20 +63,23 @@ const Auth = () => {
       const m = err instanceof Error ? err.message : t("auth.errorGeneric");
       toast.error(m);
     } finally {
-      setLoading(false);
+      setEmailLoading(false);
     }
   };
 
   const onGoogle = async () => {
-    setLoading(true);
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: `${window.location.origin}${safeNext}` });
-    if (result.error) {
-      toast.error(t("auth.errorGeneric"));
-      setLoading(false);
-      return;
+    setOauthLoading(true);
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: `${window.location.origin}${safeNext}` });
+      if (result.error) {
+        toast.error(t("auth.errorGeneric"));
+        return;
+      }
+      if (result.redirected) return;
+      navigate(safeNext);
+    } finally {
+      setOauthLoading(false);
     }
-    if (result.redirected) return;
-    navigate(safeNext);
   };
 
   return (
@@ -89,7 +93,7 @@ const Auth = () => {
             <h1 className="text-2xl font-bold">{t(mode === "signup" ? "auth.signupTitle" : "auth.signinTitle")}</h1>
           </div>
 
-          <Button type="button" variant="outline" className="w-full mb-4" onClick={onGoogle} disabled={loading}>
+          <Button type="button" variant="outline" className="w-full mb-4" onClick={onGoogle} disabled={oauthLoading}>
             {t("auth.google")}
           </Button>
 
@@ -108,7 +112,7 @@ const Auth = () => {
               <Label htmlFor="password">{t("auth.password")}</Label>
               <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete={mode === "signup" ? "new-password" : "current-password"} />
             </div>
-            <Button type="submit" className="w-full bg-accent-gradient text-accent-foreground hover:opacity-90" disabled={loading}>
+            <Button type="submit" className="w-full bg-accent-gradient text-accent-foreground hover:opacity-90" disabled={emailLoading}>
               {t(mode === "signup" ? "auth.submitSignup" : "auth.submitSignin")}
             </Button>
           </form>
