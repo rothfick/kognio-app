@@ -4,9 +4,11 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ActiveRoleProvider } from "@/contexts/ActiveRoleContext";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { ParentRouteGuard } from "@/components/auth/ParentRouteGuard";
 import { FeatureRouteGuard } from "@/components/auth/FeatureRouteGuard";
+import { RoleGate } from "@/components/auth/RoleGate";
 import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
 import Discover from "./pages/Discover";
@@ -58,6 +60,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <ActiveRoleProvider>
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/auth" element={<Auth />} />
@@ -103,6 +106,7 @@ const App = () => (
             <Route path="/homework/:id" element={<ProtectedRoute><FeatureRouteGuard feature="homework"><HomeworkDetail /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </ActiveRoleProvider>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
