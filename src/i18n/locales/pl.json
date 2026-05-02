@@ -33,7 +33,8 @@
     "homework": "Zadania",
     "assignments": "Zadania uczniów",
     "flashcards": "Fiszki",
-    "organizations": "Organizacje"
+    "organizations": "Organizacje",
+    "launchChecklist": "Lista uruchomienia"
   },
   "landing": {
     "heroEyebrow": "Inteligentna platforma nauki",
@@ -2901,13 +2902,109 @@
     "exportMd": "Eksport Markdown",
     "exported": "Raport wyeksportowany.",
     "failed": "Nie udało się utworzyć raportu.",
-    "json": { "title": "Raport postępów (JSON)", "body": "Raport zagregowany do odczytu maszynowego. Brak danych osobowych." },
-    "md": { "title": "Raport postępów (Markdown)", "body": "Czytelne podsumowanie. Brak danych osobowych." },
+    "json": {
+      "title": "Raport postępów (JSON)",
+      "body": "Raport zagregowany do odczytu maszynowego. Brak danych osobowych."
+    },
+    "md": {
+      "title": "Raport postępów (Markdown)",
+      "body": "Czytelne podsumowanie. Brak danych osobowych."
+    },
     "privacyNote": "Raporty zawierają wyłącznie zanonimizowane, zagregowane metryki — bez e-maili, nazwisk i transkrypcji."
   },
   "orgNotifications": {
-    "inviteCreated": { "title": "Zaproszenie do organizacji", "body": "Zostałeś/aś zaproszony/a do {{org}}." },
-    "cohortAssigned": { "title": "Przypisanie do kohorty", "body": "Dodano Cię do kohorty {{cohort}}." },
-    "roleChanged": { "title": "Zmiana roli", "body": "Twoja rola w {{org}} to teraz {{role}}." }
+    "inviteCreated": {
+      "title": "Zaproszenie do organizacji",
+      "body": "Zostałeś/aś zaproszony/a do {{org}}."
+    },
+    "cohortAssigned": {
+      "title": "Przypisanie do kohorty",
+      "body": "Dodano Cię do kohorty {{cohort}}."
+    },
+    "roleChanged": {
+      "title": "Zmiana roli",
+      "body": "Twoja rola w {{org}} to teraz {{role}}."
+    }
+  },
+  "launchChecklist": {
+    "title": "Lista kontrolna uruchomienia",
+    "subtitle": "Sprawdzenie gotowości do produkcji.",
+    "sections": {
+      "qa": "QA i przegląd ręczny",
+      "runtime": "Sprawdzenia środowiska"
+    },
+    "status": {
+      "pass": "OK",
+      "warning": "Uwaga",
+      "manual": "Ręcznie",
+      "loading": "Sprawdzanie…"
+    },
+    "items": {
+      "i18nParity": {
+        "title": "Parytet PL/EN/ES",
+        "description": "Wszystkie klucze tłumaczeń obecne w trzech językach.",
+        "action": "Potwierdź na próbkach widoków."
+      },
+      "routeGuards": {
+        "title": "Strażnicy tras",
+        "description": "Trasy admin/tutor/org/parent osłonięte rolami.",
+        "action": "Test ręczny: wejście jako uczeń na /admin/* zwraca przekierowanie."
+      },
+      "rlsSanity": {
+        "title": "Polityki RLS",
+        "description": "Dane użytkownika dostępne tylko dla właściciela.",
+        "action": "Test ręczny: konto B nie widzi danych konta A."
+      },
+      "privateStorage": {
+        "title": "Prywatne buckety",
+        "description": "payment-proofs jest prywatny, avatars publiczny intencjonalnie.",
+        "action": "Sprawdź Storage w panelu Lovable Cloud."
+      },
+      "signedProofUrls": {
+        "title": "Podpisane URL dowodów płatności",
+        "description": "Dowody pobierane przez createSignedUrl, nie publiczne URL.",
+        "action": "Otwórz dowód z kalendarza i sprawdź URL."
+      },
+      "noPiiExports": {
+        "title": "Brak PII w eksportach",
+        "description": "Raporty org / SMART / grant pack nie zawierają imion ani e-maili.",
+        "action": "Pobierz raport i przejrzyj."
+      },
+      "legalReview": {
+        "title": "Dokumenty prawne",
+        "description": "Polityka prywatności, regulamin i RODO wymagają przeglądu prawnego.",
+        "action": "Skonsultuj z radcą prawnym przed uruchomieniem."
+      },
+      "livekitEnv": {
+        "title": "Konfiguracja LiveKit",
+        "description": "Zmienne LIVEKIT_URL/API_KEY/API_SECRET ustawione.",
+        "action": "Jeśli ostrzeżenie — uzupełnij sekrety w Lovable Cloud."
+      },
+      "edgeFunctions": {
+        "title": "Funkcje brzegowe wdrożone",
+        "description": "Lekcyjne, zadaniowe, planowe i diagnostyczne funkcje brzegowe wdrożone.",
+        "action": "Wdrożenie odbywa się automatycznie. Sprawdź logi w razie błędów."
+      },
+      "approvedTutor": {
+        "title": "Co najmniej jeden zatwierdzony tutor",
+        "description": "Marketplace wymaga zatwierdzonych tutorów.",
+        "action": "Zatwierdź tutora w /admin/tutors."
+      },
+      "pilotCohort": {
+        "title": "Kohorta pilotażowa utworzona",
+        "description": "Co najmniej jedna kohorta utworzona w organizacji.",
+        "action": "Utwórz kohortę w panelu organizacji."
+      },
+      "firstOrg": {
+        "title": "Pierwsza organizacja utworzona",
+        "description": "Co najmniej jedna organizacja w systemie.",
+        "action": "Utwórz organizację w /admin/organizations."
+      },
+      "testUsers": {
+        "title": "Konta testowe gotowe",
+        "description": "Co najmniej dwa konta utworzone do testów end-to-end.",
+        "action": "Utwórz konta uczeń + rodzic + tutor + admin."
+      }
+    }
   }
 }

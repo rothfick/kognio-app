@@ -33,7 +33,8 @@
     "homework": "Homework",
     "assignments": "Assignments",
     "flashcards": "Flashcards",
-    "organizations": "Organizations"
+    "organizations": "Organizations",
+    "launchChecklist": "Launch checklist"
   },
   "landing": {
     "heroEyebrow": "Intelligent learning platform",
@@ -2899,13 +2900,109 @@
     "exportMd": "Export Markdown",
     "exported": "Report exported.",
     "failed": "Failed to build report.",
-    "json": { "title": "Progress report (JSON)", "body": "Machine-readable aggregate report. No PII." },
-    "md": { "title": "Progress report (Markdown)", "body": "Human-readable summary. No PII." },
+    "json": {
+      "title": "Progress report (JSON)",
+      "body": "Machine-readable aggregate report. No PII."
+    },
+    "md": {
+      "title": "Progress report (Markdown)",
+      "body": "Human-readable summary. No PII."
+    },
     "privacyNote": "Reports contain anonymized aggregate metrics only — no emails, names, or raw transcripts."
   },
   "orgNotifications": {
-    "inviteCreated": { "title": "Organization invite", "body": "You were invited to join {{org}}." },
-    "cohortAssigned": { "title": "Cohort assignment", "body": "You were added to cohort {{cohort}}." },
-    "roleChanged": { "title": "Role updated", "body": "Your role in {{org}} is now {{role}}." }
+    "inviteCreated": {
+      "title": "Organization invite",
+      "body": "You were invited to join {{org}}."
+    },
+    "cohortAssigned": {
+      "title": "Cohort assignment",
+      "body": "You were added to cohort {{cohort}}."
+    },
+    "roleChanged": {
+      "title": "Role updated",
+      "body": "Your role in {{org}} is now {{role}}."
+    }
+  },
+  "launchChecklist": {
+    "title": "Launch checklist",
+    "subtitle": "Production readiness verification.",
+    "sections": {
+      "qa": "QA and manual review",
+      "runtime": "Runtime checks"
+    },
+    "status": {
+      "pass": "Pass",
+      "warning": "Warning",
+      "manual": "Manual",
+      "loading": "Checking…"
+    },
+    "items": {
+      "i18nParity": {
+        "title": "PL/EN/ES parity",
+        "description": "All translation keys present across three locales.",
+        "action": "Spot-check across views."
+      },
+      "routeGuards": {
+        "title": "Route guards",
+        "description": "Admin/tutor/org/parent routes protected by role.",
+        "action": "Manual test: student visiting /admin/* should redirect."
+      },
+      "rlsSanity": {
+        "title": "RLS policies",
+        "description": "User data is visible only to its owner.",
+        "action": "Manual test: account B cannot see account A's data."
+      },
+      "privateStorage": {
+        "title": "Private buckets",
+        "description": "payment-proofs is private; avatars is public intentionally.",
+        "action": "Verify in Lovable Cloud Storage."
+      },
+      "signedProofUrls": {
+        "title": "Signed payment-proof URLs",
+        "description": "Proofs are fetched via createSignedUrl, not public URLs.",
+        "action": "Open a proof from the calendar and inspect the URL."
+      },
+      "noPiiExports": {
+        "title": "No PII in exports",
+        "description": "Org/SMART/grant pack reports never include names or emails.",
+        "action": "Download a report and review."
+      },
+      "legalReview": {
+        "title": "Legal documents",
+        "description": "Privacy policy, terms and GDPR docs require legal review.",
+        "action": "Consult legal counsel before launch."
+      },
+      "livekitEnv": {
+        "title": "LiveKit configuration",
+        "description": "LIVEKIT_URL/API_KEY/API_SECRET secrets are set.",
+        "action": "If warning — add secrets in Lovable Cloud."
+      },
+      "edgeFunctions": {
+        "title": "Edge functions deployed",
+        "description": "Lesson, homework, plan, and diagnostic functions deployed.",
+        "action": "Deployment is automatic. Check logs on failure."
+      },
+      "approvedTutor": {
+        "title": "At least one approved tutor",
+        "description": "Marketplace requires approved tutors.",
+        "action": "Approve a tutor at /admin/tutors."
+      },
+      "pilotCohort": {
+        "title": "Pilot cohort created",
+        "description": "At least one cohort created in an organization.",
+        "action": "Create a cohort in the org panel."
+      },
+      "firstOrg": {
+        "title": "First organization created",
+        "description": "At least one organization in the system.",
+        "action": "Create an organization at /admin/organizations."
+      },
+      "testUsers": {
+        "title": "Test users ready",
+        "description": "At least two accounts created for end-to-end tests.",
+        "action": "Create student + parent + tutor + admin accounts."
+      }
+    }
   }
 }
