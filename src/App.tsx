@@ -53,8 +53,11 @@ import HomeworkDetail from "./pages/HomeworkDetail";
 import Flashcards from "./pages/Flashcards";
 import AdminOrganizations from "./pages/admin/AdminOrganizations";
 import OrgPage from "./pages/org/OrgPage";
-import OrgMembersStub from "./pages/org/OrgMembersStub";
-import OrgCohortsStub from "./pages/org/OrgCohortsStub";
+import OrgMembers from "./pages/org/OrgMembers";
+import OrgCohorts from "./pages/org/OrgCohorts";
+import OrgCohortDetail from "./pages/org/OrgCohortDetail";
+import OrgProgress from "./pages/org/OrgProgress";
+import OrgReports from "./pages/org/OrgReports";
 import JoinOrgRedirect from "./pages/JoinOrgRedirect";
 
 const queryClient = new QueryClient();
@@ -98,8 +101,11 @@ const App = () => (
             <Route path="/join-org/:code" element={<ProtectedRoute><JoinOrgRedirect /></ProtectedRoute>} />
             <Route path="/admin/organizations" element={<ProtectedRoute><RoleGate allow={["admin"]}><FeatureRouteGuard feature="organizations"><AdminOrganizations /></FeatureRouteGuard></RoleGate></ProtectedRoute>} />
             <Route path="/org/:orgId" element={<ProtectedRoute><FeatureRouteGuard feature="organizations"><OrgPage /></FeatureRouteGuard></ProtectedRoute>} />
-            <Route path="/org/:orgId/cohorts" element={<ProtectedRoute><FeatureRouteGuard feature="organizations"><OrgCohortsStub /></FeatureRouteGuard></ProtectedRoute>} />
-            <Route path="/org/:orgId/members" element={<ProtectedRoute><FeatureRouteGuard feature="organizations"><OrgMembersStub /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/org/:orgId/cohorts" element={<ProtectedRoute><FeatureRouteGuard feature="organizations"><OrgCohorts /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/org/:orgId/cohorts/:cohortId" element={<ProtectedRoute><FeatureRouteGuard feature="organizations"><OrgCohortDetail /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/org/:orgId/members" element={<ProtectedRoute><FeatureRouteGuard feature="organizations"><OrgMembers /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/org/:orgId/progress" element={<ProtectedRoute><FeatureRouteGuard feature="organizations"><OrgProgress /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/org/:orgId/reports" element={<ProtectedRoute><FeatureRouteGuard feature="organizations"><OrgReports /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/dashboard/legacy" element={<ProtectedRoute><FeatureRouteGuard feature="booking" allowAdminPreview><Dashboard /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/discover" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><ParentRouteGuard><Discover /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
