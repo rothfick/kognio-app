@@ -57,6 +57,14 @@ export const FEATURES: Record<FeatureFlag, boolean> = {
   diagnosis: true,
   learningPlan: true,
   parentChildren: true,
+
+  // Lesson Intelligence v1
+  lessonIntelligence: true,
+  lessonTranscription: true,
+  lessonEngagementSignals: true,
+  lessonAiCopilot: true,
+  lessonSummaries: true,
+  lessonFlashcards: true,
 };
 
 export const isFeatureEnabled = (flag: FeatureFlag): boolean => FEATURES[flag] === true;
