@@ -95,7 +95,7 @@ const App = () => (
             <Route path="/tutor/:id" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><TutorProfile /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/tutors/:tutorId" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><TutorPublicProfile /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/book/:tutorId" element={<ProtectedRoute><FeatureRouteGuard feature="booking"><BookSession /></FeatureRouteGuard></ProtectedRoute>} />
-            <Route path="/session/:id" element={<ProtectedRoute><FeatureRouteGuard feature="booking"><SessionRoom /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/session/:bookingId" element={<ProtectedRoute><FeatureRouteGuard feature="booking"><LiveLessonRoom /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/payment/:bookingId" element={<ProtectedRoute><ParentRouteGuard><PaymentPage /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/homework" element={<ProtectedRoute><FeatureRouteGuard feature="homework"><Homework /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/homework/:id" element={<ProtectedRoute><FeatureRouteGuard feature="homework"><HomeworkDetail /></FeatureRouteGuard></ProtectedRoute>} />
