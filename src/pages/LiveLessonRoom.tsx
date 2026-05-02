@@ -735,8 +735,10 @@ const LiveLessonRoom = () => {
                       hasStudentConsent={hasTranscriptionConsent}
                       isTutor={isTutor}
                     />
-                  ) : (
+                  ) : canGrantConsent ? (
                     <ConsentGate label={t("lessonIntel.consentBanner")} onClick={() => setConsentDialog("lesson_transcription_notice")} />
+                  ) : (
+                    <LockedNotice label={t("lessonIntel.tutorWaitingForLearnerConsent")} />
                   )}
                 </TabsContent>
               )}
@@ -752,7 +754,7 @@ const LiveLessonRoom = () => {
                       targetUserId={booking.student_id}
                     />
                   ) : (
-                    <ConsentGate label={t("lessonIntel.consentBanner")} onClick={() => setConsentDialog("lesson_engagement_analysis_notice")} />
+                    <LockedNotice label={t("lessonIntel.tutorWaitingForLearnerConsent")} />
                   )}
                 </TabsContent>
               )}
@@ -763,8 +765,15 @@ const LiveLessonRoom = () => {
                   {hasCopilotConsent ? (
                     <LessonCopilotPanel bookingId={booking.id} />
                   ) : (
-                    <ConsentGate label={t("lessonIntel.consentBanner")} onClick={() => setConsentDialog("ai_copilot_notice")} />
+                    <LockedNotice label={t("lessonIntel.tutorWaitingForLearnerConsent")} />
                   )}
+                </TabsContent>
+              )}
+
+              {/* Student AI assistant (student/parent only) */}
+              {(isStudent || isParent) && (
+                <TabsContent value="studentAi" className="mt-3 space-y-2">
+                  <StudentAssistantPanel bookingId={booking.id} />
                 </TabsContent>
               )}
 
@@ -787,7 +796,7 @@ const LiveLessonRoom = () => {
         </div>
       </div>
 
-      {consentDialog && (
+      {consentDialog && canGrantConsent && (
         <ResearchConsentDialog
           open={!!consentDialog}
           onOpenChange={(o) => !o && setConsentDialog(null)}
@@ -800,6 +809,15 @@ const LiveLessonRoom = () => {
     </AppShell>
   );
 };
+
+function LockedNotice({ label }: { label: string }) {
+  return (
+    <div className="rounded-md border border-dashed p-4 text-sm text-center text-muted-foreground flex items-center justify-center gap-2">
+      <AlertTriangle className="h-4 w-4 text-amber-500" />
+      <span>{label}</span>
+    </div>
+  );
+}
 
 function ConsentGate({ label, onClick }: { label: string; onClick: () => void }) {
   return (
