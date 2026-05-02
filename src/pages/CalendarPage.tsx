@@ -535,6 +535,16 @@ const CalendarPage = () => {
               <FileCheck2 className="mr-1 h-3.5 w-3.5" /> {t("payment.confirm")}
             </Button>
           ) : null}
+          {isMyTutor && b.status === "pending" ? (
+            <>
+              <Button size="sm" className="bg-accent-gradient text-accent-foreground" onClick={() => acceptBooking(b)}>
+                <Check className="mr-1 h-3.5 w-3.5" /> {t("calendar.confirm")}
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => rejectBooking(b)}>
+                <X className="mr-1 h-3.5 w-3.5" /> {t("calendar.reject")}
+              </Button>
+            </>
+          ) : null}
           {isMyTutor && (b.status === "pending" || b.status === "confirmed") ? (
             <>
               <Button size="sm" variant="outline" onClick={() => openMeetingUrl(b)}>
