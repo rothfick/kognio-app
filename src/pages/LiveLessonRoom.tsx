@@ -26,6 +26,7 @@ import { LessonTranscriptionPanel } from "@/components/lesson/LessonTranscriptio
 import { EngagementSignalsPanel } from "@/components/lesson/EngagementSignalsPanel";
 import { LessonCopilotPanel } from "@/components/lesson/LessonCopilotPanel";
 import { LessonSummaryPanel } from "@/components/lesson/LessonSummaryPanel";
+import { StudentAssistantPanel } from "@/components/lesson/StudentAssistantPanel";
 import { ResearchConsentDialog, type ConsentType } from "@/components/pilot/ResearchConsentDialog";
 import { isFeatureEnabled } from "@/config/features";
 
