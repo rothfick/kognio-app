@@ -85,19 +85,10 @@ const TutorVerification = () => {
   };
 
   return (
-    <RoleGate allow={["admin"]}>
-      <AppShell>
-        <div className="container mx-auto px-4 py-10 max-w-5xl">
-          <AdminSubNav />
-          <div className="flex items-center gap-3 mb-6">
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-accent/10 text-accent">
-              <UserCheck className="h-6 w-6" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">{t("tutorVerification.title")}</h1>
-              <p className="text-sm text-muted-foreground">{t("tutorVerification.subtitle")}</p>
-            </div>
-          </div>
+    <AdminPageShell
+      title={t("tutorVerification.title")}
+      subtitle={t("tutorVerification.subtitle")}
+    >
 
           <Tabs value={tab} onValueChange={(v) => setTab(v as typeof tab)}>
             <TabsList>
