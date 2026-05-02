@@ -2385,6 +2385,41 @@ export type Database = {
           },
         ]
       }
+      lesson_student_ai_messages: {
+        Row: {
+          booking_id: string
+          content: string
+          created_at: string
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          booking_id: string
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          booking_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_student_ai_messages_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lesson_summaries: {
         Row: {
           approved_at: string | null
