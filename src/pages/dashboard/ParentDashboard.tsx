@@ -23,6 +23,7 @@ import { useUpcomingBookings } from "@/hooks/useUpcomingBookings";
 import { HomeworkWidget } from "@/components/homework/HomeworkWidget";
 import { generateHomework, langCode } from "@/lib/homeworkClient";
 import { toast } from "sonner";
+import { OrgMembershipBadge } from "@/components/org/OrgMembershipBadge";
 
 type ChildRow = {
   id: string;
@@ -63,6 +64,8 @@ const ParentDashboard = () => {
             subtitle={t("dashboard.parentSubtitle")}
             actions={children.length > 0 ? <AddChildDialog onCreated={load} /> : undefined}
           />
+
+          <div className="mb-4"><OrgMembershipBadge /></div>
 
           <ParentNextBestStepBlock />
 

@@ -24,6 +24,7 @@ import { useUpcomingBookings } from "@/hooks/useUpcomingBookings";
 import { HomeworkWidget } from "@/components/homework/HomeworkWidget";
 import { generateHomework, langCode } from "@/lib/homeworkClient";
 import { toast } from "sonner";
+import { OrgMembershipBadge } from "@/components/org/OrgMembershipBadge";
 
 type KcRow = { kc_label: string; mastery_pct: number; status: string };
 type LatestPlan = { id: string; status: string; title: string };
@@ -121,6 +122,8 @@ const StudentDashboard = () => {
             subtitle={t("dashboard.studentSubtitle")}
             primaryAction={{ label: t("dashboard.diagnoseCta"), to: "/diagnose" }}
           />
+
+          <div className="mb-4"><OrgMembershipBadge /></div>
 
           <NextBestStepBlock />
 
