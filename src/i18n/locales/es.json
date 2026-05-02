@@ -824,7 +824,8 @@
     "noteFailed": "No se pudo guardar la nota.",
     "noteFromTutor": "Nota del tutor",
     "recommendedNext": "Próximo paso",
-    "noteEmpty": "La nota no puede estar vacía."
+    "noteEmpty": "La nota no puede estar vacía.",
+    "saveNote": "Guardar nota"
   },
   "payment": {
     "markedPaidToast": "Marcado como pagado",
@@ -953,11 +954,11 @@
     "allCaughtUp": "Todo al día"
   },
   "mastery": {
-    "unknown": "Sin datos",
-    "novice": "Inicio",
-    "developing": "En desarrollo",
-    "proficient": "Competente",
-    "mastered": "Dominado"
+    "homework": {
+      "updated": "Dominio actualizado a partir de la tarea.",
+      "increase": "El dominio en {{area}} subió {{delta}}%.",
+      "decrease": "El dominio en {{area}} se ajustó en {{delta}}%."
+    }
   },
   "plan": {
     "title": "Plan de estudio",
@@ -2213,6 +2214,26 @@
     "bookingCancelled": {
       "title": "Reserva cancelada",
       "body": "La sesión ha sido cancelada."
+    },
+    "lessonNote": {
+      "title": "El profesor añadió una nota",
+      "body": "Abre la sala para leerla.",
+      "action": "Abrir clase"
+    },
+    "sessionStarted": {
+      "title": "La clase está comenzando",
+      "body": "Tu profesor inició la clase en vivo.",
+      "action": "Entrar ahora"
+    },
+    "sessionEnded": {
+      "title": "Clase finalizada",
+      "body": "La clase en vivo ha terminado.",
+      "action": "Abrir clase"
+    },
+    "sessionRoomReady": {
+      "title": "Sala lista",
+      "body": "Ya puedes entrar a la sala de la clase.",
+      "action": "Abrir clase"
     }
   },
   "dashboardBooking": {
@@ -2337,13 +2358,6 @@
     "feedbackTitle": "Retroalimentación",
     "noFeedback": "Aún no hay retroalimentación adicional."
   },
-  "mastery": {
-    "homework": {
-      "updated": "Dominio actualizado a partir de la tarea.",
-      "increase": "El dominio en {{area}} subió {{delta}}%.",
-      "decrease": "El dominio en {{area}} se ajustó en {{delta}}%."
-    }
-  },
   "dashboardHomework": {
     "title": "Tareas",
     "active": "Activas",
@@ -2402,5 +2416,79 @@
       "body": "Algunas respuestas necesitan revisión del tutor."
     },
     "viewHomework": "Abrir tareas"
+  },
+  "liveLesson": {
+    "lobbyTitle": "Clase en vivo",
+    "lobbyBody": "Revisa los detalles y entra a la sala de la clase.",
+    "tutor": "Profesor",
+    "learner": "Estudiante",
+    "scheduledAt": "Programada",
+    "topic": "Tema",
+    "competency": "Competencia",
+    "planItem": "Paso del plan",
+    "goal": "Objetivo",
+    "bookingStatus": "Reserva",
+    "paymentStatus": "Pago",
+    "paymentWarning": "El pago aún no está confirmado — puedes entrar, pero por favor complétalo.",
+    "paymentWarningShort": "Pago sin confirmar",
+    "joinCta": "Entrar a la clase",
+    "joinShort": "Entrar",
+    "joinRoom": "Entrar a la sala Kogni Live",
+    "lessonTitle": "Clase",
+    "elapsed": "Tiempo",
+    "startCta": "Iniciar sesión",
+    "endCta": "Finalizar sesión",
+    "started": "Sesión iniciada",
+    "ended": "Sesión finalizada",
+    "startFailed": "No se pudo iniciar la sesión",
+    "endFailed": "No se pudo finalizar la sesión",
+    "leave": "Salir",
+    "tabContext": "Contexto",
+    "tabChat": "Chat",
+    "tabNotes": "Notas",
+    "tabBoard": "Pizarra",
+    "context": "Contexto de la clase",
+    "noteEmpty": "El profesor aún no añadió una nota.",
+    "generateHw": "Generar práctica desde la nota",
+    "tokenError": "No se pudo conectar con la sala.",
+    "notFoundTitle": "Clase no encontrada",
+    "notFoundBody": "Esta reserva no existe o no tienes acceso.",
+    "forbiddenTitle": "Acceso denegado",
+    "forbiddenBody": "No eres participante de esta reserva.",
+    "status": {
+      "scheduled": "Programada",
+      "live": "En vivo",
+      "ended": "Finalizada",
+      "failed": "Error"
+    },
+    "errors": {
+      "booking_id_required": "Se requiere el id de la reserva",
+      "not_found_or_forbidden": "Reserva no encontrada o acceso denegado",
+      "forbidden": "Acceso denegado",
+      "booking_not_joinable": "No se puede entrar a esta reserva",
+      "unauthorized": "Inicio de sesión requerido",
+      "internal_error": "Error del servidor"
+    }
+  },
+  "livekit": {
+    "setupRequiredTitle": "El vídeo en vivo no está configurado",
+    "setupRequiredBody": "La integración de vídeo aún no está configurada. Contacta con soporte.",
+    "missing": "Falta"
+  },
+  "sessionRoom": {
+    "title": "Sala de clase"
+  },
+  "whiteboard": {
+    "placeholder": "Notas compartidas de esta clase…",
+    "save": "Guardar pizarra",
+    "saved": "Pizarra actualizada",
+    "saveFailed": "No se pudo guardar la pizarra",
+    "reset": "Restablecer",
+    "updatedAt": "Actualizado"
+  },
+  "chat": {
+    "empty": "No hay mensajes.",
+    "placeholder": "Escribe un mensaje…",
+    "sendFailed": "No se pudo enviar el mensaje"
   }
 }

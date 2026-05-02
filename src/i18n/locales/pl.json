@@ -824,7 +824,8 @@
     "noteFailed": "Nie udało się zapisać notatki.",
     "noteFromTutor": "Notatka od korepetytora",
     "recommendedNext": "Następny krok",
-    "noteEmpty": "Notatka nie może być pusta."
+    "noteEmpty": "Notatka nie może być pusta.",
+    "saveNote": "Zapisz notatkę"
   },
   "payment": {
     "markedPaidToast": "Oznaczono jako zapłacone",
@@ -953,11 +954,11 @@
     "allCaughtUp": "Wszystko ogarnięte"
   },
   "mastery": {
-    "unknown": "Brak danych",
-    "novice": "Początek",
-    "developing": "Rozwija się",
-    "proficient": "Sprawnie",
-    "mastered": "Opanowane"
+    "homework": {
+      "updated": "Biegłość zaktualizowana na podstawie zadania.",
+      "increase": "Biegłość w obszarze {{area}} wzrosła o {{delta}}%.",
+      "decrease": "Biegłość w obszarze {{area}} skorygowana o {{delta}}%."
+    }
   },
   "plan": {
     "title": "Plan nauki",
@@ -2213,6 +2214,26 @@
     "bookingCancelled": {
       "title": "Rezerwacja anulowana",
       "body": "Sesja została anulowana."
+    },
+    "lessonNote": {
+      "title": "Nauczyciel dodał notatkę z lekcji",
+      "body": "Otwórz pokój lekcji, aby ją przeczytać.",
+      "action": "Otwórz lekcję"
+    },
+    "sessionStarted": {
+      "title": "Lekcja się rozpoczyna",
+      "body": "Nauczyciel rozpoczął lekcję na żywo.",
+      "action": "Dołącz"
+    },
+    "sessionEnded": {
+      "title": "Lekcja zakończona",
+      "body": "Lekcja na żywo została zakończona.",
+      "action": "Otwórz lekcję"
+    },
+    "sessionRoomReady": {
+      "title": "Pokój lekcji gotowy",
+      "body": "Możesz wejść do pokoju lekcji na żywo.",
+      "action": "Otwórz lekcję"
     }
   },
   "dashboardBooking": {
@@ -2337,13 +2358,6 @@
     "feedbackTitle": "Informacja zwrotna",
     "noFeedback": "Brak dodatkowej informacji zwrotnej."
   },
-  "mastery": {
-    "homework": {
-      "updated": "Biegłość zaktualizowana na podstawie zadania.",
-      "increase": "Biegłość w obszarze {{area}} wzrosła o {{delta}}%.",
-      "decrease": "Biegłość w obszarze {{area}} skorygowana o {{delta}}%."
-    }
-  },
   "dashboardHomework": {
     "title": "Zadania domowe",
     "active": "Aktywne",
@@ -2402,5 +2416,79 @@
       "body": "Niektóre odpowiedzi wymagają sprawdzenia przez korepetytora."
     },
     "viewHomework": "Otwórz zadania"
+  },
+  "liveLesson": {
+    "lobbyTitle": "Lekcja na żywo",
+    "lobbyBody": "Sprawdź szczegóły i dołącz do pokoju lekcji.",
+    "tutor": "Nauczyciel",
+    "learner": "Uczeń",
+    "scheduledAt": "Zaplanowano",
+    "topic": "Temat",
+    "competency": "Kompetencja",
+    "planItem": "Krok planu",
+    "goal": "Cel",
+    "bookingStatus": "Rezerwacja",
+    "paymentStatus": "Płatność",
+    "paymentWarning": "Płatność nie została jeszcze potwierdzona — możesz dołączyć, ale prosimy o jej zakończenie.",
+    "paymentWarningShort": "Płatność niepotwierdzona",
+    "joinCta": "Dołącz do lekcji",
+    "joinShort": "Dołącz",
+    "joinRoom": "Dołącz do pokoju Kogni Live",
+    "lessonTitle": "Lekcja",
+    "elapsed": "Czas",
+    "startCta": "Rozpocznij sesję",
+    "endCta": "Zakończ sesję",
+    "started": "Sesja rozpoczęta",
+    "ended": "Sesja zakończona",
+    "startFailed": "Nie udało się rozpocząć sesji",
+    "endFailed": "Nie udało się zakończyć sesji",
+    "leave": "Wyjdź",
+    "tabContext": "Kontekst",
+    "tabChat": "Czat",
+    "tabNotes": "Notatki",
+    "tabBoard": "Tablica",
+    "context": "Kontekst lekcji",
+    "noteEmpty": "Nauczyciel nie dodał jeszcze notatki.",
+    "generateHw": "Wygeneruj zadanie z notatki",
+    "tokenError": "Nie udało się połączyć z pokojem.",
+    "notFoundTitle": "Nie znaleziono lekcji",
+    "notFoundBody": "Ta rezerwacja nie istnieje lub nie masz dostępu.",
+    "forbiddenTitle": "Brak dostępu",
+    "forbiddenBody": "Nie jesteś uczestnikiem tej rezerwacji.",
+    "status": {
+      "scheduled": "Zaplanowana",
+      "live": "Na żywo",
+      "ended": "Zakończona",
+      "failed": "Błąd"
+    },
+    "errors": {
+      "booking_id_required": "Wymagany identyfikator rezerwacji",
+      "not_found_or_forbidden": "Nie znaleziono rezerwacji lub brak dostępu",
+      "forbidden": "Brak dostępu",
+      "booking_not_joinable": "Nie można dołączyć do tej rezerwacji",
+      "unauthorized": "Wymagane logowanie",
+      "internal_error": "Błąd serwera"
+    }
+  },
+  "livekit": {
+    "setupRequiredTitle": "Wideo na żywo nie jest skonfigurowane",
+    "setupRequiredBody": "Integracja wideo nie została jeszcze ustawiona. Skontaktuj się ze wsparciem.",
+    "missing": "Brakuje"
+  },
+  "sessionRoom": {
+    "title": "Pokój lekcji"
+  },
+  "whiteboard": {
+    "placeholder": "Wspólne notatki tej lekcji…",
+    "save": "Zapisz tablicę",
+    "saved": "Tablica zaktualizowana",
+    "saveFailed": "Nie udało się zapisać tablicy",
+    "reset": "Wyczyść",
+    "updatedAt": "Zaktualizowano"
+  },
+  "chat": {
+    "empty": "Brak wiadomości.",
+    "placeholder": "Napisz wiadomość…",
+    "sendFailed": "Nie udało się wysłać wiadomości"
   }
 }
