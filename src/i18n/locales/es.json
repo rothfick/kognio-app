@@ -2257,6 +2257,11 @@
       "title": "Sala lista",
       "body": "Ya puedes entrar a la sala de la clase.",
       "action": "Abrir clase"
+    },
+    "lessonSummary": {
+      "title": "Resumen de la clase listo",
+      "body": "El tutor aprobó el resumen de la clase.",
+      "action": "Abrir resumen"
     }
   },
   "dashboardBooking": {
