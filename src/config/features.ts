@@ -32,7 +32,8 @@ export type FeatureFlag =
   | "lessonEngagementSignals"
   | "lessonAiCopilot"
   | "lessonSummaries"
-  | "lessonFlashcards";
+  | "lessonFlashcards"
+  | "organizations";
 
 export const FEATURES: Record<FeatureFlag, boolean> = {
   // Live pilot v2 — marketplace + booking + calendar enabled
@@ -65,6 +66,9 @@ export const FEATURES: Record<FeatureFlag, boolean> = {
   lessonAiCopilot: true,
   lessonSummaries: true,
   lessonFlashcards: true,
+
+  // Organizations / Cohorts — Phase A foundation
+  organizations: true,
 };
 
 export const isFeatureEnabled = (flag: FeatureFlag): boolean => FEATURES[flag] === true;
