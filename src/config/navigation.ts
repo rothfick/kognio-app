@@ -219,6 +219,8 @@ export const NAV_ITEMS: NavItem[] = [
     showInHeader: true,
     status: "internal",
   },
+  // Other admin modules are reachable via the in-page AdminSubNav.
+  // We keep them in NAV_ITEMS for reference but do not crowd the header.
   {
     id: "research",
     labelKey: "nav.research",
@@ -226,7 +228,7 @@ export const NAV_ITEMS: NavItem[] = [
     icon: FlaskConical,
     allowedRoles: ["admin"],
     featureFlag: "researchDashboard",
-    showInHeader: true,
+    showInHeader: false,
     status: "internal",
   },
   {
@@ -236,7 +238,7 @@ export const NAV_ITEMS: NavItem[] = [
     icon: FileText,
     allowedRoles: ["admin"],
     featureFlag: "grantPack",
-    showInHeader: true,
+    showInHeader: false,
     status: "internal",
   },
   {
@@ -246,7 +248,7 @@ export const NAV_ITEMS: NavItem[] = [
     icon: GraduationCap,
     allowedRoles: ["admin"],
     featureFlag: "operationsConsole",
-    showInHeader: true,
+    showInHeader: false,
     status: "internal",
   },
   {
@@ -256,7 +258,7 @@ export const NAV_ITEMS: NavItem[] = [
     icon: UserCheck,
     allowedRoles: ["admin"],
     featureFlag: "tutorMarketplace",
-    showInHeader: true,
+    showInHeader: false,
     status: "internal",
   },
   {
@@ -265,7 +267,7 @@ export const NAV_ITEMS: NavItem[] = [
     href: "/admin/launch-checklist",
     icon: ShieldCheck,
     allowedRoles: ["admin"],
-    showInHeader: true,
+    showInHeader: false,
     status: "internal",
   },
 
