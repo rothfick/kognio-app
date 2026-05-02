@@ -14,6 +14,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Video, MessageSquare, FileText, PenTool, Loader2, Send, AlertTriangle,
   PlayCircle, StopCircle, BookOpen, Sparkles, ArrowLeft, LogOut,
+  Mic, Activity, Bot,
 } from "lucide-react";
 import { toast } from "sonner";
 import { LiveKitRoom, VideoConference } from "@livekit/components-react";
