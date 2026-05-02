@@ -32,7 +32,8 @@
     "tutorDashboard": "Panel korepetytora",
     "homework": "Zadania",
     "assignments": "Zadania uczniów",
-    "flashcards": "Fiszki"
+    "flashcards": "Fiszki",
+    "organizations": "Organizacje"
   },
   "landing": {
     "heroEyebrow": "Inteligentna platforma nauki",
@@ -2719,5 +2720,71 @@
     "rateLimited": "Limit zapytań — spróbuj za chwilę.",
     "noCredits": "Brak środków AI.",
     "forbidden": "Asystent ucznia nie jest dostępny dla korepetytora."
+  },
+  "adminOrgs": {
+    "title": "Organizacje",
+    "subtitle": "Zarządzaj kontami szkół i firm szkoleniowych.",
+    "create": "Nowa organizacja",
+    "created": "Organizacja utworzona.",
+    "open": "Otwórz",
+    "empty": "Brak organizacji. Utwórz pierwszą.",
+    "nameRequired": "Nazwa jest wymagana.",
+    "fields": {
+      "name": "Nazwa",
+      "type": "Typ",
+      "country": "Kraj",
+      "slug": "Identyfikator",
+      "billingEmail": "E-mail do rozliczeń",
+      "description": "Opis"
+    },
+    "type": {
+      "school": "Szkoła",
+      "training_company": "Firma szkoleniowa"
+    },
+    "status": {
+      "active": "Aktywna",
+      "paused": "Wstrzymana",
+      "archived": "Zarchiwizowana"
+    },
+    "statusChanged": {
+      "active": "Organizacja aktywna.",
+      "paused": "Organizacja wstrzymana.",
+      "archived": "Organizacja zarchiwizowana."
+    }
+  },
+  "orgPage": {
+    "title": "Organizacja",
+    "yourRole": "Twoja rola",
+    "stats": {
+      "members": "Członkowie",
+      "cohorts": "Grupy",
+      "status": "Status"
+    },
+    "quickActions": "Szybkie akcje",
+    "viewCohorts": "Grupy / kohorty",
+    "viewMembers": "Członkowie",
+    "viewProgress": "Postępy",
+    "viewReports": "Raporty",
+    "phaseANote": "To jest minimalny pulpit organizacji (Faza A). Pełne kohorty, członkowie i raporty pojawią się w Fazie B.",
+    "phaseBStub": "Ten widok zostanie uzupełniony w Fazie B."
+  },
+  "orgRole": {
+    "owner": "Właściciel",
+    "admin": "Administrator",
+    "teacher": "Nauczyciel",
+    "student": "Uczeń",
+    "observer": "Obserwator"
+  },
+  "joinOrg": {
+    "redirecting": "Przekierowanie do zaproszenia..."
+  },
+  "cohort": {
+    "name": "Nazwa grupy",
+    "status": {
+      "active": "Aktywna",
+      "paused": "Wstrzymana",
+      "completed": "Zakończona",
+      "archived": "Zarchiwizowana"
+    }
   }
 }

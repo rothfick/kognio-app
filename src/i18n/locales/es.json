@@ -32,7 +32,8 @@
     "tutorDashboard": "Panel del tutor",
     "homework": "Tareas",
     "assignments": "Tareas de alumnos",
-    "flashcards": "Tarjetas"
+    "flashcards": "Tarjetas",
+    "organizations": "Organizaciones"
   },
   "landing": {
     "heroEyebrow": "Plataforma inteligente de aprendizaje",
@@ -2719,5 +2720,71 @@
     "rateLimited": "Límite alcanzado, inténtalo de nuevo.",
     "noCredits": "Sin créditos de IA.",
     "forbidden": "El asistente del estudiante no está disponible para el tutor."
+  },
+  "adminOrgs": {
+    "title": "Organizaciones",
+    "subtitle": "Gestiona cuentas de centros educativos y empresas de formación.",
+    "create": "Nueva organización",
+    "created": "Organización creada.",
+    "open": "Abrir",
+    "empty": "Aún no hay organizaciones. Crea la primera.",
+    "nameRequired": "El nombre es obligatorio.",
+    "fields": {
+      "name": "Nombre",
+      "type": "Tipo",
+      "country": "País",
+      "slug": "Identificador",
+      "billingEmail": "Correo de facturación",
+      "description": "Descripción"
+    },
+    "type": {
+      "school": "Centro educativo",
+      "training_company": "Empresa de formación"
+    },
+    "status": {
+      "active": "Activa",
+      "paused": "Pausada",
+      "archived": "Archivada"
+    },
+    "statusChanged": {
+      "active": "Organización activada.",
+      "paused": "Organización pausada.",
+      "archived": "Organización archivada."
+    }
+  },
+  "orgPage": {
+    "title": "Organización",
+    "yourRole": "Tu rol",
+    "stats": {
+      "members": "Miembros",
+      "cohorts": "Grupos",
+      "status": "Estado"
+    },
+    "quickActions": "Acciones rápidas",
+    "viewCohorts": "Grupos",
+    "viewMembers": "Miembros",
+    "viewProgress": "Progreso",
+    "viewReports": "Informes",
+    "phaseANote": "Este es un panel mínimo de organización (Fase A). Los grupos, miembros e informes completos llegarán en la Fase B.",
+    "phaseBStub": "Esta vista se completará en la Fase B."
+  },
+  "orgRole": {
+    "owner": "Propietario",
+    "admin": "Administrador",
+    "teacher": "Profesor",
+    "student": "Estudiante",
+    "observer": "Observador"
+  },
+  "joinOrg": {
+    "redirecting": "Redirigiendo a la invitación..."
+  },
+  "cohort": {
+    "name": "Nombre del grupo",
+    "status": {
+      "active": "Activo",
+      "paused": "Pausado",
+      "completed": "Completado",
+      "archived": "Archivado"
+    }
   }
 }
