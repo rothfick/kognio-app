@@ -20,7 +20,11 @@ export type ConsentType =
   | "parent_child_data_processing"
   | "expert_review_notice"
   | "terms_of_service"
-  | "privacy_policy";
+  | "privacy_policy"
+  | "lesson_recording_notice"
+  | "lesson_transcription_notice"
+  | "lesson_engagement_analysis_notice"
+  | "ai_copilot_notice";
 
 interface Props {
   open: boolean;
