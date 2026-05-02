@@ -3021,7 +3021,8 @@
     "expertReviews": "Recenzje ekspertów",
     "marketplace": "Marketplace",
     "organizations": "Organizacje",
-    "grantPack": "Grant pack"
+    "grantPack": "Grant pack",
+    "testUsers": "Użytkownicy testowi"
   },
   "adminOverview": {
     "title": "Przegląd administratora",
