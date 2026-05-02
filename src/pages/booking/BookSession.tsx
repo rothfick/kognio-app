@@ -367,29 +367,61 @@ const BookSession = () => {
 
         {step === 3 && (
           <Card className="space-y-4 p-6">
-            <h2 className="flex items-center gap-2 font-semibold"><Clock className="h-4 w-4" /> {t("booking.time.title")}</h2>
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="flex items-center gap-2 font-semibold"><Clock className="h-4 w-4" /> {t("booking.time.title")}</h2>
+              <div className="flex items-center gap-1">
+                <Button size="sm" variant="ghost" onClick={() => setWeekOffset((w) => Math.max(0, w - 1))} disabled={weekOffset === 0}>
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <span className="text-xs font-medium tabular-nums px-2">
+                  {new Intl.DateTimeFormat(i18n.language, { day: "numeric", month: "short" }).format(weekDays[0])}
+                  {" – "}
+                  {new Intl.DateTimeFormat(i18n.language, { day: "numeric", month: "short" }).format(weekDays[6])}
+                </span>
+                <Button size="sm" variant="ghost" onClick={() => setWeekOffset((w) => Math.min(3, w + 1))} disabled={weekOffset >= 3}>
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
             {bookableSlots.length === 0 ? (
               <p className="text-sm text-muted-foreground">{t("booking.time.empty")}</p>
             ) : (
-              <div className="max-h-96 space-y-3 overflow-y-auto pr-2">
-                {Object.entries(grouped).map(([day, daySlots]) => (
-                  <div key={day}>
-                    <div className="mb-1 text-sm font-medium">{fmtSlotDay(daySlots[0].startsAt)}</div>
-                    <div className="flex flex-wrap gap-2">
-                      {daySlots.map((s) => (
-                        <button
-                          key={s.startsAt}
-                          type="button"
-                          onClick={() => setSelectedSlotIso(s.startsAt)}
-                          className={`rounded-md border px-3 py-1.5 text-sm transition ${selectedSlotIso === s.startsAt ? "border-primary bg-primary text-primary-foreground" : "hover:bg-muted/50"}`}
-                        >
-                          {fmtSlotTime(s.startsAt)}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <>
+                <div className="grid grid-cols-7 gap-2">
+                  {weekDays.map((d) => {
+                    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+                    const daySlots = slotsByDay[key];
+                    const isToday = new Date().toDateString() === d.toDateString();
+                    const dayLabel = new Intl.DateTimeFormat(i18n.language, { weekday: "short" }).format(d);
+                    return (
+                      <div key={key} className={`flex flex-col gap-1 rounded-md border p-2 min-h-[120px] ${isToday ? "border-accent/60 bg-accent/5" : ""}`}>
+                        <div className="text-center">
+                          <div className="text-[10px] uppercase text-muted-foreground tracking-wide">{dayLabel}</div>
+                          <div className="text-sm font-semibold">{d.getDate()}</div>
+                        </div>
+                        <div className="flex flex-col gap-1 mt-1">
+                          {daySlots.length === 0 ? (
+                            <span className="text-[10px] text-muted-foreground text-center py-1">—</span>
+                          ) : daySlots.map((s) => (
+                            <button
+                              key={s.startsAt}
+                              type="button"
+                              onClick={() => setSelectedSlotIso(s.startsAt)}
+                              className={`rounded border px-1.5 py-1 text-[11px] tabular-nums transition ${selectedSlotIso === s.startsAt ? "border-primary bg-primary text-primary-foreground" : "hover:bg-muted/50"}`}
+                            >
+                              {fmtSlotTime(s.startsAt)}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {!weekHasAny && (
+                  <p className="text-xs text-muted-foreground text-center">{t("booking.time.weekEmpty", { defaultValue: "Brak terminów w tym tygodniu — sprawdź kolejny." })}</p>
+                )}
+              </>
             )}
             <div className="flex justify-between">
               <Button variant="outline" onClick={() => setStep(2)}><ArrowLeft className="mr-1 h-4 w-4" />{t("common.back")}</Button>
