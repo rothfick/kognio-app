@@ -78,16 +78,16 @@ const App = () => (
             <Route path="/plans/:planId" element={<ProtectedRoute><LearningPlan /></ProtectedRoute>} />
             <Route path="/checkpoints/:checkpointId" element={<ProtectedRoute><Checkpoint /></ProtectedRoute>} />
             <Route path="/expert/reviews/:reviewId" element={<ProtectedRoute><ExpertReview /></ProtectedRoute>} />
-            <Route path="/dashboard/tutor" element={<ProtectedRoute><ParentRouteGuard><TutorDashboard /></ParentRouteGuard></ProtectedRoute>} />
-            <Route path="/dashboard/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-            <Route path="/admin/research" element={<ProtectedRoute><ResearchDashboard /></ProtectedRoute>} />
-            <Route path="/admin/grant-pack" element={<ProtectedRoute><GrantPack /></ProtectedRoute>} />
-            <Route path="/admin/operations" element={<ProtectedRoute><OperationalConsole /></ProtectedRoute>} />
-            <Route path="/admin/tutors" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><TutorVerification /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/dashboard/tutor" element={<ProtectedRoute><RoleGate allow={["tutor"]}><TutorDashboard /></RoleGate></ProtectedRoute>} />
+            <Route path="/dashboard/admin" element={<ProtectedRoute><RoleGate allow={["admin"]}><AdminDashboard /></RoleGate></ProtectedRoute>} />
+            <Route path="/admin/research" element={<ProtectedRoute><RoleGate allow={["admin"]}><ResearchDashboard /></RoleGate></ProtectedRoute>} />
+            <Route path="/admin/grant-pack" element={<ProtectedRoute><RoleGate allow={["admin"]}><GrantPack /></RoleGate></ProtectedRoute>} />
+            <Route path="/admin/operations" element={<ProtectedRoute><RoleGate allow={["admin"]}><OperationalConsole /></RoleGate></ProtectedRoute>} />
+            <Route path="/admin/tutors" element={<ProtectedRoute><RoleGate allow={["admin"]}><FeatureRouteGuard feature="tutorMarketplace"><TutorVerification /></FeatureRouteGuard></RoleGate></ProtectedRoute>} />
             <Route path="/tutor/onboarding" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><ParentRouteGuard><TutorOnboarding /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
-            <Route path="/tutor/availability" element={<ProtectedRoute><FeatureRouteGuard feature="booking"><ParentRouteGuard><TutorAvailability /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
-            <Route path="/dashboard/school" element={<ProtectedRoute><SchoolDashboard /></ProtectedRoute>} />
-            <Route path="/dashboard/company" element={<ProtectedRoute><CompanyDashboard /></ProtectedRoute>} />
+            <Route path="/tutor/availability" element={<ProtectedRoute><RoleGate allow={["tutor"]}><FeatureRouteGuard feature="booking"><TutorAvailability /></FeatureRouteGuard></RoleGate></ProtectedRoute>} />
+            <Route path="/dashboard/school" element={<ProtectedRoute><RoleGate allow={["school"]}><SchoolDashboard /></RoleGate></ProtectedRoute>} />
+            <Route path="/dashboard/company" element={<ProtectedRoute><RoleGate allow={["training_company"]}><CompanyDashboard /></RoleGate></ProtectedRoute>} />
             <Route path="/org/invite/:token" element={<ProtectedRoute><OrgInviteAccept /></ProtectedRoute>} />
             <Route path="/dashboard/legacy" element={<ProtectedRoute><FeatureRouteGuard feature="booking" allowAdminPreview><Dashboard /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
