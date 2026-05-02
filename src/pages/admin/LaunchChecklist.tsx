@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AppShell } from "@/components/layout/AppShell";
+import { AdminSubNav } from "@/components/admin/AdminSubNav";
 import { DashboardHeader, DashboardShell } from "@/components/layout/DashboardShell";
 import { Surface } from "@/components/ui/surface";
 import { Badge } from "@/components/ui/badge";
@@ -122,7 +123,8 @@ const LaunchChecklist = () => {
   return (
     <AppShell>
       <DashboardShell>
-        <DashboardHeader
+        <AdminSubNav />
+          <DashboardHeader
           title={t("launchChecklist.title")}
           subtitle={t("launchChecklist.subtitle")}
         />
