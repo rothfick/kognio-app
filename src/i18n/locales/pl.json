@@ -3177,5 +3177,57 @@
     "payment_disputed": "Płatność zakwestionowana",
     "lesson_started": "Lekcja rozpoczęta",
     "lesson_ended": "Lekcja zakończona"
+  },
+  "testUsers": {
+    "title": "Użytkownicy testowi",
+    "subtitle": "Generuj, przeglądaj i czyść konta testowe oraz dane scenariuszy QA.",
+    "safety": {
+      "title": "Generator QA — tylko poza produkcją",
+      "body": "To narzędzie tworzy dane testowe do ręcznej weryfikacji produktu. Nie używaj go na produkcji z prawdziwymi użytkownikami.",
+      "prodDetected": "Wykryto domenę produkcyjną",
+      "nonProd": "Środowisko nieprodukcyjne"
+    },
+    "actions": {
+      "usersOnly": "Wygeneruj tylko użytkowników",
+      "fullScenarios": "Wygeneruj pełne scenariusze",
+      "cleanup": "Wyczyść dane testowe",
+      "refresh": "Odśwież"
+    },
+    "toasts": {
+      "seeded": "Dane testowe wygenerowane",
+      "cleaned": "Dane testowe usunięte"
+    },
+    "confirmCleanup": "Usunąć WSZYSTKICH użytkowników @test.kogni.local i ich dane testowe?",
+    "defaultPassword": "Domyślne hasło",
+    "tableTitle": "Konta testowe",
+    "cols": {
+      "email": "E-mail",
+      "role": "Rola",
+      "scenario": "Scenariusz",
+      "status": "Status",
+      "password": "Hasło"
+    },
+    "status": {
+      "created": "Utworzono",
+      "existed": "Już istniało"
+    },
+    "errors": "Błędy",
+    "scenarioNotes": "Notatki scenariusza",
+    "cleanupSummary": "Podsumowanie czyszczenia",
+    "quickLinks": "Szybkie linki do QA manualnego",
+    "links": {
+      "login": "Logowanie",
+      "student": "Panel ucznia",
+      "parent": "Panel rodzica",
+      "tutor": "Panel korepetytora",
+      "admin": "Przegląd administratora",
+      "discover": "Odkrywaj",
+      "calendar": "Kalendarz",
+      "homework": "Zadania domowe",
+      "flashcards": "Fiszki",
+      "research": "Badania",
+      "operations": "Operacje",
+      "organizations": "Organizacje"
+    }
   }
 }
