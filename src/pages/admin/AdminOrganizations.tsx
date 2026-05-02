@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { AppShell } from "@/components/layout/AppShell";
-import { AdminSubNav } from "@/components/admin/AdminSubNav";
-import { DashboardShell, DashboardHeader } from "@/components/layout/DashboardShell";
+import { AdminPageShell } from "@/components/admin/AdminPageShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
