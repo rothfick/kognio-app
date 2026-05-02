@@ -32,3 +32,6 @@ verify_jwt = true
 
 [functions.lesson-plan-update]
 verify_jwt = true
+
+[functions.lesson-student-ai]
+verify_jwt = true
