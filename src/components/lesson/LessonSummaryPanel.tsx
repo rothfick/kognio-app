@@ -66,12 +66,20 @@ export function LessonSummaryPanel({
   const generate = async () => {
     setBusy("generate");
     try {
-      const { error } = await supabase.functions.invoke("lesson-summary-generate", {
+      const { data, error } = await supabase.functions.invoke("lesson-summary-generate", {
         body: { booking_id: bookingId, live_session_id: liveSessionId },
       });
-      if (error) {
-        const status = (error as { context?: { status?: number } })?.context?.status;
-        toast.error(status === 429 ? t("copilot.rateLimited") : status === 402 ? t("copilot.noCredits") : t("lessonSummary.generationError"));
+      const status = (error as { context?: { status?: number } } | null)?.context?.status;
+      const errCode = (data as { error?: string } | null)?.error;
+      if (error || errCode) {
+        if (status === 429 || errCode === "rate_limited") {
+          toast.error(t("copilot.rateLimited"));
+        } else if (status === 402 || errCode === "ai_credits") {
+          toast.error(t("copilot.noCredits"));
+        } else {
+          toast.error(t("lessonSummary.generationError"));
+        }
+        // Do NOT mutate existing summaries on failure.
         return;
       }
       toast.success(t("lessonSummary.readyToast"));

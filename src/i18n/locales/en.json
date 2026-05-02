@@ -2619,7 +2619,7 @@
     "empty": "No summary yet. Click to generate.",
     "onlyTutorApprove": "Only the tutor can approve the summary.",
     "pendingApprovalForStudent": "The summary will be shared after the tutor approves it.",
-    "generationError": "Couldn't generate summary.",
+    "generationError": "Could not generate the lesson summary. Please try again.",
     "readyToast": "Lesson summary ready.",
     "approvedToast": "Summary shared."
   },
