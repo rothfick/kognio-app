@@ -92,8 +92,8 @@ export default function OrgPage() {
               <div className="flex flex-wrap gap-2">
                 <Button asChild variant="outline"><Link to={`/org/${orgId}/cohorts`}>{t("orgPage.viewCohorts")}</Link></Button>
                 <Button asChild variant="outline"><Link to={`/org/${orgId}/members`}>{t("orgPage.viewMembers")}</Link></Button>
-                <Button asChild variant="outline" disabled><Link to="#">{t("orgPage.viewProgress")} · {t("common.comingSoon")}</Link></Button>
-                <Button asChild variant="outline" disabled><Link to="#">{t("orgPage.viewReports")} · {t("common.comingSoon")}</Link></Button>
+                <Button asChild variant="outline"><Link to={`/org/${orgId}/progress`}>{t("orgPage.viewProgress")}</Link></Button>
+                <Button asChild variant="outline"><Link to={`/org/${orgId}/reports`}>{t("orgPage.viewReports")}</Link></Button>
               </div>
               <div className="text-xs text-muted-foreground">{t("orgPage.phaseANote")}</div>
             </Card>

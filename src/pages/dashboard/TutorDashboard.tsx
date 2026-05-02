@@ -20,6 +20,7 @@ import { UpcomingBookingCard } from "@/components/booking/UpcomingBookingCard";
 import { useUpcomingBookings } from "@/hooks/useUpcomingBookings";
 import { HomeworkWidget } from "@/components/homework/HomeworkWidget";
 import { isFeatureEnabled } from "@/config/features";
+import { OrgMembershipBadge } from "@/components/org/OrgMembershipBadge";
 
 const TutorDashboard = () => {
   const { t, i18n } = useTranslation();
@@ -125,6 +126,7 @@ const TutorDashboard = () => {
             primaryAction={{ label: t("tutorDash.settingsCta"), to: "/settings" }}
           />
 
+          <div className="mb-4"><OrgMembershipBadge /></div>
           {hasProfile === false && (
             <Surface variant="ai" className="p-5 mb-6 flex items-start gap-3">
               <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-accent/15 text-accent">

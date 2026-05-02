@@ -2780,11 +2780,132 @@
   },
   "cohort": {
     "name": "Cohort name",
+    "create": "Create cohort",
+    "created": "Cohort created.",
+    "open": "Open",
+    "empty": "No cohorts yet.",
+    "nameRequired": "Cohort name is required.",
+    "detail": "Cohort",
+    "backToList": "Back to cohorts",
+    "memberCount_one": "{{count}} member",
+    "memberCount_other": "{{count}} members",
+    "recentActivity": "Recent activity",
+    "noActivity": "No activity yet.",
+    "fields": {
+      "name": "Name",
+      "description": "Description",
+      "level": "Level",
+      "domain": "Domain",
+      "status": "Status",
+      "starts_at": "Starts",
+      "ends_at": "Ends"
+    },
     "status": {
       "active": "Active",
       "paused": "Paused",
       "completed": "Completed",
       "archived": "Archived"
+    },
+    "statusChanged": {
+      "active": "Cohort activated.",
+      "paused": "Cohort paused.",
+      "completed": "Cohort completed.",
+      "archived": "Cohort archived."
+    },
+    "actions": {
+      "pause": "Pause",
+      "archive": "Archive",
+      "reactivate": "Reactivate"
+    },
+    "stats": {
+      "learners": "Learners",
+      "tutors": "Tutors",
+      "diagnostics": "Diagnostics",
+      "plans": "Plans",
+      "checkpoints": "Checkpoints",
+      "avgDelta": "Avg score Δ"
     }
+  },
+  "cohortMember": {
+    "add": "Add member",
+    "added": "Member added to cohort.",
+    "removed": "Member removed.",
+    "user": "User",
+    "role": "Role",
+    "pickUser": "Pick a user",
+    "noEligible": "No eligible org members left.",
+    "label": "Label",
+    "kind": "Type",
+    "kindUser": "User",
+    "kindChild": "Child",
+    "statusCol": "Status",
+    "joined": "Joined",
+    "learnersTable": "Learners",
+    "tutorsTable": "Tutors",
+    "noTutors": "No tutors assigned.",
+    "empty": "No learners yet.",
+    "roles": {
+      "student": "Student",
+      "tutor": "Tutor",
+      "reviewer": "Reviewer",
+      "observer": "Observer"
+    }
+  },
+  "orgInvite": {
+    "title": "Invitations",
+    "create": "Invite member",
+    "created": "Invite created.",
+    "revoke": "Revoke",
+    "revoked": "Invite revoked.",
+    "removed": "Member removed.",
+    "roleUpdated": "Role updated.",
+    "email": "Email",
+    "emailRequired": "Valid email required.",
+    "role": "Role",
+    "cohortOptional": "Cohort (optional)",
+    "noCohort": "No cohort",
+    "statusCol": "Status",
+    "link": "Link",
+    "copied": "Link copied.",
+    "empty": "No invites yet.",
+    "noMembers": "No members yet.",
+    "acceptCta": "Accept invite"
+  },
+  "orgProgress": {
+    "title": "Organization progress",
+    "summary": {
+      "members": "Members",
+      "learners": "Learners",
+      "cohorts": "Cohorts",
+      "diagnostics": "Diagnostics",
+      "plans": "Plans",
+      "checkpoints": "Checkpoints",
+      "avgDiagnostic": "Avg diagnostic",
+      "avgDelta": "Avg score Δ"
+    },
+    "cohortComparison": "Cohort comparison",
+    "attentionTitle": "Needs attention",
+    "noAttention": "Nothing needs attention right now.",
+    "attention": {
+      "noDiag": "{{cohort}} — no diagnostics yet.",
+      "noPlan": "{{cohort}} — diagnostics done, no learning plan yet.",
+      "noCheckpoint": "{{cohort}} — plan exists, no checkpoint yet."
+    },
+    "privacyNote": "Aggregate metrics only. No personal data is shown."
+  },
+  "orgReports": {
+    "title": "Organization reports",
+    "exportJson": "Export JSON",
+    "exportMd": "Export Markdown",
+    "exported": "Report exported.",
+    "failed": "Failed to build report.",
+    "json": { "title": "Progress report (JSON)", "body": "Machine-readable aggregate report. No PII." },
+    "md": { "title": "Progress report (Markdown)", "body": "Human-readable summary. No PII." },
+    "privacyNote": "Reports contain anonymized aggregate metrics only — no emails, names, or raw transcripts."
+  },
+  "orgNotifications": {
+    "inviteCreated": { "title": "Organization invite", "body": "You were invited to join {{org}}." },
+    "cohortAssigned": { "title": "Cohort assignment", "body": "You were added to cohort {{cohort}}." },
+    "roleChanged": { "title": "Role updated", "body": "Your role in {{org}} is now {{role}}." }
   }
 }
