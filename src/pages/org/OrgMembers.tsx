@@ -121,22 +121,9 @@ export default function OrgMembers() {
       extra: iCohort ? { cohort_id: iCohort } : {},
     });
 
-    // best-effort notify resolved user (if any profile with that email exists)
-    try {
-      const { data: prof } = await supabase
-        .from("profiles").select("id").ilike("email" as any, iEmail.trim()).maybeSingle();
-      if ((prof as any)?.id) {
-        await notifyUser({
-          user_id: (prof as any).id,
-          type: "organization_invite_created",
-          title: t("orgNotifications.inviteCreated.title"),
-          body: t("orgNotifications.inviteCreated.body", { org: orgName }),
-          action_label: t("orgInvite.acceptCta"),
-          action_url: `/join-org/${(data as any).token}`,
-          metadata: { organization_id: orgId },
-        });
-      }
-    } catch { /* best effort */ }
+    // No profile-email lookup possible client-side; the invite link is the source of truth.
+    // Admins can copy the /join-org/<token> link from the invites table below.
+    void data;
 
     setInviteOpen(false);
     setIEmail(""); setIRole("student"); setICohort("");

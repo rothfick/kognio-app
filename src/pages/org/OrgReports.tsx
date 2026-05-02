@@ -90,7 +90,7 @@ export default function OrgReports() {
       const { data: ev } = await supabase
         .from("smart_evidence_events")
         .select("event_type")
-        .eq("input_summary->>organization_id", orgId);
+        .filter("input_summary->>organization_id", "eq", orgId);
       ((ev || []) as any[]).forEach((e: any) => { eventsByType[e.event_type] = (eventsByType[e.event_type] || 0) + 1; });
     } catch { /* ignore */ }
 

@@ -147,12 +147,12 @@ export default function OrgCohortDetail() {
     } catch (_e) { /* RLS may filter; safe to ignore */ }
     setStats({ diagnostics, plans, checkpoints, avgDelta, learners, tutors });
 
-    // org-level smart events that include this cohort
+    // org-level smart events that include this cohort (filter by jsonb path)
     try {
       const { data: ev } = await supabase
         .from("smart_evidence_events")
         .select("id,event_type,input_summary,created_at")
-        .eq("input_summary->>cohort_id", cohortId)
+        .filter("input_summary->>cohort_id", "eq", cohortId)
         .order("created_at", { ascending: false })
         .limit(10);
       setActivity((ev || []) as any);
