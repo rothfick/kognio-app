@@ -2257,6 +2257,11 @@
       "title": "Lesson room is ready",
       "body": "You can now enter the live lesson room.",
       "action": "Open lesson"
+    },
+    "lessonSummary": {
+      "title": "Lesson summary is ready",
+      "body": "Your tutor approved the lesson summary.",
+      "action": "Open summary"
     }
   },
   "dashboardBooking": {
