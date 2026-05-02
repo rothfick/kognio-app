@@ -1470,6 +1470,21 @@
         "title": "Privacy Policy (draft)",
         "body": "I accept the draft Privacy Policy of Kogni.",
         "details": "Draft policy describes data we collect, why, and how to withdraw. Final version will be reviewed by counsel."
+      },
+      "lesson_transcription_notice": {
+        "title": "Lesson transcription — notice",
+        "body": "I consent to live transcription of the lesson so that the tutor and Kogni AI can create notes, summaries, and learning recommendations.",
+        "details": "What we store: text transcripts of utterances, timestamps, language.\nWho can see it: the lesson tutor, you, and admins for support.\nUse: lesson notes, AI summaries, learning recommendations.\nYou can withdraw at any time — past transcripts can be deleted on request."
+      },
+      "lesson_engagement_analysis_notice": {
+        "title": "Engagement signals — notice",
+        "body": "I consent to recording approximate engagement signals (focus, confusion, satisfaction) during the lesson. Signals are visible only to the tutor and are not a psychological or medical diagnosis.",
+        "details": "What we store: signal type, timestamp, optional confidence score.\nWho can see it: the lesson tutor and admins.\nUse: helping the tutor adjust the lesson.\nNot a diagnosis. You can withdraw at any time."
+      },
+      "ai_copilot_notice": {
+        "title": "AI co-pilot — notice",
+        "body": "I consent to the tutor using an AI co-pilot during the lesson, which receives lesson context (transcript, notes) to suggest questions, exercises, and explanations.",
+        "details": "What we send to AI: lesson transcript and tutor notes (no contact details).\nWho sees co-pilot answers: the tutor.\nUse: assist the tutor — final pedagogical decisions belong to the tutor.\nYou can withdraw at any time."
       }
     }
   },
@@ -2242,6 +2257,11 @@
       "title": "Lesson room is ready",
       "body": "You can now enter the live lesson room.",
       "action": "Open lesson"
+    },
+    "lessonSummary": {
+      "title": "Lesson summary is ready",
+      "body": "Your tutor approved the lesson summary.",
+      "action": "Open summary"
     }
   },
   "dashboardBooking": {

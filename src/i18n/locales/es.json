@@ -1470,6 +1470,21 @@
         "title": "Política de privacidad (borrador)",
         "body": "Acepto el borrador de la Política de privacidad de Kogni.",
         "details": "El borrador describe los datos que recopilamos, por qué, y cómo retirar el consentimiento. La versión final será revisada por un abogado."
+      },
+      "lesson_transcription_notice": {
+        "title": "Transcripción de la clase — aviso",
+        "body": "Doy mi consentimiento para la transcripción en vivo de la clase, de modo que el tutor y la IA de Kogni puedan crear notas, resúmenes y recomendaciones de aprendizaje.",
+        "details": "Qué guardamos: transcripciones de texto, marcas de tiempo, idioma.\nQuién puede verlo: el tutor de la clase, tú y los administradores para soporte.\nUso: notas, resúmenes IA, recomendaciones de aprendizaje.\nPuedes retirar el consentimiento en cualquier momento — las transcripciones anteriores se pueden eliminar a petición."
+      },
+      "lesson_engagement_analysis_notice": {
+        "title": "Señales de participación — aviso",
+        "body": "Doy mi consentimiento para registrar señales aproximadas de participación (concentración, confusión, satisfacción) durante la clase. Las señales solo las ve el tutor y no son un diagnóstico psicológico ni médico.",
+        "details": "Qué guardamos: tipo de señal, marca de tiempo, confianza opcional.\nQuién puede verlo: el tutor y administradores.\nUso: ayudar al tutor a ajustar la clase.\nNo es un diagnóstico. Puedes retirar el consentimiento en cualquier momento."
+      },
+      "ai_copilot_notice": {
+        "title": "Co-piloto IA — aviso",
+        "body": "Doy mi consentimiento para que el tutor utilice un co-piloto IA durante la clase, que recibe contexto de la clase (transcripción, notas) para sugerir preguntas, ejercicios y explicaciones.",
+        "details": "Qué enviamos a la IA: transcripción de la clase y notas del tutor (sin datos de contacto).\nQuién ve las respuestas: el tutor.\nUso: asistir al tutor — las decisiones pedagógicas finales son del tutor.\nPuedes retirar el consentimiento en cualquier momento."
       }
     }
   },
@@ -2242,6 +2257,11 @@
       "title": "Sala lista",
       "body": "Ya puedes entrar a la sala de la clase.",
       "action": "Abrir clase"
+    },
+    "lessonSummary": {
+      "title": "Resumen de la clase listo",
+      "body": "El tutor aprobó el resumen de la clase.",
+      "action": "Abrir resumen"
     }
   },
   "dashboardBooking": {

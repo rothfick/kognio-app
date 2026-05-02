@@ -14,7 +14,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Video, MessageSquare, FileText, PenTool, Loader2, Send, AlertTriangle,
   PlayCircle, StopCircle, BookOpen, Sparkles, ArrowLeft, LogOut,
-  Mic, Activity, Bot,
+  Mic, Activity, Bot, ScrollText,
 } from "lucide-react";
 import { toast } from "sonner";
 import { LiveKitRoom, VideoConference } from "@livekit/components-react";
@@ -25,6 +25,9 @@ import { generateHomework } from "@/lib/homeworkClient";
 import { LessonTranscriptionPanel } from "@/components/lesson/LessonTranscriptionPanel";
 import { EngagementSignalsPanel } from "@/components/lesson/EngagementSignalsPanel";
 import { LessonCopilotPanel } from "@/components/lesson/LessonCopilotPanel";
+import { LessonSummaryPanel } from "@/components/lesson/LessonSummaryPanel";
+import { ResearchConsentDialog, type ConsentType } from "@/components/pilot/ResearchConsentDialog";
+import { isFeatureEnabled } from "@/config/features";
 
 type Booking = {
   id: string;
@@ -110,9 +113,21 @@ const LiveLessonRoom = () => {
   const [acting, setActing] = useState(false);
   const [elapsed, setElapsed] = useState<string>("");
 
+  // intelligence consents (booking-scoped checks)
+  const [hasTranscriptionConsent, setHasTranscriptionConsent] = useState(false);
+  const [hasEngagementConsent, setHasEngagementConsent] = useState(false);
+  const [hasCopilotConsent, setHasCopilotConsent] = useState(false);
+  const [consentDialog, setConsentDialog] = useState<ConsentType | null>(null);
+
   const isTutor = participantRole === "tutor";
   const isAdmin = participantRole === "admin";
   const canControl = isTutor || isAdmin;
+
+  const intelEnabled = isFeatureEnabled("lessonIntelligence");
+  const transcriptionEnabled = intelEnabled && isFeatureEnabled("lessonTranscription");
+  const engagementEnabled = intelEnabled && isFeatureEnabled("lessonEngagementSignals");
+  const copilotEnabled = intelEnabled && isFeatureEnabled("lessonAiCopilot");
+  const summaryEnabled = intelEnabled && isFeatureEnabled("lessonSummaries");
 
   // ------- Load booking + live session ----------
   const loadAll = useCallback(async () => {
@@ -221,6 +236,29 @@ const LiveLessonRoom = () => {
 
   // Auto-scroll chat
   useEffect(() => { chatEnd.current?.scrollIntoView({ behavior: "smooth" }); }, [chat]);
+
+  // Load booking-scoped intelligence consents (checks consent for the student/child of this booking)
+  const refreshConsents = useCallback(async () => {
+    if (!booking) return;
+    const types = ["lesson_transcription_notice", "lesson_engagement_analysis_notice", "ai_copilot_notice"];
+    let q = supabase
+      .from("consent_records")
+      .select("consent_type, status")
+      .in("consent_type", types)
+      .eq("status", "accepted");
+    if (booking.child_id) {
+      q = q.eq("child_id", booking.child_id);
+    } else {
+      q = q.eq("user_id", booking.student_id);
+    }
+    const { data } = await q;
+    const accepted = new Set((data ?? []).map((r) => (r as { consent_type: string }).consent_type));
+    setHasTranscriptionConsent(accepted.has("lesson_transcription_notice"));
+    setHasEngagementConsent(accepted.has("lesson_engagement_analysis_notice"));
+    setHasCopilotConsent(accepted.has("ai_copilot_notice"));
+  }, [booking]);
+
+  useEffect(() => { refreshConsents(); }, [refreshConsents]);
 
   // Elapsed timer
   useEffect(() => {
@@ -589,11 +627,15 @@ const LiveLessonRoom = () => {
           {/* side panel */}
           <Card className="p-3">
             <Tabs defaultValue="context">
-              <TabsList className="grid grid-cols-4 w-full">
+              <TabsList className={`grid w-full ${isTutor ? "grid-cols-8" : "grid-cols-6"}`}>
                 <TabsTrigger value="context" title={t("liveLesson.tabContext")}><BookOpen className="h-4 w-4" /></TabsTrigger>
                 <TabsTrigger value="chat" title={t("liveLesson.tabChat")}><MessageSquare className="h-4 w-4" /></TabsTrigger>
                 <TabsTrigger value="notes" title={t("liveLesson.tabNotes")}><FileText className="h-4 w-4" /></TabsTrigger>
                 <TabsTrigger value="board" title={t("liveLesson.tabBoard")}><PenTool className="h-4 w-4" /></TabsTrigger>
+                {transcriptionEnabled && <TabsTrigger value="transcription" title={t("lessonIntel.tabsTranscription")}><Mic className="h-4 w-4" /></TabsTrigger>}
+                {isTutor && engagementEnabled && <TabsTrigger value="engagement" title={t("lessonIntel.tabsEngagement")}><Activity className="h-4 w-4" /></TabsTrigger>}
+                {isTutor && copilotEnabled && <TabsTrigger value="copilot" title={t("lessonIntel.tabsCopilot")}><Bot className="h-4 w-4" /></TabsTrigger>}
+                {summaryEnabled && <TabsTrigger value="summary" title={t("lessonIntel.tabsSummary")}><ScrollText className="h-4 w-4" /></TabsTrigger>}
               </TabsList>
 
               {/* context */}
@@ -674,12 +716,92 @@ const LiveLessonRoom = () => {
                 </div>
                 {board.updated_at && <p className="text-[10px] text-muted-foreground">{t("whiteboard.updatedAt")}: {new Date(board.updated_at).toLocaleString()}</p>}
               </TabsContent>
+
+              {/* transcription */}
+              {transcriptionEnabled && (
+                <TabsContent value="transcription" className="mt-3 space-y-2">
+                  {hasTranscriptionConsent ? (
+                    <LessonTranscriptionPanel
+                      bookingId={booking.id}
+                      liveSessionId={liveSession?.id ?? null}
+                      userId={user!.id}
+                      speakerRole={participantRole ?? "unknown"}
+                      hasStudentConsent={hasTranscriptionConsent}
+                      isTutor={isTutor}
+                    />
+                  ) : (
+                    <ConsentGate label={t("lessonIntel.consentBanner")} onClick={() => setConsentDialog("lesson_transcription_notice")} />
+                  )}
+                </TabsContent>
+              )}
+
+              {/* engagement (tutor-only) */}
+              {isTutor && engagementEnabled && (
+                <TabsContent value="engagement" className="mt-3 space-y-2">
+                  {hasEngagementConsent ? (
+                    <EngagementSignalsPanel
+                      bookingId={booking.id}
+                      liveSessionId={liveSession?.id ?? null}
+                      userId={user!.id}
+                      targetUserId={booking.student_id}
+                    />
+                  ) : (
+                    <ConsentGate label={t("lessonIntel.consentBanner")} onClick={() => setConsentDialog("lesson_engagement_analysis_notice")} />
+                  )}
+                </TabsContent>
+              )}
+
+              {/* AI co-pilot (tutor-only) */}
+              {isTutor && copilotEnabled && (
+                <TabsContent value="copilot" className="mt-3 space-y-2">
+                  {hasCopilotConsent ? (
+                    <LessonCopilotPanel bookingId={booking.id} />
+                  ) : (
+                    <ConsentGate label={t("lessonIntel.consentBanner")} onClick={() => setConsentDialog("ai_copilot_notice")} />
+                  )}
+                </TabsContent>
+              )}
+
+              {/* summary */}
+              {summaryEnabled && (
+                <TabsContent value="summary" className="mt-3 space-y-2">
+                  <LessonSummaryPanel
+                    bookingId={booking.id}
+                    liveSessionId={liveSession?.id ?? null}
+                    isTutor={isTutor}
+                    studentUserId={booking.student_id}
+                    parentUserId={booking.parent_user_id}
+                    childId={booking.child_id}
+                    competencyId={booking.competency_id}
+                  />
+                </TabsContent>
+              )}
             </Tabs>
           </Card>
         </div>
       </div>
+
+      {consentDialog && (
+        <ResearchConsentDialog
+          open={!!consentDialog}
+          onOpenChange={(o) => !o && setConsentDialog(null)}
+          consentType={consentDialog}
+          childId={booking.child_id}
+          onAccepted={() => { setConsentDialog(null); refreshConsents(); }}
+          optional
+        />
+      )}
     </AppShell>
   );
 };
+
+function ConsentGate({ label, onClick }: { label: string; onClick: () => void }) {
+  return (
+    <div className="rounded-md border border-dashed p-4 text-sm space-y-2 text-center">
+      <p className="text-muted-foreground">{label}</p>
+      <Button size="sm" onClick={onClick}>OK</Button>
+    </div>
+  );
+}
 
 export default LiveLessonRoom;
