@@ -36,7 +36,14 @@ export type NotificationType =
   | "session_room_ready"
   | "session_started"
   | "session_ended"
-  | "lesson_note_submitted";
+  | "lesson_note_submitted"
+  // lesson intelligence
+  | "transcription_started"
+  | "lesson_summary_ready"
+  | "lesson_summary_approved"
+  | "flashcards_ready"
+  | "learning_plan_updated"
+  | "engagement_analysis_enabled";
 
 export interface CreateNotificationInput {
   userId: string;
