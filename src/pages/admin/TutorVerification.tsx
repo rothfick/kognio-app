@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AppShell } from "@/components/layout/AppShell";
+import { AdminSubNav } from "@/components/admin/AdminSubNav";
 import { RoleGate } from "@/components/auth/RoleGate";
 import { Surface } from "@/components/ui/surface";
 import { Button } from "@/components/ui/button";
@@ -89,6 +90,7 @@ const TutorVerification = () => {
     <RoleGate allow={["admin"]}>
       <AppShell>
         <div className="container mx-auto px-4 py-10 max-w-5xl">
+          <AdminSubNav />
           <div className="flex items-center gap-3 mb-6">
             <div className="grid h-12 w-12 place-items-center rounded-2xl bg-accent/10 text-accent">
               <UserCheck className="h-6 w-6" />
