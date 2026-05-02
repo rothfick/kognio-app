@@ -240,16 +240,18 @@ const LiveLessonRoom = () => {
   // Load booking-scoped intelligence consents (checks consent for the student/child of this booking)
   const refreshConsents = useCallback(async () => {
     if (!booking) return;
-    const types: ConsentType[] = ["lesson_transcription_notice", "lesson_engagement_analysis_notice", "ai_copilot_notice"];
-    const filter = booking.child_id
-      ? { col: "child_id", val: booking.child_id }
-      : { col: "user_id", val: booking.student_id };
-    const { data } = await supabase
+    const types = ["lesson_transcription_notice", "lesson_engagement_analysis_notice", "ai_copilot_notice"];
+    let q = supabase
       .from("consent_records")
       .select("consent_type, status")
       .in("consent_type", types)
-      .eq("status", "accepted")
-      .eq(filter.col, filter.val);
+      .eq("status", "accepted");
+    if (booking.child_id) {
+      q = q.eq("child_id", booking.child_id);
+    } else {
+      q = q.eq("user_id", booking.student_id);
+    }
+    const { data } = await q;
     const accepted = new Set((data ?? []).map((r) => (r as { consent_type: string }).consent_type));
     setHasTranscriptionConsent(accepted.has("lesson_transcription_notice"));
     setHasEngagementConsent(accepted.has("lesson_engagement_analysis_notice"));
