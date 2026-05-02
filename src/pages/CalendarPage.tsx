@@ -348,6 +348,52 @@ const CalendarPage = () => {
     } catch { toast.error(t("calendar.actionFailed")); }
   };
 
+  const acceptBooking = async (booking: Booking) => {
+    if (!user) return;
+    try {
+      const { error } = await supabase.from("bookings").update({ status: "confirmed" }).eq("id", booking.id);
+      if (error) throw error;
+      await logBookingEvent({
+        eventType: "booking_confirmed",
+        bookingId: booking.id, userId: user.id,
+        ownerUserId: booking.student_id, childId: booking.child_id,
+        learningDomainId: booking.learning_domain_id, educationLevelId: booking.education_level_id,
+        competencyId: booking.competency_id, skillAreaLabel: booking.skill_area_label,
+        status: "confirmed", paymentStatus: booking.payment_status,
+      });
+      const payerId = booking.parent_user_id || booking.student_id;
+      if (payerId) {
+        await createNotification({
+          userId: payerId, type: "booking_confirmed",
+          title: t("notif.bookingConfirmed.title", { defaultValue: "Tutor zaakceptował rezerwację" }),
+          body: t("notif.bookingConfirmed.body", { defaultValue: "Możesz teraz wejść na sesję w wybranym terminie." }),
+          actionLabel: t("notif.viewCalendar"), actionUrl: "/calendar", severity: "success",
+        });
+      }
+      toast.success(t("calendar.confirmToast"));
+      await load();
+    } catch (e) { console.error(e); toast.error(t("calendar.actionFailed")); }
+  };
+
+  const rejectBooking = async (booking: Booking) => {
+    if (!user) return;
+    try {
+      const { error } = await supabase.from("bookings").update({ status: "cancelled" }).eq("id", booking.id);
+      if (error) throw error;
+      const payerId = booking.parent_user_id || booking.student_id;
+      if (payerId) {
+        await createNotification({
+          userId: payerId, type: "booking_rejected",
+          title: t("notif.bookingRejected.title", { defaultValue: "Tutor odrzucił rezerwację" }),
+          body: t("notif.bookingRejected.body", { defaultValue: "Spróbuj wybrać inny termin lub innego korepetytora." }),
+          actionLabel: t("notif.viewCalendar"), actionUrl: "/discover", severity: "warning",
+        });
+      }
+      toast.success(t("calendar.cancelToast"));
+      await load();
+    } catch { toast.error(t("calendar.actionFailed")); }
+  };
+
   const openMeetingUrl = (booking: Booking) => {
     setMeetingUrlFor(booking.id); setMeetingUrlValue(booking.meeting_url || "");
   };
@@ -488,6 +534,16 @@ const CalendarPage = () => {
             <Button size="sm" onClick={() => confirmPayment(b)}>
               <FileCheck2 className="mr-1 h-3.5 w-3.5" /> {t("payment.confirm")}
             </Button>
+          ) : null}
+          {isMyTutor && b.status === "pending" ? (
+            <>
+              <Button size="sm" className="bg-accent-gradient text-accent-foreground" onClick={() => acceptBooking(b)}>
+                <Check className="mr-1 h-3.5 w-3.5" /> {t("calendar.confirm")}
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => rejectBooking(b)}>
+                <X className="mr-1 h-3.5 w-3.5" /> {t("calendar.reject")}
+              </Button>
+            </>
           ) : null}
           {isMyTutor && (b.status === "pending" || b.status === "confirmed") ? (
             <>

@@ -2,6 +2,8 @@ import { supabase } from "@/integrations/supabase/client";
 
 export type BookingEventType =
   | "booking_created"
+  | "booking_confirmed"
+  | "booking_rejected"
   | "payment_proof_uploaded"
   | "payment_confirmed"
   | "session_completed"
