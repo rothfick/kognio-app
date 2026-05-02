@@ -99,8 +99,32 @@ const BookSession = () => {
     })();
   }, [user, learnerKind, childId]);
 
-  const bookableSlots = useMemo(() => expandAvailability(slots, existingBookings, 14, 60), [slots, existingBookings]);
+  const bookableSlots = useMemo(() => expandAvailability(slots, existingBookings, 28, 60), [slots, existingBookings]);
   const grouped = useMemo(() => groupSlotsByDay(bookableSlots), [bookableSlots]);
+  const [weekOffset, setWeekOffset] = useState(0);
+
+  // Compute week window (Mon..Sun) with offset in weeks
+  const weekDays = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const dow = (today.getDay() + 6) % 7; // 0=Mon
+    const monday = new Date(today.getTime() - dow * 24 * 60 * 60 * 1000 + weekOffset * 7 * 24 * 60 * 60 * 1000);
+    return Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(monday.getTime() + i * 24 * 60 * 60 * 1000);
+      return d;
+    });
+  }, [weekOffset]);
+
+  const slotsByDay = useMemo(() => {
+    const map: Record<string, BookableSlot[]> = {};
+    weekDays.forEach((d) => {
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      map[key] = grouped[key] || [];
+    });
+    return map;
+  }, [weekDays, grouped]);
+
+  const weekHasAny = Object.values(slotsByDay).some((arr) => arr.length > 0);
 
   const selectedPlanItem = useMemo(
     () => planItems.find((p) => p.id === selectedPlanItemId) || null,
