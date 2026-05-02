@@ -41,6 +41,7 @@ import GrantPack from "./pages/admin/GrantPack";
 import OperationalConsole from "./pages/admin/OperationalConsole";
 import TutorVerification from "./pages/admin/TutorVerification";
 import TutorOnboarding from "./pages/tutor/TutorOnboarding";
+import TutorAvailability from "./pages/tutor/TutorAvailability";
 import TutorPublicProfile from "./pages/tutor/TutorPublicProfile";
 import BookSession from "./pages/booking/BookSession";
 import GettingStarted from "./pages/GettingStarted";
@@ -81,6 +82,7 @@ const App = () => (
             <Route path="/admin/operations" element={<ProtectedRoute><OperationalConsole /></ProtectedRoute>} />
             <Route path="/admin/tutors" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><TutorVerification /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/tutor/onboarding" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><ParentRouteGuard><TutorOnboarding /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/tutor/availability" element={<ProtectedRoute><FeatureRouteGuard feature="booking"><ParentRouteGuard><TutorAvailability /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/dashboard/school" element={<ProtectedRoute><SchoolDashboard /></ProtectedRoute>} />
             <Route path="/dashboard/company" element={<ProtectedRoute><CompanyDashboard /></ProtectedRoute>} />
             <Route path="/org/invite/:token" element={<ProtectedRoute><OrgInviteAccept /></ProtectedRoute>} />

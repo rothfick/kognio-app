@@ -2649,5 +2649,30 @@
     "viewPlan": "View plan",
     "planUpdatedToast": "Learning plan updated.",
     "planUpdateError": "Couldn't update plan."
+  },
+  "availability": {
+    "title": "Your availability",
+    "subtitle": "Set the recurring weekly windows when students can book lessons. Slots repeat every week.",
+    "addNew": "Add availability window",
+    "weekday": "Weekday",
+    "startTime": "From",
+    "endTime": "To",
+    "add": "Add",
+    "yourSlots": "Your windows",
+    "empty": "You don't have any availability windows yet. Add your first one above.",
+    "delete": "Delete",
+    "added": "Availability window added.",
+    "hint": "Each window will be split into 60-minute bookable slots.",
+    "invalidRange": "Start time must be before end time.",
+    "saveError": "Couldn't save the window.",
+    "deleteError": "Couldn't delete the window.",
+    "loadError": "Couldn't load availability.",
+    "mon": "Monday",
+    "tue": "Tuesday",
+    "wed": "Wednesday",
+    "thu": "Thursday",
+    "fri": "Friday",
+    "sat": "Saturday",
+    "sun": "Sunday"
   }
 }
