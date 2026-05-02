@@ -20,3 +20,15 @@ verify_jwt = true
 
 [functions.livekit-token-v2]
 verify_jwt = true
+
+[functions.lesson-ai-copilot]
+verify_jwt = true
+
+[functions.lesson-summary-generate]
+verify_jwt = true
+
+[functions.lesson-flashcards-generate]
+verify_jwt = true
+
+[functions.lesson-plan-update]
+verify_jwt = true
