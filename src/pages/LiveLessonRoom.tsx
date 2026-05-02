@@ -14,6 +14,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Video, MessageSquare, FileText, PenTool, Loader2, Send, AlertTriangle,
   PlayCircle, StopCircle, BookOpen, Sparkles, ArrowLeft, LogOut,
+  Mic, Activity, Bot,
 } from "lucide-react";
 import { toast } from "sonner";
 import { LiveKitRoom, VideoConference } from "@livekit/components-react";
@@ -21,6 +22,9 @@ import "@livekit/components-styles";
 import { createNotification } from "@/lib/notifications";
 import { logLiveEvidence } from "@/lib/liveSessionEvents";
 import { generateHomework } from "@/lib/homeworkClient";
+import { LessonTranscriptionPanel } from "@/components/lesson/LessonTranscriptionPanel";
+import { EngagementSignalsPanel } from "@/components/lesson/EngagementSignalsPanel";
+import { LessonCopilotPanel } from "@/components/lesson/LessonCopilotPanel";
 
 type Booking = {
   id: string;
