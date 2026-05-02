@@ -17,13 +17,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const applySession = (s: Session | null) => {
+      setSession((prev) => (prev?.access_token === s?.access_token && prev?.user?.id === s?.user?.id ? prev : s));
+      setUser((prev) => {
+        const nextId = s?.user?.id ?? null;
+        const prevId = prev?.id ?? null;
+        if (prevId === nextId) return prev; // keep stable reference across token refreshes
+        return s?.user ?? null;
+      });
+    };
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, s) => {
-      setSession(s);
-      setUser(s?.user ?? null);
+      applySession(s);
     });
     supabase.auth.getSession().then(({ data: { session: s } }) => {
-      setSession(s);
-      setUser(s?.user ?? null);
+      applySession(s);
       setLoading(false);
     });
     return () => subscription.unsubscribe();
