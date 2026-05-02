@@ -143,7 +143,7 @@ const Dashboard = () => {
   const BookingRow = ({ b, side }: { b: Booking; side: "student" | "tutor" }) => {
     const start = new Date(b.starts_at);
     const sessionId = sessionsByBooking[b.id];
-    const canEnter = (b.status === "confirmed" || b.status === "completed") && !!sessionId;
+    const canEnter = b.status === "confirmed" || b.status === "completed" || b.status === "pending";
     const showPay = side === "student" && (b.status === "confirmed" || b.status === "completed") && !isBookingPaid(b.id);
 
     return (
@@ -159,7 +159,7 @@ const Dashboard = () => {
         <div className="flex gap-1.5">
           {canEnter && (
             <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
-              <Link to={`/session/${sessionId}`}><Video className="h-3.5 w-3.5 mr-1" />{t("calendar.enter")}</Link>
+              <Link to={`/session/${b.id}`}><Video className="h-3.5 w-3.5 mr-1" />{t("liveLesson.joinShort", { defaultValue: t("calendar.enter") })}</Link>
             </Button>
           )}
           {showPay && (
