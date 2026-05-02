@@ -3004,5 +3004,164 @@
         "action": "Crea cuentas de estudiante + padre + tutor + admin."
       }
     }
+  },
+  "adminNav": {
+    "aria": "Secciones de administración",
+    "groupPlatform": "Plataforma",
+    "groupLearning": "Inteligencia de aprendizaje",
+    "groupBusiness": "Negocio",
+    "groupFunding": "Financiación",
+    "overview": "Resumen",
+    "operations": "Operaciones",
+    "launchChecklist": "Checklist de lanzamiento",
+    "research": "Investigación y validación",
+    "curriculum": "Currículo",
+    "expertReviews": "Revisiones de expertos",
+    "marketplace": "Marketplace",
+    "organizations": "Organizaciones",
+    "grantPack": "Grant pack"
+  },
+  "adminOverview": {
+    "title": "Resumen de administración",
+    "subtitle": "Salud de la plataforma, asuntos pendientes y accesos a todos los módulos.",
+    "recentTitle": "Actividad reciente",
+    "recentEmpty": "Aún no hay actividad reciente.",
+    "statApprovedTutors": "Tutores aprobados",
+    "statOrgs": "Organizaciones",
+    "statCompetencies": "Competencias activas"
+  },
+  "adminHealth": {
+    "title": "Estado",
+    "platform": "Plataforma",
+    "pilot": "Piloto",
+    "research": "Preparación de investigación",
+    "marketplace": "Marketplace",
+    "launch": "Preparación de lanzamiento"
+  },
+  "adminAttention": {
+    "title": "Requiere atención",
+    "allClear": "Nada requiere atención por ahora.",
+    "pendingTutors": "Tutores pendientes de verificación",
+    "pendingPayments": "Pagos pendientes de confirmación",
+    "disputedPayments": "Pagos en disputa",
+    "pendingReviews": "Revisiones de expertos pendientes"
+  },
+  "adminModule": {
+    "statDiagnoses": "Diagnósticos",
+    "statEvents": "Eventos de evidencia",
+    "statCompetencies": "Competencias",
+    "statApprovedTutors": "Aprobados",
+    "statUpcomingBookings": "Próximas",
+    "statOrgs": "Org.",
+    "statActiveOrgs": "Activas",
+    "statPendingReviews": "Pendientes",
+    "operations": {
+      "title": "Operaciones",
+      "desc": "Usuarios piloto, salud del recorrido, seguimientos."
+    },
+    "research": {
+      "title": "Investigación y validación",
+      "desc": "Evidencia SMART y resultados de aprendizaje."
+    },
+    "grantPack": {
+      "title": "Grant pack",
+      "desc": "Documentación I+D, KPIs, exportaciones."
+    },
+    "marketplace": {
+      "title": "Marketplace",
+      "desc": "Tutores, reservas, pagos, sesiones."
+    },
+    "organizations": {
+      "title": "Organizaciones",
+      "desc": "Escuelas, cohortes, informes de organización."
+    },
+    "curriculum": {
+      "title": "Currículo",
+      "desc": "Currículo universal y grafo de competencias."
+    },
+    "expertReviews": {
+      "title": "Revisiones de expertos",
+      "desc": "Cola, acuerdo IA–experto, correcciones."
+    },
+    "launchChecklist": {
+      "title": "Checklist de lanzamiento",
+      "desc": "Verificación de despliegue y preparación."
+    }
+  },
+  "adminMarketplace": {
+    "title": "Operaciones del marketplace",
+    "subtitle": "Tutores, reservas, pagos y actividad de lecciones en un vistazo.",
+    "openTutors": "Abrir verificación de tutores",
+    "tutorsTitle": "Tutores",
+    "approvedTutors": "Aprobados",
+    "pendingTutors": "Pendientes",
+    "rejectedTutors": "Rechazados",
+    "bookingsTitle": "Reservas",
+    "totalBookings": "Total",
+    "upcomingBookings": "Próximas",
+    "completedBookings": "Completadas",
+    "cancelledBookings": "Canceladas",
+    "paymentsTitle": "Pagos",
+    "pendingPayments": "Pendientes",
+    "confirmedPayments": "Confirmados",
+    "disputedPayments": "En disputa",
+    "sessionsTitle": "Sesiones y evidencia",
+    "evBooking": "Eventos de reserva",
+    "evSession": "Sesión completada",
+    "evTutorNote": "Notas de tutores",
+    "linksTitle": "Accesos rápidos",
+    "linkTutors": "Verificación de tutores",
+    "linkCalendar": "Calendario"
+  },
+  "adminCurriculum": {
+    "title": "Currículo y grafo de competencias",
+    "subtitle": "Cobertura del currículo universal en un vistazo.",
+    "graphTitle": "Grafo",
+    "systems": "Sistemas educativos",
+    "levels": "Niveles educativos",
+    "domains": "Dominios de aprendizaje",
+    "competencies": "Competencias",
+    "edges": "Aristas de prerrequisitos",
+    "sources": "Fuentes del currículo",
+    "approved": "Aprobadas",
+    "draft": "Borrador / IA",
+    "mappingTitle": "Mapeo de dominio",
+    "mapped": "Vinculadas a competencia",
+    "unmapped": "Sin vincular",
+    "note": "Fuente de verdad para diagnósticos, planes e informes."
+  },
+  "adminExpertReviews": {
+    "title": "Revisiones de expertos",
+    "subtitle": "Cola de revisores, acuerdo IA–experto y correcciones.",
+    "total": "Revisiones totales",
+    "pending": "Pendientes",
+    "submitted": "Enviadas",
+    "avgAgreement": "Acuerdo medio IA–experto",
+    "correctionRate": "Tasa de corrección",
+    "recentTitle": "Revisiones recientes",
+    "recentEmpty": "Aún no hay revisiones.",
+    "status": {
+      "pending": "pendiente",
+      "submitted": "enviada",
+      "in_review": "en revisión"
+    }
+  },
+  "adminEvent": {
+    "tutor_approved": "Tutor aprobado",
+    "tutor_rejected": "Tutor rechazado",
+    "booking_created": "Reserva creada",
+    "booking_cancelled": "Reserva cancelada",
+    "payment_confirmed": "Pago confirmado",
+    "session_completed": "Sesión completada",
+    "checkpoint_created": "Checkpoint creado",
+    "checkpoint_completed": "Checkpoint completado",
+    "expert_review_submitted": "Revisión de experto enviada",
+    "org_created": "Organización creada",
+    "cohort_created": "Cohorte creada",
+    "cohort_member_added": "Miembro de cohorte añadido",
+    "org_report_exported": "Informe de organización exportado",
+    "homework_generated": "Tarea generada",
+    "homework_submitted": "Tarea enviada",
+    "tutor_note_submitted": "Nota de tutor enviada"
   }
 }

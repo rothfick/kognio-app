@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { AppShell } from "@/components/layout/AppShell";
+import { AdminSubNav } from "@/components/admin/AdminSubNav";
 import { DashboardHeader, DashboardShell } from "@/components/layout/DashboardShell";
 import { RoleGate } from "@/components/auth/RoleGate";
 import { Surface } from "@/components/ui/surface";
@@ -278,7 +279,8 @@ const ResearchDashboardInner = () => {
   return (
     <AppShell>
       <DashboardShell>
-        <DashboardHeader
+        <AdminSubNav />
+          <DashboardHeader
           title={t("research.title")}
           subtitle={t("research.subtitle")}
           actions={

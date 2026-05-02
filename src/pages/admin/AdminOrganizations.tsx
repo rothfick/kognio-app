@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AppShell } from "@/components/layout/AppShell";
+import { AdminSubNav } from "@/components/admin/AdminSubNav";
 import { DashboardShell, DashboardHeader } from "@/components/layout/DashboardShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -97,7 +98,8 @@ export default function AdminOrganizations() {
   return (
     <AppShell>
       <DashboardShell>
-        <DashboardHeader
+        <AdminSubNav />
+          <DashboardHeader
           title={t("adminOrgs.title")}
           subtitle={t("adminOrgs.subtitle")}
          

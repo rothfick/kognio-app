@@ -3006,5 +3006,164 @@
         "action": "Utwórz konta uczeń + rodzic + tutor + admin."
       }
     }
+  },
+  "adminNav": {
+    "aria": "Sekcje administratora",
+    "groupPlatform": "Platforma",
+    "groupLearning": "Inteligencja nauki",
+    "groupBusiness": "Biznes",
+    "groupFunding": "Finansowanie",
+    "overview": "Przegląd",
+    "operations": "Operacje",
+    "launchChecklist": "Lista startowa",
+    "research": "Badania i walidacja",
+    "curriculum": "Program nauczania",
+    "expertReviews": "Recenzje ekspertów",
+    "marketplace": "Marketplace",
+    "organizations": "Organizacje",
+    "grantPack": "Grant pack"
+  },
+  "adminOverview": {
+    "title": "Przegląd administratora",
+    "subtitle": "Stan platformy, sprawy do uwagi i szybkie linki do modułów.",
+    "recentTitle": "Ostatnia aktywność",
+    "recentEmpty": "Brak ostatniej aktywności.",
+    "statApprovedTutors": "Zatwierdzeni korepetytorzy",
+    "statOrgs": "Organizacje",
+    "statCompetencies": "Aktywne kompetencje"
+  },
+  "adminHealth": {
+    "title": "Status",
+    "platform": "Platforma",
+    "pilot": "Pilot",
+    "research": "Gotowość badawcza",
+    "marketplace": "Marketplace",
+    "launch": "Gotowość do startu"
+  },
+  "adminAttention": {
+    "title": "Wymaga uwagi",
+    "allClear": "Nic nie wymaga teraz uwagi.",
+    "pendingTutors": "Korepetytorzy oczekujący na weryfikację",
+    "pendingPayments": "Płatności do potwierdzenia",
+    "disputedPayments": "Sporne płatności",
+    "pendingReviews": "Recenzje ekspertów oczekujące"
+  },
+  "adminModule": {
+    "statDiagnoses": "Diagnozy",
+    "statEvents": "Zdarzenia dowodowe",
+    "statCompetencies": "Kompetencje",
+    "statApprovedTutors": "Zatwierdzeni",
+    "statUpcomingBookings": "Nadchodzące",
+    "statOrgs": "Org.",
+    "statActiveOrgs": "Aktywne",
+    "statPendingReviews": "Oczekujące",
+    "operations": {
+      "title": "Operacje",
+      "desc": "Użytkownicy pilotażu, zdrowie ścieżki, follow-up."
+    },
+    "research": {
+      "title": "Badania i walidacja",
+      "desc": "Dowody SMART i wyniki nauki."
+    },
+    "grantPack": {
+      "title": "Grant pack",
+      "desc": "Dokumentacja B+R, KPI, eksporty."
+    },
+    "marketplace": {
+      "title": "Marketplace",
+      "desc": "Korepetytorzy, rezerwacje, płatności, sesje."
+    },
+    "organizations": {
+      "title": "Organizacje",
+      "desc": "Szkoły, kohorty, raporty organizacji."
+    },
+    "curriculum": {
+      "title": "Program nauczania",
+      "desc": "Uniwersalny program i graf kompetencji."
+    },
+    "expertReviews": {
+      "title": "Recenzje ekspertów",
+      "desc": "Kolejka, zgodność AI–ekspert, korekty."
+    },
+    "launchChecklist": {
+      "title": "Lista startowa",
+      "desc": "Weryfikacja wdrożenia i gotowości."
+    }
+  },
+  "adminMarketplace": {
+    "title": "Operacje marketplace",
+    "subtitle": "Korepetytorzy, rezerwacje, płatności i aktywność lekcyjna w jednym miejscu.",
+    "openTutors": "Otwórz weryfikację korepetytorów",
+    "tutorsTitle": "Korepetytorzy",
+    "approvedTutors": "Zatwierdzeni",
+    "pendingTutors": "Oczekujący",
+    "rejectedTutors": "Odrzuceni",
+    "bookingsTitle": "Rezerwacje",
+    "totalBookings": "Łącznie",
+    "upcomingBookings": "Nadchodzące",
+    "completedBookings": "Zakończone",
+    "cancelledBookings": "Anulowane",
+    "paymentsTitle": "Płatności",
+    "pendingPayments": "Oczekujące",
+    "confirmedPayments": "Potwierdzone",
+    "disputedPayments": "Sporne",
+    "sessionsTitle": "Sesje i dowody",
+    "evBooking": "Zdarzenia rezerwacji",
+    "evSession": "Sesja zakończona",
+    "evTutorNote": "Notatki korepetytorów",
+    "linksTitle": "Szybkie linki",
+    "linkTutors": "Weryfikacja korepetytorów",
+    "linkCalendar": "Kalendarz"
+  },
+  "adminCurriculum": {
+    "title": "Program nauczania i graf kompetencji",
+    "subtitle": "Pokrycie uniwersalnego programu nauczania w jednym miejscu.",
+    "graphTitle": "Graf",
+    "systems": "Systemy edukacji",
+    "levels": "Poziomy edukacji",
+    "domains": "Domeny nauki",
+    "competencies": "Kompetencje",
+    "edges": "Powiązania prereq.",
+    "sources": "Źródła programu",
+    "approved": "Zatwierdzone",
+    "draft": "Szkic / AI",
+    "mappingTitle": "Mapowanie biegłości",
+    "mapped": "Powiązane z kompetencją",
+    "unmapped": "Bez powiązania",
+    "note": "Źródło prawdy dla diagnoz, planów i raportów."
+  },
+  "adminExpertReviews": {
+    "title": "Recenzje ekspertów",
+    "subtitle": "Kolejka recenzentów, zgodność AI–ekspert i korekty.",
+    "total": "Łącznie recenzji",
+    "pending": "Oczekujące",
+    "submitted": "Złożone",
+    "avgAgreement": "Średnia zgodność AI–ekspert",
+    "correctionRate": "Wskaźnik korekt",
+    "recentTitle": "Ostatnie recenzje",
+    "recentEmpty": "Brak recenzji.",
+    "status": {
+      "pending": "oczekuje",
+      "submitted": "złożona",
+      "in_review": "w recenzji"
+    }
+  },
+  "adminEvent": {
+    "tutor_approved": "Korepetytor zatwierdzony",
+    "tutor_rejected": "Korepetytor odrzucony",
+    "booking_created": "Rezerwacja utworzona",
+    "booking_cancelled": "Rezerwacja anulowana",
+    "payment_confirmed": "Płatność potwierdzona",
+    "session_completed": "Sesja zakończona",
+    "checkpoint_created": "Checkpoint utworzony",
+    "checkpoint_completed": "Checkpoint zakończony",
+    "expert_review_submitted": "Recenzja eksperta złożona",
+    "org_created": "Organizacja utworzona",
+    "cohort_created": "Kohorta utworzona",
+    "cohort_member_added": "Dodano członka kohorty",
+    "org_report_exported": "Wyeksportowano raport organizacji",
+    "homework_generated": "Wygenerowano zadanie",
+    "homework_submitted": "Zadanie złożone",
+    "tutor_note_submitted": "Notatka korepetytora złożona"
   }
 }

@@ -3004,5 +3004,164 @@
         "action": "Create student + parent + tutor + admin accounts."
       }
     }
+  },
+  "adminNav": {
+    "aria": "Admin sections",
+    "groupPlatform": "Platform",
+    "groupLearning": "Learning intelligence",
+    "groupBusiness": "Business",
+    "groupFunding": "Funding",
+    "overview": "Overview",
+    "operations": "Operations",
+    "launchChecklist": "Launch checklist",
+    "research": "Research & validation",
+    "curriculum": "Curriculum",
+    "expertReviews": "Expert reviews",
+    "marketplace": "Marketplace",
+    "organizations": "Organizations",
+    "grantPack": "Grant pack"
+  },
+  "adminOverview": {
+    "title": "Admin overview",
+    "subtitle": "Platform health, attention items, and quick links to every admin module.",
+    "recentTitle": "Recent activity",
+    "recentEmpty": "No recent activity yet.",
+    "statApprovedTutors": "Approved tutors",
+    "statOrgs": "Organizations",
+    "statCompetencies": "Active competencies"
+  },
+  "adminHealth": {
+    "title": "Status",
+    "platform": "Platform",
+    "pilot": "Pilot",
+    "research": "Research readiness",
+    "marketplace": "Marketplace",
+    "launch": "Launch readiness"
+  },
+  "adminAttention": {
+    "title": "Attention needed",
+    "allClear": "Nothing needs attention right now.",
+    "pendingTutors": "Tutors awaiting verification",
+    "pendingPayments": "Payments awaiting confirmation",
+    "disputedPayments": "Disputed payments",
+    "pendingReviews": "Expert reviews pending"
+  },
+  "adminModule": {
+    "statDiagnoses": "Diagnoses",
+    "statEvents": "Evidence events",
+    "statCompetencies": "Competencies",
+    "statApprovedTutors": "Approved tutors",
+    "statUpcomingBookings": "Upcoming bookings",
+    "statOrgs": "Orgs",
+    "statActiveOrgs": "Active",
+    "statPendingReviews": "Pending",
+    "operations": {
+      "title": "Operations",
+      "desc": "Pilot users, journey health, follow-ups."
+    },
+    "research": {
+      "title": "Research & validation",
+      "desc": "SMART evidence and learning outcomes."
+    },
+    "grantPack": {
+      "title": "Grant pack",
+      "desc": "R&D documentation, KPIs, exports."
+    },
+    "marketplace": {
+      "title": "Marketplace",
+      "desc": "Tutors, bookings, payments, sessions."
+    },
+    "organizations": {
+      "title": "Organizations",
+      "desc": "Schools, cohorts, org reports."
+    },
+    "curriculum": {
+      "title": "Curriculum",
+      "desc": "Universal curriculum & competency graph."
+    },
+    "expertReviews": {
+      "title": "Expert reviews",
+      "desc": "Queue, AI–expert agreement, corrections."
+    },
+    "launchChecklist": {
+      "title": "Launch checklist",
+      "desc": "Deployment & readiness verification."
+    }
+  },
+  "adminMarketplace": {
+    "title": "Marketplace operations",
+    "subtitle": "Tutors, bookings, payments, and lesson activity at a glance.",
+    "openTutors": "Open tutor verification",
+    "tutorsTitle": "Tutors",
+    "approvedTutors": "Approved",
+    "pendingTutors": "Pending",
+    "rejectedTutors": "Rejected",
+    "bookingsTitle": "Bookings",
+    "totalBookings": "Total",
+    "upcomingBookings": "Upcoming",
+    "completedBookings": "Completed",
+    "cancelledBookings": "Cancelled",
+    "paymentsTitle": "Payments",
+    "pendingPayments": "Pending",
+    "confirmedPayments": "Confirmed",
+    "disputedPayments": "Disputed",
+    "sessionsTitle": "Sessions & evidence",
+    "evBooking": "Booking events",
+    "evSession": "Session completed",
+    "evTutorNote": "Tutor notes",
+    "linksTitle": "Quick links",
+    "linkTutors": "Tutor verification",
+    "linkCalendar": "Calendar"
+  },
+  "adminCurriculum": {
+    "title": "Curriculum & competency graph",
+    "subtitle": "Universal curriculum coverage at a glance.",
+    "graphTitle": "Graph",
+    "systems": "Education systems",
+    "levels": "Education levels",
+    "domains": "Learning domains",
+    "competencies": "Competencies",
+    "edges": "Prerequisite edges",
+    "sources": "Curriculum sources",
+    "approved": "Approved",
+    "draft": "Draft / AI",
+    "mappingTitle": "Mastery mapping",
+    "mapped": "Mapped to competency",
+    "unmapped": "Unmapped",
+    "note": "Source of truth for diagnostics, plans, and reporting."
+  },
+  "adminExpertReviews": {
+    "title": "Expert reviews",
+    "subtitle": "Reviewer queue, AI–expert agreement, and corrections.",
+    "total": "Total reviews",
+    "pending": "Pending",
+    "submitted": "Submitted",
+    "avgAgreement": "Avg. AI–expert agreement",
+    "correctionRate": "Correction rate",
+    "recentTitle": "Recent reviews",
+    "recentEmpty": "No reviews yet.",
+    "status": {
+      "pending": "pending",
+      "submitted": "submitted",
+      "in_review": "in review"
+    }
+  },
+  "adminEvent": {
+    "tutor_approved": "Tutor approved",
+    "tutor_rejected": "Tutor rejected",
+    "booking_created": "Booking created",
+    "booking_cancelled": "Booking cancelled",
+    "payment_confirmed": "Payment confirmed",
+    "session_completed": "Session completed",
+    "checkpoint_created": "Checkpoint created",
+    "checkpoint_completed": "Checkpoint completed",
+    "expert_review_submitted": "Expert review submitted",
+    "org_created": "Organization created",
+    "cohort_created": "Cohort created",
+    "cohort_member_added": "Cohort member added",
+    "org_report_exported": "Org report exported",
+    "homework_generated": "Homework generated",
+    "homework_submitted": "Homework submitted",
+    "tutor_note_submitted": "Tutor note submitted"
   }
 }

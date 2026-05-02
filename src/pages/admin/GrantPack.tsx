@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AppShell } from "@/components/layout/AppShell";
+import { AdminSubNav } from "@/components/admin/AdminSubNav";
 import { DashboardHeader, DashboardShell } from "@/components/layout/DashboardShell";
 import { RoleGate } from "@/components/auth/RoleGate";
 import { Surface } from "@/components/ui/surface";
@@ -541,7 +542,8 @@ const GrantPackInner = () => {
   return (
     <AppShell>
       <DashboardShell>
-        <DashboardHeader
+        <AdminSubNav />
+          <DashboardHeader
           title={t("grantPack.title")}
           subtitle={t("grantPack.subtitle")}
           actions={
