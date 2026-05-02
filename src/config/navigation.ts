@@ -259,6 +259,15 @@ export const NAV_ITEMS: NavItem[] = [
     showInHeader: true,
     status: "internal",
   },
+  {
+    id: "launchChecklist",
+    labelKey: "nav.launchChecklist",
+    href: "/admin/launch-checklist",
+    icon: ShieldCheck,
+    allowedRoles: ["admin"],
+    showInHeader: true,
+    status: "internal",
+  },
 
   // ── Hidden / future modules (kept for reference, never rendered) ──────
   {

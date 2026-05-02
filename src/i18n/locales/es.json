@@ -33,7 +33,8 @@
     "homework": "Tareas",
     "assignments": "Tareas de alumnos",
     "flashcards": "Tarjetas",
-    "organizations": "Organizaciones"
+    "organizations": "Organizaciones",
+    "launchChecklist": "Lista de lanzamiento"
   },
   "landing": {
     "heroEyebrow": "Plataforma inteligente de aprendizaje",
@@ -2899,13 +2900,109 @@
     "exportMd": "Exportar Markdown",
     "exported": "Informe exportado.",
     "failed": "No se pudo generar el informe.",
-    "json": { "title": "Informe de progreso (JSON)", "body": "Informe agregado legible por máquina. Sin datos personales." },
-    "md": { "title": "Informe de progreso (Markdown)", "body": "Resumen legible. Sin datos personales." },
+    "json": {
+      "title": "Informe de progreso (JSON)",
+      "body": "Informe agregado legible por máquina. Sin datos personales."
+    },
+    "md": {
+      "title": "Informe de progreso (Markdown)",
+      "body": "Resumen legible. Sin datos personales."
+    },
     "privacyNote": "Los informes contienen únicamente métricas agregadas anonimizadas — sin correos, nombres ni transcripciones."
   },
   "orgNotifications": {
-    "inviteCreated": { "title": "Invitación a organización", "body": "Te invitaron a {{org}}." },
-    "cohortAssigned": { "title": "Asignación de cohorte", "body": "Te añadieron a la cohorte {{cohort}}." },
-    "roleChanged": { "title": "Rol actualizado", "body": "Tu rol en {{org}} ahora es {{role}}." }
+    "inviteCreated": {
+      "title": "Invitación a organización",
+      "body": "Te invitaron a {{org}}."
+    },
+    "cohortAssigned": {
+      "title": "Asignación de cohorte",
+      "body": "Te añadieron a la cohorte {{cohort}}."
+    },
+    "roleChanged": {
+      "title": "Rol actualizado",
+      "body": "Tu rol en {{org}} ahora es {{role}}."
+    }
+  },
+  "launchChecklist": {
+    "title": "Lista de verificación de lanzamiento",
+    "subtitle": "Verificación de preparación para producción.",
+    "sections": {
+      "qa": "QA y revisión manual",
+      "runtime": "Comprobaciones en tiempo de ejecución"
+    },
+    "status": {
+      "pass": "OK",
+      "warning": "Aviso",
+      "manual": "Manual",
+      "loading": "Comprobando…"
+    },
+    "items": {
+      "i18nParity": {
+        "title": "Paridad PL/EN/ES",
+        "description": "Todas las claves de traducción presentes en los tres idiomas.",
+        "action": "Verifica muestras en distintas vistas."
+      },
+      "routeGuards": {
+        "title": "Protección de rutas",
+        "description": "Rutas admin/tutor/org/padres protegidas por rol.",
+        "action": "Prueba manual: un estudiante en /admin/* debe ser redirigido."
+      },
+      "rlsSanity": {
+        "title": "Políticas RLS",
+        "description": "Los datos del usuario solo son visibles para su propietario.",
+        "action": "Prueba manual: la cuenta B no ve datos de la cuenta A."
+      },
+      "privateStorage": {
+        "title": "Buckets privados",
+        "description": "payment-proofs es privado; avatars es público a propósito.",
+        "action": "Verifica en el almacenamiento de Lovable Cloud."
+      },
+      "signedProofUrls": {
+        "title": "URL firmadas de comprobantes",
+        "description": "Los comprobantes se obtienen vía createSignedUrl, no URL públicas.",
+        "action": "Abre un comprobante desde el calendario y revisa la URL."
+      },
+      "noPiiExports": {
+        "title": "Sin PII en exportaciones",
+        "description": "Los informes de org/SMART/grant pack no contienen nombres ni correos.",
+        "action": "Descarga un informe y revísalo."
+      },
+      "legalReview": {
+        "title": "Documentos legales",
+        "description": "Política de privacidad, términos y RGPD requieren revisión legal.",
+        "action": "Consulta con un abogado antes del lanzamiento."
+      },
+      "livekitEnv": {
+        "title": "Configuración de LiveKit",
+        "description": "Las variables LIVEKIT_URL/API_KEY/API_SECRET están configuradas.",
+        "action": "Si hay aviso, añade los secretos en Lovable Cloud."
+      },
+      "edgeFunctions": {
+        "title": "Funciones edge desplegadas",
+        "description": "Funciones de lección, tareas, plan y diagnóstico desplegadas.",
+        "action": "El despliegue es automático. Revisa los logs si hay errores."
+      },
+      "approvedTutor": {
+        "title": "Al menos un tutor aprobado",
+        "description": "El marketplace requiere tutores aprobados.",
+        "action": "Aprueba un tutor en /admin/tutors."
+      },
+      "pilotCohort": {
+        "title": "Cohorte piloto creada",
+        "description": "Al menos una cohorte creada en una organización.",
+        "action": "Crea una cohorte en el panel de la organización."
+      },
+      "firstOrg": {
+        "title": "Primera organización creada",
+        "description": "Al menos una organización en el sistema.",
+        "action": "Crea una organización en /admin/organizations."
+      },
+      "testUsers": {
+        "title": "Usuarios de prueba listos",
+        "description": "Al menos dos cuentas creadas para pruebas end-to-end.",
+        "action": "Crea cuentas de estudiante + padre + tutor + admin."
+      }
+    }
   }
 }
