@@ -121,7 +121,11 @@ const LiveLessonRoom = () => {
 
   const isTutor = participantRole === "tutor";
   const isAdmin = participantRole === "admin";
+  const isStudent = participantRole === "student";
+  const isParent = participantRole === "parent";
   const canControl = isTutor || isAdmin;
+  // Only the learner or their guardian may grant consent for learner data.
+  const canGrantConsent = isStudent || isParent;
 
   const intelEnabled = isFeatureEnabled("lessonIntelligence");
   const transcriptionEnabled = intelEnabled && isFeatureEnabled("lessonTranscription");
