@@ -2534,7 +2534,8 @@
     "consentDeclinedNotice": "Funkcja niedostępna — brak zgody.",
     "consentBanner": "Aby włączyć tę funkcję, zaakceptuj zgodę.",
     "reviewByTutor": "Wymaga akceptacji korepetytora",
-    "disclaimerNotDiagnosis": "Wyniki AI mają charakter pomocniczy i nie stanowią diagnozy."
+    "disclaimerNotDiagnosis": "Wyniki AI mają charakter pomocniczy i nie stanowią diagnozy.",
+    "tutorWaitingForLearnerConsent": "Funkcje analityczne wyłączone — uczeń lub opiekun musi najpierw wyrazić zgodę."
   },
   "transcription": {
     "title": "Transkrypcja lekcji",
@@ -2674,5 +2675,32 @@
     "fri": "Piątek",
     "sat": "Sobota",
     "sun": "Niedziela"
+  },
+  "roleSwitcher": {
+    "label": "Aktywna rola",
+    "role": {
+      "student": "Uczę się",
+      "tutor": "Uczę",
+      "parent": "Rodzic",
+      "admin": "Administrator",
+      "school": "Szkoła",
+      "training_company": "Firma"
+    }
+  },
+  "studentAi": {
+    "tab": "Asystent",
+    "disclaimer": "Twój prywatny pomocnik nauki. Nie zastępuje korepetytora.",
+    "empty": "Zadaj pytanie, aby zacząć.",
+    "placeholder": "O co chcesz zapytać?",
+    "suggestedPrompts": "Szybkie pytania",
+    "promptExplain": "Wyjaśnij prościej",
+    "promptExample": "Daj prosty przykład",
+    "promptCheckMe": "Sprawdź, czy dobrze rozumiem",
+    "promptSummary": "Krótkie podsumowanie",
+    "studentOnly": "Widoczne tylko dla ucznia.",
+    "error": "Nie udało się uzyskać odpowiedzi.",
+    "rateLimited": "Limit zapytań — spróbuj za chwilę.",
+    "noCredits": "Brak środków AI.",
+    "forbidden": "Asystent ucznia nie jest dostępny dla korepetytora."
   }
 }
