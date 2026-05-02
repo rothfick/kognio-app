@@ -9,10 +9,11 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   GraduationCap, Globe, LogOut, User as UserIcon,
-  Settings, LayoutDashboard,
+  Settings, LayoutDashboard, UserCog,
 } from "lucide-react";
 import { getVisibleNavItems } from "@/config/navigation";
 import { isFeatureEnabled } from "@/config/features";
+import { useActiveRole } from "@/contexts/ActiveRoleContext";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
   DropdownMenuSeparator, DropdownMenuTrigger,
@@ -22,11 +23,11 @@ import { NotificationCenter } from "@/components/notifications/NotificationCente
 export function Header() {
   const { t, i18n } = useTranslation();
   const { user, signOut } = useAuth();
-  const { isTutor, isParent, isAdmin, roles } = useUserRoles();
-  // Parent mode: jeśli użytkownik ma rolę rodzica i nie jest tutorem/adminem,
-  // wymuszamy widok rodzica (nawet jeśli ma też rolę student).
-  const parentMode = isParent && !isTutor && !isAdmin;
-  const effectiveRoles = parentMode ? roles.filter((r) => r !== "student") : roles;
+  const { isTutor } = useUserRoles();
+  const { available: availableRoles, active: activeRole, setActive, hasMultiple } = useActiveRole();
+  // Active role drives nav: when user has multiple roles, only the selected
+  // role's items are shown. This prevents student from seeing tutor controls.
+  const effectiveRoles = activeRole ? [activeRole] : [];
   const navigate = useNavigate();
   const [pendingCount, setPendingCount] = useState(0);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
