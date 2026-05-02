@@ -23,12 +23,12 @@ const AdminExpertReviews = () => {
         supabase.from("expert_reviews").select("id", { count: "exact", head: true }),
         supabase.from("expert_reviews").select("id", { count: "exact", head: true }).eq("status", "pending"),
         supabase.from("expert_reviews").select("id", { count: "exact", head: true }).eq("status", "submitted"),
-        supabase.from("expert_reviews").select("ai_expert_agreement, has_corrections").eq("status", "submitted"),
+        supabase.from("expert_reviews").select("agreement_score, correction_summary").eq("status", "submitted"),
         supabase.from("expert_reviews").select("id, created_at, status").order("created_at", { ascending: false }).limit(8),
       ]);
-      const agreeRows = ((agreement.data || []) as Array<{ ai_expert_agreement: number | null; has_corrections: boolean | null }>);
-      const agreeVals = agreeRows.map((r) => r.ai_expert_agreement).filter((v): v is number => typeof v === "number");
-      const corrCount = agreeRows.filter((r) => r.has_corrections === true).length;
+      const agreeRows = ((agreement.data || []) as Array<{ agreement_score: number | null; correction_summary: string | null }>);
+      const agreeVals = agreeRows.map((r) => r.agreement_score).filter((v): v is number => typeof v === "number");
+      const corrCount = agreeRows.filter((r) => !!r.correction_summary && r.correction_summary.trim().length > 0).length;
       setS({
         total: tot.count ?? 0,
         pending: pend.count ?? 0,
