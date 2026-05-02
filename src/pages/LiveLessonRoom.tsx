@@ -14,7 +14,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Video, MessageSquare, FileText, PenTool, Loader2, Send, AlertTriangle,
   PlayCircle, StopCircle, BookOpen, Sparkles, ArrowLeft, LogOut,
-  Mic, Activity, Bot,
+  Mic, Activity, Bot, ScrollText,
 } from "lucide-react";
 import { toast } from "sonner";
 import { LiveKitRoom, VideoConference } from "@livekit/components-react";
@@ -25,6 +25,9 @@ import { generateHomework } from "@/lib/homeworkClient";
 import { LessonTranscriptionPanel } from "@/components/lesson/LessonTranscriptionPanel";
 import { EngagementSignalsPanel } from "@/components/lesson/EngagementSignalsPanel";
 import { LessonCopilotPanel } from "@/components/lesson/LessonCopilotPanel";
+import { LessonSummaryPanel } from "@/components/lesson/LessonSummaryPanel";
+import { ResearchConsentDialog, type ConsentType } from "@/components/pilot/ResearchConsentDialog";
+import { isFeatureEnabled } from "@/config/features";
 
 type Booking = {
   id: string;
