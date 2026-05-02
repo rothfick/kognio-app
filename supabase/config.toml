@@ -17,3 +17,6 @@ verify_jwt = true
 
 [functions.homework-grade]
 verify_jwt = true
+
+[functions.livekit-token-v2]
+verify_jwt = true

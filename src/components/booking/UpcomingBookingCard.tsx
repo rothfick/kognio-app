@@ -95,6 +95,9 @@ export function UpcomingBookingCard({
               <div className="flex flex-wrap items-center gap-1 shrink-0">
                 <Badge variant="secondary" className="text-[10px]">{t(`calendar.status.${b.status}`, { defaultValue: b.status })}</Badge>
                 <Badge variant="outline" className="text-[10px]">{t(`payment.status.${b.payment_status}`, { defaultValue: b.payment_status })}</Badge>
+                <Button asChild size="sm" variant="outline" className="h-7 px-2 text-[11px]">
+                  <Link to={`/session/${b.id}`}>{t("liveLesson.joinShort", { defaultValue: "Join" })}</Link>
+                </Button>
               </div>
             </li>
           ))}

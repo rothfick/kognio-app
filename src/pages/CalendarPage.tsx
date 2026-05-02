@@ -444,11 +444,21 @@ const CalendarPage = () => {
           </div>
         </div>
 
-        {b.meeting_url ? (
-          <a href={b.meeting_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-primary hover:underline">
-            <Video className="h-3.5 w-3.5" /> {t("calendar.joinMeeting")} <ExternalLink className="h-3 w-3" />
-          </a>
-        ) : null}
+        <div className="flex flex-wrap items-center gap-3">
+          <Button asChild size="sm" className="bg-accent-gradient text-accent-foreground">
+            <Link to={`/session/${b.id}`}>
+              <Video className="h-3.5 w-3.5 mr-1" /> {t("liveLesson.joinRoom")}
+            </Link>
+          </Button>
+          {b.payment_status !== "confirmed" && (
+            <span className="text-[11px] text-amber-700 dark:text-amber-300">{t("liveLesson.paymentWarningShort")}</span>
+          )}
+          {b.meeting_url ? (
+            <a href={b.meeting_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-primary hover:underline">
+              <Video className="h-3.5 w-3.5" /> {t("calendar.joinMeeting")} <ExternalLink className="h-3 w-3" />
+            </a>
+          ) : null}
+        </div>
 
         <div className="flex flex-wrap gap-2 border-t pt-3">
           {/* Payer actions */}

@@ -824,7 +824,8 @@
     "noteFailed": "Could not save note.",
     "noteFromTutor": "Note from tutor",
     "recommendedNext": "Next step",
-    "noteEmpty": "Note cannot be empty."
+    "noteEmpty": "Note cannot be empty.",
+    "saveNote": "Save note"
   },
   "payment": {
     "markedPaidToast": "Marked as paid",
@@ -953,11 +954,11 @@
     "allCaughtUp": "All caught up"
   },
   "mastery": {
-    "unknown": "No data",
-    "novice": "Starting",
-    "developing": "Developing",
-    "proficient": "Proficient",
-    "mastered": "Mastered"
+    "homework": {
+      "updated": "Mastery updated from homework.",
+      "increase": "Mastery in {{area}} went up by {{delta}}%.",
+      "decrease": "Mastery in {{area}} adjusted by {{delta}}%."
+    }
   },
   "plan": {
     "title": "Learning Plan",
@@ -2213,6 +2214,26 @@
     "bookingCancelled": {
       "title": "Booking cancelled",
       "body": "The session has been cancelled."
+    },
+    "lessonNote": {
+      "title": "Tutor added a lesson note",
+      "body": "Open the lesson room to read it.",
+      "action": "Open lesson"
+    },
+    "sessionStarted": {
+      "title": "Lesson is starting",
+      "body": "Your tutor started the live lesson.",
+      "action": "Join now"
+    },
+    "sessionEnded": {
+      "title": "Lesson ended",
+      "body": "The live lesson has ended.",
+      "action": "Open lesson"
+    },
+    "sessionRoomReady": {
+      "title": "Lesson room is ready",
+      "body": "You can now enter the live lesson room.",
+      "action": "Open lesson"
     }
   },
   "dashboardBooking": {
@@ -2337,13 +2358,6 @@
     "feedbackTitle": "Feedback",
     "noFeedback": "No additional feedback yet."
   },
-  "mastery": {
-    "homework": {
-      "updated": "Mastery updated from homework.",
-      "increase": "Mastery in {{area}} went up by {{delta}}%.",
-      "decrease": "Mastery in {{area}} adjusted by {{delta}}%."
-    }
-  },
   "dashboardHomework": {
     "title": "Homework",
     "active": "Active",
@@ -2402,5 +2416,79 @@
       "body": "Some answers need tutor review."
     },
     "viewHomework": "Open homework"
+  },
+  "liveLesson": {
+    "lobbyTitle": "Live lesson",
+    "lobbyBody": "Check the details and join the lesson room.",
+    "tutor": "Tutor",
+    "learner": "Learner",
+    "scheduledAt": "Scheduled",
+    "topic": "Topic",
+    "competency": "Competency",
+    "planItem": "Plan item",
+    "goal": "Goal",
+    "bookingStatus": "Booking",
+    "paymentStatus": "Payment",
+    "paymentWarning": "Payment is not confirmed yet — you can still join, but please complete payment.",
+    "paymentWarningShort": "Payment not confirmed",
+    "joinCta": "Join lesson",
+    "joinShort": "Join",
+    "joinRoom": "Join Kogni live room",
+    "lessonTitle": "Lesson",
+    "elapsed": "Elapsed",
+    "startCta": "Start session",
+    "endCta": "End session",
+    "started": "Session started",
+    "ended": "Session ended",
+    "startFailed": "Could not start session",
+    "endFailed": "Could not end session",
+    "leave": "Leave",
+    "tabContext": "Context",
+    "tabChat": "Chat",
+    "tabNotes": "Notes",
+    "tabBoard": "Board",
+    "context": "Lesson context",
+    "noteEmpty": "Tutor has not added a note yet.",
+    "generateHw": "Generate practice from note",
+    "tokenError": "Could not connect to live room.",
+    "notFoundTitle": "Lesson not found",
+    "notFoundBody": "This booking does not exist or you do not have access.",
+    "forbiddenTitle": "Access denied",
+    "forbiddenBody": "You are not a participant of this booking.",
+    "status": {
+      "scheduled": "Scheduled",
+      "live": "Live",
+      "ended": "Ended",
+      "failed": "Failed"
+    },
+    "errors": {
+      "booking_id_required": "Booking id is required",
+      "not_found_or_forbidden": "Booking not found or access denied",
+      "forbidden": "Access denied",
+      "booking_not_joinable": "This booking cannot be joined",
+      "unauthorized": "Sign in required",
+      "internal_error": "Server error"
+    }
+  },
+  "livekit": {
+    "setupRequiredTitle": "Live video is not configured",
+    "setupRequiredBody": "Live video integration is not set up yet. Please contact support.",
+    "missing": "Missing"
+  },
+  "sessionRoom": {
+    "title": "Lesson room"
+  },
+  "whiteboard": {
+    "placeholder": "Shared notes for this lesson…",
+    "save": "Save board",
+    "saved": "Board updated",
+    "saveFailed": "Could not save board",
+    "reset": "Reset",
+    "updatedAt": "Updated"
+  },
+  "chat": {
+    "empty": "No messages yet.",
+    "placeholder": "Write a message…",
+    "sendFailed": "Could not send message"
   }
 }

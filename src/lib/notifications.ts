@@ -31,7 +31,12 @@ export type NotificationType =
   | "homework_assigned"
   | "homework_submitted"
   | "homework_graded"
-  | "homework_needs_review";
+  | "homework_needs_review"
+  // live lesson
+  | "session_room_ready"
+  | "session_started"
+  | "session_ended"
+  | "lesson_note_submitted";
 
 export interface CreateNotificationInput {
   userId: string;
@@ -55,6 +60,7 @@ function actionUrlCategory(url?: string): string {
   if (url.startsWith("/discover")) return "discover";
   if (url.startsWith("/dashboard")) return "dashboard";
   if (url.startsWith("/homework")) return "homework";
+  if (url.startsWith("/session")) return "session";
   return "other";
 }
 

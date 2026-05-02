@@ -16,7 +16,7 @@ import CalendarPage from "./pages/CalendarPage";
 import Brain from "./pages/Brain";
 import Settings from "./pages/Settings";
 import TutorProfile from "./pages/TutorProfile";
-import SessionRoom from "./pages/SessionRoom";
+import LiveLessonRoom from "./pages/LiveLessonRoom";
 import PaymentPage from "./pages/PaymentPage";
 import NotFound from "./pages/NotFound";
 import Onboarding from "./pages/Onboarding";
@@ -95,7 +95,7 @@ const App = () => (
             <Route path="/tutor/:id" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><TutorProfile /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/tutors/:tutorId" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><TutorPublicProfile /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/book/:tutorId" element={<ProtectedRoute><FeatureRouteGuard feature="booking"><BookSession /></FeatureRouteGuard></ProtectedRoute>} />
-            <Route path="/session/:id" element={<ProtectedRoute><FeatureRouteGuard feature="booking"><SessionRoom /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/session/:bookingId" element={<ProtectedRoute><FeatureRouteGuard feature="booking"><LiveLessonRoom /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/payment/:bookingId" element={<ProtectedRoute><ParentRouteGuard><PaymentPage /></ParentRouteGuard></ProtectedRoute>} />
             <Route path="/homework" element={<ProtectedRoute><FeatureRouteGuard feature="homework"><Homework /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/homework/:id" element={<ProtectedRoute><FeatureRouteGuard feature="homework"><HomeworkDetail /></FeatureRouteGuard></ProtectedRoute>} />
