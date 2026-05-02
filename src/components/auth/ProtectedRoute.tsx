@@ -22,7 +22,7 @@ export function ProtectedRoute({ children }: { children: JSX.Element }) {
       if (!cancelled) setOnboarded(!!data?.onboarded_at);
     })();
     return () => { cancelled = true; };
-  }, [user]);
+  }, [user?.id]);
 
   if (loading || (user && onboarded === null)) {
     return <div className="grid min-h-[50vh] place-items-center text-muted-foreground">{t("common.loading")}</div>;
