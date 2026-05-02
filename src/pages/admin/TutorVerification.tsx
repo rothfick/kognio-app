@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AppShell } from "@/components/layout/AppShell";
-import { AdminSubNav } from "@/components/admin/AdminSubNav";
-import { RoleGate } from "@/components/auth/RoleGate";
+import { AdminPageShell } from "@/components/admin/AdminPageShell";
 import { Surface } from "@/components/ui/surface";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -159,9 +157,7 @@ const TutorVerification = () => {
               ))}
             </TabsContent>
           </Tabs>
-        </div>
-      </AppShell>
-    </RoleGate>
+    </AdminPageShell>
   );
 };
 
