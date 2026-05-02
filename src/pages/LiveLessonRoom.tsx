@@ -22,6 +22,9 @@ import "@livekit/components-styles";
 import { createNotification } from "@/lib/notifications";
 import { logLiveEvidence } from "@/lib/liveSessionEvents";
 import { generateHomework } from "@/lib/homeworkClient";
+import { LessonTranscriptionPanel } from "@/components/lesson/LessonTranscriptionPanel";
+import { EngagementSignalsPanel } from "@/components/lesson/EngagementSignalsPanel";
+import { LessonCopilotPanel } from "@/components/lesson/LessonCopilotPanel";
 
 type Booking = {
   id: string;
