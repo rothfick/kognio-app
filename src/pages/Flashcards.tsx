@@ -129,7 +129,6 @@ export default function Flashcards() {
         <DashboardHeader
           title={t("flashcards.title")}
           subtitle={t("flashcards.subtitle")}
-          icon={<BookOpen className="h-6 w-6 text-primary" />}
         />
 
         {studyCard ? (
@@ -197,7 +196,7 @@ export default function Flashcards() {
               </div>
             ) : filtered.length === 0 ? (
               <EmptyState
-                icon={<BookOpen className="h-6 w-6" />}
+                icon={BookOpen}
                 title={t("flashcards.empty")}
                 description={t("flashcards.noFiltered")}
               />
