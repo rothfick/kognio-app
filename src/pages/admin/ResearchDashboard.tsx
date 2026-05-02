@@ -1,9 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { AppShell } from "@/components/layout/AppShell";
-import { AdminSubNav } from "@/components/admin/AdminSubNav";
-import { DashboardHeader, DashboardShell } from "@/components/layout/DashboardShell";
+import { AdminPageShell } from "@/components/admin/AdminPageShell";
 import { RoleGate } from "@/components/auth/RoleGate";
 import { Surface } from "@/components/ui/surface";
 import { StatCard } from "@/components/ui/stat-card";
@@ -277,33 +275,31 @@ const ResearchDashboardInner = () => {
   };
 
   return (
-    <AppShell>
-      <DashboardShell>
-        <AdminSubNav />
-          <DashboardHeader
-          title={t("research.title")}
-          subtitle={t("research.subtitle")}
-          actions={
-            <div className="flex gap-2 flex-wrap">
-              <Button asChild variant="outline">
-                <a href="/admin/operations">
-                  <Activity className="h-4 w-4 mr-2" />
-                  {t("operations.title")}
-                </a>
-              </Button>
-              <Button asChild variant="outline">
-                <a href="/admin/grant-pack">
-                  <BadgeCheck className="h-4 w-4 mr-2" />
-                  {t("grantPack.title")}
-                </a>
-              </Button>
-              <Button onClick={handleExport} disabled={!data}>
-                <Download className="h-4 w-4 mr-2" />
-                {t("export.smartReport")}
-              </Button>
-            </div>
-          }
-        />
+    <AdminPageShell
+      title={t("research.title")}
+      subtitle={t("research.subtitle")}
+      wide
+      actions={
+        <>
+          <Button asChild variant="outline">
+            <a href="/admin/operations">
+              <Activity className="h-4 w-4 mr-2" />
+              {t("operations.title")}
+            </a>
+          </Button>
+          <Button asChild variant="outline">
+            <a href="/admin/grant-pack">
+              <BadgeCheck className="h-4 w-4 mr-2" />
+              {t("grantPack.title")}
+            </a>
+          </Button>
+          <Button onClick={handleExport} disabled={!data}>
+            <Download className="h-4 w-4 mr-2" />
+            {t("export.smartReport")}
+          </Button>
+        </>
+      }
+    >
 
         {loading || !data ? (
           <Surface className="p-6 text-sm text-muted-foreground">{t("common.loadingPanel")}</Surface>
@@ -553,8 +549,7 @@ const ResearchDashboardInner = () => {
             </div>
           </div>
         )}
-      </DashboardShell>
-    </AppShell>
+    </AdminPageShell>
   );
 };
 

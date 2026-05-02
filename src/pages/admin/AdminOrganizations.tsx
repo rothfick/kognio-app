@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { AppShell } from "@/components/layout/AppShell";
-import { AdminSubNav } from "@/components/admin/AdminSubNav";
-import { DashboardShell, DashboardHeader } from "@/components/layout/DashboardShell";
+import { AdminPageShell } from "@/components/admin/AdminPageShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -96,107 +94,101 @@ export default function AdminOrganizations() {
   };
 
   return (
-    <AppShell>
-      <DashboardShell>
-        <AdminSubNav />
-          <DashboardHeader
-          title={t("adminOrgs.title")}
-          subtitle={t("adminOrgs.subtitle")}
-         
-          actions={
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger asChild>
-                <Button className="gap-2"><Plus className="h-4 w-4" />{t("adminOrgs.create")}</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader><DialogTitle>{t("adminOrgs.create")}</DialogTitle></DialogHeader>
-                <div className="space-y-3">
-                  <div>
-                    <Label>{t("adminOrgs.fields.name")}</Label>
-                    <Input value={name} onChange={(e) => setName(e.target.value)} />
-                  </div>
-                  <div>
-                    <Label>{t("adminOrgs.fields.type")}</Label>
-                    <Select value={orgType} onValueChange={(v) => setOrgType(v as OrgKind)}>
-                      <SelectTrigger><SelectValue /></SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="school">{t("adminOrgs.type.school")}</SelectItem>
-                        <SelectItem value="training_company">{t("adminOrgs.type.training_company")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Label>{t("adminOrgs.fields.country")}</Label>
-                      <Input value={country} onChange={(e) => setCountry(e.target.value)} maxLength={3} />
-                    </div>
-                    <div>
-                      <Label>{t("adminOrgs.fields.slug")}</Label>
-                      <Input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="auto" />
-                    </div>
-                  </div>
-                  <div>
-                    <Label>{t("adminOrgs.fields.billingEmail")}</Label>
-                    <Input value={billing} onChange={(e) => setBilling(e.target.value)} type="email" />
-                  </div>
-                  <div>
-                    <Label>{t("adminOrgs.fields.description")}</Label>
-                    <Input value={description} onChange={(e) => setDescription(e.target.value)} />
-                  </div>
+    <AdminPageShell
+      title={t("adminOrgs.title")}
+      subtitle={t("adminOrgs.subtitle")}
+      actions={
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button className="gap-2"><Plus className="h-4 w-4" />{t("adminOrgs.create")}</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader><DialogTitle>{t("adminOrgs.create")}</DialogTitle></DialogHeader>
+            <div className="space-y-3">
+              <div>
+                <Label>{t("adminOrgs.fields.name")}</Label>
+                <Input value={name} onChange={(e) => setName(e.target.value)} />
+              </div>
+              <div>
+                <Label>{t("adminOrgs.fields.type")}</Label>
+                <Select value={orgType} onValueChange={(v) => setOrgType(v as OrgKind)}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="school">{t("adminOrgs.type.school")}</SelectItem>
+                    <SelectItem value="training_company">{t("adminOrgs.type.training_company")}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label>{t("adminOrgs.fields.country")}</Label>
+                  <Input value={country} onChange={(e) => setCountry(e.target.value)} maxLength={3} />
                 </div>
-                <DialogFooter>
-                  <Button onClick={onCreate} disabled={working}>
-                    {working && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                    {t("adminOrgs.create")}
+                <div>
+                  <Label>{t("adminOrgs.fields.slug")}</Label>
+                  <Input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="auto" />
+                </div>
+              </div>
+              <div>
+                <Label>{t("adminOrgs.fields.billingEmail")}</Label>
+                <Input value={billing} onChange={(e) => setBilling(e.target.value)} type="email" />
+              </div>
+              <div>
+                <Label>{t("adminOrgs.fields.description")}</Label>
+                <Input value={description} onChange={(e) => setDescription(e.target.value)} />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button onClick={onCreate} disabled={working}>
+                {working && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                {t("adminOrgs.create")}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      }
+    >
+      {loading ? (
+        <div className="text-sm text-muted-foreground py-8">{t("common.loadingPanel")}</div>
+      ) : rows.length === 0 ? (
+        <Card className="p-8 text-center text-muted-foreground">{t("adminOrgs.empty")}</Card>
+      ) : (
+        <div className="space-y-2">
+          {rows.map((o) => (
+            <Card key={o.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="min-w-0">
+                <div className="font-medium truncate">{o.name}</div>
+                <div className="text-xs text-muted-foreground truncate">
+                  {t(`adminOrgs.type.${o.org_type}`)} · {o.country_code || "—"} · {o.slug}
+                </div>
+              </div>
+              <div className="flex items-center gap-2 flex-shrink-0 flex-wrap">
+                <Badge variant={o.status === "active" ? "default" : o.status === "paused" ? "secondary" : "outline"}>
+                  {t(`adminOrgs.status.${o.status}`)}
+                </Badge>
+                {o.status !== "active" && (
+                  <Button size="sm" variant="ghost" onClick={() => setStatus(o.id, "active")}>
+                    <Play className="h-4 w-4" />
                   </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          }
-        />
-
-        {loading ? (
-          <div className="text-sm text-muted-foreground py-8">{t("common.loadingPanel")}</div>
-        ) : rows.length === 0 ? (
-          <Card className="p-8 text-center text-muted-foreground">{t("adminOrgs.empty")}</Card>
-        ) : (
-          <div className="space-y-2">
-            {rows.map((o) => (
-              <Card key={o.id} className="p-4 flex items-center justify-between gap-4">
-                <div className="min-w-0">
-                  <div className="font-medium truncate">{o.name}</div>
-                  <div className="text-xs text-muted-foreground truncate">
-                    {t(`adminOrgs.type.${o.org_type}`)} · {o.country_code || "—"} · {o.slug}
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <Badge variant={o.status === "active" ? "default" : o.status === "paused" ? "secondary" : "outline"}>
-                    {t(`adminOrgs.status.${o.status}`)}
-                  </Badge>
-                  {o.status !== "active" && (
-                    <Button size="sm" variant="ghost" onClick={() => setStatus(o.id, "active")}>
-                      <Play className="h-4 w-4" />
-                    </Button>
-                  )}
-                  {o.status === "active" && (
-                    <Button size="sm" variant="ghost" onClick={() => setStatus(o.id, "paused")}>
-                      <Pause className="h-4 w-4" />
-                    </Button>
-                  )}
-                  {o.status !== "archived" && (
-                    <Button size="sm" variant="ghost" onClick={() => setStatus(o.id, "archived")}>
-                      <Archive className="h-4 w-4" />
-                    </Button>
-                  )}
-                  <Button asChild size="sm" variant="outline" className="gap-1">
-                    <Link to={`/org/${o.id}`}>{t("adminOrgs.open")} <ExternalLink className="h-3 w-3" /></Link>
+                )}
+                {o.status === "active" && (
+                  <Button size="sm" variant="ghost" onClick={() => setStatus(o.id, "paused")}>
+                    <Pause className="h-4 w-4" />
                   </Button>
-                </div>
-              </Card>
-            ))}
-          </div>
-        )}
-      </DashboardShell>
-    </AppShell>
+                )}
+                {o.status !== "archived" && (
+                  <Button size="sm" variant="ghost" onClick={() => setStatus(o.id, "archived")}>
+                    <Archive className="h-4 w-4" />
+                  </Button>
+                )}
+                <Button asChild size="sm" variant="outline" className="gap-1">
+                  <Link to={`/org/${o.id}`}>{t("adminOrgs.open")} <ExternalLink className="h-3 w-3" /></Link>
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+    </AdminPageShell>
   );
 }

@@ -3162,6 +3162,17 @@
     "org_report_exported": "Informe de organización exportado",
     "homework_generated": "Tarea generada",
     "homework_submitted": "Tarea enviada",
-    "tutor_note_submitted": "Nota de tutor enviada"
+    "tutor_note_submitted": "Nota de tutor enviada",
+    "consent_accepted": "Consentimiento aceptado",
+    "notification_created": "Notificación creada",
+    "learning_plan_generated": "Plan de aprendizaje generado",
+    "learning_plan_activated": "Plan de aprendizaje activado",
+    "feedback_submitted": "Comentario enviado",
+    "diagnosis_started": "Diagnóstico iniciado",
+    "diagnosis_completed": "Diagnóstico completado",
+    "payment_proof_uploaded": "Comprobante de pago subido",
+    "payment_disputed": "Pago en disputa",
+    "lesson_started": "Lección iniciada",
+    "lesson_ended": "Lección finalizada"
   }
 }

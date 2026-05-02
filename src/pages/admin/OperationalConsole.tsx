@@ -1,10 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { AppShell } from "@/components/layout/AppShell";
-import { AdminSubNav } from "@/components/admin/AdminSubNav";
-import { DashboardHeader, DashboardShell } from "@/components/layout/DashboardShell";
-import { RoleGate } from "@/components/auth/RoleGate";
+import { AdminPageShell } from "@/components/admin/AdminPageShell";
 import { Surface } from "@/components/ui/surface";
 import { StatCard } from "@/components/ui/stat-card";
 import { Badge } from "@/components/ui/badge";
@@ -509,21 +506,17 @@ const OperationalConsole = () => {
   const fmtDate = (iso: string | null) => (iso ? new Date(iso).toLocaleString(lang) : "—");
 
   return (
-    <RoleGate allow={["admin"]} fallback="/dashboard">
-      <AppShell>
-        <DashboardShell>
-          <AdminSubNav />
-          <DashboardHeader
-            title={t("operations.title")}
-            subtitle={t("operations.subtitle")}
-            actions={
-              <Button variant="outline" size="sm" onClick={refresh} disabled={loading}>
-                <RefreshCw className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`} />
-                {t("operations.refresh")}
-              </Button>
-            }
-          />
-
+    <AdminPageShell
+      title={t("operations.title")}
+      subtitle={t("operations.subtitle")}
+      wide
+      actions={
+        <Button variant="outline" size="sm" onClick={refresh} disabled={loading}>
+          <RefreshCw className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`} />
+          {t("operations.refresh")}
+        </Button>
+      }
+    >
           {data && (
             <Surface variant="ai" className="p-5 mb-6">
               <div className="flex items-start justify-between gap-4 flex-wrap">
@@ -725,9 +718,7 @@ const OperationalConsole = () => {
           <p className="mt-6 text-[11px] text-muted-foreground text-center">
             {t("operations.piiNote")}
           </p>
-        </DashboardShell>
-      </AppShell>
-    </RoleGate>
+    </AdminPageShell>
   );
 };
 

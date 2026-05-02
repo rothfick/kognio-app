@@ -3164,6 +3164,17 @@
     "org_report_exported": "Wyeksportowano raport organizacji",
     "homework_generated": "Wygenerowano zadanie",
     "homework_submitted": "Zadanie złożone",
-    "tutor_note_submitted": "Notatka korepetytora złożona"
+    "tutor_note_submitted": "Notatka korepetytora złożona",
+    "consent_accepted": "Zgoda zaakceptowana",
+    "notification_created": "Utworzono powiadomienie",
+    "learning_plan_generated": "Wygenerowano plan nauki",
+    "learning_plan_activated": "Aktywowano plan nauki",
+    "feedback_submitted": "Przesłano opinię",
+    "diagnosis_started": "Rozpoczęto diagnozę",
+    "diagnosis_completed": "Ukończono diagnozę",
+    "payment_proof_uploaded": "Dodano potwierdzenie płatności",
+    "payment_disputed": "Płatność zakwestionowana",
+    "lesson_started": "Lekcja rozpoczęta",
+    "lesson_ended": "Lekcja zakończona"
   }
 }

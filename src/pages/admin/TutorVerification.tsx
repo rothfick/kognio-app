@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AppShell } from "@/components/layout/AppShell";
-import { AdminSubNav } from "@/components/admin/AdminSubNav";
-import { RoleGate } from "@/components/auth/RoleGate";
+import { AdminPageShell } from "@/components/admin/AdminPageShell";
 import { Surface } from "@/components/ui/surface";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { CheckCircle2, XCircle, UserCheck } from "lucide-react";
+import { CheckCircle2, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { createNotification } from "@/lib/notifications";
 
@@ -87,19 +85,10 @@ const TutorVerification = () => {
   };
 
   return (
-    <RoleGate allow={["admin"]}>
-      <AppShell>
-        <div className="container mx-auto px-4 py-10 max-w-5xl">
-          <AdminSubNav />
-          <div className="flex items-center gap-3 mb-6">
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-accent/10 text-accent">
-              <UserCheck className="h-6 w-6" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">{t("tutorVerification.title")}</h1>
-              <p className="text-sm text-muted-foreground">{t("tutorVerification.subtitle")}</p>
-            </div>
-          </div>
+    <AdminPageShell
+      title={t("tutorVerification.title")}
+      subtitle={t("tutorVerification.subtitle")}
+    >
 
           <Tabs value={tab} onValueChange={(v) => setTab(v as typeof tab)}>
             <TabsList>
@@ -159,9 +148,7 @@ const TutorVerification = () => {
               ))}
             </TabsContent>
           </Tabs>
-        </div>
-      </AppShell>
-    </RoleGate>
+    </AdminPageShell>
   );
 };
 

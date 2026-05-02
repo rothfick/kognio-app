@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AppShell } from "@/components/layout/AppShell";
-import { AdminSubNav } from "@/components/admin/AdminSubNav";
-import { DashboardHeader, DashboardShell } from "@/components/layout/DashboardShell";
+import { AdminPageShell } from "@/components/admin/AdminPageShell";
 import { RoleGate } from "@/components/auth/RoleGate";
 import { Surface } from "@/components/ui/surface";
 import { Button } from "@/components/ui/button";
@@ -540,25 +538,23 @@ const GrantPackInner = () => {
   };
 
   return (
-    <AppShell>
-      <DashboardShell>
-        <AdminSubNav />
-          <DashboardHeader
-          title={t("grantPack.title")}
-          subtitle={t("grantPack.subtitle")}
-          actions={
-            <div className="flex gap-2">
-              <Button variant="outline" onClick={exportMarkdown} disabled={loading}>
-                <FileText className="h-4 w-4 mr-2" />
-                {t("grantPack.exportMarkdown")}
-              </Button>
-              <Button onClick={exportJson} disabled={loading}>
-                <FileJson className="h-4 w-4 mr-2" />
-                {t("grantPack.exportJson")}
-              </Button>
-            </div>
-          }
-        />
+    <AdminPageShell
+      title={t("grantPack.title")}
+      subtitle={t("grantPack.subtitle")}
+      wide
+      actions={
+        <>
+          <Button variant="outline" onClick={exportMarkdown} disabled={loading}>
+            <FileText className="h-4 w-4 mr-2" />
+            {t("grantPack.exportMarkdown")}
+          </Button>
+          <Button onClick={exportJson} disabled={loading}>
+            <FileJson className="h-4 w-4 mr-2" />
+            {t("grantPack.exportJson")}
+          </Button>
+        </>
+      }
+    >
 
         {loading || !metrics ? (
           <Surface className="p-6 text-sm text-muted-foreground">{t("common.loadingPanel")}</Surface>
@@ -687,8 +683,7 @@ const GrantPackInner = () => {
             </Surface>
           </div>
         )}
-      </DashboardShell>
-    </AppShell>
+    </AdminPageShell>
   );
 };
 

@@ -3162,6 +3162,17 @@
     "org_report_exported": "Org report exported",
     "homework_generated": "Homework generated",
     "homework_submitted": "Homework submitted",
-    "tutor_note_submitted": "Tutor note submitted"
+    "tutor_note_submitted": "Tutor note submitted",
+    "consent_accepted": "Consent accepted",
+    "notification_created": "Notification created",
+    "learning_plan_generated": "Learning plan generated",
+    "learning_plan_activated": "Learning plan activated",
+    "feedback_submitted": "Feedback submitted",
+    "diagnosis_started": "Diagnosis started",
+    "diagnosis_completed": "Diagnosis completed",
+    "payment_proof_uploaded": "Payment proof uploaded",
+    "payment_disputed": "Payment disputed",
+    "lesson_started": "Lesson started",
+    "lesson_ended": "Lesson ended"
   }
 }

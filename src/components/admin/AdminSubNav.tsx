@@ -44,41 +44,41 @@ const GROUPS: Group[] = [
 
 /**
  * Compact secondary navigation rendered at the top of every admin page.
- * Groups admin modules and highlights the current section.
+ * Single-row, horizontally scrollable on small screens, with subtle
+ * dividers between groups so it never grows tall enough to push content.
  */
 export function AdminSubNav() {
   const { t } = useTranslation();
+  const allItems = GROUPS.flatMap((g, gi) =>
+    g.items.map((it, ii) => ({ ...it, groupIdx: gi, isFirstInGroup: ii === 0 })),
+  );
+
   return (
     <nav
       aria-label={t("adminNav.aria")}
-      className="mb-6 -mx-1 overflow-x-auto"
+      className="mb-4 -mx-1 overflow-x-auto scrollbar-thin"
     >
-      <div className="flex gap-4 px-1 pb-2 min-w-max">
-        {GROUPS.map((g) => (
-          <div key={g.labelKey} className="flex flex-col gap-1">
-            <p className="text-[10px] uppercase tracking-wide text-muted-foreground font-medium px-1">
-              {t(g.labelKey)}
-            </p>
-            <div className="flex gap-1">
-              {g.items.map((it) => (
-                <NavLink
-                  key={it.to}
-                  to={it.to}
-                  end
-                  className={({ isActive }) =>
-                    cn(
-                      "inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs font-medium transition-colors whitespace-nowrap",
-                      isActive
-                        ? "bg-accent/10 border-accent/40 text-accent"
-                        : "border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted/50",
-                    )
-                  }
-                >
-                  <it.icon className="h-3.5 w-3.5" />
-                  <span>{t(it.labelKey)}</span>
-                </NavLink>
-              ))}
-            </div>
+      <div className="flex items-center gap-1 px-1 pb-1 min-w-max">
+        {allItems.map((it, idx) => (
+          <div key={it.to} className="flex items-center gap-1">
+            {it.isFirstInGroup && idx !== 0 && (
+              <span aria-hidden className="mx-1 h-4 w-px bg-border/70" />
+            )}
+            <NavLink
+              to={it.to}
+              end
+              className={({ isActive }) =>
+                cn(
+                  "inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs font-medium transition-colors whitespace-nowrap",
+                  isActive
+                    ? "bg-accent/10 border-accent/40 text-accent"
+                    : "border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted/50",
+                )
+              }
+            >
+              <it.icon className="h-3.5 w-3.5" />
+              <span>{t(it.labelKey)}</span>
+            </NavLink>
           </div>
         ))}
       </div>
