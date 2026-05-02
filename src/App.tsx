@@ -51,6 +51,11 @@ import Notifications from "./pages/Notifications";
 import Homework from "./pages/Homework";
 import HomeworkDetail from "./pages/HomeworkDetail";
 import Flashcards from "./pages/Flashcards";
+import AdminOrganizations from "./pages/admin/AdminOrganizations";
+import OrgPage from "./pages/org/OrgPage";
+import OrgMembersStub from "./pages/org/OrgMembersStub";
+import OrgCohortsStub from "./pages/org/OrgCohortsStub";
+import JoinOrgRedirect from "./pages/JoinOrgRedirect";
 
 const queryClient = new QueryClient();
 
@@ -90,6 +95,11 @@ const App = () => (
             <Route path="/dashboard/school" element={<ProtectedRoute><RoleGate allow={["school"]}><SchoolDashboard /></RoleGate></ProtectedRoute>} />
             <Route path="/dashboard/company" element={<ProtectedRoute><RoleGate allow={["training_company"]}><CompanyDashboard /></RoleGate></ProtectedRoute>} />
             <Route path="/org/invite/:token" element={<ProtectedRoute><OrgInviteAccept /></ProtectedRoute>} />
+            <Route path="/join-org/:code" element={<ProtectedRoute><JoinOrgRedirect /></ProtectedRoute>} />
+            <Route path="/admin/organizations" element={<ProtectedRoute><RoleGate allow={["admin"]}><FeatureRouteGuard feature="organizations"><AdminOrganizations /></FeatureRouteGuard></RoleGate></ProtectedRoute>} />
+            <Route path="/org/:orgId" element={<ProtectedRoute><FeatureRouteGuard feature="organizations"><OrgPage /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/org/:orgId/cohorts" element={<ProtectedRoute><FeatureRouteGuard feature="organizations"><OrgCohortsStub /></FeatureRouteGuard></ProtectedRoute>} />
+            <Route path="/org/:orgId/members" element={<ProtectedRoute><FeatureRouteGuard feature="organizations"><OrgMembersStub /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/dashboard/legacy" element={<ProtectedRoute><FeatureRouteGuard feature="booking" allowAdminPreview><Dashboard /></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/discover" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><ParentRouteGuard><Discover /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
