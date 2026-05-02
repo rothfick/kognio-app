@@ -26,7 +26,13 @@ export type FeatureFlag =
   | "expertReviews"
   | "diagnosis"
   | "learningPlan"
-  | "parentChildren";
+  | "parentChildren"
+  | "lessonIntelligence"
+  | "lessonTranscription"
+  | "lessonEngagementSignals"
+  | "lessonAiCopilot"
+  | "lessonSummaries"
+  | "lessonFlashcards";
 
 export const FEATURES: Record<FeatureFlag, boolean> = {
   // Live pilot v2 — marketplace + booking + calendar enabled
