@@ -113,9 +113,21 @@ const LiveLessonRoom = () => {
   const [acting, setActing] = useState(false);
   const [elapsed, setElapsed] = useState<string>("");
 
+  // intelligence consents (booking-scoped checks)
+  const [hasTranscriptionConsent, setHasTranscriptionConsent] = useState(false);
+  const [hasEngagementConsent, setHasEngagementConsent] = useState(false);
+  const [hasCopilotConsent, setHasCopilotConsent] = useState(false);
+  const [consentDialog, setConsentDialog] = useState<ConsentType | null>(null);
+
   const isTutor = participantRole === "tutor";
   const isAdmin = participantRole === "admin";
   const canControl = isTutor || isAdmin;
+
+  const intelEnabled = isFeatureEnabled("lessonIntelligence");
+  const transcriptionEnabled = intelEnabled && isFeatureEnabled("lessonTranscription");
+  const engagementEnabled = intelEnabled && isFeatureEnabled("lessonEngagementSignals");
+  const copilotEnabled = intelEnabled && isFeatureEnabled("lessonAiCopilot");
+  const summaryEnabled = intelEnabled && isFeatureEnabled("lessonSummaries");
 
   // ------- Load booking + live session ----------
   const loadAll = useCallback(async () => {
