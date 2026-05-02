@@ -2257,6 +2257,11 @@
       "title": "Pokój lekcji gotowy",
       "body": "Możesz wejść do pokoju lekcji na żywo.",
       "action": "Otwórz lekcję"
+    },
+    "lessonSummary": {
+      "title": "Podsumowanie lekcji jest gotowe",
+      "body": "Korepetytor zatwierdził podsumowanie lekcji.",
+      "action": "Otwórz podsumowanie"
     }
   },
   "dashboardBooking": {
