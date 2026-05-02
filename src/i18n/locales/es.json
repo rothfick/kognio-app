@@ -2619,7 +2619,7 @@
     "empty": "Aún no hay resumen. Haz clic para generarlo.",
     "onlyTutorApprove": "Solo el tutor puede aprobar el resumen.",
     "pendingApprovalForStudent": "El resumen se compartirá tras la aprobación del tutor.",
-    "generationError": "No se pudo generar el resumen.",
+    "generationError": "No se pudo generar el resumen de la lección. Inténtalo de nuevo.",
     "readyToast": "Resumen de la lección listo.",
     "approvedToast": "Resumen compartido."
   },

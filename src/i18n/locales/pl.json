@@ -2619,7 +2619,7 @@
     "empty": "Brak podsumowania. Kliknij, aby wygenerować.",
     "onlyTutorApprove": "Tylko korepetytor może zatwierdzić podsumowanie.",
     "pendingApprovalForStudent": "Podsumowanie zostanie udostępnione po akceptacji korepetytora.",
-    "generationError": "Nie udało się wygenerować podsumowania.",
+    "generationError": "Nie udało się wygenerować podsumowania lekcji. Spróbuj ponownie.",
     "readyToast": "Podsumowanie lekcji gotowe.",
     "approvedToast": "Podsumowanie udostępnione."
   },
