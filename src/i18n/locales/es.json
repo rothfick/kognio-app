@@ -2780,11 +2780,132 @@
   },
   "cohort": {
     "name": "Nombre del grupo",
+    "create": "Crear cohorte",
+    "created": "Cohorte creada.",
+    "open": "Abrir",
+    "empty": "Aún no hay cohortes.",
+    "nameRequired": "El nombre de la cohorte es obligatorio.",
+    "detail": "Cohorte",
+    "backToList": "Volver a cohortes",
+    "memberCount_one": "{{count}} miembro",
+    "memberCount_other": "{{count}} miembros",
+    "recentActivity": "Actividad reciente",
+    "noActivity": "Sin actividad.",
+    "fields": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "level": "Nivel",
+      "domain": "Dominio",
+      "status": "Estado",
+      "starts_at": "Inicio",
+      "ends_at": "Fin"
+    },
     "status": {
-      "active": "Activo",
-      "paused": "Pausado",
-      "completed": "Completado",
-      "archived": "Archivado"
+      "active": "Activa",
+      "paused": "Pausada",
+      "completed": "Completada",
+      "archived": "Archivada"
+    },
+    "statusChanged": {
+      "active": "Cohorte activada.",
+      "paused": "Cohorte pausada.",
+      "completed": "Cohorte completada.",
+      "archived": "Cohorte archivada."
+    },
+    "actions": {
+      "pause": "Pausar",
+      "archive": "Archivar",
+      "reactivate": "Reactivar"
+    },
+    "stats": {
+      "learners": "Estudiantes",
+      "tutors": "Tutores",
+      "diagnostics": "Diagnósticos",
+      "plans": "Planes",
+      "checkpoints": "Puntos de control",
+      "avgDelta": "Δ media"
     }
+  },
+  "cohortMember": {
+    "add": "Añadir miembro",
+    "added": "Miembro añadido a la cohorte.",
+    "removed": "Miembro eliminado.",
+    "user": "Usuario",
+    "role": "Rol",
+    "pickUser": "Elige un usuario",
+    "noEligible": "No quedan miembros elegibles.",
+    "label": "Etiqueta",
+    "kind": "Tipo",
+    "kindUser": "Usuario",
+    "kindChild": "Hijo/a",
+    "statusCol": "Estado",
+    "joined": "Se unió",
+    "learnersTable": "Estudiantes",
+    "tutorsTable": "Tutores",
+    "noTutors": "Sin tutores asignados.",
+    "empty": "Sin estudiantes.",
+    "roles": {
+      "student": "Estudiante",
+      "tutor": "Tutor",
+      "reviewer": "Revisor",
+      "observer": "Observador"
+    }
+  },
+  "orgInvite": {
+    "title": "Invitaciones",
+    "create": "Invitar miembro",
+    "created": "Invitación creada.",
+    "revoke": "Revocar",
+    "revoked": "Invitación revocada.",
+    "removed": "Miembro eliminado.",
+    "roleUpdated": "Rol actualizado.",
+    "email": "Correo",
+    "emailRequired": "Correo válido requerido.",
+    "role": "Rol",
+    "cohortOptional": "Cohorte (opcional)",
+    "noCohort": "Sin cohorte",
+    "statusCol": "Estado",
+    "link": "Enlace",
+    "copied": "Enlace copiado.",
+    "empty": "Sin invitaciones.",
+    "noMembers": "Sin miembros.",
+    "acceptCta": "Aceptar invitación"
+  },
+  "orgProgress": {
+    "title": "Progreso de la organización",
+    "summary": {
+      "members": "Miembros",
+      "learners": "Estudiantes",
+      "cohorts": "Cohortes",
+      "diagnostics": "Diagnósticos",
+      "plans": "Planes",
+      "checkpoints": "Puntos de control",
+      "avgDiagnostic": "Diagnóstico medio",
+      "avgDelta": "Δ media"
+    },
+    "cohortComparison": "Comparación de cohortes",
+    "attentionTitle": "Requiere atención",
+    "noAttention": "Nada requiere atención ahora mismo.",
+    "attention": {
+      "noDiag": "{{cohort}} — aún sin diagnósticos.",
+      "noPlan": "{{cohort}} — diagnósticos hechos, sin plan de aprendizaje.",
+      "noCheckpoint": "{{cohort}} — existe plan, sin punto de control."
+    },
+    "privacyNote": "Solo métricas agregadas. No se muestran datos personales."
+  },
+  "orgReports": {
+    "title": "Informes de la organización",
+    "exportJson": "Exportar JSON",
+    "exportMd": "Exportar Markdown",
+    "exported": "Informe exportado.",
+    "failed": "No se pudo generar el informe.",
+    "json": { "title": "Informe de progreso (JSON)", "body": "Informe agregado legible por máquina. Sin datos personales." },
+    "md": { "title": "Informe de progreso (Markdown)", "body": "Resumen legible. Sin datos personales." },
+    "privacyNote": "Los informes contienen únicamente métricas agregadas anonimizadas — sin correos, nombres ni transcripciones."
+  },
+  "orgNotifications": {
+    "inviteCreated": { "title": "Invitación a organización", "body": "Te invitaron a {{org}}." },
+    "cohortAssigned": { "title": "Asignación de cohorte", "body": "Te añadieron a la cohorte {{cohort}}." },
+    "roleChanged": { "title": "Rol actualizado", "body": "Tu rol en {{org}} ahora es {{role}}." }
   }
 }

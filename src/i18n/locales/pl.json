@@ -2780,11 +2780,134 @@
   },
   "cohort": {
     "name": "Nazwa grupy",
+    "create": "Utwórz kohortę",
+    "created": "Kohorta utworzona.",
+    "open": "Otwórz",
+    "empty": "Nie ma jeszcze żadnych kohort.",
+    "nameRequired": "Nazwa kohorty jest wymagana.",
+    "detail": "Kohorta",
+    "backToList": "Wróć do kohort",
+    "memberCount_one": "{{count}} osoba",
+    "memberCount_few": "{{count}} osoby",
+    "memberCount_many": "{{count}} osób",
+    "memberCount_other": "{{count}} osób",
+    "recentActivity": "Ostatnia aktywność",
+    "noActivity": "Brak aktywności.",
+    "fields": {
+      "name": "Nazwa",
+      "description": "Opis",
+      "level": "Poziom",
+      "domain": "Dziedzina",
+      "status": "Status",
+      "starts_at": "Start",
+      "ends_at": "Koniec"
+    },
     "status": {
       "active": "Aktywna",
       "paused": "Wstrzymana",
       "completed": "Zakończona",
       "archived": "Zarchiwizowana"
+    },
+    "statusChanged": {
+      "active": "Kohorta aktywna.",
+      "paused": "Kohorta wstrzymana.",
+      "completed": "Kohorta zakończona.",
+      "archived": "Kohorta zarchiwizowana."
+    },
+    "actions": {
+      "pause": "Wstrzymaj",
+      "archive": "Archiwizuj",
+      "reactivate": "Aktywuj"
+    },
+    "stats": {
+      "learners": "Uczestnicy",
+      "tutors": "Korepetytorzy",
+      "diagnostics": "Diagnozy",
+      "plans": "Plany",
+      "checkpoints": "Punkty kontrolne",
+      "avgDelta": "Śr. Δ wyniku"
     }
+  },
+  "cohortMember": {
+    "add": "Dodaj członka",
+    "added": "Dodano do kohorty.",
+    "removed": "Usunięto z kohorty.",
+    "user": "Użytkownik",
+    "role": "Rola",
+    "pickUser": "Wybierz użytkownika",
+    "noEligible": "Brak dostępnych członków organizacji.",
+    "label": "Etykieta",
+    "kind": "Typ",
+    "kindUser": "Użytkownik",
+    "kindChild": "Dziecko",
+    "statusCol": "Status",
+    "joined": "Dołączył",
+    "learnersTable": "Uczestnicy",
+    "tutorsTable": "Korepetytorzy",
+    "noTutors": "Brak korepetytorów.",
+    "empty": "Brak uczestników.",
+    "roles": {
+      "student": "Uczeń",
+      "tutor": "Korepetytor",
+      "reviewer": "Recenzent",
+      "observer": "Obserwator"
+    }
+  },
+  "orgInvite": {
+    "title": "Zaproszenia",
+    "create": "Zaproś członka",
+    "created": "Zaproszenie utworzone.",
+    "revoke": "Odwołaj",
+    "revoked": "Zaproszenie odwołane.",
+    "removed": "Członek usunięty.",
+    "roleUpdated": "Rola zaktualizowana.",
+    "email": "E-mail",
+    "emailRequired": "Wymagany prawidłowy e-mail.",
+    "role": "Rola",
+    "cohortOptional": "Kohorta (opcjonalnie)",
+    "noCohort": "Bez kohorty",
+    "statusCol": "Status",
+    "link": "Link",
+    "copied": "Link skopiowany.",
+    "empty": "Brak zaproszeń.",
+    "noMembers": "Brak członków.",
+    "acceptCta": "Zaakceptuj zaproszenie"
+  },
+  "orgProgress": {
+    "title": "Postępy organizacji",
+    "summary": {
+      "members": "Członkowie",
+      "learners": "Uczestnicy",
+      "cohorts": "Kohorty",
+      "diagnostics": "Diagnozy",
+      "plans": "Plany",
+      "checkpoints": "Punkty kontrolne",
+      "avgDiagnostic": "Śr. wynik diagnozy",
+      "avgDelta": "Śr. Δ wyniku"
+    },
+    "cohortComparison": "Porównanie kohort",
+    "attentionTitle": "Wymaga uwagi",
+    "noAttention": "Nic nie wymaga teraz uwagi.",
+    "attention": {
+      "noDiag": "{{cohort}} — brak diagnoz.",
+      "noPlan": "{{cohort}} — diagnozy zrobione, brak planu nauki.",
+      "noCheckpoint": "{{cohort}} — plan istnieje, brak punktu kontrolnego."
+    },
+    "privacyNote": "Tylko zagregowane metryki. Brak danych osobowych."
+  },
+  "orgReports": {
+    "title": "Raporty organizacji",
+    "exportJson": "Eksport JSON",
+    "exportMd": "Eksport Markdown",
+    "exported": "Raport wyeksportowany.",
+    "failed": "Nie udało się utworzyć raportu.",
+    "json": { "title": "Raport postępów (JSON)", "body": "Raport zagregowany do odczytu maszynowego. Brak danych osobowych." },
+    "md": { "title": "Raport postępów (Markdown)", "body": "Czytelne podsumowanie. Brak danych osobowych." },
+    "privacyNote": "Raporty zawierają wyłącznie zanonimizowane, zagregowane metryki — bez e-maili, nazwisk i transkrypcji."
+  },
+  "orgNotifications": {
+    "inviteCreated": { "title": "Zaproszenie do organizacji", "body": "Zostałeś/aś zaproszony/a do {{org}}." },
+    "cohortAssigned": { "title": "Przypisanie do kohorty", "body": "Dodano Cię do kohorty {{cohort}}." },
+    "roleChanged": { "title": "Zmiana roli", "body": "Twoja rola w {{org}} to teraz {{role}}." }
   }
 }
