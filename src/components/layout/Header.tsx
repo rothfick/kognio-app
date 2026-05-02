@@ -9,10 +9,11 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   GraduationCap, Globe, LogOut, User as UserIcon,
-  Settings, LayoutDashboard,
+  Settings, LayoutDashboard, UserCog,
 } from "lucide-react";
 import { getVisibleNavItems } from "@/config/navigation";
 import { isFeatureEnabled } from "@/config/features";
+import { useActiveRole } from "@/contexts/ActiveRoleContext";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
   DropdownMenuSeparator, DropdownMenuTrigger,
@@ -22,11 +23,11 @@ import { NotificationCenter } from "@/components/notifications/NotificationCente
 export function Header() {
   const { t, i18n } = useTranslation();
   const { user, signOut } = useAuth();
-  const { isTutor, isParent, isAdmin, roles } = useUserRoles();
-  // Parent mode: jeśli użytkownik ma rolę rodzica i nie jest tutorem/adminem,
-  // wymuszamy widok rodzica (nawet jeśli ma też rolę student).
-  const parentMode = isParent && !isTutor && !isAdmin;
-  const effectiveRoles = parentMode ? roles.filter((r) => r !== "student") : roles;
+  const { isTutor } = useUserRoles();
+  const { available: availableRoles, active: activeRole, setActive, hasMultiple } = useActiveRole();
+  // Active role drives nav: when user has multiple roles, only the selected
+  // role's items are shown. This prevents student from seeing tutor controls.
+  const effectiveRoles = activeRole ? [activeRole] : [];
   const navigate = useNavigate();
   const [pendingCount, setPendingCount] = useState(0);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -107,6 +108,26 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           {user && <NotificationCenter />}
+          {user && hasMultiple && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-1.5 px-2" aria-label={t("roleSwitcher.label")}>
+                  <UserCog className="h-4 w-4" />
+                  <span className="hidden sm:inline text-xs">{t(`roleSwitcher.role.${activeRole}`, { defaultValue: activeRole ?? "" })}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-44">
+                <DropdownMenuLabel>{t("roleSwitcher.label")}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {availableRoles.map((r) => (
+                  <DropdownMenuItem key={r} onClick={() => { setActive(r); navigate("/dashboard"); }}>
+                    {t(`roleSwitcher.role.${r}`, { defaultValue: r })}
+                    {r === activeRole && <span className="ml-auto text-[10px] text-muted-foreground">●</span>}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" aria-label={t("common.language")}> 

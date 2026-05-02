@@ -2534,7 +2534,8 @@
     "consentDeclinedNotice": "Función no disponible — sin consentimiento.",
     "consentBanner": "Acepta el consentimiento para activar esta función.",
     "reviewByTutor": "Requiere aprobación del tutor",
-    "disclaimerNotDiagnosis": "Los resultados de IA son orientativos y no son un diagnóstico."
+    "disclaimerNotDiagnosis": "Los resultados de IA son orientativos y no son un diagnóstico.",
+    "tutorWaitingForLearnerConsent": "Las funciones de análisis están desactivadas: el estudiante o tutor legal aún no ha dado su consentimiento."
   },
   "transcription": {
     "title": "Transcripción de la lección",
@@ -2674,5 +2675,32 @@
     "fri": "Viernes",
     "sat": "Sábado",
     "sun": "Domingo"
+  },
+  "roleSwitcher": {
+    "label": "Rol activo",
+    "role": {
+      "student": "Aprendiendo",
+      "tutor": "Enseñando",
+      "parent": "Familia",
+      "admin": "Admin",
+      "school": "Escuela",
+      "training_company": "Empresa"
+    }
+  },
+  "studentAi": {
+    "tab": "Asistente",
+    "disclaimer": "Tu ayudante privado de estudio. No sustituye al tutor.",
+    "empty": "Haz una pregunta para empezar.",
+    "placeholder": "¿Qué quieres preguntar?",
+    "suggestedPrompts": "Preguntas rápidas",
+    "promptExplain": "Explícalo más simple",
+    "promptExample": "Dame un ejemplo simple",
+    "promptCheckMe": "Comprueba si lo entiendo",
+    "promptSummary": "Resumen breve",
+    "studentOnly": "Visible solo para el estudiante.",
+    "error": "No se pudo obtener respuesta.",
+    "rateLimited": "Límite alcanzado, inténtalo de nuevo.",
+    "noCredits": "Sin créditos de IA.",
+    "forbidden": "El asistente del estudiante no está disponible para el tutor."
   }
 }

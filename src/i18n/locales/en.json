@@ -2534,7 +2534,8 @@
     "consentDeclinedNotice": "Feature unavailable — no consent.",
     "consentBanner": "Accept consent to enable this feature.",
     "reviewByTutor": "Requires tutor approval",
-    "disclaimerNotDiagnosis": "AI outputs are assistive and are not a diagnosis."
+    "disclaimerNotDiagnosis": "AI outputs are assistive and are not a diagnosis.",
+    "tutorWaitingForLearnerConsent": "Lesson intelligence is disabled — the student or guardian has not granted consent yet."
   },
   "transcription": {
     "title": "Lesson transcription",
@@ -2674,5 +2675,32 @@
     "fri": "Friday",
     "sat": "Saturday",
     "sun": "Sunday"
+  },
+  "roleSwitcher": {
+    "label": "Active role",
+    "role": {
+      "student": "Learning",
+      "tutor": "Teaching",
+      "parent": "Parent",
+      "admin": "Admin",
+      "school": "School",
+      "training_company": "Company"
+    }
+  },
+  "studentAi": {
+    "tab": "Assistant",
+    "disclaimer": "Your private learning helper. Does not replace the tutor.",
+    "empty": "Ask a question to get started.",
+    "placeholder": "What do you want to ask?",
+    "suggestedPrompts": "Quick prompts",
+    "promptExplain": "Explain more simply",
+    "promptExample": "Give a simple example",
+    "promptCheckMe": "Check if I understand",
+    "promptSummary": "Quick summary",
+    "studentOnly": "Visible to the student only.",
+    "error": "Could not get an answer.",
+    "rateLimited": "Rate limit — try again shortly.",
+    "noCredits": "No AI credits.",
+    "forbidden": "Student assistant is not available to the tutor."
   }
 }

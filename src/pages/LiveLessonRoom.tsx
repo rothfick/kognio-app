@@ -26,6 +26,7 @@ import { LessonTranscriptionPanel } from "@/components/lesson/LessonTranscriptio
 import { EngagementSignalsPanel } from "@/components/lesson/EngagementSignalsPanel";
 import { LessonCopilotPanel } from "@/components/lesson/LessonCopilotPanel";
 import { LessonSummaryPanel } from "@/components/lesson/LessonSummaryPanel";
+import { StudentAssistantPanel } from "@/components/lesson/StudentAssistantPanel";
 import { ResearchConsentDialog, type ConsentType } from "@/components/pilot/ResearchConsentDialog";
 import { isFeatureEnabled } from "@/config/features";
 
@@ -121,7 +122,11 @@ const LiveLessonRoom = () => {
 
   const isTutor = participantRole === "tutor";
   const isAdmin = participantRole === "admin";
+  const isStudent = participantRole === "student";
+  const isParent = participantRole === "parent";
   const canControl = isTutor || isAdmin;
+  // Only the learner or their guardian may grant consent for learner data.
+  const canGrantConsent = isStudent || isParent;
 
   const intelEnabled = isFeatureEnabled("lessonIntelligence");
   const transcriptionEnabled = intelEnabled && isFeatureEnabled("lessonTranscription");
@@ -627,7 +632,7 @@ const LiveLessonRoom = () => {
           {/* side panel */}
           <Card className="p-3">
             <Tabs defaultValue="context">
-              <TabsList className={`grid w-full ${isTutor ? "grid-cols-8" : "grid-cols-6"}`}>
+              <TabsList className="flex w-full flex-wrap gap-1 h-auto">
                 <TabsTrigger value="context" title={t("liveLesson.tabContext")}><BookOpen className="h-4 w-4" /></TabsTrigger>
                 <TabsTrigger value="chat" title={t("liveLesson.tabChat")}><MessageSquare className="h-4 w-4" /></TabsTrigger>
                 <TabsTrigger value="notes" title={t("liveLesson.tabNotes")}><FileText className="h-4 w-4" /></TabsTrigger>
@@ -635,6 +640,7 @@ const LiveLessonRoom = () => {
                 {transcriptionEnabled && <TabsTrigger value="transcription" title={t("lessonIntel.tabsTranscription")}><Mic className="h-4 w-4" /></TabsTrigger>}
                 {isTutor && engagementEnabled && <TabsTrigger value="engagement" title={t("lessonIntel.tabsEngagement")}><Activity className="h-4 w-4" /></TabsTrigger>}
                 {isTutor && copilotEnabled && <TabsTrigger value="copilot" title={t("lessonIntel.tabsCopilot")}><Bot className="h-4 w-4" /></TabsTrigger>}
+                {(isStudent || isParent) && <TabsTrigger value="studentAi" title={t("studentAi.tab")}><Sparkles className="h-4 w-4" /></TabsTrigger>}
                 {summaryEnabled && <TabsTrigger value="summary" title={t("lessonIntel.tabsSummary")}><ScrollText className="h-4 w-4" /></TabsTrigger>}
               </TabsList>
 
@@ -729,8 +735,10 @@ const LiveLessonRoom = () => {
                       hasStudentConsent={hasTranscriptionConsent}
                       isTutor={isTutor}
                     />
-                  ) : (
+                  ) : canGrantConsent ? (
                     <ConsentGate label={t("lessonIntel.consentBanner")} onClick={() => setConsentDialog("lesson_transcription_notice")} />
+                  ) : (
+                    <LockedNotice label={t("lessonIntel.tutorWaitingForLearnerConsent")} />
                   )}
                 </TabsContent>
               )}
@@ -746,7 +754,7 @@ const LiveLessonRoom = () => {
                       targetUserId={booking.student_id}
                     />
                   ) : (
-                    <ConsentGate label={t("lessonIntel.consentBanner")} onClick={() => setConsentDialog("lesson_engagement_analysis_notice")} />
+                    <LockedNotice label={t("lessonIntel.tutorWaitingForLearnerConsent")} />
                   )}
                 </TabsContent>
               )}
@@ -757,8 +765,15 @@ const LiveLessonRoom = () => {
                   {hasCopilotConsent ? (
                     <LessonCopilotPanel bookingId={booking.id} />
                   ) : (
-                    <ConsentGate label={t("lessonIntel.consentBanner")} onClick={() => setConsentDialog("ai_copilot_notice")} />
+                    <LockedNotice label={t("lessonIntel.tutorWaitingForLearnerConsent")} />
                   )}
+                </TabsContent>
+              )}
+
+              {/* Student AI assistant (student/parent only) */}
+              {(isStudent || isParent) && (
+                <TabsContent value="studentAi" className="mt-3 space-y-2">
+                  <StudentAssistantPanel bookingId={booking.id} />
                 </TabsContent>
               )}
 
@@ -781,7 +796,7 @@ const LiveLessonRoom = () => {
         </div>
       </div>
 
-      {consentDialog && (
+      {consentDialog && canGrantConsent && (
         <ResearchConsentDialog
           open={!!consentDialog}
           onOpenChange={(o) => !o && setConsentDialog(null)}
@@ -794,6 +809,15 @@ const LiveLessonRoom = () => {
     </AppShell>
   );
 };
+
+function LockedNotice({ label }: { label: string }) {
+  return (
+    <div className="rounded-md border border-dashed p-4 text-sm text-center text-muted-foreground flex items-center justify-center gap-2">
+      <AlertTriangle className="h-4 w-4 text-amber-500" />
+      <span>{label}</span>
+    </div>
+  );
+}
 
 function ConsentGate({ label, onClick }: { label: string; onClick: () => void }) {
   return (
