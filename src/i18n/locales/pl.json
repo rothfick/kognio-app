@@ -1470,6 +1470,21 @@
         "title": "Polityka prywatności (wersja robocza)",
         "body": "Akceptuję wersję roboczą Polityki prywatności Kogni.",
         "details": "Wersja robocza opisuje zbierane dane, cele i sposób wycofania zgody. Finalna wersja zostanie zweryfikowana przez prawnika."
+      },
+      "lesson_transcription_notice": {
+        "title": "Transkrypcja lekcji — informacja",
+        "body": "Wyrażam zgodę na transkrypcję lekcji na żywo, aby korepetytor i Kogni AI mogli tworzyć notatki, podsumowania i rekomendacje nauki.",
+        "details": "Co przechowujemy: tekst wypowiedzi, znaczniki czasu, język.\nKto ma dostęp: korepetytor lekcji, Ty, oraz administratorzy w celach wsparcia.\nWykorzystanie: notatki z lekcji, podsumowania AI, rekomendacje nauki.\nMożesz wycofać zgodę w każdej chwili — wcześniejsze transkrypcje można usunąć na żądanie."
+      },
+      "lesson_engagement_analysis_notice": {
+        "title": "Sygnały zaangażowania — informacja",
+        "body": "Wyrażam zgodę na zapisywanie przybliżonych sygnałów zaangażowania (skupienie, zagubienie, satysfakcja) podczas lekcji. Sygnały widzi tylko korepetytor i nie są diagnozą psychologiczną ani medyczną.",
+        "details": "Co przechowujemy: typ sygnału, znacznik czasu, opcjonalny poziom pewności.\nKto ma dostęp: korepetytor i administratorzy.\nWykorzystanie: pomoc korepetytorowi w dostosowaniu lekcji.\nTo nie diagnoza. Możesz wycofać zgodę w każdej chwili."
+      },
+      "ai_copilot_notice": {
+        "title": "Drugi pilot AI — informacja",
+        "body": "Wyrażam zgodę, aby korepetytor korzystał z drugiego pilota AI podczas lekcji. Otrzymuje on kontekst lekcji (transkrypcja, notatki), aby proponować pytania, ćwiczenia i wyjaśnienia.",
+        "details": "Co wysyłamy do AI: transkrypcja lekcji i notatki korepetytora (bez danych kontaktowych).\nKto widzi odpowiedzi: korepetytor.\nWykorzystanie: wsparcie korepetytora — ostateczne decyzje dydaktyczne należą do niego.\nMożesz wycofać zgodę w każdej chwili."
       }
     }
   },
