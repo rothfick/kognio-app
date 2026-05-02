@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AppShell } from "@/components/layout/AppShell";
-import { AdminSubNav } from "@/components/admin/AdminSubNav";
-import { DashboardHeader, DashboardShell } from "@/components/layout/DashboardShell";
+import { AdminPageShell } from "@/components/admin/AdminPageShell";
 import { Surface } from "@/components/ui/surface";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, AlertTriangle, Info, Loader2 } from "lucide-react";
@@ -121,32 +119,28 @@ const LaunchChecklist = () => {
   };
 
   return (
-    <AppShell>
-      <DashboardShell>
-        <AdminSubNav />
-          <DashboardHeader
-          title={t("launchChecklist.title")}
-          subtitle={t("launchChecklist.subtitle")}
-        />
-        <Surface className="p-6">
-          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-2">
-            {t("launchChecklist.sections.qa")}
-          </h2>
-          <div>
-            {STATIC_ITEMS.map((id) => renderRow(id, "manual"))}
-          </div>
-          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mt-6 mb-2">
-            {t("launchChecklist.sections.runtime")}
-          </h2>
-          <div>
-            {DYNAMIC_ITEMS.map((id) => {
-              const item = dynamic[id];
-              return renderRow(id, item?.status ?? "loading", item?.detail);
-            })}
-          </div>
-        </Surface>
-      </DashboardShell>
-    </AppShell>
+    <AdminPageShell
+      title={t("launchChecklist.title")}
+      subtitle={t("launchChecklist.subtitle")}
+    >
+      <Surface className="p-6">
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-2">
+          {t("launchChecklist.sections.qa")}
+        </h2>
+        <div>
+          {STATIC_ITEMS.map((id) => renderRow(id, "manual"))}
+        </div>
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mt-6 mb-2">
+          {t("launchChecklist.sections.runtime")}
+        </h2>
+        <div>
+          {DYNAMIC_ITEMS.map((id) => {
+            const item = dynamic[id];
+            return renderRow(id, item?.status ?? "loading", item?.detail);
+          })}
+        </div>
+      </Surface>
+    </AdminPageShell>
   );
 };
 
