@@ -1523,35 +1523,92 @@ export type Database = {
       flashcards: {
         Row: {
           back: string
+          booking_id: string | null
+          child_id: string | null
+          competency_id: string | null
           created_at: string
           due_at: string | null
           ease: number | null
+          explanation: string | null
           front: string
           id: string
+          interval_days: number
+          owner_type: string
+          repetitions: number
           session_id: string | null
-          user_id: string
+          skill_area_label: string | null
+          source_id: string | null
+          source_type: string
+          status: string
+          updated_at: string
+          user_id: string | null
         }
         Insert: {
           back: string
+          booking_id?: string | null
+          child_id?: string | null
+          competency_id?: string | null
           created_at?: string
           due_at?: string | null
           ease?: number | null
+          explanation?: string | null
           front: string
           id?: string
+          interval_days?: number
+          owner_type?: string
+          repetitions?: number
           session_id?: string | null
-          user_id: string
+          skill_area_label?: string | null
+          source_id?: string | null
+          source_type?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
         }
         Update: {
           back?: string
+          booking_id?: string | null
+          child_id?: string | null
+          competency_id?: string | null
           created_at?: string
           due_at?: string | null
           ease?: number | null
+          explanation?: string | null
           front?: string
           id?: string
+          interval_days?: number
+          owner_type?: string
+          repetitions?: number
           session_id?: string | null
-          user_id?: string
+          skill_area_label?: string | null
+          source_id?: string | null
+          source_type?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "flashcards_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "flashcards_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "flashcards_competency_id_fkey"
+            columns: ["competency_id"]
+            isOneToOne: false
+            referencedRelation: "competencies"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "flashcards_session_id_fkey"
             columns: ["session_id"]
@@ -2187,6 +2244,281 @@ export type Database = {
           {
             foreignKeyName: "learning_plans_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lesson_ai_copilot_messages: {
+        Row: {
+          booking_id: string
+          content: string
+          created_at: string
+          evidence_refs: Json
+          id: string
+          live_session_id: string | null
+          model: string | null
+          prompt_version: string
+          role: string
+          user_id: string | null
+        }
+        Insert: {
+          booking_id: string
+          content: string
+          created_at?: string
+          evidence_refs?: Json
+          id?: string
+          live_session_id?: string | null
+          model?: string | null
+          prompt_version?: string
+          role: string
+          user_id?: string | null
+        }
+        Update: {
+          booking_id?: string
+          content?: string
+          created_at?: string
+          evidence_refs?: Json
+          id?: string
+          live_session_id?: string | null
+          model?: string | null
+          prompt_version?: string
+          role?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_ai_copilot_messages_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_ai_copilot_messages_live_session_id_fkey"
+            columns: ["live_session_id"]
+            isOneToOne: false
+            referencedRelation: "live_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_ai_copilot_messages_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lesson_engagement_signals: {
+        Row: {
+          booking_id: string
+          confidence: number | null
+          created_at: string
+          id: string
+          label: string | null
+          live_session_id: string | null
+          observed_by_user_id: string | null
+          payload: Json
+          signal_type: string
+          source: string
+          target_user_id: string | null
+          value: number | null
+        }
+        Insert: {
+          booking_id: string
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          label?: string | null
+          live_session_id?: string | null
+          observed_by_user_id?: string | null
+          payload?: Json
+          signal_type: string
+          source?: string
+          target_user_id?: string | null
+          value?: number | null
+        }
+        Update: {
+          booking_id?: string
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          label?: string | null
+          live_session_id?: string | null
+          observed_by_user_id?: string | null
+          payload?: Json
+          signal_type?: string
+          source?: string
+          target_user_id?: string | null
+          value?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_engagement_signals_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_engagement_signals_live_session_id_fkey"
+            columns: ["live_session_id"]
+            isOneToOne: false
+            referencedRelation: "live_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_engagement_signals_observed_by_user_id_fkey"
+            columns: ["observed_by_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_engagement_signals_target_user_id_fkey"
+            columns: ["target_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lesson_summaries: {
+        Row: {
+          approved_at: string | null
+          approved_by_tutor: string | null
+          audience: string
+          booking_id: string
+          created_at: string
+          generated_by: string
+          id: string
+          live_session_id: string | null
+          markdown: string | null
+          model: string | null
+          prompt_version: string
+          status: string
+          summary: Json
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by_tutor?: string | null
+          audience: string
+          booking_id: string
+          created_at?: string
+          generated_by?: string
+          id?: string
+          live_session_id?: string | null
+          markdown?: string | null
+          model?: string | null
+          prompt_version?: string
+          status?: string
+          summary?: Json
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by_tutor?: string | null
+          audience?: string
+          booking_id?: string
+          created_at?: string
+          generated_by?: string
+          id?: string
+          live_session_id?: string | null
+          markdown?: string | null
+          model?: string | null
+          prompt_version?: string
+          status?: string
+          summary?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_summaries_approved_by_tutor_fkey"
+            columns: ["approved_by_tutor"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_summaries_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_summaries_live_session_id_fkey"
+            columns: ["live_session_id"]
+            isOneToOne: false
+            referencedRelation: "live_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lesson_transcripts: {
+        Row: {
+          booking_id: string
+          confidence: number | null
+          created_at: string
+          end_ms: number | null
+          id: string
+          language: string
+          live_session_id: string | null
+          source: string
+          speaker_role: string
+          speaker_user_id: string | null
+          start_ms: number | null
+          text: string
+        }
+        Insert: {
+          booking_id: string
+          confidence?: number | null
+          created_at?: string
+          end_ms?: number | null
+          id?: string
+          language?: string
+          live_session_id?: string | null
+          source?: string
+          speaker_role?: string
+          speaker_user_id?: string | null
+          start_ms?: number | null
+          text: string
+        }
+        Update: {
+          booking_id?: string
+          confidence?: number | null
+          created_at?: string
+          end_ms?: number | null
+          id?: string
+          language?: string
+          live_session_id?: string | null
+          source?: string
+          speaker_role?: string
+          speaker_user_id?: string | null
+          start_ms?: number | null
+          text?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_transcripts_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_transcripts_live_session_id_fkey"
+            columns: ["live_session_id"]
+            isOneToOne: false
+            referencedRelation: "live_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_transcripts_speaker_user_id_fkey"
+            columns: ["speaker_user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -3913,6 +4245,10 @@ export type Database = {
         Args: { payload: Json; queue_name: string }
         Returns: number
       }
+      has_lesson_consent: {
+        Args: { _booking: string; _consent_type: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -3958,6 +4294,10 @@ export type Database = {
       }
       is_session_participant: {
         Args: { _session: string; _user: string }
+        Returns: boolean
+      }
+      is_tutor_of_booking: {
+        Args: { _booking: string; _user: string }
         Returns: boolean
       }
       move_to_dlq: {
