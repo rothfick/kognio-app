@@ -3183,7 +3183,6 @@
       "title": "QA seeder — non-production use only",
       "body": "This tool creates test data for manual product QA. Do not use it in production with real users.",
       "prodDetected": "Production domain detected",
-      "nonPro d": "Non-production environment",
       "nonProd": "Non-production environment"
     },
     "actions": {
