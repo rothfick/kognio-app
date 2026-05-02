@@ -92,12 +92,12 @@ const AdminDashboard = () => {
   const launchReadiness: Health = c.approvedTutors > 0 && c.competencies > 0 ? "ok" : "warn";
 
   type Attn = { key: string; count: number; href: string; icon: LucideIcon; tone: "warn" | "info" };
-  const attention: Attn[] = [
-    { key: "pendingTutors", count: c.pendingTutors, href: "/admin/tutors", icon: ShieldCheck, tone: c.pendingTutors > 0 ? "warn" : "info" },
-    { key: "pendingPayments", count: c.pendingPayments, href: "/admin/marketplace", icon: AlertTriangle, tone: c.pendingPayments > 0 ? "warn" : "info" },
-    { key: "disputedPayments", count: c.disputedPayments, href: "/admin/marketplace", icon: AlertTriangle, tone: c.disputedPayments > 0 ? "warn" : "info" },
-    { key: "pendingReviews", count: c.pendingReviews, href: "/admin/expert-reviews", icon: BadgeCheck, tone: c.pendingReviews > 0 ? "warn" : "info" },
-  ].filter((a) => a.count > 0).slice(0, 6);
+  const attention: Attn[] = ([
+    { key: "pendingTutors", count: c.pendingTutors, href: "/admin/tutors", icon: ShieldCheck, tone: "warn" },
+    { key: "pendingPayments", count: c.pendingPayments, href: "/admin/marketplace", icon: AlertTriangle, tone: "warn" },
+    { key: "disputedPayments", count: c.disputedPayments, href: "/admin/marketplace", icon: AlertTriangle, tone: "warn" },
+    { key: "pendingReviews", count: c.pendingReviews, href: "/admin/expert-reviews", icon: BadgeCheck, tone: "warn" },
+  ] as Attn[]).filter((a) => a.count > 0).slice(0, 6);
 
   type ModuleCard = { key: string; href: string; icon: LucideIcon; stats: Array<{ label: string; value: string | number }> };
   const modules: ModuleCard[] = [
