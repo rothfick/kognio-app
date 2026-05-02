@@ -2649,5 +2649,30 @@
     "viewPlan": "Ver plan",
     "planUpdatedToast": "Plan de aprendizaje actualizado.",
     "planUpdateError": "No se pudo actualizar el plan."
+  },
+  "availability": {
+    "title": "Tu disponibilidad",
+    "subtitle": "Define las ventanas semanales recurrentes en las que los alumnos pueden reservar clases.",
+    "addNew": "Añadir ventana de disponibilidad",
+    "weekday": "Día de la semana",
+    "startTime": "Desde",
+    "endTime": "Hasta",
+    "add": "Añadir",
+    "yourSlots": "Tus ventanas",
+    "empty": "Aún no tienes ventanas de disponibilidad. Añade la primera arriba.",
+    "delete": "Eliminar",
+    "added": "Ventana añadida.",
+    "hint": "Cada ventana se dividirá en franjas reservables de 60 minutos.",
+    "invalidRange": "La hora de inicio debe ser anterior a la de fin.",
+    "saveError": "No se pudo guardar la ventana.",
+    "deleteError": "No se pudo eliminar la ventana.",
+    "loadError": "No se pudo cargar la disponibilidad.",
+    "mon": "Lunes",
+    "tue": "Martes",
+    "wed": "Miércoles",
+    "thu": "Jueves",
+    "fri": "Viernes",
+    "sat": "Sábado",
+    "sun": "Domingo"
   }
 }

@@ -2649,5 +2649,30 @@
     "viewPlan": "Zobacz plan",
     "planUpdatedToast": "Plan nauki zaktualizowany.",
     "planUpdateError": "Nie udało się zaktualizować planu."
+  },
+  "availability": {
+    "title": "Twoja dostępność",
+    "subtitle": "Ustaw cykliczne okna czasowe, w których uczniowie mogą rezerwować lekcje. Sloty są tygodniowe i automatycznie powtarzane.",
+    "addNew": "Dodaj okno dostępności",
+    "weekday": "Dzień tygodnia",
+    "startTime": "Od",
+    "endTime": "Do",
+    "add": "Dodaj",
+    "yourSlots": "Twoje okna",
+    "empty": "Nie masz jeszcze żadnych okien dostępności. Dodaj pierwsze powyżej.",
+    "delete": "Usuń",
+    "added": "Dodano okno dostępności.",
+    "hint": "Każde okno zostanie podzielone na 60-minutowe sloty rezerwacyjne.",
+    "invalidRange": "Godzina rozpoczęcia musi być wcześniejsza niż zakończenia.",
+    "saveError": "Nie udało się zapisać okna.",
+    "deleteError": "Nie udało się usunąć okna.",
+    "loadError": "Nie udało się wczytać dostępności.",
+    "mon": "Poniedziałek",
+    "tue": "Wtorek",
+    "wed": "Środa",
+    "thu": "Czwartek",
+    "fri": "Piątek",
+    "sat": "Sobota",
+    "sun": "Niedziela"
   }
 }
