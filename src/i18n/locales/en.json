@@ -3019,7 +3019,8 @@
     "expertReviews": "Expert reviews",
     "marketplace": "Marketplace",
     "organizations": "Organizations",
-    "grantPack": "Grant pack"
+    "grantPack": "Grant pack",
+    "testUsers": "Test users"
   },
   "adminOverview": {
     "title": "Admin overview",
@@ -3174,5 +3175,57 @@
     "payment_disputed": "Payment disputed",
     "lesson_started": "Lesson started",
     "lesson_ended": "Lesson ended"
+  },
+  "testUsers": {
+    "title": "Test users",
+    "subtitle": "Generate, inspect, and clean up QA test accounts and scenario data.",
+    "safety": {
+      "title": "QA seeder — non-production use only",
+      "body": "This tool creates test data for manual product QA. Do not use it in production with real users.",
+      "prodDetected": "Production domain detected",
+      "nonProd": "Non-production environment"
+    },
+    "actions": {
+      "usersOnly": "Generate users only",
+      "fullScenarios": "Generate full scenarios",
+      "cleanup": "Cleanup test data",
+      "refresh": "Refresh"
+    },
+    "toasts": {
+      "seeded": "Test data generated",
+      "cleaned": "Test data cleaned"
+    },
+    "confirmCleanup": "Delete ALL @test.kogni.local users and their generated test data?",
+    "defaultPassword": "Default password",
+    "tableTitle": "Test accounts",
+    "cols": {
+      "email": "Email",
+      "role": "Role",
+      "scenario": "Scenario",
+      "status": "Status",
+      "password": "Password"
+    },
+    "status": {
+      "created": "Created",
+      "existed": "Already existed"
+    },
+    "errors": "Errors",
+    "scenarioNotes": "Scenario notes",
+    "cleanupSummary": "Cleanup summary",
+    "quickLinks": "Manual QA quick links",
+    "links": {
+      "login": "Login",
+      "student": "Student dashboard",
+      "parent": "Parent dashboard",
+      "tutor": "Tutor dashboard",
+      "admin": "Admin overview",
+      "discover": "Discover",
+      "calendar": "Calendar",
+      "homework": "Homework",
+      "flashcards": "Flashcards",
+      "research": "Research",
+      "operations": "Operations",
+      "organizations": "Organizations"
+    }
   }
 }

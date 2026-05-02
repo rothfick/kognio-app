@@ -3019,7 +3019,8 @@
     "expertReviews": "Revisiones de expertos",
     "marketplace": "Marketplace",
     "organizations": "Organizaciones",
-    "grantPack": "Grant pack"
+    "grantPack": "Grant pack",
+    "testUsers": "Usuarios de prueba"
   },
   "adminOverview": {
     "title": "Resumen de administración",
@@ -3174,5 +3175,57 @@
     "payment_disputed": "Pago en disputa",
     "lesson_started": "Lección iniciada",
     "lesson_ended": "Lección finalizada"
+  },
+  "testUsers": {
+    "title": "Usuarios de prueba",
+    "subtitle": "Genera, inspecciona y limpia cuentas de prueba y datos de escenarios para QA.",
+    "safety": {
+      "title": "Generador de QA — solo uso fuera de producción",
+      "body": "Esta herramienta crea datos de prueba para QA manual del producto. No la uses en producción con usuarios reales.",
+      "prodDetected": "Dominio de producción detectado",
+      "nonProd": "Entorno fuera de producción"
+    },
+    "actions": {
+      "usersOnly": "Generar solo usuarios",
+      "fullScenarios": "Generar escenarios completos",
+      "cleanup": "Limpiar datos de prueba",
+      "refresh": "Actualizar"
+    },
+    "toasts": {
+      "seeded": "Datos de prueba generados",
+      "cleaned": "Datos de prueba eliminados"
+    },
+    "confirmCleanup": "¿Eliminar TODOS los usuarios @test.kogni.local y sus datos de prueba?",
+    "defaultPassword": "Contraseña por defecto",
+    "tableTitle": "Cuentas de prueba",
+    "cols": {
+      "email": "Email",
+      "role": "Rol",
+      "scenario": "Escenario",
+      "status": "Estado",
+      "password": "Contraseña"
+    },
+    "status": {
+      "created": "Creado",
+      "existed": "Ya existía"
+    },
+    "errors": "Errores",
+    "scenarioNotes": "Notas del escenario",
+    "cleanupSummary": "Resumen de limpieza",
+    "quickLinks": "Enlaces rápidos para QA manual",
+    "links": {
+      "login": "Inicio de sesión",
+      "student": "Panel del alumno",
+      "parent": "Panel del padre",
+      "tutor": "Panel del tutor",
+      "admin": "Resumen de administración",
+      "discover": "Descubrir",
+      "calendar": "Calendario",
+      "homework": "Tareas",
+      "flashcards": "Flashcards",
+      "research": "Investigación",
+      "operations": "Operaciones",
+      "organizations": "Organizaciones"
+    }
   }
 }

@@ -56,6 +56,7 @@ import LaunchChecklist from "./pages/admin/LaunchChecklist";
 import AdminMarketplace from "./pages/admin/AdminMarketplace";
 import AdminCurriculum from "./pages/admin/AdminCurriculum";
 import AdminExpertReviews from "./pages/admin/AdminExpertReviews";
+import TestUsers from "./pages/admin/TestUsers";
 import OrgPage from "./pages/org/OrgPage";
 import OrgMembers from "./pages/org/OrgMembers";
 import OrgCohorts from "./pages/org/OrgCohorts";
@@ -101,6 +102,7 @@ const App = () => (
             <Route path="/admin/marketplace" element={<ProtectedRoute><RoleGate allow={["admin"]}><AdminMarketplace /></RoleGate></ProtectedRoute>} />
             <Route path="/admin/curriculum" element={<ProtectedRoute><RoleGate allow={["admin"]}><AdminCurriculum /></RoleGate></ProtectedRoute>} />
             <Route path="/admin/expert-reviews" element={<ProtectedRoute><RoleGate allow={["admin"]}><AdminExpertReviews /></RoleGate></ProtectedRoute>} />
+            <Route path="/admin/test-users" element={<ProtectedRoute><RoleGate allow={["admin"]}><TestUsers /></RoleGate></ProtectedRoute>} />
             <Route path="/tutor/onboarding" element={<ProtectedRoute><FeatureRouteGuard feature="tutorMarketplace"><ParentRouteGuard><TutorOnboarding /></ParentRouteGuard></FeatureRouteGuard></ProtectedRoute>} />
             <Route path="/tutor/availability" element={<ProtectedRoute><RoleGate allow={["tutor"]}><FeatureRouteGuard feature="booking"><TutorAvailability /></FeatureRouteGuard></RoleGate></ProtectedRoute>} />
             <Route path="/dashboard/school" element={<ProtectedRoute><RoleGate allow={["school"]}><SchoolDashboard /></RoleGate></ProtectedRoute>} />

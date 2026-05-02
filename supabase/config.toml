@@ -35,3 +35,9 @@ verify_jwt = true
 
 [functions.lesson-student-ai]
 verify_jwt = true
+
+[functions.admin-seed-test-users]
+verify_jwt = true
+
+[functions.admin-clean-test-data]
+verify_jwt = true
