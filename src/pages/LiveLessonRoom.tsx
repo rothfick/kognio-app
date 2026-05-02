@@ -627,11 +627,15 @@ const LiveLessonRoom = () => {
           {/* side panel */}
           <Card className="p-3">
             <Tabs defaultValue="context">
-              <TabsList className="grid grid-cols-4 w-full">
+              <TabsList className={`grid w-full ${isTutor ? "grid-cols-8" : "grid-cols-6"}`}>
                 <TabsTrigger value="context" title={t("liveLesson.tabContext")}><BookOpen className="h-4 w-4" /></TabsTrigger>
                 <TabsTrigger value="chat" title={t("liveLesson.tabChat")}><MessageSquare className="h-4 w-4" /></TabsTrigger>
                 <TabsTrigger value="notes" title={t("liveLesson.tabNotes")}><FileText className="h-4 w-4" /></TabsTrigger>
                 <TabsTrigger value="board" title={t("liveLesson.tabBoard")}><PenTool className="h-4 w-4" /></TabsTrigger>
+                {transcriptionEnabled && <TabsTrigger value="transcription" title={t("lessonIntel.tabsTranscription")}><Mic className="h-4 w-4" /></TabsTrigger>}
+                {isTutor && engagementEnabled && <TabsTrigger value="engagement" title={t("lessonIntel.tabsEngagement")}><Activity className="h-4 w-4" /></TabsTrigger>}
+                {isTutor && copilotEnabled && <TabsTrigger value="copilot" title={t("lessonIntel.tabsCopilot")}><Bot className="h-4 w-4" /></TabsTrigger>}
+                {summaryEnabled && <TabsTrigger value="summary" title={t("lessonIntel.tabsSummary")}><ScrollText className="h-4 w-4" /></TabsTrigger>}
               </TabsList>
 
               {/* context */}
