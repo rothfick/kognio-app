@@ -32,7 +32,8 @@
     "tutorDashboard": "Tutor dashboard",
     "homework": "Homework",
     "assignments": "Assignments",
-    "flashcards": "Flashcards"
+    "flashcards": "Flashcards",
+    "organizations": "Organizations"
   },
   "landing": {
     "heroEyebrow": "Intelligent learning platform",
@@ -2719,5 +2720,71 @@
     "rateLimited": "Rate limit — try again shortly.",
     "noCredits": "No AI credits.",
     "forbidden": "Student assistant is not available to the tutor."
+  },
+  "adminOrgs": {
+    "title": "Organizations",
+    "subtitle": "Manage school and training-company accounts.",
+    "create": "New organization",
+    "created": "Organization created.",
+    "open": "Open",
+    "empty": "No organizations yet. Create the first one.",
+    "nameRequired": "Name is required.",
+    "fields": {
+      "name": "Name",
+      "type": "Type",
+      "country": "Country",
+      "slug": "Slug",
+      "billingEmail": "Billing email",
+      "description": "Description"
+    },
+    "type": {
+      "school": "School",
+      "training_company": "Training company"
+    },
+    "status": {
+      "active": "Active",
+      "paused": "Paused",
+      "archived": "Archived"
+    },
+    "statusChanged": {
+      "active": "Organization activated.",
+      "paused": "Organization paused.",
+      "archived": "Organization archived."
+    }
+  },
+  "orgPage": {
+    "title": "Organization",
+    "yourRole": "Your role",
+    "stats": {
+      "members": "Members",
+      "cohorts": "Cohorts",
+      "status": "Status"
+    },
+    "quickActions": "Quick actions",
+    "viewCohorts": "Cohorts",
+    "viewMembers": "Members",
+    "viewProgress": "Progress",
+    "viewReports": "Reports",
+    "phaseANote": "This is a minimal organization dashboard (Phase A). Full cohorts, members, and reports come in Phase B.",
+    "phaseBStub": "This view will be completed in Phase B."
+  },
+  "orgRole": {
+    "owner": "Owner",
+    "admin": "Admin",
+    "teacher": "Teacher",
+    "student": "Student",
+    "observer": "Observer"
+  },
+  "joinOrg": {
+    "redirecting": "Redirecting to invitation..."
+  },
+  "cohort": {
+    "name": "Cohort name",
+    "status": {
+      "active": "Active",
+      "paused": "Paused",
+      "completed": "Completed",
+      "archived": "Archived"
+    }
   }
 }

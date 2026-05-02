@@ -642,6 +642,114 @@ export type Database = {
         }
         Relationships: []
       }
+      cohort_members: {
+        Row: {
+          added_by: string | null
+          child_id: string | null
+          cohort_id: string
+          created_at: string
+          id: string
+          role: string
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          added_by?: string | null
+          child_id?: string | null
+          cohort_id: string
+          created_at?: string
+          id?: string
+          role?: string
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          added_by?: string | null
+          child_id?: string | null
+          cohort_id?: string
+          created_at?: string
+          id?: string
+          role?: string
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cohort_members_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "parent_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cohort_members_cohort_id_fkey"
+            columns: ["cohort_id"]
+            isOneToOne: false
+            referencedRelation: "cohorts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cohort_members_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cohorts: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          domain_code: string | null
+          ends_at: string | null
+          id: string
+          level_code: string | null
+          name: string
+          organization_id: string
+          starts_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          domain_code?: string | null
+          ends_at?: string | null
+          id?: string
+          level_code?: string | null
+          name: string
+          organization_id: string
+          starts_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          domain_code?: string | null
+          ends_at?: string | null
+          id?: string
+          level_code?: string | null
+          name?: string
+          organization_id?: string
+          starts_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cohorts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       competencies: {
         Row: {
           bloom_level: string | null
@@ -2815,9 +2923,12 @@ export type Database = {
       }
       organizations: {
         Row: {
+          billing_email: string | null
           city: string | null
           country: string | null
+          country_code: string | null
           created_at: string
+          created_by: string | null
           description: string | null
           id: string
           is_verified: boolean
@@ -2826,14 +2937,18 @@ export type Database = {
           org_type: Database["public"]["Enums"]["org_type"]
           owner_id: string
           slug: string
+          status: Database["public"]["Enums"]["org_status"]
           tax_id: string | null
           updated_at: string
           website: string | null
         }
         Insert: {
+          billing_email?: string | null
           city?: string | null
           country?: string | null
+          country_code?: string | null
           created_at?: string
+          created_by?: string | null
           description?: string | null
           id?: string
           is_verified?: boolean
@@ -2842,14 +2957,18 @@ export type Database = {
           org_type: Database["public"]["Enums"]["org_type"]
           owner_id: string
           slug: string
+          status?: Database["public"]["Enums"]["org_status"]
           tax_id?: string | null
           updated_at?: string
           website?: string | null
         }
         Update: {
+          billing_email?: string | null
           city?: string | null
           country?: string | null
+          country_code?: string | null
           created_at?: string
+          created_by?: string | null
           description?: string | null
           id?: string
           is_verified?: boolean
@@ -2858,6 +2977,7 @@ export type Database = {
           org_type?: Database["public"]["Enums"]["org_type"]
           owner_id?: string
           slug?: string
+          status?: Database["public"]["Enums"]["org_status"]
           tax_id?: string | null
           updated_at?: string
           website?: string | null
@@ -4272,6 +4392,10 @@ export type Database = {
         Args: { _booking: string; _user: string }
         Returns: boolean
       }
+      can_manage_cohort: {
+        Args: { _cohort_id: string; _user_id: string }
+        Returns: boolean
+      }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
@@ -4301,6 +4425,10 @@ export type Database = {
       }
       is_circle_member: {
         Args: { _circle: string; _user: string }
+        Returns: boolean
+      }
+      is_cohort_member: {
+        Args: { _cohort_id: string; _user_id: string }
         Returns: boolean
       }
       is_linked_parent_of: {
@@ -4370,6 +4498,7 @@ export type Database = {
       circle_role: "owner" | "mentor" | "member"
       org_invite_status: "pending" | "accepted" | "revoked" | "expired"
       org_member_role: "owner" | "admin" | "teacher" | "student" | "observer"
+      org_status: "active" | "paused" | "archived"
       org_type: "school" | "training_company"
       payment_method_type: "blik" | "iban" | "revolut" | "paypal" | "other"
       payment_status: "pending" | "marked_paid" | "confirmed" | "disputed"
@@ -4519,6 +4648,7 @@ export const Constants = {
       circle_role: ["owner", "mentor", "member"],
       org_invite_status: ["pending", "accepted", "revoked", "expired"],
       org_member_role: ["owner", "admin", "teacher", "student", "observer"],
+      org_status: ["active", "paused", "archived"],
       org_type: ["school", "training_company"],
       payment_method_type: ["blik", "iban", "revolut", "paypal", "other"],
       payment_status: ["pending", "marked_paid", "confirmed", "disputed"],
