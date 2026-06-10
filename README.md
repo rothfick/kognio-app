@@ -1,3 +1,20 @@
+<!-- README_PRESENTATION_START -->
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=rect&height=140&color=0:312E81,100:06B6D4&text=Kognio%20App&fontColor=FFFFFF&fontSize=30&fontAlignY=42&desc=AI%20learning%20platform%20prototype%20with%20role-based%20product%20workflows&descAlignY=68&descSize=15" alt="Kognio App banner" />
+</p>
+
+<p align="center">
+  <img alt="TypeScript: React" src="https://img.shields.io/badge/TypeScript-React-3178C6?style=for-the-badge" /> <img alt="Product: AI Learning" src="https://img.shields.io/badge/Product-AI%20Learning-7C3AED?style=for-the-badge" /> <img alt="Access: RBAC" src="https://img.shields.io/badge/Access-RBAC-0F766E?style=for-the-badge" /> <img alt="Backend: Supabase" src="https://img.shields.io/badge/Backend-Supabase-3ECF8E?style=for-the-badge" /> <img alt="Testing: Vitest" src="https://img.shields.io/badge/Testing-Vitest-6E9F18?style=for-the-badge" />
+</p>
+
+<table>
+  <tr><td><strong>Role signal</strong></td><td>AI product QA, multi-role workflow testing, TypeScript frontend</td></tr>
+<tr><td><strong>What to inspect</strong></td><td><code>App.tsx</code> routes, role guards, lesson copilot, data model docs</td></tr>
+<tr><td><strong>Best for</strong></td><td>AI Assistant QA, product QA, frontend-heavy QA roles</td></tr>
+</table>
+
+<!-- README_PRESENTATION_END -->
+
 # Kognio App
 
 AI-assisted learning platform prototype with role-based dashboards, tutoring workflows, live-session surfaces, knowledge modelling, expert review, and operational/admin tooling.
