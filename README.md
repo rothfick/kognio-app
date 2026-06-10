@@ -1,47 +1,197 @@
-# Kognio
-*A knowledge-aware AI app exploring cognitive UX.*
+# Kognio App
 
-[![TypeScript](https://img.shields.io/badge/Language-TypeScript-blue.svg)](https://www.typescriptlang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Made with love by rothfick](https://img.shields.io/badge/made%20with%20%E2%99%A5%20by-rothfick-ff69b4.svg)](https://github.com/rothfick)
-[![Portfolio](https://img.shields.io/badge/Portfolio-rothfick-green.svg)](https://github.com/rothfick)
+AI-assisted learning platform prototype with role-based dashboards, tutoring workflows, live-session surfaces, knowledge modelling, expert review, and operational/admin tooling.
 
-## ✨ Overview
-Kognio is an agentic AI application designed to explore advanced cognitive user experiences. It integrates intelligent agents with a focus on knowledge management, aiming to create highly intuitive and powerful interactions. This project serves as a testbed for innovative approaches to how users can engage with AI systems that understand and leverage contextual knowledge.
+Kognio is a TypeScript/React product prototype that explores how an AI-enabled education platform could support students, parents, tutors, schools, companies, and administrators. It is broader than a landing page: the codebase contains protected routes, role gates, dashboards, session components, curriculum and competency modelling, notifications, homework, booking, expert review, and operational admin surfaces.
 
-## 🧱 Tech Stack
-*   **TypeScript:** Provides type safety and enhanced developer experience for robust application development.
-*   **React:** A declarative, component-based JavaScript library for building user interfaces.
-*   **AI:** The core intelligence layer, driving agentic behavior and knowledge processing.
-*   **Vite:** A fast development server and build tool for modern web projects.
-*   **Tailwind CSS:** A utility-first CSS framework for rapidly building custom designs.
+## What This Project Demonstrates
 
-## 🚀 Features
-*   Intelligent agent-driven interactions.
-*   Contextual knowledge integration for enhanced responses.
-*   Intuitive cognitive user interface design.
-*   Scalable architecture for future AI capabilities.
+- TypeScript React application architecture;
+- role-based routing and access control;
+- protected routes and feature guards;
+- multi-role dashboard design;
+- AI learning assistant UI patterns;
+- lesson copilot and student-assistant panels;
+- knowledge graph / competency thinking;
+- live lesson room components;
+- booking and tutor marketplace flows;
+- parent-child learning journey views;
+- expert review workflow;
+- admin and operations surfaces;
+- data model documentation;
+- Supabase-oriented app structure;
+- Vite, Tailwind, shadcn/ui, and Vitest setup.
 
-## 🛠️ Quickstart
-To get Kognio up and running locally, follow these steps:
+## Product Concept
+
+Kognio models an education platform where different users need different views of the same learning system:
+
+- students need learning plans, checkpoints, homework, flashcards, lesson support, and progress;
+- parents need visibility into child progress, diagnostics, knowledge gaps, and next actions;
+- tutors need onboarding, availability, public profiles, live-session surfaces, and review workflows;
+- schools and companies need cohort and organization views;
+- admins need marketplace, curriculum, launch checklist, research, operations, and test-user management.
+
+The platform is designed around a larger idea: AI should help make learning progress visible, explainable, and actionable.
+
+## Technology Stack
+
+| Area | Tools |
+|---|---|
+| Language | TypeScript |
+| UI | React, Vite |
+| Styling | Tailwind CSS, shadcn/ui, Radix UI |
+| Routing | React Router |
+| Data/client state | TanStack Query |
+| Backend platform | Supabase-oriented structure |
+| Live session surface | LiveKit packages |
+| Validation/forms | React Hook Form, Zod |
+| Testing | Vitest |
+| Internationalization | i18next |
+| AI/UX helpers | knowledge graph, AI insight components, lesson copilot surfaces |
+
+## Repository Structure
+
+```text
+docs/
+  DATA_MODEL_SOT.md
+
+src/
+  App.tsx
+  contexts/
+    AuthContext
+    ActiveRoleContext
+
+  components/
+    auth/
+      ProtectedRoute
+      RoleGate
+      FeatureRouteGuard
+
+    lesson/
+      LessonCopilotPanel
+      StudentAssistantPanel
+      LessonSummaryPanel
+      LessonTranscriptionPanel
+
+    session/
+      LiveKitVideo
+      LiveTranscriber
+      SharedWhiteboard
+      EmotionEngine
+
+    brain/
+      KnowledgeGraph
+
+    expert-review/
+      ExpertReviewAdminPanel
+      ExpertReviewBadge
+
+    admin/
+    booking/
+    homework/
+    notifications/
+    org/
+    parent/
+    pilot/
+    ui/
+
+  pages/
+    dashboards for student, parent, tutor, admin, school, company
+    lesson, booking, homework, flashcards, organization, and admin flows
+```
+
+## Architecture Notes
+
+### Role-based route structure
+
+`App.tsx` defines a rich route map with protected routes, parent guards, feature guards, and role gates. This is important because the product is not a single-user toy app; it models a multi-actor platform.
+
+### Learning journey surfaces
+
+The app includes learning plans, checkpoints, diagnostics, homework, flashcards, and child knowledge views. These model the operational flow around learning progress rather than only content delivery.
+
+### AI assistant surfaces
+
+Components such as `LessonCopilotPanel`, `StudentAssistantPanel`, AI insight cards, and knowledge graph views show how AI assistance could be embedded into the learning workflow.
+
+### Live-session readiness
+
+The presence of LiveKit-related components, shared whiteboard, live transcription, and emotion/engagement surfaces shows thinking about synchronous learning sessions.
+
+### Operational/admin layer
+
+Admin pages cover curriculum, marketplace, organizations, launch checklist, research dashboard, operations console, expert reviews, and test users. This gives the prototype a product-operations angle.
+
+## Running Locally
+
+Requirements:
+
+- Node.js;
+- npm or Bun;
+- local environment variables for any Supabase-backed flows.
+
+Install dependencies:
 
 ```bash
 npm install
+```
+
+Run development server:
+
+```bash
 npm run dev
 ```
 
-## 🗺️ Project Structure
-The application's source code resides primarily within the `src` directory, encompassing React components, utility functions, and AI-related logic. Configuration files for TypeScript, Vite, Tailwind CSS, and linting are located at the root. Public assets are stored in `public`, and `supabase` directory holds database-related configurations. Documentation is organized within the `docs` folder.
+Build:
 
-## 🧭 Roadmap
-*   [ ] Implement advanced natural language understanding for agent communication.
-*   [ ] Integrate vector databases for sophisticated knowledge retrieval.
-*   [ ] Develop a robust plugin architecture for extending agent capabilities.
-*   [ ] Conduct user experience studies on cognitive load and efficiency.
+```bash
+npm run build
+```
 
-## 👤 Author
-**rothfick** – part of my public portfolio.
-[https://github.com/rothfick](https://github.com/rothfick)
+Run tests:
 
-## 📄 License
-This project is licensed under the MIT License.
+```bash
+npm test
+```
+
+Lint:
+
+```bash
+npm run lint
+```
+
+## Environment Notes
+
+The app is structured for Supabase-backed functionality. Real environment values should live only in local environment files or deployment secrets, not in committed production secrets.
+
+Typical Vite/Supabase variables:
+
+```text
+VITE_SUPABASE_URL=
+VITE_SUPABASE_PUBLISHABLE_KEY=
+VITE_SUPABASE_PROJECT_ID=
+```
+
+## What To Review First
+
+1. `src/App.tsx` for the route and role model.
+2. `docs/DATA_MODEL_SOT.md` for the data-model source-of-truth notes.
+3. `src/components/lesson/LessonCopilotPanel.tsx` for AI learning assistant UX.
+4. `src/components/session/` for live lesson surfaces.
+5. `src/components/brain/KnowledgeGraph.tsx` for knowledge modelling.
+6. `src/components/expert-review/` for review workflow.
+
+## Recruiter Signal
+
+This project is relevant for roles involving:
+
+- TypeScript frontend engineering;
+- AI product QA;
+- AI Assistant feature testing;
+- multi-role workflow testing;
+- complex routing and authorization scenarios;
+- education technology;
+- product-minded QA / SDET work.
+
+From a QA perspective, it creates many natural test surfaces: role-based access, feature flags, booking flows, live sessions, notifications, homework, expert review, admin operations, and AI-assisted lesson support.
